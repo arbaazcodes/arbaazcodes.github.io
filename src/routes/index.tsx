@@ -232,7 +232,7 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           ))}
           <Link
             to="/resume"
-            className="relative ml-1 inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-background transition-transform hover:-translate-y-0.5"
+            className="relative inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
           >
             <FileText className="h-3 w-3" /> Resume
           </Link>
