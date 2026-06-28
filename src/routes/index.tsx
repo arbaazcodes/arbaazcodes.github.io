@@ -158,10 +158,13 @@ function Portfolio() {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.06] blur-[120px] animate-orb" />
-      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.05] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
-      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
-      <div className="absolute inset-0 opacity-[0.05]" style={{
+      {/* Animated mesh gradient — graphical canvas behind content */}
+      <div className="mesh-blob a" style={{ top: "-12%", left: "-8%", width: "60vmax", height: "60vmax" }} />
+      <div className="mesh-blob b" style={{ top: "20%", right: "-14%", width: "55vmax", height: "55vmax" }} />
+      <div className="mesh-blob c" style={{ bottom: "-18%", left: "10%", width: "65vmax", height: "65vmax" }} />
+      <div className="mesh-blob d" style={{ top: "40%", left: "30%", width: "45vmax", height: "45vmax" }} />
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-[0.06]" style={{
         backgroundImage: "linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)",
         backgroundSize: "64px 64px",
         maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 75%)",
@@ -169,6 +172,7 @@ function AmbientOrbs() {
     </div>
   );
 }
+
 
 function Cursor() {
   const x = useMotionValue(-100);
