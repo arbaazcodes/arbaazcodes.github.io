@@ -76,14 +76,18 @@ const DISCIPLINES: Discipline[] = [
 type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3; src?: string };
 
 // Real assets extracted from arbaazsince2002.wixsite.com/arbaaz-portfolio
-const wix = (hash: string, w = 900) =>
-  `https://static.wixstatic.com/media/${hash}/v1/fill/w_${w},q_90,enc_avif,quality_auto/file.png`;
+const wix = (hash: string, w = 900, ext: "png" | "jpg" = "png") =>
+  `https://static.wixstatic.com/media/${hash}/v1/fill/w_${w},q_90,enc_avif,quality_auto/file.${ext}`;
 
 const GALLERY: GalleryItem[] = [
   // Brand & Logos
   { id: "g1", label: "Logo Collection",        category: "Brand",  ratio: "aspect-[16/9]",  variant: 1, src: wix("89f4f8_db6b4db3d3064a69b33c254d91af4b0a~mv2.png", 1600) },
   { id: "g2", label: "Brand Hero",             category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_03ca2708911743c39850eda8074e8970~mv2.png", 1600) },
   { id: "g3", label: "Identity Frame",         category: "Brand",  ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_13f27e29937649e5a45a527ea45a2ae6~mv2.png", 900) },
+  { id: "g38", label: "Identity · Mark",       category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_067511567620442384156a15b1a92717~mv2.png", 900) },
+  { id: "g39", label: "Identity · Wordmark",   category: "Brand",  ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_7dfa5defb17a4db1a774e31052e6098e~mv2.png", 900) },
+  { id: "g40", label: "Identity · System",     category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: wix("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png", 1600) },
+  { id: "g41", label: "Identity · Showcase",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 1, src: wix("89f4f8_ca3694966e014708a64fce392f994256~mv2.png", 1600) },
 
   // Social Media — S & E series + numbered posts
   { id: "g4",  label: "Social Post · 01",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
@@ -101,6 +105,13 @@ const GALLERY: GalleryItem[] = [
   { id: "g16", label: "Social Post · E3",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
   { id: "g17", label: "Social Post · E4",      category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
   { id: "g18", label: "Social Post · E5",      category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
+  { id: "g42", label: "Social · Campaign 07",  category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_58eee4c090fa44eaa334bd6ba6c22f50~mv2.png") },
+  { id: "g43", label: "Social · Campaign 08",  category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_d0a2d98c24d24a2eb2e759ed8b36cdc9~mv2.png") },
+  { id: "g44", label: "Social · Campaign 09",  category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
+  { id: "g45", label: "Social · Campaign 10",  category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_e02e89de86d549ef9491cbd642c300c0~mv2.png") },
+  { id: "g46", label: "Social · Campaign 11",  category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_ea492223989943ea94abeeee8b285a2a~mv2.png") },
+  { id: "g47", label: "Social · Campaign 12",  category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_f144fdb520104a20bf47015c99bef620~mv2.png") },
+  { id: "g48", label: "Editorial · Feature",   category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_1942e3237b3c48409c2e1dc8a7ccf10f~mv2.jpg", 900, "jpg") },
 
   // Print Media — brochures & standees
   { id: "g19", label: "Brochure · Spread 01",  category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png", 1400) },
