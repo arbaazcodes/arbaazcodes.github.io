@@ -132,7 +132,7 @@ function Portfolio() {
     <div className="grain relative min-h-screen bg-background text-foreground">
       <AmbientOrbs />
       <Cursor />
-      <Nav active={active} light={light} setLight={setLight} />
+      <Nav active={active} dark={dark} setDark={setDark} />
       <SideRail />
       <main className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12 lg:px-20">
         <Hero />
