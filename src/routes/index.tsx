@@ -459,16 +459,19 @@ function About() {
           </p>
 
           <div className="grid grid-cols-2 gap-3 pt-4 md:grid-cols-3">
-            {[
-              ["Design", "Brand · Print · Digital"],
-              ["Product", "UI · UX · Mobile"],
-              ["Motion", "Editing · Storytelling"],
-              ["Tools", "Figma · Adobe · AE"],
-              ["Industries", "EdTech · CRM · Corp"],
-              ["Based in", "India · Remote"],
-            ].map(([k, v]) => (
-              <div key={k} className="glass rounded-2xl p-4">
-                <p className="text-eyebrow mb-1.5">{k}</p>
+            {([
+              ["Design", "Brand · Print · Digital", Sparkles],
+              ["Product", "UI · UX · Mobile", Layers],
+              ["Motion", "Editing · Storytelling", Clapperboard],
+              ["Tools", "Figma · Adobe · AE", Wrench],
+              ["Industries", "EdTech · CRM · Corp", Building2],
+              ["Based in", "India · Remote", MapPin],
+            ] as const).map(([k, v, Icon]) => (
+              <div key={k} className="card-white rounded-2xl p-4 transition-transform hover:-translate-y-0.5">
+                <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
+                  <Icon size={15} />
+                </div>
+                <p className="text-eyebrow mb-1">{k}</p>
                 <p className="text-sm">{v}</p>
               </div>
             ))}
@@ -483,23 +486,26 @@ function About() {
 
 function Stats() {
   const stats = [
-    ["04", "Years of craft"],
-    ["60+", "Shipped projects"],
-    ["15", "Brand identities"],
-    ["100%", "On-brand delivery"],
-  ];
+    ["04", "Years of craft", Sparkles],
+    ["60+", "Shipped projects", Briefcase],
+    ["15", "Brand identities", PenTool],
+    ["100%", "On-brand delivery", Layers],
+  ] as const;
   return (
     <section className="py-12">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        {stats.map(([k, v], i) => (
+        {stats.map(([k, v, Icon], i) => (
           <motion.div
             key={k}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: i * 0.07 }}
-            className="glass rounded-3xl p-6"
+            className="card-white rounded-3xl p-6 transition-transform hover:-translate-y-0.5"
           >
+            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-highlight/15 text-[var(--highlight)]">
+              <Icon size={16} />
+            </div>
             <p className="text-display text-4xl md:text-5xl">{k}</p>
             <p className="text-eyebrow mt-2">{v}</p>
           </motion.div>
@@ -508,6 +514,7 @@ function Stats() {
     </section>
   );
 }
+
 
 /* ---------- Work (text-only, no placeholders per section) ---------- */
 
