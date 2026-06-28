@@ -347,23 +347,30 @@ function Tilt({ children, className = "", strength = 12 }: { children: ReactNode
 
 /* ---------- Placeholder media tile ---------- */
 
-function Placeholder({ label, ratio = "aspect-video", variant = 1, badge }: { label: string; ratio?: string; variant?: 1 | 2 | 3; badge?: string }) {
+function Placeholder({ label, ratio = "aspect-video", variant = 1, badge, src, fit = "cover" }: { label: string; ratio?: string; variant?: 1 | 2 | 3; badge?: string; src?: string; fit?: "cover" | "contain" }) {
   const grad = variant === 1 ? "placeholder-grad" : variant === 2 ? "placeholder-grad-2" : "placeholder-grad-3";
   return (
-    <div className={`relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${grad}`}>
-      <div className="absolute inset-0 opacity-50" style={{
-        backgroundImage: "radial-gradient(circle at 50% 50%, transparent 40%, oklch(1 0 0 / 0.05) 41%, transparent 42%), radial-gradient(circle at 50% 50%, transparent 60%, oklch(1 0 0 / 0.04) 61%, transparent 62%)",
-      }} />
-      <div className="absolute inset-0 animate-shine" />
-      <div className="absolute inset-0 flex flex-col justify-between p-4">
-        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.25em] text-foreground/60">
-          <span>{badge ?? "Replace asset"}</span>
-          <span>◐</span>
-        </div>
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/50">Placeholder</p>
-          <p className="font-display text-lg text-foreground/90">{label}</p>
-        </div>
+    <div className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.03]" : grad}`}>
+      {src ? (
+        <img
+          src={src}
+          alt={label}
+          loading="lazy"
+          className={`absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain p-4" : "object-cover"} transition-transform duration-700 group-hover/ph:scale-[1.04]`}
+        />
+      ) : (
+        <>
+          <div className="absolute inset-0 opacity-50" style={{
+            backgroundImage: "radial-gradient(circle at 50% 50%, transparent 40%, oklch(1 0 0 / 0.05) 41%, transparent 42%), radial-gradient(circle at 50% 50%, transparent 60%, oklch(1 0 0 / 0.04) 61%, transparent 62%)",
+          }} />
+          <div className="absolute inset-0 animate-shine" />
+        </>
+      )}
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-3 text-[10px] font-mono uppercase tracking-[0.25em] text-white">
+        <span className="rounded-full bg-black/55 px-2 py-1 backdrop-blur">{badge ?? "Work"}</span>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 transition-opacity group-hover/ph:opacity-100">
+        <p className="font-display text-sm text-white">{label}</p>
       </div>
     </div>
   );
