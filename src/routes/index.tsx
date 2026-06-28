@@ -40,13 +40,18 @@ const SOCIALS = [
   { label: "Email", href: "mailto:arbaazsince2002@gmail.com" },
 ];
 
-const LOGOS: { name: string; Icon: ComponentType<{ className?: string; strokeWidth?: number }>; accent: string; sub?: string }[] = [
-  { name: "Swift AMS", Icon: Hexagon, accent: "text-[#5B6BFF]" },
-  { name: "Wavox WMS", Icon: MessageSquare, accent: "text-[#22C55E]" },
-  { name: "Ai SWIFT", Icon: Network, accent: "text-[#7C5CFF]" },
-  { name: "KSHA LABS", Icon: Atom, accent: "text-[#E11D48]" },
-  { name: "digital", Icon: Coffee, accent: "text-[#F5A524]", sub: "cappuccino enterprise" },
-  { name: "Edu Finn", Icon: Sparkles, accent: "text-[#0EA5E9]" },
+import logoSwiftAms from "@/assets/logo-swift-ams.png.asset.json";
+import logoWavox from "@/assets/logo-wavox.png.asset.json";
+import logoAiSwift from "@/assets/logo-ai-swift.png.asset.json";
+import logoKsha from "@/assets/logo-ksha.png.asset.json";
+import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.json";
+
+const LOGOS: { name: string; src: string }[] = [
+  { name: "Swift AMS", src: logoSwiftAms.url },
+  { name: "Wavox WMS", src: logoWavox.url },
+  { name: "Ai SWIFT", src: logoAiSwift.url },
+  { name: "KSHA LABS", src: logoKsha.url },
+  { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino.url },
 ];
 
 type Discipline = {
