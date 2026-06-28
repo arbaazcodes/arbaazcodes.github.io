@@ -5,8 +5,11 @@ import {
   Sparkles, PenTool, Share2, Printer, Layout, Smartphone, Film,
   Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
-  Linkedin, Instagram, Sun, Moon, ArrowRight
+  Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Eye
 } from "lucide-react";
+import resumePdf from "../assets/resume.pdf.asset.json";
+import resumePreview from "../assets/resume-preview.jpg.asset.json";
+
 
 
 export const Route = createFileRoute("/")({
