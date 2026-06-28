@@ -559,17 +559,22 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
       onMouseLeave={() => setOpen(false)}
       className="group grid cursor-default grid-cols-12 items-center gap-4 py-6 transition-colors hover:bg-foreground/[0.03] md:py-8"
     >
-      <span className="col-span-2 font-mono text-xs text-muted-foreground md:col-span-1">{d.no}</span>
-      <div className="col-span-10 md:col-span-5">
-        <h3 className="text-display text-[clamp(1.5rem,3vw,2.5rem)]">{d.title}</h3>
-        <p className="text-eyebrow mt-1">{d.sub}</p>
+      <span className="col-span-2 font-mono text-xs text-foreground/70 md:col-span-1">{d.no}</span>
+      <div className="col-span-10 flex items-center gap-4 md:col-span-5">
+        <span className="card-white inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-foreground">
+          <d.Icon size={20} />
+        </span>
+        <div>
+          <h3 className="text-display text-[clamp(1.5rem,3vw,2.5rem)]">{d.title}</h3>
+          <p className="text-eyebrow mt-1">{d.sub}</p>
+        </div>
       </div>
-      <p className="col-span-12 max-w-md text-sm leading-relaxed text-muted-foreground md:col-span-4">
+      <p className="col-span-12 max-w-md text-sm leading-relaxed text-foreground/80 md:col-span-4">
         {d.desc}
       </p>
       <div className="col-span-12 flex items-center justify-between gap-3 md:col-span-2 md:justify-end">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{d.meta}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 text-sm">+</motion.span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/70">{d.meta}</span>
+        <motion.span animate={{ rotate: open ? 45 : 0 }} className="card-white inline-flex h-8 w-8 items-center justify-center rounded-full"><Plus size={14} /></motion.span>
       </div>
       <div className="col-span-12 md:col-start-2 md:col-span-11">
         <motion.div
@@ -580,7 +585,7 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
         >
           <div className="flex flex-wrap gap-2 pt-4">
             {d.tags.map((t) => (
-              <span key={t} className="rounded-full border border-border/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{t}</span>
+              <span key={t} className="card-white rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/85">{t}</span>
             ))}
           </div>
         </motion.div>
@@ -588,6 +593,7 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
     </motion.div>
   );
 }
+
 
 /* ---------- Gallery (single home grid, clickable) ---------- */
 
