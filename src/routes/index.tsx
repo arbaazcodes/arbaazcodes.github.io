@@ -44,28 +44,30 @@ type Discipline = {
   desc: string;
   tags: string[];
   meta: string;
+  Icon: ComponentType<{ className?: string; size?: number }>;
 };
 
 const DISCIPLINES: Discipline[] = [
-  { no: "01", title: "Brand Identity", sub: "Logos & visual systems",
+  { no: "01", title: "Brand Identity", sub: "Logos & visual systems", Icon: PenTool,
     desc: "Distinctive, scalable identities engineered for resonance across every touchpoint — built for SwiftAMS, Wavox, Swift AI and Iksha Lab.",
     tags: ["Logo", "Identity", "Typography"], meta: "15 marks · 6 systems" },
-  { no: "02", title: "Social Media", sub: "Campaigns & content design",
+  { no: "02", title: "Social Media", sub: "Campaigns & content design", Icon: Share2,
     desc: "High-conversion creatives for LinkedIn, Instagram and corporate channels — sophisticated assets that respect strict brand guidelines.",
     tags: ["Campaigns", "Reels", "Carousels"], meta: "200+ posts shipped" },
-  { no: "03", title: "Print Media", sub: "Brochures, standees & collateral",
+  { no: "03", title: "Print Media", sub: "Brochures, standees & collateral", Icon: Printer,
     desc: "Brochures, trade-show standees and executive stationery — print-perfect execution with absolute brand fidelity.",
     tags: ["Brochure", "Standee", "Stationery"], meta: "Print-ready · CMYK" },
-  { no: "04", title: "UI / UX", sub: "Web platforms & dashboards",
+  { no: "04", title: "UI / UX", sub: "Web platforms & dashboards", Icon: Layout,
     desc: "Intuitive digital ecosystems built on user-centric architecture — interfaces that make complex platforms feel calm and accessible.",
     tags: ["Web", "Dashboard", "Design System"], meta: "12 products" },
-  { no: "05", title: "Mobile App", sub: "Native & cross-platform",
+  { no: "05", title: "Mobile App", sub: "Native & cross-platform", Icon: Smartphone,
     desc: "Mobile flows engineered for clarity at a glance — identity, motion and meticulous attention to the small moments.",
     tags: ["iOS", "Android", "Prototyping"], meta: "5 apps · 80+ screens" },
-  { no: "06", title: "Motion & Video", sub: "Corporate storytelling",
+  { no: "06", title: "Motion & Video", sub: "Corporate storytelling", Icon: Film,
     desc: "End-to-end post-production — corporate storytelling, testimonials and product demos for Edu Finn and Swift AMS.",
     tags: ["Editing", "Reels", "Motion GFX"], meta: "15+ films" },
 ];
+
 
 type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3 };
 
