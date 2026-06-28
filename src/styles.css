@@ -203,6 +203,30 @@
 }
 .pulse-ring { animation: pulse-ring 2.6s ease-out infinite; }
 
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background: linear-gradient(
+    100deg,
+    oklch(0.92 0.003 260 / 0.6) 20%,
+    oklch(0.98 0.002 260 / 0.95) 50%,
+    oklch(0.92 0.003 260 / 0.6) 80%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+.dark .skeleton-shimmer {
+  background: linear-gradient(
+    100deg,
+    oklch(0.28 0.008 260 / 0.55) 20%,
+    oklch(0.38 0.008 260 / 0.9) 50%,
+    oklch(0.28 0.008 260 / 0.55) 80%
+  );
+  background-size: 200% 100%;
+}
+
 /* Adaptive neutral placeholder (light by default) */
 .placeholder-grad {
   background:

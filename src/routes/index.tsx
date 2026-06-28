@@ -349,15 +349,22 @@ function Tilt({ children, className = "", strength = 12 }: { children: ReactNode
 
 function Placeholder({ label, ratio = "aspect-video", variant = 1, badge, src, fit = "cover" }: { label: string; ratio?: string; variant?: 1 | 2 | 3; badge?: string; src?: string; fit?: "cover" | "contain" }) {
   const grad = variant === 1 ? "placeholder-grad" : variant === 2 ? "placeholder-grad-2" : "placeholder-grad-3";
+  const [loaded, setLoaded] = useState(false);
   return (
-    <div className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.03]" : grad}`}>
+    <div className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.04]" : grad}`}>
       {src ? (
-        <img
-          src={src}
-          alt={label}
-          loading="lazy"
-          className={`absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain p-4" : "object-cover"} transition-transform duration-700 group-hover/ph:scale-[1.04]`}
-        />
+        <>
+          {!loaded && <div className="absolute inset-0 skeleton-shimmer" aria-hidden="true" />}
+          <img
+            src={src}
+            alt={label}
+            loading="lazy"
+            decoding="async"
+            onLoad={() => setLoaded(true)}
+            onError={() => setLoaded(true)}
+            className={`absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain p-4" : "object-cover"} transition-all duration-700 group-hover/ph:scale-[1.04] ${loaded ? "opacity-100" : "opacity-0"}`}
+          />
+        </>
       ) : (
         <>
           <div className="absolute inset-0 opacity-50" style={{
