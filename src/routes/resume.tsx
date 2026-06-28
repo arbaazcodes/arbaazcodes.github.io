@@ -151,20 +151,33 @@ function ResumePage() {
                   </div>
                 </div>
 
-                {/* Page */}
-                <button
-                  type="button"
-                  onClick={() => setViewer(true)}
-                  className="group block w-full overflow-hidden bg-background"
+                {/* Page — live PDF */}
+                <div
+                  className="relative w-full overflow-hidden bg-background"
                   style={{ aspectRatio: "1 / 1.414" }}
-                  aria-label="Open full-screen preview"
                 >
-                  <img
-                    src={resumePreview.url}
-                    alt="Resume preview — Arbaaz K."
-                    className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]"
-                  />
-                </button>
+                  <object
+                    data={`${resumePdf.url}#toolbar=0&navpanes=0&view=FitH`}
+                    type="application/pdf"
+                    className="h-full w-full"
+                  >
+                    <iframe
+                      src={resumePdf.url}
+                      title="Resume preview — Arbaaz K."
+                      className="h-full w-full"
+                    />
+                  </object>
+                  <button
+                    type="button"
+                    onClick={() => setViewer(true)}
+                    className="absolute inset-0 grid place-items-end p-4 opacity-0 transition-opacity hover:opacity-100 focus:opacity-100"
+                    aria-label="Open full-screen preview"
+                  >
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/90 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-background backdrop-blur">
+                      <Maximize2 className="h-3 w-3" /> Expand
+                    </span>
+                  </button>
+                </div>
               </div>
 
               {/* Floating chips */}
