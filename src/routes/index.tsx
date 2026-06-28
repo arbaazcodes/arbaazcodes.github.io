@@ -807,6 +807,8 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
                 ratio="aspect-[4/3] md:aspect-auto md:h-full"
                 variant={state.item.variant}
                 badge={state.item.category}
+                src={state.item.src}
+                fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
               />
             </div>
           ) : (
