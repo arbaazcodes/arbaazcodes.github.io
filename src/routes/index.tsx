@@ -698,7 +698,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
             className="group relative block cursor-pointer text-left"
           >
             <Tilt strength={8}>
-              <Placeholder label={g.label} ratio={g.ratio} variant={g.variant} badge={g.category} />
+              <Placeholder label={g.label} ratio={g.ratio} variant={g.variant} badge={g.category} src={g.src} fit={g.category === "Brand" || g.category === "Mobile" ? "contain" : "cover"} />
             </Tilt>
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
             <div className="mt-3 flex items-center justify-between gap-3">
