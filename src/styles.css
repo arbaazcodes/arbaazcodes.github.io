@@ -37,10 +37,9 @@
   --color-destructive-foreground: var(--destructive-foreground);
 }
 
-/* Default: refined monochrome dark (graphite + off-white) */
-:root {
 /* Default: light, whitish editorial */
 :root {
+
   --radius: 1rem;
   --background: oklch(0.985 0.002 90);
   --foreground: oklch(0.18 0.005 260);
