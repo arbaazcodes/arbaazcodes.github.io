@@ -102,12 +102,12 @@ type LightboxState =
 
 function Portfolio() {
   const [active, setActive] = useState("intro");
-  const [light, setLight] = useState(false);
+  const [dark, setDark] = useState(false);
   const [lightbox, setLightbox] = useState<LightboxState>(null);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("light", light);
-  }, [light]);
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
 
   useEffect(() => {
     const ob = new IntersectionObserver(
@@ -132,7 +132,7 @@ function Portfolio() {
     <div className="grain relative min-h-screen bg-background text-foreground">
       <AmbientOrbs />
       <Cursor />
-      <Nav active={active} light={light} setLight={setLight} />
+      <Nav active={active} dark={dark} setDark={setDark} />
       <SideRail />
       <main className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12 lg:px-20">
         <Hero />
@@ -193,7 +193,7 @@ function Cursor() {
 
 /* ---------- Nav ---------- */
 
-function Nav({ active, light, setLight }: { active: string; light: boolean; setLight: (v: boolean) => void }) {
+function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
   return (
     <header className="fixed inset-x-0 top-4 z-50 px-4 md:top-6">
       <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4">
@@ -222,11 +222,11 @@ function Nav({ active, light, setLight }: { active: string; light: boolean; setL
         </nav>
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setLight(!light)}
+            onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
             className="h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
           >
-            <span className="text-sm">{light ? "☾" : "☀"}</span>
+            <span className="text-sm">{dark ? "☀" : "☾"}</span>
           </button>
           <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
             Let's talk <span>→</span>
