@@ -222,11 +222,11 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
         </nav>
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setLight(!light)}
+            onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
             className="h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
           >
-            <span className="text-sm">{light ? "☾" : "☀"}</span>
+            <span className="text-sm">{dark ? "☀" : "☾"}</span>
           </button>
           <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
             Let's talk <span>→</span>
