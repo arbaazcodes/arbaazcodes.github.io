@@ -862,7 +862,165 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
   );
 }
 
+/* ---------- Resume ---------- */
+
+function Resume() {
+  const ref = useRef<HTMLDivElement>(null);
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const sx = useSpring(rx, { stiffness: 120, damping: 14 });
+  const sy = useSpring(ry, { stiffness: 120, damping: 14 });
+  const reduce = useReducedMotion();
+
+  const onMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (reduce) return;
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    ry.set(px * 14);
+    rx.set(-py * 14);
+  };
+  const onLeave = () => { rx.set(0); ry.set(0); };
+
+  return (
+    <section id="resume" className="py-28 md:py-40">
+      <div className="mb-16 grid gap-6 md:grid-cols-12 md:items-end">
+        <div className="md:col-span-7">
+          <p className="text-eyebrow mb-4">/ 06 — Resume</p>
+          <h2 className="text-display text-[clamp(2.5rem,8vw,6rem)]">
+            The one-pager. <br />
+            <span className="text-highlight">Download &amp; go.</span>
+          </h2>
+        </div>
+        <p className="md:col-span-5 max-w-md text-base leading-relaxed text-muted-foreground">
+          A concise snapshot of experience, disciplines and selected clients —
+          ready to open, preview or download as PDF.
+        </p>
+      </div>
+
+      <div className="grid gap-12 md:grid-cols-12 md:items-center">
+        {/* Floating PDF preview */}
+        <div className="md:col-span-7 tilt-3d">
+          <motion.div
+            ref={ref}
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
+            style={{ rotateX: sx, rotateY: sy, transformPerspective: 1200 }}
+            animate={reduce ? {} : { y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative mx-auto w-full max-w-[520px]"
+          >
+            {/* Soft glow under sheet */}
+            <div className="pointer-events-none absolute -inset-x-10 -bottom-10 h-24 rounded-full bg-foreground/15 blur-3xl" aria-hidden />
+
+            {/* Stacked back sheets for depth */}
+            <div className="pointer-events-none absolute inset-0 translate-x-3 translate-y-3 rotate-[2deg] rounded-2xl card-white opacity-60" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 translate-x-1.5 translate-y-1.5 rotate-[1deg] rounded-2xl card-white opacity-80" aria-hidden />
+
+            {/* Main sheet */}
+            <a
+              href={resumePdf.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block overflow-hidden rounded-2xl card-white"
+              style={{ aspectRatio: "1 / 1.414" }}
+            >
+              <img
+                src={resumePreview.url}
+                alt="Arbaaz K. resume preview"
+                className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+                loading="lazy"
+              />
+              {/* Top bar (PDF chrome) */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center gap-2 bg-background/85 px-4 py-2.5 backdrop-blur">
+                <span className="h-2.5 w-2.5 rounded-full bg-foreground/25" />
+                <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
+                <span className="h-2.5 w-2.5 rounded-full bg-foreground/10" />
+                <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  Arbaaz-K-Resume.pdf
+                </span>
+              </div>
+              {/* Hover overlay */}
+              <div className="pointer-events-none absolute inset-0 flex items-end justify-end p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background shadow-lg">
+                  <Eye className="h-3.5 w-3.5" /> Open preview
+                </span>
+              </div>
+            </a>
+
+            {/* Floating chips */}
+            <motion.div
+              animate={reduce ? {} : { y: [0, -8, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+              className="absolute -left-6 top-10 hidden rounded-full card-white px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.22em] md:block"
+            >
+              PDF · 1 page
+            </motion.div>
+            <motion.div
+              animate={reduce ? {} : { y: [0, 8, 0] }}
+              transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+              className="absolute -right-6 bottom-12 hidden items-center gap-2 rounded-full card-white px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.22em] md:flex"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--highlight)]" /> Updated 2026
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Side panel */}
+        <div className="md:col-span-5">
+          <div className="rounded-2xl card-white p-6 md:p-8">
+            <div className="flex items-center gap-3">
+              <span className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-background">
+                <FileText className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="font-medium">Arbaaz-K-Resume.pdf</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                  A4 · ~{Math.max(1, Math.round(resumePdf.size / 1024))} KB
+                </p>
+              </div>
+            </div>
+
+            <ul className="mt-6 space-y-3 text-sm">
+              {[
+                "4+ yrs across EdTech, CRM & corporate brands",
+                "UI/UX, identity, print, motion in one place",
+                "Selected clients & toolset on one page",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2.5">
+                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--highlight)]" />
+                  <span className="text-foreground/85">{t}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-7 flex flex-wrap gap-3">
+              <a
+                href={resumePdf.url}
+                download="Arbaaz-K-Resume.pdf"
+                className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+              >
+                <Download className="h-4 w-4" /> Download PDF
+              </a>
+              <a
+                href={resumePdf.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium transition-transform hover:-translate-y-0.5"
+              >
+                <Eye className="h-4 w-4" /> Preview
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- Contact + Footer ---------- */
+
 
 function Contact() {
   return (
