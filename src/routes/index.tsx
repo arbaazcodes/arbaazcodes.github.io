@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type ReactNode, type MouseEvent, type ComponentType } from "react";
+import {
+  Sparkles, PenTool, Share2, Printer, Layout, Smartphone, Film,
+  Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
+  Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
+  Linkedin, Instagram, Sun, Moon, ArrowRight
+} from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
