@@ -158,17 +158,13 @@ function Portfolio() {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.06] blur-[120px] animate-orb" />
-      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.05] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
-      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
-      <div className="absolute inset-0 opacity-[0.05]" style={{
-        backgroundImage: "linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)",
-        backgroundSize: "64px 64px",
-        maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 75%)",
-      }} />
+      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" />
+      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
+      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
     </div>
   );
 }
+
 
 function Cursor() {
   const x = useMotionValue(-100);
