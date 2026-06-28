@@ -859,8 +859,8 @@ function Contact() {
           </div>
         </div>
         <div className="md:col-span-7">
-          <h2 className="text-display text-gradient text-[clamp(2.25rem,7vw,5.5rem)]">
-            Have a project? <br />
+          <h2 className="text-display text-foreground text-[clamp(2.25rem,7vw,5.5rem)]">
+            Have a <span className="text-highlight">project?</span> <br />
             <a href="mailto:arbaazsince2002@gmail.com" className="link-underline">Let's make it.</a>
           </h2>
 
