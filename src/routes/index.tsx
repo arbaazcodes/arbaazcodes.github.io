@@ -503,7 +503,7 @@ function Stats() {
             transition={{ duration: 0.6, delay: i * 0.07 }}
             className="card-white rounded-3xl p-6 transition-transform hover:-translate-y-0.5"
           >
-            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl text-[color:var(--highlight)]" style={{ background: "color-mix(in oklab, var(--highlight) 18%, transparent)" }}">
+            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl text-[color:var(--highlight)]" style={{ background: "color-mix(in oklab, var(--highlight) 18%, transparent)" }}>
               <Icon size={16} />
             </div>
             <p className="text-display text-4xl md:text-5xl">{k}</p>
