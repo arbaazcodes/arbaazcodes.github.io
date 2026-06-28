@@ -193,7 +193,7 @@ function Cursor() {
 
 /* ---------- Nav ---------- */
 
-function Nav({ active, light, setLight }: { active: string; light: boolean; setLight: (v: boolean) => void }) {
+function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
   return (
     <header className="fixed inset-x-0 top-4 z-50 px-4 md:top-6">
       <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4">
