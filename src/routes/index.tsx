@@ -589,7 +589,7 @@ function Hero() {
 
 /* ---------- Logo Scroller ---------- */
 
-type LogoItem = { name: string; Icon: ComponentType<{ className?: string }>; accent: string; sub?: string };
+type LogoItem = { name: string; Icon: ComponentType<{ className?: string; strokeWidth?: number }>; accent: string; sub?: string };
 
 function Marquee({ items }: { items: LogoItem[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
