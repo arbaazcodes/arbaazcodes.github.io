@@ -231,12 +231,13 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
             aria-label="Toggle theme"
             className="h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
           >
-            <span className="text-sm">{dark ? "☀" : "☾"}</span>
+            {dark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
           <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
-            Let's talk <span>→</span>
+            Let's talk <ArrowRight size={13} />
           </a>
         </div>
+
       </div>
     </header>
   );
