@@ -76,8 +76,8 @@ const DISCIPLINES: Discipline[] = [
 type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3; src?: string };
 
 // Real assets extracted from arbaazsince2002.wixsite.com/arbaaz-portfolio
-const wix = (hash: string, w = 900, ext: "png" | "jpg" = "png") =>
-  `https://static.wixstatic.com/media/${hash}/v1/fill/w_${w},q_90,enc_avif,quality_auto/file.${ext}`;
+const wix = (hash: string, _w = 900, _ext: "png" | "jpg" = "png") =>
+  `https://static.wixstatic.com/media/${hash}`;
 
 const GALLERY: GalleryItem[] = [
   // Brand & Logos
