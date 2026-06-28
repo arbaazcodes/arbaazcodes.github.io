@@ -778,9 +778,9 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
             <button
               onClick={onClose}
               aria-label="Close"
-              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/70 text-sm hover:bg-foreground/10"
+              className="card-white inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full hover:bg-foreground/5"
             >
-              ✕
+              <X size={15} />
             </button>
           </div>
 
@@ -792,15 +792,16 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
                   download={`${state.item.id}-${state.item.label.replace(/\s+/g, "-")}.txt`}
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background hover:bg-foreground/85"
                 >
-                  ↓ Download
+                  <Download size={13} /> Download
                 </a>
                 <button
                   onClick={() => navigator.clipboard?.writeText(state.item.label)}
-                  className="inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/10"
+                  className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
                 >
-                  Copy title
+                  <MessageCircle size={12} /> Copy title
                 </button>
               </>
+
             ) : (
               <a
                 href={`https://www.youtube.com/watch?v=${state.item.id}`}
