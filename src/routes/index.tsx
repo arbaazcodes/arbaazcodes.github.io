@@ -45,6 +45,7 @@ import logoWavox from "@/assets/logo-wavox.png.asset.json";
 import logoAiSwift from "@/assets/logo-ai-swift.png.asset.json";
 import logoKsha from "@/assets/logo-ksha.png.asset.json";
 import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.json";
+import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
 
 const LOGOS: { name: string; src: string }[] = [
   { name: "Swift AMS", src: logoSwiftAms.url },
@@ -52,6 +53,7 @@ const LOGOS: { name: string; src: string }[] = [
   { name: "Ai SWIFT", src: logoAiSwift.url },
   { name: "KSHA LABS", src: logoKsha.url },
   { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino.url },
+  { name: "Edu Finn", src: logoEduFinn.url },
 ];
 
 type Discipline = {
