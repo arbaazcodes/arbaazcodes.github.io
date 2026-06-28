@@ -153,9 +153,10 @@
 
 @utility card-white {
   background: var(--elevated);
-  border: 1px solid color-mix(in oklab, var(--color-foreground) 8%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-foreground) 18%, transparent);
   box-shadow: var(--shadow-card);
 }
+
 
 
 .link-underline { position: relative; display: inline-block; }
