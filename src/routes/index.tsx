@@ -231,7 +231,14 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
               <span className="relative">{n.label}</span>
             </a>
           ))}
+          <Link
+            to="/resume"
+            className="relative ml-1 inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-background transition-transform hover:-translate-y-0.5"
+          >
+            <FileText className="h-3 w-3" /> Resume
+          </Link>
         </nav>
+
         <div className="flex items-center gap-2">
           <button
             onClick={() => setDark(!dark)}
