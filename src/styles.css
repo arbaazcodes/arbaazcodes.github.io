@@ -183,20 +183,38 @@
 }
 .pulse-ring { animation: pulse-ring 2.6s ease-out infinite; }
 
-/* Refined neutral placeholder — graphite glass */
+/* Adaptive neutral placeholder (light by default) */
 .placeholder-grad {
+  background:
+    radial-gradient(120% 80% at 0% 0%, oklch(0.20 0.005 260 / 0.10), transparent 55%),
+    radial-gradient(120% 80% at 100% 100%, oklch(0.20 0.005 260 / 0.06), transparent 55%),
+    linear-gradient(135deg, oklch(0.93 0.003 90), oklch(0.86 0.004 260));
+}
+.placeholder-grad-2 {
+  background:
+    radial-gradient(120% 80% at 100% 0%, oklch(0.20 0.005 260 / 0.08), transparent 55%),
+    radial-gradient(120% 80% at 0% 100%, oklch(0.20 0.005 260 / 0.05), transparent 55%),
+    linear-gradient(135deg, oklch(0.95 0.003 90), oklch(0.84 0.004 260));
+}
+.placeholder-grad-3 {
+  background:
+    radial-gradient(120% 80% at 50% 0%, oklch(0.20 0.005 260 / 0.09), transparent 55%),
+    radial-gradient(120% 80% at 50% 100%, oklch(0.20 0.005 260 / 0.05), transparent 55%),
+    linear-gradient(135deg, oklch(0.97 0.002 90), oklch(0.82 0.004 260));
+}
+.dark .placeholder-grad {
   background:
     radial-gradient(120% 80% at 0% 0%, oklch(1 0 0 / 0.10), transparent 55%),
     radial-gradient(120% 80% at 100% 100%, oklch(1 0 0 / 0.06), transparent 55%),
     linear-gradient(135deg, oklch(0.26 0.003 260), oklch(0.18 0.003 260));
 }
-.placeholder-grad-2 {
+.dark .placeholder-grad-2 {
   background:
     radial-gradient(120% 80% at 100% 0%, oklch(1 0 0 / 0.08), transparent 55%),
     radial-gradient(120% 80% at 0% 100%, oklch(1 0 0 / 0.05), transparent 55%),
     linear-gradient(135deg, oklch(0.24 0.003 260), oklch(0.16 0.003 260));
 }
-.placeholder-grad-3 {
+.dark .placeholder-grad-3 {
   background:
     radial-gradient(120% 80% at 50% 0%, oklch(1 0 0 / 0.09), transparent 55%),
     radial-gradient(120% 80% at 50% 100%, oklch(1 0 0 / 0.05), transparent 55%),
