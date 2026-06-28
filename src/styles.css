@@ -299,11 +299,11 @@
   position: absolute;
   border-radius: 9999px;
   mix-blend-mode: multiply;
-  opacity: 0.55;
+  opacity: 0.22;
   will-change: transform, filter;
   animation: mesh-hue 18s ease-in-out infinite;
 }
-.dark .mesh-blob { mix-blend-mode: screen; opacity: 0.35; }
+.dark .mesh-blob { mix-blend-mode: screen; opacity: 0.20; }
 .mesh-blob.a { background: radial-gradient(circle at 30% 30%, var(--grad-a), transparent 60%); animation: mesh-drift-1 24s ease-in-out infinite, mesh-hue 18s ease-in-out infinite; }
 .mesh-blob.b { background: radial-gradient(circle at 70% 40%, var(--grad-b), transparent 60%); animation: mesh-drift-2 28s ease-in-out infinite, mesh-hue 22s ease-in-out infinite; }
 .mesh-blob.c { background: radial-gradient(circle at 50% 70%, var(--grad-c), transparent 60%); animation: mesh-drift-3 32s ease-in-out infinite, mesh-hue 26s ease-in-out infinite; }
