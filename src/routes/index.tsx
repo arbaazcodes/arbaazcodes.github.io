@@ -544,13 +544,18 @@ function Hero() {
           className="md:col-span-5"
         >
           <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
-            <div className="absolute inset-0 rounded-[2rem] placeholder-grad-3 glow-ring overflow-hidden">
-              <div className="absolute inset-0 animate-shine" />
-              <div className="absolute inset-x-0 bottom-0 p-5 text-foreground">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Portrait · Replace</p>
+            <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10">
+              <img
+                src="/__l5e/assets-v1/eef5aa26-c27d-4d1e-bb86-27daff9c4fa2/arbaaz-portrait.png"
+                alt="Arbaaz K. — portrait"
+                className="absolute inset-0 h-full w-full object-cover object-top"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent p-5 text-white">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/75">Designer · Portrait</p>
                 <p className="font-display text-2xl">Arbaaz K.</p>
               </div>
             </div>
+
             <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-6 top-10 glass rounded-2xl p-3" style={{ transform: "translateZ(60px)" }}>
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Now</p>
               <p className="font-display text-sm">Crafting motion</p>
