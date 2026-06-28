@@ -73,21 +73,59 @@ const DISCIPLINES: Discipline[] = [
 ];
 
 
-type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3 };
+type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3; src?: string };
+
+// Real assets extracted from arbaazsince2002.wixsite.com/arbaaz-portfolio
+const wix = (hash: string, w = 900) =>
+  `https://static.wixstatic.com/media/${hash}/v1/fill/w_${w},q_90,enc_avif,quality_auto/file.png`;
 
 const GALLERY: GalleryItem[] = [
-  { id: "g1", label: "SwiftAMS · Mark",      category: "Brand",  ratio: "aspect-square",   variant: 1 },
-  { id: "g2", label: "Wavox WMS · System",   category: "Brand",  ratio: "aspect-[4/5]",    variant: 2 },
-  { id: "g3", label: "Campaign · LinkedIn",  category: "Social", ratio: "aspect-[4/5]",    variant: 3 },
-  { id: "g4", label: "Brochure · Spread",    category: "Print",  ratio: "aspect-[3/2]",    variant: 1 },
-  { id: "g5", label: "Dashboard · macOS",    category: "UI/UX",  ratio: "aspect-[16/10]",  variant: 2 },
-  { id: "g6", label: "Counsellor · App",     category: "Mobile", ratio: "aspect-[9/12]",   variant: 3 },
-  { id: "g7", label: "Iksha Lab · Identity", category: "Brand",  ratio: "aspect-square",   variant: 2 },
-  { id: "g8", label: "Standee · Expo",       category: "Print",  ratio: "aspect-[3/4]",    variant: 1 },
-  { id: "g9", label: "Marketing site",       category: "UI/UX",  ratio: "aspect-[16/10]",  variant: 3 },
-  { id: "g10", label: "Reel · Cover",        category: "Motion", ratio: "aspect-square",   variant: 1 },
-  { id: "g11", label: "Edu Finn · Post",     category: "Social", ratio: "aspect-[4/5]",    variant: 2 },
-  { id: "g12", label: "Swift AI · Mark",     category: "Brand",  ratio: "aspect-square",   variant: 3 },
+  // Brand & Logos
+  { id: "g1", label: "Logo Collection",        category: "Brand",  ratio: "aspect-[16/9]",  variant: 1, src: wix("89f4f8_db6b4db3d3064a69b33c254d91af4b0a~mv2.png", 1600) },
+  { id: "g2", label: "Brand Hero",             category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_03ca2708911743c39850eda8074e8970~mv2.png", 1600) },
+  { id: "g3", label: "Identity Frame",         category: "Brand",  ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_13f27e29937649e5a45a527ea45a2ae6~mv2.png", 900) },
+
+  // Social Media — S & E series + numbered posts
+  { id: "g4",  label: "Social Post · 01",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
+  { id: "g5",  label: "Social Post · 02",      category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png") },
+  { id: "g6",  label: "Social Post · 04",      category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png") },
+  { id: "g7",  label: "Social Post · 05",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png") },
+  { id: "g8",  label: "Social Post · 06",      category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png") },
+  { id: "g9",  label: "Social Post · S1",      category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png") },
+  { id: "g10", label: "Social Post · S2",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png") },
+  { id: "g11", label: "Social Post · S3",      category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png") },
+  { id: "g12", label: "Social Post · S4",      category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png") },
+  { id: "g13", label: "Social Post · S5",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png") },
+  { id: "g14", label: "Social Post · E1",      category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png") },
+  { id: "g15", label: "Social Post · E2",      category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png") },
+  { id: "g16", label: "Social Post · E3",      category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
+  { id: "g17", label: "Social Post · E4",      category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
+  { id: "g18", label: "Social Post · E5",      category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
+
+  // Print Media — brochures & standees
+  { id: "g19", label: "Brochure · Spread 01",  category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png", 1400) },
+  { id: "g20", label: "Brochure · Spread 03",  category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: wix("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png", 1400) },
+  { id: "g21", label: "Brochure · Spread 05",  category: "Print",  ratio: "aspect-[3/2]",   variant: 3, src: wix("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png", 1400) },
+  { id: "g22", label: "Brochure · Cover",      category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png", 1400) },
+  { id: "g23", label: "Brochure · Mini",       category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: wix("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png", 1400) },
+  { id: "g24", label: "Standee · 01",          category: "Print",  ratio: "aspect-[3/4]",   variant: 3, src: wix("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png", 900) },
+  { id: "g25", label: "Standee · 02",          category: "Print",  ratio: "aspect-[3/4]",   variant: 1, src: wix("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png", 900) },
+  { id: "g26", label: "Standee · 03",          category: "Print",  ratio: "aspect-[3/4]",   variant: 2, src: wix("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png", 900) },
+
+  // UI / Web
+  { id: "g27", label: "Marketing Landing",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: wix("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png", 1600) },
+  { id: "g28", label: "MacBook · Showcase",    category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: wix("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png", 1600) },
+  { id: "g29", label: "Frame · UI Detail",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 3, src: wix("89f4f8_1a6d5361f50e4988912ce154eec59bb4~mv2.png", 1400) },
+
+  // Mobile App
+  { id: "g30", label: "Mobile App · Hero",     category: "Mobile", ratio: "aspect-[9/12]",  variant: 1, src: wix("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png", 900) },
+  { id: "g31", label: "Mobile · 02",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png", 600) },
+  { id: "g32", label: "Mobile · 03",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: wix("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png", 600) },
+  { id: "g33", label: "Mobile · 04",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png", 600) },
+  { id: "g34", label: "Mobile · 05",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png", 600) },
+  { id: "g35", label: "Mobile · 06",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: wix("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png", 600) },
+  { id: "g36", label: "Mobile · 07",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png", 600) },
+  { id: "g37", label: "Mobile · 08",           category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png", 600) },
 ];
 
 const VIDEOS = [
@@ -309,23 +347,30 @@ function Tilt({ children, className = "", strength = 12 }: { children: ReactNode
 
 /* ---------- Placeholder media tile ---------- */
 
-function Placeholder({ label, ratio = "aspect-video", variant = 1, badge }: { label: string; ratio?: string; variant?: 1 | 2 | 3; badge?: string }) {
+function Placeholder({ label, ratio = "aspect-video", variant = 1, badge, src, fit = "cover" }: { label: string; ratio?: string; variant?: 1 | 2 | 3; badge?: string; src?: string; fit?: "cover" | "contain" }) {
   const grad = variant === 1 ? "placeholder-grad" : variant === 2 ? "placeholder-grad-2" : "placeholder-grad-3";
   return (
-    <div className={`relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${grad}`}>
-      <div className="absolute inset-0 opacity-50" style={{
-        backgroundImage: "radial-gradient(circle at 50% 50%, transparent 40%, oklch(1 0 0 / 0.05) 41%, transparent 42%), radial-gradient(circle at 50% 50%, transparent 60%, oklch(1 0 0 / 0.04) 61%, transparent 62%)",
-      }} />
-      <div className="absolute inset-0 animate-shine" />
-      <div className="absolute inset-0 flex flex-col justify-between p-4">
-        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.25em] text-foreground/60">
-          <span>{badge ?? "Replace asset"}</span>
-          <span>◐</span>
-        </div>
-        <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/50">Placeholder</p>
-          <p className="font-display text-lg text-foreground/90">{label}</p>
-        </div>
+    <div className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.03]" : grad}`}>
+      {src ? (
+        <img
+          src={src}
+          alt={label}
+          loading="lazy"
+          className={`absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain p-4" : "object-cover"} transition-transform duration-700 group-hover/ph:scale-[1.04]`}
+        />
+      ) : (
+        <>
+          <div className="absolute inset-0 opacity-50" style={{
+            backgroundImage: "radial-gradient(circle at 50% 50%, transparent 40%, oklch(1 0 0 / 0.05) 41%, transparent 42%), radial-gradient(circle at 50% 50%, transparent 60%, oklch(1 0 0 / 0.04) 61%, transparent 62%)",
+          }} />
+          <div className="absolute inset-0 animate-shine" />
+        </>
+      )}
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-3 text-[10px] font-mono uppercase tracking-[0.25em] text-white">
+        <span className="rounded-full bg-black/55 px-2 py-1 backdrop-blur">{badge ?? "Work"}</span>
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 opacity-0 transition-opacity group-hover/ph:opacity-100">
+        <p className="font-display text-sm text-white">{label}</p>
       </div>
     </div>
   );
@@ -653,7 +698,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
             className="group relative block cursor-pointer text-left"
           >
             <Tilt strength={8}>
-              <Placeholder label={g.label} ratio={g.ratio} variant={g.variant} badge={g.category} />
+              <Placeholder label={g.label} ratio={g.ratio} variant={g.variant} badge={g.category} src={g.src} fit={g.category === "Brand" || g.category === "Mobile" ? "contain" : "cover"} />
             </Tilt>
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
             <div className="mt-3 flex items-center justify-between gap-3">
@@ -762,6 +807,8 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
                 ratio="aspect-[4/3] md:aspect-auto md:h-full"
                 variant={state.item.variant}
                 badge={state.item.category}
+                src={state.item.src}
+                fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
               />
             </div>
           ) : (
@@ -801,8 +848,10 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
             {state.kind === "image" ? (
               <>
                 <a
-                  href={`data:text/plain;charset=utf-8,Placeholder asset: ${encodeURIComponent(state.item.label)}`}
-                  download={`${state.item.id}-${state.item.label.replace(/\s+/g, "-")}.txt`}
+                  href={state.item.src || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download={`${state.item.id}-${state.item.label.replace(/\s+/g, "-")}.png`}
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background hover:bg-foreground/85"
                 >
                   <Download size={13} /> Download
