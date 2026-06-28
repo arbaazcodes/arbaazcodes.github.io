@@ -5,7 +5,7 @@ import {
   Sparkles, PenTool, Share2, Printer, Layout, Smartphone, Film,
   Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
-  Linkedin, Instagram, Sun, Moon, ArrowRight, FileText
+  Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu
 } from "lucide-react";
 
 
@@ -254,6 +254,11 @@ function Cursor() {
 /* ---------- Nav ---------- */
 
 function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
   return (
     <header className="fixed inset-x-0 top-4 z-50 px-4 md:top-6">
       <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4">
@@ -298,9 +303,93 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
             Let's talk <ArrowRight size={13} />
           </a>
+          <button
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={open}
+            className="md:hidden h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
+          >
+            <Menu size={16} />
+          </button>
         </div>
-
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[55] md:hidden"
+            role="dialog"
+            aria-modal="true"
+          >
+            <button
+              aria-label="Close menu"
+              onClick={() => setOpen(false)}
+              className="absolute inset-0 bg-background/80 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-x-4 top-20 rounded-3xl card-white p-6 shadow-2xl"
+            >
+              <div className="flex items-center justify-between pb-4 border-b border-border/60">
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Menu</span>
+                <button
+                  onClick={() => setOpen(false)}
+                  aria-label="Close menu"
+                  className="h-8 w-8 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+              <nav className="mt-4 flex flex-col">
+                {NAV.map((n, i) => (
+                  <motion.a
+                    key={n.id}
+                    href={`#${n.id}`}
+                    onClick={() => setOpen(false)}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 + i * 0.04 }}
+                    className={`flex items-center justify-between rounded-2xl px-4 py-3.5 font-display text-2xl transition-colors ${
+                      active === n.id ? "bg-foreground/5 text-foreground" : "text-foreground/80 hover:bg-foreground/5"
+                    }`}
+                  >
+                    <span>{n.label}</span>
+                    <ArrowUpRight size={18} className="opacity-50" />
+                  </motion.a>
+                ))}
+                <motion.div
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 + NAV.length * 0.04 }}
+                >
+                  <Link
+                    to="/resume"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between rounded-2xl px-4 py-3.5 font-display text-2xl text-foreground/80 hover:bg-foreground/5"
+                  >
+                    <span className="inline-flex items-center gap-2"><FileText size={18} /> Resume</span>
+                    <ArrowUpRight size={18} className="opacity-50" />
+                  </Link>
+                </motion.div>
+              </nav>
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-background"
+              >
+                Let's talk <ArrowRight size={13} />
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
