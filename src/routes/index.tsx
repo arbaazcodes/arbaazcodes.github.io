@@ -28,8 +28,10 @@ const NAV = [
   { id: "work", label: "Work" },
   { id: "gallery", label: "Gallery" },
   { id: "videos", label: "Reels" },
+  { id: "resume", label: "Resume" },
   { id: "contact", label: "Contact" },
 ];
+
 
 const SOCIALS = [
   { label: "LinkedIn", href: "#" },
