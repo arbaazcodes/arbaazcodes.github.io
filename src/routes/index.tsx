@@ -131,6 +131,7 @@ function Portfolio() {
   return (
     <div className="grain relative min-h-screen bg-background text-foreground">
       <AmbientOrbs />
+      <FloatingShapes />
       <Cursor />
       <Nav active={active} dark={dark} setDark={setDark} />
       <SideRail />
@@ -158,17 +159,58 @@ function Portfolio() {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Animated mesh gradient — graphical canvas behind content */}
+      {/* Soft luxury mesh behind content */}
       <div className="mesh-blob a" style={{ top: "-12%", left: "-8%", width: "60vmax", height: "60vmax" }} />
       <div className="mesh-blob b" style={{ top: "20%", right: "-14%", width: "55vmax", height: "55vmax" }} />
       <div className="mesh-blob c" style={{ bottom: "-18%", left: "10%", width: "65vmax", height: "65vmax" }} />
-      <div className="mesh-blob d" style={{ top: "40%", left: "30%", width: "45vmax", height: "45vmax" }} />
       {/* Grid overlay */}
-      <div className="absolute inset-0 opacity-[0.06]" style={{
+      <div className="absolute inset-0 opacity-[0.05]" style={{
         backgroundImage: "linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)",
-        backgroundSize: "64px 64px",
-        maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 75%)",
+        backgroundSize: "72px 72px",
+        maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 78%)",
       }} />
+    </div>
+  );
+}
+
+/* Floating designer shapes — drift across the entire page */
+function FloatingShapes() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* Circle outline */}
+      <svg className="float-shape s1 absolute left-[6%] top-[18%]" width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-foreground/25" strokeDasharray="4 6" />
+      </svg>
+      {/* Plus mark */}
+      <svg className="float-shape s2 absolute right-[8%] top-[28%]" width="44" height="44" viewBox="0 0 44 44">
+        <path d="M22 4v36M4 22h36" stroke="currentColor" strokeWidth="1.4" className="text-foreground/35" />
+      </svg>
+      {/* Triangle */}
+      <svg className="float-shape s3 absolute left-[12%] top-[62%]" width="80" height="80" viewBox="0 0 80 80">
+        <polygon points="40,8 72,68 8,68" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-foreground/25" />
+      </svg>
+      {/* Square outline */}
+      <svg className="float-shape s1 absolute right-[14%] top-[58%]" width="72" height="72" viewBox="0 0 72 72" style={{ animationDelay: "-7s" }}>
+        <rect x="6" y="6" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-foreground/30" />
+      </svg>
+      {/* Squiggle */}
+      <svg className="float-shape s2 absolute left-[42%] top-[85%]" width="140" height="40" viewBox="0 0 140 40" style={{ animationDelay: "-3s" }}>
+        <path d="M2 20 Q 20 2, 38 20 T 74 20 T 110 20 T 138 20" fill="none" stroke="currentColor" strokeWidth="1.3" className="text-foreground/30" />
+      </svg>
+      {/* Dot grid cluster */}
+      <svg className="float-shape s3 absolute right-[5%] top-[80%]" width="80" height="80" viewBox="0 0 80 80" style={{ animationDelay: "-12s" }}>
+        {Array.from({ length: 5 }).map((_, r) =>
+          Array.from({ length: 5 }).map((_, c) => (
+            <circle key={`${r}-${c}`} cx={8 + c * 16} cy={8 + r * 16} r="1.6" fill="currentColor" className="text-foreground/35" />
+          )),
+        )}
+      </svg>
+      {/* Asterisk */}
+      <svg className="float-shape s1 absolute left-[78%] top-[8%]" width="48" height="48" viewBox="0 0 48 48" style={{ animationDelay: "-5s" }}>
+        <g stroke="currentColor" strokeWidth="1.6" className="text-foreground/40">
+          <path d="M24 6v36M6 24h36M10 10l28 28M38 10L10 38" />
+        </g>
+      </svg>
     </div>
   );
 }
@@ -339,7 +381,7 @@ function Hero() {
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Available · Q1 2026</span>
           </motion.div>
 
-          <h1 className="text-display text-gradient text-[clamp(2.75rem,8vw,6.75rem)]">
+          <h1 className="text-display text-foreground text-[clamp(2.75rem,8.5vw,7rem)]">
             {words.map((w, i) => (
               <motion.span
                 key={i}
@@ -349,7 +391,7 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "brands," ? <em className="not-italic italic text-muted-foreground">{w}</em> : w}
+                {w === "brands," || w === "interfaces" ? <span className="text-highlight">{w}</span> : w}
               </motion.span>
             ))}
           </h1>
@@ -449,8 +491,8 @@ function About() {
         </div>
 
         <div className="space-y-10 md:col-span-8">
-          <h2 className="text-display text-gradient text-[clamp(1.85rem,4vw,3.5rem)]">
-            Analytical thinking meets <em className="not-italic italic text-muted-foreground">creative execution</em> — every project ships toward a real business outcome.
+          <h2 className="text-display text-foreground text-[clamp(1.85rem,4vw,3.5rem)]">
+            Analytical thinking meets <span className="text-highlight">creative execution</span> — every project ships toward a real business outcome.
           </h2>
           <p className="max-w-xl leading-relaxed text-muted-foreground">
             From corporate branding for SwiftAMS to educational content for Edu Finn, I pride myself on clarity, precision and the ability to adapt visual language across industries. Driven by simplicity and meticulous attention to detail.
@@ -515,8 +557,8 @@ function Work() {
       <div className="mb-16 flex items-end justify-between gap-6">
         <div>
           <p className="text-eyebrow mb-4">/ Selected work</p>
-          <h2 className="text-display text-gradient text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
-            Six disciplines. <em className="not-italic italic text-muted-foreground">One craft.</em>
+          <h2 className="text-display text-foreground text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
+            Six disciplines. <span className="text-highlight">One craft.</span>
           </h2>
         </div>
         <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">
@@ -592,8 +634,8 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
       <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-eyebrow mb-4">/ Gallery</p>
-          <h2 className="text-display text-gradient text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Tap any tile to <em className="not-italic italic text-muted-foreground">preview</em>, download or comment.
+          <h2 className="text-display text-foreground text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
+            Tap any tile to <span className="text-highlight">preview</span>, download or comment.
           </h2>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -647,8 +689,8 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
       <div className="mb-16 flex items-end justify-between gap-6">
         <div>
           <p className="text-eyebrow mb-4">/ Motion & reels</p>
-          <h2 className="text-display text-gradient text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Stories edited for <em className="not-italic italic text-muted-foreground">Edu Finn</em> & Swift AMS.
+          <h2 className="text-display text-foreground text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
+            Stories edited for <span className="text-highlight">Edu Finn</span> & Swift AMS.
           </h2>
         </div>
         <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">{VIDEOS.length} reels · tap to play</p>
@@ -859,8 +901,8 @@ function Contact() {
           </div>
         </div>
         <div className="md:col-span-7">
-          <h2 className="text-display text-gradient text-[clamp(2.25rem,7vw,5.5rem)]">
-            Have a project? <br />
+          <h2 className="text-display text-foreground text-[clamp(2.25rem,7vw,5.5rem)]">
+            Have a <span className="text-highlight">project?</span> <br />
             <a href="mailto:arbaazsince2002@gmail.com" className="link-underline">Let's make it.</a>
           </h2>
 
