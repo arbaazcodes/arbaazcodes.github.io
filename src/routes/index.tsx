@@ -40,7 +40,14 @@ const SOCIALS = [
   { label: "Email", href: "mailto:arbaazsince2002@gmail.com" },
 ];
 
-const LOGOS = ["SwiftAMS", "Wavox WMS", "Swift AI", "Iksha Lab", "Edu Finn"];
+const LOGOS: { name: string; Icon: ComponentType<{ className?: string }>; accent: string; sub?: string }[] = [
+  { name: "Swift AMS", Icon: Hexagon, accent: "text-[#5B6BFF]" },
+  { name: "Wavox WMS", Icon: MessageSquare, accent: "text-[#22C55E]" },
+  { name: "Ai SWIFT", Icon: Network, accent: "text-[#7C5CFF]" },
+  { name: "KSHA LABS", Icon: Atom, accent: "text-[#E11D48]" },
+  { name: "digital", Icon: Coffee, accent: "text-[#F5A524]", sub: "cappuccino enterprise" },
+  { name: "Edu Finn", Icon: Sparkles, accent: "text-[#0EA5E9]" },
+];
 
 type Discipline = {
   no: string;
