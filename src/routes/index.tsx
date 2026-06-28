@@ -131,6 +131,7 @@ function Portfolio() {
   return (
     <div className="grain relative min-h-screen bg-background text-foreground">
       <AmbientOrbs />
+      <FloatingShapes />
       <Cursor />
       <Nav active={active} dark={dark} setDark={setDark} />
       <SideRail />
@@ -158,17 +159,58 @@ function Portfolio() {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      {/* Animated mesh gradient — graphical canvas behind content */}
+      {/* Soft luxury mesh behind content */}
       <div className="mesh-blob a" style={{ top: "-12%", left: "-8%", width: "60vmax", height: "60vmax" }} />
       <div className="mesh-blob b" style={{ top: "20%", right: "-14%", width: "55vmax", height: "55vmax" }} />
       <div className="mesh-blob c" style={{ bottom: "-18%", left: "10%", width: "65vmax", height: "65vmax" }} />
-      <div className="mesh-blob d" style={{ top: "40%", left: "30%", width: "45vmax", height: "45vmax" }} />
       {/* Grid overlay */}
-      <div className="absolute inset-0 opacity-[0.06]" style={{
+      <div className="absolute inset-0 opacity-[0.05]" style={{
         backgroundImage: "linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)",
-        backgroundSize: "64px 64px",
-        maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 75%)",
+        backgroundSize: "72px 72px",
+        maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 78%)",
       }} />
+    </div>
+  );
+}
+
+/* Floating designer shapes — drift across the entire page */
+function FloatingShapes() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* Circle outline */}
+      <svg className="float-shape s1 absolute left-[6%] top-[18%]" width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-foreground/25" strokeDasharray="4 6" />
+      </svg>
+      {/* Plus mark */}
+      <svg className="float-shape s2 absolute right-[8%] top-[28%]" width="44" height="44" viewBox="0 0 44 44">
+        <path d="M22 4v36M4 22h36" stroke="currentColor" strokeWidth="1.4" className="text-foreground/35" />
+      </svg>
+      {/* Triangle */}
+      <svg className="float-shape s3 absolute left-[12%] top-[62%]" width="80" height="80" viewBox="0 0 80 80">
+        <polygon points="40,8 72,68 8,68" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-foreground/25" />
+      </svg>
+      {/* Square outline */}
+      <svg className="float-shape s1 absolute right-[14%] top-[58%]" width="72" height="72" viewBox="0 0 72 72" style={{ animationDelay: "-7s" }}>
+        <rect x="6" y="6" width="60" height="60" fill="none" stroke="currentColor" strokeWidth="1.2" className="text-foreground/30" />
+      </svg>
+      {/* Squiggle */}
+      <svg className="float-shape s2 absolute left-[42%] top-[85%]" width="140" height="40" viewBox="0 0 140 40" style={{ animationDelay: "-3s" }}>
+        <path d="M2 20 Q 20 2, 38 20 T 74 20 T 110 20 T 138 20" fill="none" stroke="currentColor" strokeWidth="1.3" className="text-foreground/30" />
+      </svg>
+      {/* Dot grid cluster */}
+      <svg className="float-shape s3 absolute right-[5%] top-[80%]" width="80" height="80" viewBox="0 0 80 80" style={{ animationDelay: "-12s" }}>
+        {Array.from({ length: 5 }).map((_, r) =>
+          Array.from({ length: 5 }).map((_, c) => (
+            <circle key={`${r}-${c}`} cx={8 + c * 16} cy={8 + r * 16} r="1.6" fill="currentColor" className="text-foreground/35" />
+          )),
+        )}
+      </svg>
+      {/* Asterisk */}
+      <svg className="float-shape s1 absolute left-[78%] top-[8%]" width="48" height="48" viewBox="0 0 48 48" style={{ animationDelay: "-5s" }}>
+        <g stroke="currentColor" strokeWidth="1.6" className="text-foreground/40">
+          <path d="M24 6v36M6 24h36M10 10l28 28M38 10L10 38" />
+        </g>
+      </svg>
     </div>
   );
 }
