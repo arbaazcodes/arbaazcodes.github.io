@@ -848,8 +848,10 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
             {state.kind === "image" ? (
               <>
                 <a
-                  href={`data:text/plain;charset=utf-8,Placeholder asset: ${encodeURIComponent(state.item.label)}`}
-                  download={`${state.item.id}-${state.item.label.replace(/\s+/g, "-")}.txt`}
+                  href={state.item.src || "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download={`${state.item.id}-${state.item.label.replace(/\s+/g, "-")}.png`}
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background hover:bg-foreground/85"
                 >
                   <Download size={13} /> Download
