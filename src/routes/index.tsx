@@ -594,7 +594,7 @@ function Hero() {
 
 /* ---------- Logo Scroller ---------- */
 
-type LogoItem = { name: string; Icon: ComponentType<{ className?: string; strokeWidth?: number }>; accent: string; sub?: string };
+type LogoItem = { name: string; src: string };
 
 function Marquee({ items }: { items: LogoItem[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -607,7 +607,6 @@ function Marquee({ items }: { items: LogoItem[] }) {
     el.scrollBy({ left: dir * 360, behavior: "smooth" });
   };
 
-  // Auto-scroll
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
@@ -630,11 +629,9 @@ function Marquee({ items }: { items: LogoItem[] }) {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* edge fades */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
 
-      {/* arrows */}
       <button
         type="button"
         aria-label="Scroll logos left"
@@ -657,28 +654,22 @@ function Marquee({ items }: { items: LogoItem[] }) {
         className="no-scrollbar flex gap-6 overflow-x-auto px-6 md:px-20"
         style={{ scrollbarWidth: "none" }}
       >
-        {loop.map((c, i) => {
-          const Icon = c.Icon;
-          return (
-            <motion.div
-              key={i}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 280, damping: 20 }}
-              className="group relative flex h-32 w-[280px] shrink-0 items-center justify-center gap-4 rounded-2xl border border-border/80 bg-white px-8 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] dark:bg-card md:h-36 md:w-[320px]"
-            >
-              <Icon className={`h-9 w-9 shrink-0 ${c.accent}`} strokeWidth={2.2} />
-              <div className="flex flex-col leading-tight">
-                <span className="font-display text-2xl font-bold tracking-tight text-foreground md:text-[26px]">
-                  {c.name}
-                </span>
-                {c.sub && (
-                  <span className={`text-xs font-medium ${c.accent}`}>{c.sub}</span>
-                )}
-              </div>
-              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent transition group-hover:ring-foreground/20" />
-            </motion.div>
-          );
-        })}
+        {loop.map((c, i) => (
+          <motion.div
+            key={i}
+            whileHover={{ y: -6, scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 280, damping: 20 }}
+            className="group relative flex h-32 w-[280px] shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-white px-8 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] dark:bg-white md:h-36 md:w-[320px]"
+          >
+            <img
+              src={c.src}
+              alt={c.name}
+              loading="lazy"
+              className="max-h-20 w-auto max-w-full object-contain md:max-h-24"
+            />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent transition group-hover:ring-foreground/20" />
+          </motion.div>
+        ))}
       </div>
     </section>
   );
