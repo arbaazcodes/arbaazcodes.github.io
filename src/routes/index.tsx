@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type ReactNode, type MouseEvent, type ComponentType } from "react";
+import {
+  Sparkles, PenTool, Share2, Printer, Layout, Smartphone, Film,
+  Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
+  Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
+  Linkedin, Instagram, Sun, Moon, ArrowRight
+} from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,28 +44,30 @@ type Discipline = {
   desc: string;
   tags: string[];
   meta: string;
+  Icon: ComponentType<{ className?: string; size?: number }>;
 };
 
 const DISCIPLINES: Discipline[] = [
-  { no: "01", title: "Brand Identity", sub: "Logos & visual systems",
+  { no: "01", title: "Brand Identity", sub: "Logos & visual systems", Icon: PenTool,
     desc: "Distinctive, scalable identities engineered for resonance across every touchpoint — built for SwiftAMS, Wavox, Swift AI and Iksha Lab.",
     tags: ["Logo", "Identity", "Typography"], meta: "15 marks · 6 systems" },
-  { no: "02", title: "Social Media", sub: "Campaigns & content design",
+  { no: "02", title: "Social Media", sub: "Campaigns & content design", Icon: Share2,
     desc: "High-conversion creatives for LinkedIn, Instagram and corporate channels — sophisticated assets that respect strict brand guidelines.",
     tags: ["Campaigns", "Reels", "Carousels"], meta: "200+ posts shipped" },
-  { no: "03", title: "Print Media", sub: "Brochures, standees & collateral",
+  { no: "03", title: "Print Media", sub: "Brochures, standees & collateral", Icon: Printer,
     desc: "Brochures, trade-show standees and executive stationery — print-perfect execution with absolute brand fidelity.",
     tags: ["Brochure", "Standee", "Stationery"], meta: "Print-ready · CMYK" },
-  { no: "04", title: "UI / UX", sub: "Web platforms & dashboards",
+  { no: "04", title: "UI / UX", sub: "Web platforms & dashboards", Icon: Layout,
     desc: "Intuitive digital ecosystems built on user-centric architecture — interfaces that make complex platforms feel calm and accessible.",
     tags: ["Web", "Dashboard", "Design System"], meta: "12 products" },
-  { no: "05", title: "Mobile App", sub: "Native & cross-platform",
+  { no: "05", title: "Mobile App", sub: "Native & cross-platform", Icon: Smartphone,
     desc: "Mobile flows engineered for clarity at a glance — identity, motion and meticulous attention to the small moments.",
     tags: ["iOS", "Android", "Prototyping"], meta: "5 apps · 80+ screens" },
-  { no: "06", title: "Motion & Video", sub: "Corporate storytelling",
+  { no: "06", title: "Motion & Video", sub: "Corporate storytelling", Icon: Film,
     desc: "End-to-end post-production — corporate storytelling, testimonials and product demos for Edu Finn and Swift AMS.",
     tags: ["Editing", "Reels", "Motion GFX"], meta: "15+ films" },
 ];
+
 
 type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3 };
 
@@ -158,17 +167,13 @@ function Portfolio() {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.06] blur-[120px] animate-orb" />
-      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.05] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
-      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
-      <div className="absolute inset-0 opacity-[0.05]" style={{
-        backgroundImage: "linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)",
-        backgroundSize: "64px 64px",
-        maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 75%)",
-      }} />
+      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" />
+      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
+      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
     </div>
   );
 }
+
 
 function Cursor() {
   const x = useMotionValue(-100);
@@ -226,12 +231,13 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
             aria-label="Toggle theme"
             className="h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
           >
-            <span className="text-sm">{dark ? "☀" : "☾"}</span>
+            {dark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
           <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
-            Let's talk <span>→</span>
+            Let's talk <ArrowRight size={13} />
           </a>
         </div>
+
       </div>
     </header>
   );
@@ -345,7 +351,7 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "brands," ? <em className="not-italic italic text-muted-foreground">{w}</em> : w}
+                {w === "brands," ? <em className="text-highlight italic">{w}</em> : w}
               </motion.span>
             ))}
           </h1>
@@ -446,23 +452,26 @@ function About() {
 
         <div className="space-y-10 md:col-span-8">
           <h2 className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
-            Analytical thinking meets <em className="not-italic italic text-muted-foreground">creative execution</em> — every project ships toward a real business outcome.
+            Analytical thinking meets <em className="text-highlight italic">creative execution</em> — every project ships toward a real business outcome.
           </h2>
           <p className="max-w-xl leading-relaxed text-muted-foreground">
             From corporate branding for SwiftAMS to educational content for Edu Finn, I pride myself on clarity, precision and the ability to adapt visual language across industries. Driven by simplicity and meticulous attention to detail.
           </p>
 
           <div className="grid grid-cols-2 gap-3 pt-4 md:grid-cols-3">
-            {[
-              ["Design", "Brand · Print · Digital"],
-              ["Product", "UI · UX · Mobile"],
-              ["Motion", "Editing · Storytelling"],
-              ["Tools", "Figma · Adobe · AE"],
-              ["Industries", "EdTech · CRM · Corp"],
-              ["Based in", "India · Remote"],
-            ].map(([k, v]) => (
-              <div key={k} className="glass rounded-2xl p-4">
-                <p className="text-eyebrow mb-1.5">{k}</p>
+            {([
+              ["Design", "Brand · Print · Digital", Sparkles],
+              ["Product", "UI · UX · Mobile", Layers],
+              ["Motion", "Editing · Storytelling", Clapperboard],
+              ["Tools", "Figma · Adobe · AE", Wrench],
+              ["Industries", "EdTech · CRM · Corp", Building2],
+              ["Based in", "India · Remote", MapPin],
+            ] as const).map(([k, v, Icon]) => (
+              <div key={k} className="card-white rounded-2xl p-4 transition-transform hover:-translate-y-0.5">
+                <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
+                  <Icon size={15} />
+                </div>
+                <p className="text-eyebrow mb-1">{k}</p>
                 <p className="text-sm">{v}</p>
               </div>
             ))}
@@ -477,23 +486,26 @@ function About() {
 
 function Stats() {
   const stats = [
-    ["04", "Years of craft"],
-    ["60+", "Shipped projects"],
-    ["15", "Brand identities"],
-    ["100%", "On-brand delivery"],
-  ];
+    ["04", "Years of craft", Sparkles],
+    ["60+", "Shipped projects", Briefcase],
+    ["15", "Brand identities", PenTool],
+    ["100%", "On-brand delivery", Layers],
+  ] as const;
   return (
     <section className="py-12">
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        {stats.map(([k, v], i) => (
+        {stats.map(([k, v, Icon], i) => (
           <motion.div
             key={k}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: i * 0.07 }}
-            className="glass rounded-3xl p-6"
+            className="card-white rounded-3xl p-6 transition-transform hover:-translate-y-0.5"
           >
+            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl text-[color:var(--highlight)]" style={{ background: "color-mix(in oklab, var(--highlight) 18%, transparent)" }}>
+              <Icon size={16} />
+            </div>
             <p className="text-display text-4xl md:text-5xl">{k}</p>
             <p className="text-eyebrow mt-2">{v}</p>
           </motion.div>
@@ -502,6 +514,7 @@ function Stats() {
     </section>
   );
 }
+
 
 /* ---------- Work (text-only, no placeholders per section) ---------- */
 
@@ -512,7 +525,7 @@ function Work() {
         <div>
           <p className="text-eyebrow mb-4">/ Selected work</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
-            Six disciplines. <em className="not-italic italic text-muted-foreground">One craft.</em>
+            Six disciplines. <em className="text-highlight italic">One craft.</em>
           </h2>
         </div>
         <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">
@@ -546,17 +559,22 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
       onMouseLeave={() => setOpen(false)}
       className="group grid cursor-default grid-cols-12 items-center gap-4 py-6 transition-colors hover:bg-foreground/[0.03] md:py-8"
     >
-      <span className="col-span-2 font-mono text-xs text-muted-foreground md:col-span-1">{d.no}</span>
-      <div className="col-span-10 md:col-span-5">
-        <h3 className="text-display text-[clamp(1.5rem,3vw,2.5rem)]">{d.title}</h3>
-        <p className="text-eyebrow mt-1">{d.sub}</p>
+      <span className="col-span-2 font-mono text-xs text-foreground/70 md:col-span-1">{d.no}</span>
+      <div className="col-span-10 flex items-center gap-4 md:col-span-5">
+        <span className="card-white inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-foreground">
+          <d.Icon size={20} />
+        </span>
+        <div>
+          <h3 className="text-display text-[clamp(1.5rem,3vw,2.5rem)]">{d.title}</h3>
+          <p className="text-eyebrow mt-1">{d.sub}</p>
+        </div>
       </div>
-      <p className="col-span-12 max-w-md text-sm leading-relaxed text-muted-foreground md:col-span-4">
+      <p className="col-span-12 max-w-md text-sm leading-relaxed text-foreground/80 md:col-span-4">
         {d.desc}
       </p>
       <div className="col-span-12 flex items-center justify-between gap-3 md:col-span-2 md:justify-end">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{d.meta}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border/70 text-sm">+</motion.span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/70">{d.meta}</span>
+        <motion.span animate={{ rotate: open ? 45 : 0 }} className="card-white inline-flex h-8 w-8 items-center justify-center rounded-full"><Plus size={14} /></motion.span>
       </div>
       <div className="col-span-12 md:col-start-2 md:col-span-11">
         <motion.div
@@ -567,7 +585,7 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
         >
           <div className="flex flex-wrap gap-2 pt-4">
             {d.tags.map((t) => (
-              <span key={t} className="rounded-full border border-border/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{t}</span>
+              <span key={t} className="card-white rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/85">{t}</span>
             ))}
           </div>
         </motion.div>
@@ -575,6 +593,7 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
     </motion.div>
   );
 }
+
 
 /* ---------- Gallery (single home grid, clickable) ---------- */
 
@@ -589,7 +608,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
         <div>
           <p className="text-eyebrow mb-4">/ Gallery</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Tap any tile to <em className="not-italic italic text-muted-foreground">preview</em>, download or comment.
+            Tap any tile to <em className="text-highlight italic">preview</em>, download or comment.
           </h2>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -644,7 +663,7 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
         <div>
           <p className="text-eyebrow mb-4">/ Motion & reels</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Stories edited for <em className="not-italic italic text-muted-foreground">Edu Finn</em> & Swift AMS.
+            Stories edited for <em className="text-highlight italic">Edu Finn</em> & Swift AMS.
           </h2>
         </div>
         <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">{VIDEOS.length} reels · tap to play</p>
@@ -759,9 +778,9 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
             <button
               onClick={onClose}
               aria-label="Close"
-              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border/70 text-sm hover:bg-foreground/10"
+              className="card-white inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full hover:bg-foreground/5"
             >
-              ✕
+              <X size={15} />
             </button>
           </div>
 
@@ -773,15 +792,16 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
                   download={`${state.item.id}-${state.item.label.replace(/\s+/g, "-")}.txt`}
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-medium text-background hover:bg-foreground/85"
                 >
-                  ↓ Download
+                  <Download size={13} /> Download
                 </a>
                 <button
                   onClick={() => navigator.clipboard?.writeText(state.item.label)}
-                  className="inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/10"
+                  className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
                 >
-                  Copy title
+                  <MessageCircle size={12} /> Copy title
                 </button>
               </>
+
             ) : (
               <a
                 href={`https://www.youtube.com/watch?v=${state.item.id}`}
