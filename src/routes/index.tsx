@@ -156,7 +156,7 @@ function Portfolio() {
         <Work />
         <Gallery onOpen={(item) => setLightbox({ kind: "image", item })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
-        <Resume />
+        
         <Contact />
 
         <Footer />
