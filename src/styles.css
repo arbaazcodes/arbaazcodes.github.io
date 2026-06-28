@@ -234,3 +234,57 @@
     radial-gradient(120% 80% at 50% 100%, oklch(1 0 0 / 0.05), transparent 55%),
     linear-gradient(135deg, oklch(0.28 0.003 260), oklch(0.17 0.003 260));
 }
+
+/* ---------- Animated gradient text for major titles ---------- */
+@utility text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-foreground) 0%,
+    var(--grad-a) 25%,
+    var(--grad-b) 45%,
+    var(--grad-c) 65%,
+    var(--grad-d) 85%,
+    var(--color-foreground) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-gradient-shift 9s ease-in-out infinite;
+}
+@keyframes text-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ---------- Animated mesh background (graphic-designer canvas) ---------- */
+@keyframes mesh-drift-1 {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50% { transform: translate3d(8%,-6%,0) scale(1.15); }
+}
+@keyframes mesh-drift-2 {
+  0%, 100% { transform: translate3d(0,0,0) scale(1.05); }
+  50% { transform: translate3d(-9%,7%,0) scale(0.95); }
+}
+@keyframes mesh-drift-3 {
+  0%, 100% { transform: translate3d(0,0,0) scale(0.95); }
+  50% { transform: translate3d(6%,10%,0) scale(1.1); }
+}
+@keyframes mesh-hue {
+  0%, 100% { filter: blur(90px) saturate(140%) hue-rotate(0deg); }
+  50%      { filter: blur(110px) saturate(170%) hue-rotate(40deg); }
+}
+.mesh-blob {
+  position: absolute;
+  border-radius: 9999px;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  will-change: transform, filter;
+  animation: mesh-hue 18s ease-in-out infinite;
+}
+.dark .mesh-blob { mix-blend-mode: screen; opacity: 0.35; }
+.mesh-blob.a { background: radial-gradient(circle at 30% 30%, var(--grad-a), transparent 60%); animation: mesh-drift-1 24s ease-in-out infinite, mesh-hue 18s ease-in-out infinite; }
+.mesh-blob.b { background: radial-gradient(circle at 70% 40%, var(--grad-b), transparent 60%); animation: mesh-drift-2 28s ease-in-out infinite, mesh-hue 22s ease-in-out infinite; }
+.mesh-blob.c { background: radial-gradient(circle at 50% 70%, var(--grad-c), transparent 60%); animation: mesh-drift-3 32s ease-in-out infinite, mesh-hue 26s ease-in-out infinite; }
+.mesh-blob.d { background: radial-gradient(circle at 50% 50%, var(--grad-d), transparent 60%); animation: mesh-drift-1 36s ease-in-out infinite reverse, mesh-hue 30s ease-in-out infinite; }
