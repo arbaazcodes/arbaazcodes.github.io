@@ -102,12 +102,12 @@ type LightboxState =
 
 function Portfolio() {
   const [active, setActive] = useState("intro");
-  const [light, setLight] = useState(false);
+  const [dark, setDark] = useState(false);
   const [lightbox, setLightbox] = useState<LightboxState>(null);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("light", light);
-  }, [light]);
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
 
   useEffect(() => {
     const ob = new IntersectionObserver(
