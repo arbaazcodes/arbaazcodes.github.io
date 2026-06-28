@@ -158,10 +158,13 @@ function Portfolio() {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.06] blur-[120px] animate-orb" />
-      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.05] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
-      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
-      <div className="absolute inset-0 opacity-[0.05]" style={{
+      {/* Animated mesh gradient — graphical canvas behind content */}
+      <div className="mesh-blob a" style={{ top: "-12%", left: "-8%", width: "60vmax", height: "60vmax" }} />
+      <div className="mesh-blob b" style={{ top: "20%", right: "-14%", width: "55vmax", height: "55vmax" }} />
+      <div className="mesh-blob c" style={{ bottom: "-18%", left: "10%", width: "65vmax", height: "65vmax" }} />
+      <div className="mesh-blob d" style={{ top: "40%", left: "30%", width: "45vmax", height: "45vmax" }} />
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-[0.06]" style={{
         backgroundImage: "linear-gradient(var(--color-foreground) 1px, transparent 1px), linear-gradient(90deg, var(--color-foreground) 1px, transparent 1px)",
         backgroundSize: "64px 64px",
         maskImage: "radial-gradient(circle at 50% 30%, black 30%, transparent 75%)",
@@ -169,6 +172,7 @@ function AmbientOrbs() {
     </div>
   );
 }
+
 
 function Cursor() {
   const x = useMotionValue(-100);
@@ -335,7 +339,7 @@ function Hero() {
             <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Available · Q1 2026</span>
           </motion.div>
 
-          <h1 className="text-display text-[clamp(2.75rem,8vw,6.75rem)]">
+          <h1 className="text-display text-gradient text-[clamp(2.75rem,8vw,6.75rem)]">
             {words.map((w, i) => (
               <motion.span
                 key={i}
@@ -445,7 +449,7 @@ function About() {
         </div>
 
         <div className="space-y-10 md:col-span-8">
-          <h2 className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
+          <h2 className="text-display text-gradient text-[clamp(1.85rem,4vw,3.5rem)]">
             Analytical thinking meets <em className="not-italic italic text-muted-foreground">creative execution</em> — every project ships toward a real business outcome.
           </h2>
           <p className="max-w-xl leading-relaxed text-muted-foreground">
@@ -511,7 +515,7 @@ function Work() {
       <div className="mb-16 flex items-end justify-between gap-6">
         <div>
           <p className="text-eyebrow mb-4">/ Selected work</p>
-          <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
+          <h2 className="text-display text-gradient text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
             Six disciplines. <em className="not-italic italic text-muted-foreground">One craft.</em>
           </h2>
         </div>
@@ -588,7 +592,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
       <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-eyebrow mb-4">/ Gallery</p>
-          <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
+          <h2 className="text-display text-gradient text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
             Tap any tile to <em className="not-italic italic text-muted-foreground">preview</em>, download or comment.
           </h2>
         </div>
@@ -643,7 +647,7 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
       <div className="mb-16 flex items-end justify-between gap-6">
         <div>
           <p className="text-eyebrow mb-4">/ Motion & reels</p>
-          <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
+          <h2 className="text-display text-gradient text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
             Stories edited for <em className="not-italic italic text-muted-foreground">Edu Finn</em> & Swift AMS.
           </h2>
         </div>
@@ -855,7 +859,7 @@ function Contact() {
           </div>
         </div>
         <div className="md:col-span-7">
-          <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)]">
+          <h2 className="text-display text-gradient text-[clamp(2.25rem,7vw,5.5rem)]">
             Have a project? <br />
             <a href="mailto:arbaazsince2002@gmail.com" className="link-underline">Let's make it.</a>
           </h2>
