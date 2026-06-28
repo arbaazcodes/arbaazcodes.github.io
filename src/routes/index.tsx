@@ -351,7 +351,7 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "brands," ? <em className="not-italic italic text-muted-foreground">{w}</em> : w}
+                {w === "brands," ? <em className="text-highlight italic">{w}</em> : w}
               </motion.span>
             ))}
           </h1>
@@ -452,7 +452,7 @@ function About() {
 
         <div className="space-y-10 md:col-span-8">
           <h2 className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
-            Analytical thinking meets <em className="not-italic italic text-muted-foreground">creative execution</em> — every project ships toward a real business outcome.
+            Analytical thinking meets <em className="text-highlight italic">creative execution</em> — every project ships toward a real business outcome.
           </h2>
           <p className="max-w-xl leading-relaxed text-muted-foreground">
             From corporate branding for SwiftAMS to educational content for Edu Finn, I pride myself on clarity, precision and the ability to adapt visual language across industries. Driven by simplicity and meticulous attention to detail.
@@ -518,7 +518,7 @@ function Work() {
         <div>
           <p className="text-eyebrow mb-4">/ Selected work</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
-            Six disciplines. <em className="not-italic italic text-muted-foreground">One craft.</em>
+            Six disciplines. <em className="text-highlight italic">One craft.</em>
           </h2>
         </div>
         <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">
@@ -595,7 +595,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
         <div>
           <p className="text-eyebrow mb-4">/ Gallery</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Tap any tile to <em className="not-italic italic text-muted-foreground">preview</em>, download or comment.
+            Tap any tile to <em className="text-highlight italic">preview</em>, download or comment.
           </h2>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -650,7 +650,7 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
         <div>
           <p className="text-eyebrow mb-4">/ Motion & reels</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Stories edited for <em className="not-italic italic text-muted-foreground">Edu Finn</em> & Swift AMS.
+            Stories edited for <em className="text-highlight italic">Edu Finn</em> & Swift AMS.
           </h2>
         </div>
         <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">{VIDEOS.length} reels · tap to play</p>
