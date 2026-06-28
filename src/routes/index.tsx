@@ -40,7 +40,7 @@ const SOCIALS = [
   { label: "Email", href: "mailto:arbaazsince2002@gmail.com" },
 ];
 
-const LOGOS: { name: string; Icon: ComponentType<{ className?: string }>; accent: string; sub?: string }[] = [
+const LOGOS: { name: string; Icon: ComponentType<{ className?: string; strokeWidth?: number }>; accent: string; sub?: string }[] = [
   { name: "Swift AMS", Icon: Hexagon, accent: "text-[#5B6BFF]" },
   { name: "Wavox WMS", Icon: MessageSquare, accent: "text-[#22C55E]" },
   { name: "Ai SWIFT", Icon: Network, accent: "text-[#7C5CFF]" },
