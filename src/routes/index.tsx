@@ -97,7 +97,7 @@ const wix = (hash: string, _w = 900, _ext: "png" | "jpg" = "png") =>
 
 const GALLERY: GalleryItem[] = [
   // Brand & Logos — real client identities from the old portfolio
-  { id: "b1", label: "Logo Collection",        category: "Brand",  ratio: "aspect-[16/9]",  variant: 1, src: wix("89f4f8_db6b4db3d3064a69b33c254d91af4b0a~mv2.png") },
+  
   { id: "b2", label: "SwiftAMS · Identity",    category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_ca3694966e014708a64fce392f994256~mv2.png") },
   { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: wix("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
   { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
