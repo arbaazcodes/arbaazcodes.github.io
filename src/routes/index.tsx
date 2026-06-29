@@ -860,12 +860,68 @@ const CATEGORY_ORDER = ["Brand", "Social", "Print", "UI/UX", "Mobile"] as const;
 
 // Per-category visual settings — uniform ratio + grid so every tile aligns
 // and `object-contain` guarantees the full artwork stays visible.
-const CATEGORY_CONFIG: Record<string, { ratio: string; grid: string; fit: "cover" | "contain" }> = {
-  Brand:   { ratio: "aspect-[4/3]",  grid: "grid-cols-2 md:grid-cols-3",                fit: "contain" },
-  Social:  { ratio: "aspect-[4/5]",  grid: "grid-cols-2 md:grid-cols-4 lg:grid-cols-5", fit: "contain" },
-  Print:   { ratio: "aspect-[3/4]",  grid: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4", fit: "contain" },
-  "UI/UX": { ratio: "aspect-[16/10]", grid: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3", fit: "contain" },
-  Mobile:  { ratio: "aspect-[9/16]", grid: "grid-cols-2 md:grid-cols-4 lg:grid-cols-5", fit: "contain" },
+const CATEGORY_CONFIG: Record<
+  string,
+  {
+    ratio: string;
+    grid: string;
+    fit: "cover" | "contain";
+    eyebrow: string;
+    title: string;
+    blurb: string;
+    postsLabel: string;
+  }
+> = {
+  Brand: {
+    ratio: "aspect-[4/3]",
+    grid: "grid-cols-2 md:grid-cols-3",
+    fit: "contain",
+    eyebrow: "Identity & Brand Systems",
+    title: "Brand & Logos",
+    blurb:
+      "Crafting distinctive brand identities that build recognition and trust. Each mark balances strategy, typography and form — designed to scale across every touchpoint a brand lives on.",
+    postsLabel: "Brand Marks",
+  },
+  Social: {
+    ratio: "aspect-[4/5]",
+    grid: "grid-cols-2 md:grid-cols-4 lg:grid-cols-5",
+    fit: "contain",
+    eyebrow: "Strategic Digital Engagement",
+    title: "Social Media",
+    blurb:
+      "In the contemporary digital landscape, visual impact is paramount. I curate sophisticated social media assets that harmonize with strict brand guidelines while driving user engagement — high-conversion creatives for LinkedIn, Instagram and corporate digital channels.",
+    postsLabel: "Social Media Posts",
+  },
+  Print: {
+    ratio: "aspect-[3/4]",
+    grid: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+    fit: "contain",
+    eyebrow: "Tactile Brand Storytelling",
+    title: "Print Media",
+    blurb:
+      "Print is where craft meets permanence. Brochures, covers, standees and collateral — each piece engineered with hierarchy, grid and material in mind so the story holds up in the hand.",
+    postsLabel: "Print Collateral",
+  },
+  "UI/UX": {
+    ratio: "aspect-[16/10]",
+    grid: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+    fit: "contain",
+    eyebrow: "Interfaces with Intent",
+    title: "UI / UX Design",
+    blurb:
+      "Designing digital products where usability and aesthetics co-exist. Marketing landings, dashboards and product surfaces built around clarity, rhythm and conversion.",
+    postsLabel: "Web & Product",
+  },
+  Mobile: {
+    ratio: "aspect-[9/16]",
+    grid: "grid-cols-2 md:grid-cols-4 lg:grid-cols-5",
+    fit: "contain",
+    eyebrow: "Mobile-First Experiences",
+    title: "Mobile App",
+    blurb:
+      "End-to-end app screens designed for thumb-zone ergonomics and quick comprehension. From onboarding to dense data views, every screen earns its place.",
+    postsLabel: "App Screens",
+  },
 };
 
 function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
@@ -899,18 +955,38 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
         </div>
       </div>
 
-      <div className="space-y-20">
+      <div className="space-y-28">
         {visibleCats.map((cat) => {
           const cfg = CATEGORY_CONFIG[cat];
           const items = GALLERY.filter((g) => g.category === cat);
           if (items.length === 0) return null;
           return (
             <div key={cat} id={`gallery-${cat.toLowerCase().replace("/", "-")}`}>
-              <div className="mb-6 flex items-end justify-between gap-4 border-b border-border/60 pb-4">
-                <div>
-                  <p className="text-eyebrow mb-2">/ {cat}</p>
-                  <h3 className="text-display text-[clamp(1.4rem,3vw,2.25rem)]">{cat} work</h3>
-                </div>
+              {/* Hero-style category header — mirrors old portfolio alignment */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6 }}
+                className="mx-auto mb-12 max-w-3xl text-center"
+              >
+                <h3 className="font-display font-bold leading-[0.95] tracking-tight text-highlight text-[clamp(2.5rem,8vw,5.5rem)]">
+                  {cfg.title}
+                </h3>
+                <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-highlight">
+                  {cfg.eyebrow}
+                </p>
+                <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+                  {cfg.blurb}
+                </p>
+              </motion.div>
+
+              <div className="mb-8 flex items-center justify-center gap-4">
+                <span className="h-px w-10 bg-border" />
+                <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-foreground">
+                  {cfg.postsLabel}
+                </p>
+                <span className="h-px w-10 bg-border" />
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
                   {String(items.length).padStart(2, "0")} pieces
                 </span>
