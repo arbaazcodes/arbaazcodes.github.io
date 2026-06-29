@@ -992,35 +992,63 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                 </span>
               </div>
 
-              <div className={`grid gap-4 ${cfg.grid}`}>
-                {items.map((g, i) => (
-                  <motion.button
-                    key={g.id}
-                    onClick={() => onOpen(g)}
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
-                    className="group relative block cursor-pointer text-left"
-                  >
-                    <Tilt strength={6}>
-                      <Placeholder
-                        label={g.label}
-                        ratio={cfg.ratio}
-                        variant={g.variant}
-                        badge={g.category}
-                        src={g.src}
-                        fit={cfg.fit}
-                      />
-                    </Tilt>
-                    <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
-                    <div className="mt-3 flex items-center justify-between gap-3">
-                      <p className="truncate text-sm">{g.label}</p>
-                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">View →</span>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
+              {(() => {
+                const subgroups: { name: string | null; list: typeof items }[] =
+                  cat === "Print"
+                    ? [
+                        { name: "Brochure", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) <= 5) },
+                        { name: "Standee", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) >= 6) },
+                      ]
+                    : [{ name: null, list: items }];
+
+                return (
+                  <div className="space-y-14">
+                    {subgroups.map((sg) => (
+                      <div key={sg.name ?? "all"}>
+                        {sg.name && (
+                          <div className="mb-5 flex items-baseline gap-3">
+                            <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                              {sg.name}
+                            </h4>
+                            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                              Design
+                            </span>
+                          </div>
+                        )}
+                        <div className={`grid gap-4 ${cfg.grid}`}>
+                          {sg.list.map((g, i) => (
+                            <motion.button
+                              key={g.id}
+                              onClick={() => onOpen(g)}
+                              initial={{ opacity: 0, y: 18 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, margin: "-40px" }}
+                              transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
+                              className="group relative block cursor-pointer text-left"
+                            >
+                              <Tilt strength={6}>
+                                <Placeholder
+                                  label={g.label}
+                                  ratio={cfg.ratio}
+                                  variant={g.variant}
+                                  badge={g.category}
+                                  src={g.src}
+                                  fit={cfg.fit}
+                                />
+                              </Tilt>
+                              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
+                              <div className="mt-3 flex items-center justify-between gap-3">
+                                <p className="truncate text-sm">{g.label}</p>
+                                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">View →</span>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
           );
         })}
