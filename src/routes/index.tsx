@@ -6,7 +6,7 @@ import {
   Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
-  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom
+  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark
 } from "lucide-react";
 
 
@@ -1049,7 +1049,50 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                     {subgroups.map((sg) => {
                       const ratio = sg.ratio ?? cfg.ratio;
                       const grid = sg.grid ?? cfg.grid;
-                      const Grid = (
+                      const Grid = cat === "Social" ? (
+                        <div className={`grid gap-4 ${grid}`}>
+                          {sg.list.map((g, i) => (
+                            <motion.button
+                              key={g.id}
+                              onClick={() => onOpen(g)}
+                              initial={{ opacity: 0, y: 18 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, margin: "-40px" }}
+                              transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
+                              className="group relative block cursor-pointer overflow-hidden rounded-md border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md"
+                            >
+                              {/* Instagram-style header */}
+                              <div className="flex items-center justify-between border-b border-border/70 px-3 py-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="inline-block h-6 w-6 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1.5px]">
+                                    <span className="block h-full w-full rounded-full bg-white" />
+                                  </span>
+                                  <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic" }} className="text-sm text-foreground">Instagram</span>
+                                </div>
+                                <span className="text-foreground/70">⋯</span>
+                              </div>
+                              {/* Square post */}
+                              <div className="relative aspect-square overflow-hidden bg-muted/30">
+                                <img
+                                  src={g.src}
+                                  alt={g.label}
+                                  loading="lazy"
+                                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                              </div>
+                              {/* Action bar */}
+                              <div className="flex items-center justify-between px-3 py-2">
+                                <div className="flex items-center gap-3 text-foreground">
+                                  <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
+                                  <MessageCircle className="h-4 w-4" />
+                                  <Send className="h-4 w-4" />
+                                </div>
+                                <Bookmark className="h-4 w-4 text-foreground" />
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      ) : (
                         <div className={`grid gap-4 ${grid}`}>
                           {sg.list.map((g, i) => (
                             <motion.button
@@ -1080,6 +1123,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                           ))}
                         </div>
                       );
+
 
                       if (sg.split && sg.blurb) {
                         return (
