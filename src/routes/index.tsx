@@ -1138,15 +1138,36 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
 function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
   return (
     <section id="videos" className="py-28 md:py-40">
-      <div className="mb-16 flex items-end justify-between gap-6">
-        <div>
-          <p className="text-eyebrow mb-4">/ Motion & reels</p>
-          <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Stories edited for <em className="text-highlight italic">Edu Finn</em> & Swift AMS.
-          </h2>
-        </div>
-        <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">{VIDEOS.length} reels · tap to play</p>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="mx-auto mb-12 max-w-3xl text-center"
+      >
+        <h3 className="font-display font-bold leading-[0.95] tracking-tight text-highlight text-[clamp(2.5rem,8vw,5.5rem)]">
+          Video Editing
+        </h3>
+        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-highlight">
+          Corporate Motion Graphics & Production
+        </p>
+        <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+          Transforming static messaging into dynamic visual narratives. I provide end-to-end post-production services, specialising in corporate storytelling, client testimonials, and product demonstrations. My collaborations with Edu Finn and Swift AMS highlight my proficiency in narrative pacing, sound design, and technical editing.
+        </p>
+      </motion.div>
+
+      <div className="mb-10 flex items-center justify-center gap-4">
+        <span className="h-px w-10 bg-border" />
+        <p className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+          Video
+          <span className="ml-2 text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>
+            Editing
+          </span>
+        </p>
+        <span className="h-px w-10 bg-border" />
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{String(VIDEOS.length).padStart(2, "0")} reels</span>
       </div>
+
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {VIDEOS.map((v, i) => (
