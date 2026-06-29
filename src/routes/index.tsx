@@ -1110,14 +1110,20 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                                 />
                               )}
                             </button>
-                            <div className="flex items-center justify-between px-3 py-2">
+                            <button
+                              type="button"
+                              onClick={() => onOpen(g)}
+                              className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-foreground/[0.03]"
+                              aria-label={`Open ${g.label}`}
+                            >
                               <div className="flex items-center gap-3 text-foreground">
                                 <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
                                 <MessageCircle className="h-4 w-4" />
                                 <Send className="h-4 w-4" />
                               </div>
                               <Bookmark className="h-4 w-4 text-foreground" />
-                            </div>
+                            </button>
+
                           </motion.div>
                           );
                         };
@@ -1393,6 +1399,41 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
 
         {/* Detail side */}
         <div className="flex flex-col gap-5 p-6 md:p-8">
+          {(() => {
+            if (state.kind !== "image" || state.item.category !== "Social") return null;
+            const handle = state.item.id.startsWith("se") ? "edu_finn" : "swiftams";
+            const tagBase = handle === "edu_finn" ? "EduFinn" : "SwiftAMS";
+            const caption = `${state.item.label} — crafted for @${handle}. Sharing the visual language behind the brand. ✨`;
+            return (
+              <div className="flex items-center justify-between gap-3 border-b border-border/60 pb-4">
+                <a
+                  href={`https://www.instagram.com/${handle}/`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 hover:opacity-80"
+                >
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[2px]">
+                    <span className="flex h-full w-full items-center justify-center rounded-full bg-background text-sm font-bold text-foreground">
+                      {handle.charAt(0).toUpperCase()}
+                    </span>
+                  </span>
+                  <div>
+                    <p className="font-mono text-[12px] font-semibold text-foreground">@{handle}</p>
+                    <p className="text-[11px] text-muted-foreground">Instagram · Sponsored design</p>
+                  </div>
+                </a>
+                <a
+                  href={`https://www.instagram.com/${handle}/`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full bg-foreground px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-background hover:bg-foreground/85"
+                >
+                  Follow
+                </a>
+              </div>
+            );
+          })()}
+
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-eyebrow mb-2">
@@ -1401,6 +1442,19 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
               <h3 className="text-display text-2xl leading-tight md:text-3xl">
                 {state.kind === "image" ? state.item.label : state.item.title}
               </h3>
+              {state.kind === "image" && state.item.category === "Social" && (() => {
+                const handle = state.item.id.startsWith("se") ? "edu_finn" : "swiftams";
+                const tagBase = handle === "edu_finn" ? "EduFinn" : "SwiftAMS";
+                return (
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/80">
+                    <span className="font-semibold">@{handle}</span> {state.item.label} — part of an ongoing
+                    social series designed to drive engagement and brand recall. {" "}
+                    <span className="text-highlight">#{tagBase}</span>{" "}
+                    <span className="text-highlight">#Design</span>{" "}
+                    <span className="text-highlight">#SocialMedia</span>
+                  </p>
+                );
+              })()}
             </div>
             <button
               onClick={onClose}
@@ -1423,6 +1477,16 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
                 >
                   <Download size={13} /> Download
                 </a>
+                {state.item.category === "Social" && (
+                  <a
+                    href={`https://www.instagram.com/${state.item.id.startsWith("se") ? "edu_finn" : "swiftams"}/`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
+                  >
+                    View on Instagram ↗
+                  </a>
+                )}
                 <button
                   onClick={() => navigator.clipboard?.writeText(state.item.label)}
                   className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
@@ -1442,6 +1506,7 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
               </a>
             )}
           </div>
+
 
           {/* Comments */}
           <div className="mt-2 flex min-h-0 flex-1 flex-col gap-3">
