@@ -993,29 +993,64 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
               </div>
 
               {(() => {
-                const subgroups: { name: string | null; list: typeof items }[] =
+                const mobiles = GALLERY.filter((g) => g.category === "Mobile");
+                type SG = {
+                  name: string | null;
+                  script?: string;
+                  blurb?: string;
+                  list: typeof items;
+                  ratio?: string;
+                  grid?: string;
+                  split?: boolean;
+                };
+                const subgroups: SG[] =
                   cat === "Print"
                     ? [
-                        { name: "Brochure", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) <= 5) },
-                        { name: "Standee", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) >= 6) },
+                        { name: "Brochure", script: "Design", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) <= 5) },
+                        { name: "Standee", script: "Design", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) >= 6) },
+                      ]
+                    : cat === "UI/UX"
+                    ? [
+                        {
+                          name: "App",
+                          script: "Design",
+                          blurb:
+                            "With over four years of experience in the design industry, I specialize in crafting visual identities, intuitive user interfaces, and impactful print assets that help brands communicate effectively. My approach merges strategic thinking with creative execution — ensuring every project not only delivers aesthetic excellence but also achieves its intended business goals.",
+                          list: mobiles.slice(0, 2),
+                          ratio: "aspect-[9/16]",
+                          grid: "grid-cols-2",
+                          split: true,
+                        },
+                        {
+                          name: "Main",
+                          script: "Design",
+                          blurb:
+                            "A curated set of production-ready screens — onboarding, dashboards, lists, profiles and dense data views — designed for thumb-zone ergonomics and quick comprehension.",
+                          list: mobiles.slice(2),
+                          ratio: "aspect-[9/16]",
+                          grid: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+                          split: true,
+                        },
+                        {
+                          name: "Web",
+                          script: "Design",
+                          blurb:
+                            "I specialize in building responsive web platforms and data-rich dashboards. My web designs merge aesthetic appeal with robust information architecture, ensuring users can navigate complex datasets and operational tools with clarity and ease across all devices.",
+                          list: items,
+                          ratio: "aspect-[16/10]",
+                          grid: "grid-cols-1 md:grid-cols-2",
+                          split: true,
+                        },
                       ]
                     : [{ name: null, list: items }];
 
                 return (
-                  <div className="space-y-14">
-                    {subgroups.map((sg) => (
-                      <div key={sg.name ?? "all"}>
-                        {sg.name && (
-                          <div className="mb-5 flex items-baseline gap-3">
-                            <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-                              {sg.name}
-                            </h4>
-                            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
-                              Design
-                            </span>
-                          </div>
-                        )}
-                        <div className={`grid gap-4 ${cfg.grid}`}>
+                  <div className="space-y-20">
+                    {subgroups.map((sg) => {
+                      const ratio = sg.ratio ?? cfg.ratio;
+                      const grid = sg.grid ?? cfg.grid;
+                      const Grid = (
+                        <div className={`grid gap-4 ${grid}`}>
                           {sg.list.map((g, i) => (
                             <motion.button
                               key={g.id}
@@ -1029,7 +1064,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                               <Tilt strength={6}>
                                 <Placeholder
                                   label={g.label}
-                                  ratio={cfg.ratio}
+                                  ratio={ratio}
                                   variant={g.variant}
                                   badge={g.category}
                                   src={g.src}
@@ -1044,8 +1079,49 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                             </motion.button>
                           ))}
                         </div>
-                      </div>
-                    ))}
+                      );
+
+                      if (sg.split && sg.blurb) {
+                        return (
+                          <div key={sg.name ?? "all"} className="grid gap-10 md:grid-cols-12 md:gap-12">
+                            <div className="md:col-span-4 md:pt-2">
+                              <div className="mb-5 flex items-baseline gap-3">
+                                <h4 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                                  {sg.name}
+                                </h4>
+                                {sg.script && (
+                                  <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                                    {sg.script}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="max-w-sm text-[15px] leading-relaxed text-muted-foreground">
+                                {sg.blurb}
+                              </p>
+                            </div>
+                            <div className="md:col-span-8">{Grid}</div>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div key={sg.name ?? "all"}>
+                          {sg.name && (
+                            <div className="mb-5 flex items-baseline gap-3">
+                              <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                                {sg.name}
+                              </h4>
+                              {sg.script && (
+                                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                                  {sg.script}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          {Grid}
+                        </div>
+                      );
+                    })}
                   </div>
                 );
               })()}
