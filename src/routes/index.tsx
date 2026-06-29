@@ -102,9 +102,6 @@ const GALLERY: GalleryItem[] = [
   { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: wix("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
   { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
   { id: "b5", label: "Iksha Lab · Identity",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png") },
-  { id: "b6", label: "Logo One",               category: "Brand",  ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_d0a2d98c24d24a2eb2e759ed8b36cdc9~mv2.png") },
-  { id: "b7", label: "Identity Frame",         category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_13f27e29937649e5a45a527ea45a2ae6~mv2.png") },
-  { id: "b8", label: "Wordmark Study",         category: "Brand",  ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_7dfa5defb17a4db1a774e31052e6098e~mv2.png") },
 
   // Social Media — posters & campaign creatives (numbered, S-series, E-series)
   { id: "s1",  label: "Social Poster · 01",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
