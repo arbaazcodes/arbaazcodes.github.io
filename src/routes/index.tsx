@@ -744,35 +744,57 @@ function About() {
 /* ---------- Stats ---------- */
 
 function Stats() {
-  const stats = [
-    ["04", "Years of craft", Sparkles],
-    ["06", "Design disciplines", Layers],
-    ["15+", "Brands crafted", PenTool],
-    ["100%", "On-brand delivery", Briefcase],
-  ] as const;
+  const highlights = [
+    "Multidisciplinary across UI/UX, brand, print & motion",
+    "EdTech, CRM and corporate brand systems shipped",
+    "End-to-end: research, design, handoff & delivery",
+  ];
   return (
     <section className="py-12">
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        {stats.map(([k, v, Icon], i) => (
-          <motion.div
-            key={k}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, delay: i * 0.07 }}
-            className="card-white rounded-3xl p-6 transition-transform hover:-translate-y-0.5"
-          >
-            <div className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl text-[color:var(--highlight)]" style={{ background: "color-mix(in oklab, var(--highlight) 18%, transparent)" }}>
-              <Icon size={16} />
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="card-white rounded-3xl p-8 md:p-12"
+      >
+        <div className="grid items-center gap-10 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[color:var(--highlight)]" style={{ background: "color-mix(in oklab, var(--highlight) 14%, transparent)" }}>
+              <Sparkles size={14} />
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Experience</span>
             </div>
-            <p className="text-display text-4xl md:text-5xl">{k}</p>
-            <p className="text-eyebrow mt-2">{v}</p>
-          </motion.div>
-        ))}
-      </div>
+            <p className="text-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9]">
+              4<span className="text-highlight">+</span>
+            </p>
+            <p className="text-eyebrow mt-3">Years in the design industry</p>
+          </div>
+          <div className="md:col-span-7">
+            <p className="text-lg leading-relaxed text-foreground/85 md:text-xl">
+              Four years of hands-on craft across <em className="text-highlight not-italic font-medium">six design disciplines</em> — building identity systems, interfaces, social, print and motion for EdTech, CRM and corporate brands.
+            </p>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-1">
+              {highlights.map((h, i) => (
+                <motion.li
+                  key={h}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.15 + i * 0.08 }}
+                  className="flex items-start gap-3 text-sm text-foreground/80"
+                >
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--highlight)]" />
+                  <span>{h}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }
+
 
 
 /* ---------- Work (text-only, no placeholders per section) ---------- */
