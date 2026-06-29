@@ -856,7 +856,7 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
 
 /* ---------- Gallery (grouped by category, aligned & always-visible) ---------- */
 
-const CATEGORY_ORDER = ["Brand", "Social", "Print", "UI/UX", "Mobile"] as const;
+const CATEGORY_ORDER = ["Brand", "Social", "Print", "UI/UX"] as const;
 
 // Per-category visual settings — uniform ratio + grid so every tile aligns
 // and `object-contain` guarantees the full artwork stays visible.
