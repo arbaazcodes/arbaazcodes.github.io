@@ -502,7 +502,7 @@ function Hero() {
   const words = ["Multidisciplinary", "designer", "shaping", "brands,", "interfaces", "&", "stories."];
 
   return (
-    <section id="intro" ref={ref} className="relative min-h-[100svh] pt-36 pb-24 md:pt-44">
+    <section id="intro" ref={ref} className="relative pt-32 pb-16 md:pt-40 md:pb-20">
       <motion.div style={{ y, opacity: op }} className="relative grid gap-16 md:grid-cols-12 md:items-center">
         <div className="md:col-span-7">
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8 inline-flex items-center gap-2 rounded-full glass px-3 py-1.5">
