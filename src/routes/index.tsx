@@ -46,6 +46,7 @@ import logoAiSwift from "@/assets/logo-ai-swift.png.asset.json";
 import logoKsha from "@/assets/logo-ksha.png.asset.json";
 import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.json";
 import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
+import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
 
 const LOGOS: { name: string; src: string }[] = [
   { name: "Swift AMS", src: logoSwiftAms.url },
@@ -555,7 +556,7 @@ function Hero() {
           <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
             <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10">
               <img
-                src="/__l5e/assets-v1/eef5aa26-c27d-4d1e-bb86-27daff9c4fa2/arbaaz-portrait.png"
+                src={arbaazHero.url}
                 alt="Arbaaz K. — portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
@@ -679,19 +680,32 @@ function About() {
       <div className="grid gap-16 md:grid-cols-12">
         <div className="md:col-span-4">
           <p className="text-eyebrow mb-6">/ About</p>
-          <Tilt strength={8} className="relative aspect-square w-full max-w-[260px]">
-            <div className="absolute inset-0 rounded-3xl placeholder-grad" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div animate={{ rotate: 360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className="h-full w-full">
-                <svg viewBox="0 0 100 100" className="h-full w-full fill-foreground/85">
-                  <defs><path id="c" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" /></defs>
-                  <text fontSize="7" letterSpacing="2.5" className="font-mono">
-                    <textPath href="#c">DESIGN · CRAFT · MOTION · DETAIL · DESIGN · CRAFT · MOTION · DETAIL · </textPath>
-                  </text>
-                </svg>
-              </motion.div>
-              <span className="absolute font-display text-3xl text-foreground">✶</span>
+          <Tilt strength={10} className="relative aspect-[4/5] w-full max-w-[320px]">
+            <div className="absolute inset-0 overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring">
+              <img
+                src={arbaazHero.url}
+                alt="Arbaaz K. — about portrait"
+                className="absolute inset-0 h-full w-full object-cover object-top"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent p-4 text-white">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/75">About</p>
+                <p className="font-display text-xl">Arbaaz K.</p>
+              </div>
             </div>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+              className="absolute -right-6 -top-6 h-20 w-20"
+              style={{ transform: "translateZ(60px)" }}
+            >
+              <svg viewBox="0 0 100 100" className="h-full w-full fill-foreground">
+                <defs><path id="cabout" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" /></defs>
+                <text fontSize="9" letterSpacing="2" className="font-mono">
+                  <textPath href="#cabout">DESIGN · CRAFT · MOTION · </textPath>
+                </text>
+              </svg>
+            </motion.div>
+            <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
           </Tilt>
         </div>
 
