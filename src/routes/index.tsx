@@ -556,7 +556,7 @@ function Hero() {
           <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
             <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10">
               <img
-                src="/__l5e/assets-v1/eef5aa26-c27d-4d1e-bb86-27daff9c4fa2/arbaaz-portrait.png"
+                src={arbaazHero.url}
                 alt="Arbaaz K. — portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
