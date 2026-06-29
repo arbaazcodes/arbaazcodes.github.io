@@ -46,6 +46,7 @@ import logoAiSwift from "@/assets/logo-ai-swift.png.asset.json";
 import logoKsha from "@/assets/logo-ksha.png.asset.json";
 import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.json";
 import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
+import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
 
 const LOGOS: { name: string; src: string }[] = [
   { name: "Swift AMS", src: logoSwiftAms.url },
