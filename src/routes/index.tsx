@@ -6,7 +6,7 @@ import {
   Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
-  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom
+  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark
 } from "lucide-react";
 
 
