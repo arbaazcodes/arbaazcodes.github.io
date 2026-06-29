@@ -133,7 +133,7 @@ const GALLERY: GalleryItem[] = [
   // UI / UX — web platforms & dashboards
   { id: "u1", label: "Marketing Landing",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: wix("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png") },
   { id: "u2", label: "MacBook · Showcase",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: wix("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png") },
-  { id: "u3", label: "Frame · UI Detail",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 3, src: wix("89f4f8_1a6d5361f50e4988912ce154eec59bb4~mv2.png") },
+  
 
   // Mobile App — full app screens
   { id: "m1", label: "Mobile App · Hero",      category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png") },
