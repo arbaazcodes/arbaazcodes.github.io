@@ -1110,14 +1110,20 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                                 />
                               )}
                             </button>
-                            <div className="flex items-center justify-between px-3 py-2">
+                            <button
+                              type="button"
+                              onClick={() => onOpen(g)}
+                              className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-foreground/[0.03]"
+                              aria-label={`Open ${g.label}`}
+                            >
                               <div className="flex items-center gap-3 text-foreground">
                                 <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
                                 <MessageCircle className="h-4 w-4" />
                                 <Send className="h-4 w-4" />
                               </div>
                               <Bookmark className="h-4 w-4 text-foreground" />
-                            </div>
+                            </button>
+
                           </motion.div>
                           );
                         };
