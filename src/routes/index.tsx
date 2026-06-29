@@ -1068,69 +1068,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                     {subgroups.map((sg) => {
                       const ratio = sg.ratio ?? cfg.ratio;
                       const grid = sg.grid ?? cfg.grid;
-                      const Grid = cat === "Social" ? (() => {
-                        const InstaCard = ({ g, i, className = "", imgClass = "aspect-square" }: { g: typeof sg.list[number]; i: number; className?: string; imgClass?: string }) => (
-                          <motion.button
-                            key={g.id}
-                            onClick={() => onOpen(g)}
-                            initial={{ opacity: 0, y: 18 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-40px" }}
-                            transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
-                            className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-md border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md ${className}`}
-                          >
-                            <div className="flex items-center justify-between border-b border-border/70 px-3 py-2">
-                              <div className="flex items-center gap-2">
-                                <span className="inline-block h-6 w-6 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1.5px]">
-                                  <span className="block h-full w-full rounded-full bg-white" />
-                                </span>
-                                <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic" }} className="text-sm text-foreground">Instagram</span>
-                              </div>
-                              <span className="text-foreground/70">⋯</span>
-                            </div>
-                            <div className={`relative ${imgClass} flex-1 overflow-hidden bg-muted/30`}>
-                              <img
-                                src={g.src}
-                                alt={g.label}
-                                loading="lazy"
-                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              />
-                            </div>
-                            <div className="flex items-center justify-between px-3 py-2">
-                              <div className="flex items-center gap-3 text-foreground">
-                                <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
-                                <MessageCircle className="h-4 w-4" />
-                                <Send className="h-4 w-4" />
-                              </div>
-                              <Bookmark className="h-4 w-4 text-foreground" />
-                            </div>
-                          </motion.button>
-                        );
-                        const tall = sg.list[0];
-                        const topRight = sg.list.slice(1, 9);
-                        const bottom = sg.list.slice(9);
-                        return (
-                          <div className="space-y-4">
-                            <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-                              {tall && (
-                                <div className="col-span-2 row-span-2 lg:col-span-1">
-                                  <InstaCard g={tall} i={0} className="h-full" imgClass="aspect-[9/19]" />
-                                </div>
-                              )}
-                              {topRight.map((g, i) => (
-                                <InstaCard key={g.id} g={g} i={i + 1} />
-                              ))}
-                            </div>
-                            {bottom.length > 0 && (
-                              <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-                                {bottom.map((g, i) => (
-                                  <InstaCard key={g.id} g={g} i={i + 9} />
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })() : (
+                      const Grid = (
                         <div className={`grid gap-4 ${grid}`}>
                           {sg.list.map((g, i) => (
                             <motion.button
@@ -1161,6 +1099,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                           ))}
                         </div>
                       );
+
 
 
                       if (sg.split && sg.blurb) {
