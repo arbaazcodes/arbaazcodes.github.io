@@ -746,9 +746,9 @@ function About() {
 function Stats() {
   const stats = [
     ["04", "Years of craft", Sparkles],
-    ["60+", "Shipped projects", Briefcase],
-    ["15", "Brand identities", PenTool],
-    ["100%", "On-brand delivery", Layers],
+    ["06", "Design disciplines", Layers],
+    ["15+", "Brands crafted", PenTool],
+    ["100%", "On-brand delivery", Briefcase],
   ] as const;
   return (
     <section className="py-12">
