@@ -1069,117 +1069,68 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                       const ratio = sg.ratio ?? cfg.ratio;
                       const grid = sg.grid ?? cfg.grid;
                       const Grid = cat === "Social" ? (() => {
-                        const handleOf = (id: string) => (id.startsWith("se") ? "edu_finn" : "swiftams");
-                        const InstaCard = ({ g, i, className = "", imgClass = "aspect-square" }: { g: typeof sg.list[number]; i: number; className?: string; imgClass?: string }) => {
-                          const handle = handleOf(g.id);
-                          return (
-                          <motion.div
+                        const InstaCard = ({ g, i, className = "", imgClass = "aspect-square" }: { g: typeof sg.list[number]; i: number; className?: string; imgClass?: string }) => (
+                          <motion.button
                             key={g.id}
+                            onClick={() => onOpen(g)}
                             initial={{ opacity: 0, y: 18 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-40px" }}
                             transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
-                            className={`group relative flex flex-col overflow-hidden rounded-md border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md ${className}`}
+                            className={`group relative flex cursor-pointer flex-col overflow-hidden rounded-md border border-border bg-white text-left shadow-sm transition-shadow hover:shadow-md ${className}`}
                           >
                             <div className="flex items-center justify-between border-b border-border/70 px-3 py-2">
-                              <a
-                                href={`https://www.instagram.com/${handle}/`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="flex items-center gap-2 hover:opacity-80"
-                              >
+                              <div className="flex items-center gap-2">
                                 <span className="inline-block h-6 w-6 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[1.5px]">
                                   <span className="block h-full w-full rounded-full bg-white" />
                                 </span>
-                                <span className="font-mono text-[11px] font-semibold text-foreground">@{handle}</span>
-                              </a>
+                                <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic" }} className="text-sm text-foreground">Instagram</span>
+                              </div>
                               <span className="text-foreground/70">⋯</span>
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => onOpen(g)}
-                              className={`relative ${imgClass} flex-1 cursor-pointer overflow-hidden bg-gradient-to-br from-muted/40 to-muted/10`}
-                            >
-                              {g.src && (
-                                <img
-                                  src={g.src}
-                                  alt={g.label}
-                                  loading="lazy"
-                                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                />
-                              )}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => onOpen(g)}
-                              className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-foreground/[0.03]"
-                              aria-label={`Open ${g.label}`}
-                            >
+                            <div className={`relative ${imgClass} flex-1 overflow-hidden bg-muted/30`}>
+                              <img
+                                src={g.src}
+                                alt={g.label}
+                                loading="lazy"
+                                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
+                            <div className="flex items-center justify-between px-3 py-2">
                               <div className="flex items-center gap-3 text-foreground">
                                 <Heart className="h-4 w-4 text-red-500" fill="currentColor" />
                                 <MessageCircle className="h-4 w-4" />
                                 <Send className="h-4 w-4" />
                               </div>
                               <Bookmark className="h-4 w-4 text-foreground" />
-                            </button>
-
-                          </motion.div>
-                          );
-                        };
-                        // Show latest 10 posts feed total, mixed from both handles
-                        const swift = sg.list.filter((g) => !g.id.startsWith("se"));
-                        const edu = sg.list.filter((g) => g.id.startsWith("se"));
-                        const feed: typeof sg.list = [];
-                        for (let i = 0; i < 10; i++) {
-                          const pool = i % 2 === 0 ? swift : edu;
-                          const item = pool[Math.floor(i / 2)];
-                          if (item) feed.push(item);
-                        }
-                        // Pad if one profile is shorter
-                        const remaining = sg.list.filter((g) => !feed.includes(g)).slice(0, 10 - feed.length);
-                        const posts = [...feed, ...remaining].slice(0, 10);
-                        const profiles = [
-                          { handle: "swiftams", name: "Swift AMS", desc: "AI-driven asset management" },
-                          { handle: "edu_finn", name: "Edu Finn", desc: "Education that empowers" },
-                        ];
+                            </div>
+                          </motion.button>
+                        );
+                        const tall = sg.list[0];
+                        const topRight = sg.list.slice(1, 9);
+                        const bottom = sg.list.slice(9);
                         return (
-                          <div className="space-y-8">
-                            <div className="grid gap-4 sm:grid-cols-2">
-                              {profiles.map((p) => (
-                                <a
-                                  key={p.handle}
-                                  href={`https://www.instagram.com/${p.handle}/`}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[2px]">
-                                      <span className="flex h-full w-full items-center justify-center rounded-full bg-white text-base font-bold text-foreground">
-                                        {p.name.charAt(0)}
-                                      </span>
-                                    </span>
-                                    <div>
-                                      <p className="font-mono text-[12px] font-semibold text-foreground">@{p.handle}</p>
-                                      <p className="text-xs text-muted-foreground">{p.desc}</p>
-                                    </div>
-                                  </div>
-                                  <span className="rounded-full bg-foreground px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-background transition-transform group-hover:scale-105">
-                                    Follow
-                                  </span>
-                                </a>
-                              ))}
-                            </div>
+                          <div className="space-y-4">
                             <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-                              {posts.map((g, i) => (
-                                <InstaCard key={g.id} g={g} i={i} />
+                              {tall && (
+                                <div className="col-span-2 row-span-2 lg:col-span-1">
+                                  <InstaCard g={tall} i={0} className="h-full" imgClass="aspect-[9/19]" />
+                                </div>
+                              )}
+                              {topRight.map((g, i) => (
+                                <InstaCard key={g.id} g={g} i={i + 1} />
                               ))}
                             </div>
+                            {bottom.length > 0 && (
+                              <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+                                {bottom.map((g, i) => (
+                                  <InstaCard key={g.id} g={g} i={i + 9} />
+                                ))}
+                              </div>
+                            )}
                           </div>
                         );
                       })() : (
-
                         <div className={`grid gap-4 ${grid}`}>
                           {sg.list.map((g, i) => (
                             <motion.button
@@ -1399,41 +1350,6 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
 
         {/* Detail side */}
         <div className="flex flex-col gap-5 p-6 md:p-8">
-          {(() => {
-            if (state.kind !== "image" || state.item.category !== "Social") return null;
-            const handle = state.item.id.startsWith("se") ? "edu_finn" : "swiftams";
-            const tagBase = handle === "edu_finn" ? "EduFinn" : "SwiftAMS";
-            const caption = `${state.item.label} — crafted for @${handle}. Sharing the visual language behind the brand. ✨`;
-            return (
-              <div className="flex items-center justify-between gap-3 border-b border-border/60 pb-4">
-                <a
-                  href={`https://www.instagram.com/${handle}/`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 hover:opacity-80"
-                >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-[2px]">
-                    <span className="flex h-full w-full items-center justify-center rounded-full bg-background text-sm font-bold text-foreground">
-                      {handle.charAt(0).toUpperCase()}
-                    </span>
-                  </span>
-                  <div>
-                    <p className="font-mono text-[12px] font-semibold text-foreground">@{handle}</p>
-                    <p className="text-[11px] text-muted-foreground">Instagram · Sponsored design</p>
-                  </div>
-                </a>
-                <a
-                  href={`https://www.instagram.com/${handle}/`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full bg-foreground px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-background hover:bg-foreground/85"
-                >
-                  Follow
-                </a>
-              </div>
-            );
-          })()}
-
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-eyebrow mb-2">
@@ -1442,19 +1358,6 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
               <h3 className="text-display text-2xl leading-tight md:text-3xl">
                 {state.kind === "image" ? state.item.label : state.item.title}
               </h3>
-              {state.kind === "image" && state.item.category === "Social" && (() => {
-                const handle = state.item.id.startsWith("se") ? "edu_finn" : "swiftams";
-                const tagBase = handle === "edu_finn" ? "EduFinn" : "SwiftAMS";
-                return (
-                  <p className="mt-3 text-sm leading-relaxed text-foreground/80">
-                    <span className="font-semibold">@{handle}</span> {state.item.label} — part of an ongoing
-                    social series designed to drive engagement and brand recall. {" "}
-                    <span className="text-highlight">#{tagBase}</span>{" "}
-                    <span className="text-highlight">#Design</span>{" "}
-                    <span className="text-highlight">#SocialMedia</span>
-                  </p>
-                );
-              })()}
             </div>
             <button
               onClick={onClose}
@@ -1477,16 +1380,6 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
                 >
                   <Download size={13} /> Download
                 </a>
-                {state.item.category === "Social" && (
-                  <a
-                    href={`https://www.instagram.com/${state.item.id.startsWith("se") ? "edu_finn" : "swiftams"}/`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
-                  >
-                    View on Instagram ↗
-                  </a>
-                )}
                 <button
                   onClick={() => navigator.clipboard?.writeText(state.item.label)}
                   className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
@@ -1506,7 +1399,6 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
               </a>
             )}
           </div>
-
 
           {/* Comments */}
           <div className="mt-2 flex min-h-0 flex-1 flex-col gap-3">
