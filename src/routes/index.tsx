@@ -846,12 +846,24 @@ function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
 }
 
 
-/* ---------- Gallery (single home grid, clickable) ---------- */
+/* ---------- Gallery (grouped by category, aligned & always-visible) ---------- */
+
+const CATEGORY_ORDER = ["Brand", "Social", "Print", "UI/UX", "Mobile"] as const;
+
+// Per-category visual settings — uniform ratio + grid so every tile aligns
+// and `object-contain` guarantees the full artwork stays visible.
+const CATEGORY_CONFIG: Record<string, { ratio: string; grid: string; fit: "cover" | "contain" }> = {
+  Brand:   { ratio: "aspect-[4/3]",  grid: "grid-cols-2 md:grid-cols-3",                fit: "contain" },
+  Social:  { ratio: "aspect-[4/5]",  grid: "grid-cols-2 md:grid-cols-4 lg:grid-cols-5", fit: "contain" },
+  Print:   { ratio: "aspect-[3/4]",  grid: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4", fit: "contain" },
+  "UI/UX": { ratio: "aspect-[16/10]", grid: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3", fit: "contain" },
+  Mobile:  { ratio: "aspect-[9/16]", grid: "grid-cols-2 md:grid-cols-4 lg:grid-cols-5", fit: "contain" },
+};
 
 function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
-  const categories = ["All", "Brand", "Social", "Print", "UI/UX", "Mobile", "Motion"];
-  const [filter, setFilter] = useState("All");
-  const items = filter === "All" ? GALLERY : GALLERY.filter((g) => g.category === filter);
+  const categories = ["All", ...CATEGORY_ORDER] as const;
+  const [filter, setFilter] = useState<(typeof categories)[number]>("All");
+  const visibleCats = filter === "All" ? CATEGORY_ORDER : [filter as (typeof CATEGORY_ORDER)[number]];
 
   return (
     <section id="gallery" className="py-28 md:py-40">
@@ -859,7 +871,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
         <div>
           <p className="text-eyebrow mb-4">/ Gallery</p>
           <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Tap any tile to <em className="text-highlight italic">preview</em>, download or comment.
+            Organised by craft — tap any tile to <em className="text-highlight italic">preview</em>, download or comment.
           </h2>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -879,27 +891,55 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-        {items.map((g, i) => (
-          <motion.button
-            key={g.id}
-            onClick={() => onOpen(g)}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.5, delay: (i % 8) * 0.04 }}
-            className="group relative block cursor-pointer text-left"
-          >
-            <Tilt strength={8}>
-              <Placeholder label={g.label} ratio={g.ratio} variant={g.variant} badge={g.category} src={g.src} fit={g.category === "Brand" || g.category === "Mobile" ? "contain" : "cover"} />
-            </Tilt>
-            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
-            <div className="mt-3 flex items-center justify-between gap-3">
-              <p className="text-sm">{g.label}</p>
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">View →</span>
+      <div className="space-y-20">
+        {visibleCats.map((cat) => {
+          const cfg = CATEGORY_CONFIG[cat];
+          const items = GALLERY.filter((g) => g.category === cat);
+          if (items.length === 0) return null;
+          return (
+            <div key={cat} id={`gallery-${cat.toLowerCase().replace("/", "-")}`}>
+              <div className="mb-6 flex items-end justify-between gap-4 border-b border-border/60 pb-4">
+                <div>
+                  <p className="text-eyebrow mb-2">/ {cat}</p>
+                  <h3 className="text-display text-[clamp(1.4rem,3vw,2.25rem)]">{cat} work</h3>
+                </div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  {String(items.length).padStart(2, "0")} pieces
+                </span>
+              </div>
+
+              <div className={`grid gap-4 ${cfg.grid}`}>
+                {items.map((g, i) => (
+                  <motion.button
+                    key={g.id}
+                    onClick={() => onOpen(g)}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
+                    className="group relative block cursor-pointer text-left"
+                  >
+                    <Tilt strength={6}>
+                      <Placeholder
+                        label={g.label}
+                        ratio={cfg.ratio}
+                        variant={g.variant}
+                        badge={g.category}
+                        src={g.src}
+                        fit={cfg.fit}
+                      />
+                    </Tilt>
+                    <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
+                    <div className="mt-3 flex items-center justify-between gap-3">
+                      <p className="truncate text-sm">{g.label}</p>
+                      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">View →</span>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
             </div>
-          </motion.button>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
