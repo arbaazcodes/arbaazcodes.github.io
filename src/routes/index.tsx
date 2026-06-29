@@ -1069,7 +1069,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                       const ratio = sg.ratio ?? cfg.ratio;
                       const grid = sg.grid ?? cfg.grid;
                       const Grid = cat === "Social" ? (() => {
-                        const InstaCard = ({ g, i, className = "", imgClass = "aspect-square" }: { g: typeof sg.list[number]; i: number; className?: string; imgClass?: string }) => (
+                        const InstaCard = ({ g, i, className = "", imgClass = "aspect-[4/5]" }: { g: typeof sg.list[number]; i: number; className?: string; imgClass?: string }) => (
                           <motion.button
                             key={g.id}
                             onClick={() => onOpen(g)}
@@ -1088,7 +1088,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                               </div>
                               <span className="text-foreground/70">⋯</span>
                             </div>
-                            <div className={`relative ${imgClass} flex-1 overflow-hidden bg-muted/30`}>
+                            <div className={`relative ${imgClass} w-full overflow-hidden bg-neutral-100`}>
                               <img
                                 src={g.src}
                                 alt={g.label}
@@ -1106,28 +1106,11 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                             </div>
                           </motion.button>
                         );
-                        const tall = sg.list[0];
-                        const topRight = sg.list.slice(1, 9);
-                        const bottom = sg.list.slice(9);
                         return (
-                          <div className="space-y-4">
-                            <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-                              {tall && (
-                                <div className="col-span-2 row-span-2 lg:col-span-1">
-                                  <InstaCard g={tall} i={0} className="h-full" imgClass="aspect-[9/19]" />
-                                </div>
-                              )}
-                              {topRight.map((g, i) => (
-                                <InstaCard key={g.id} g={g} i={i + 1} />
-                              ))}
-                            </div>
-                            {bottom.length > 0 && (
-                              <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
-                                {bottom.map((g, i) => (
-                                  <InstaCard key={g.id} g={g} i={i + 9} />
-                                ))}
-                              </div>
-                            )}
+                          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                            {sg.list.map((g, i) => (
+                              <InstaCard key={g.id} g={g} i={i} />
+                            ))}
                           </div>
                         );
                       })() : (
