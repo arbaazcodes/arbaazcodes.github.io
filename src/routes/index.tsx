@@ -199,6 +199,7 @@ function Portfolio() {
 
   return (
     <div className="grain relative min-h-screen bg-background text-foreground">
+      <ScrollProgress />
       <AmbientOrbs />
       <Cursor />
       <Nav active={active} dark={dark} setDark={setDark} />
@@ -206,12 +207,13 @@ function Portfolio() {
       <main className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12 lg:px-20">
         <Hero />
         <Marquee items={LOGOS} />
+        <BigTextBanner text="Design · Direction · Detail" />
         <About />
         <Stats />
         <Work />
         <Gallery onOpen={(item) => setLightbox({ kind: "image", item })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
-        
+        <BigTextBanner text="Available for work — 2026" />
         <Contact />
 
         <Footer />
@@ -221,6 +223,39 @@ function Portfolio() {
         {lightbox && <Lightbox state={lightbox} onClose={() => setLightbox(null)} />}
       </AnimatePresence>
     </div>
+  );
+}
+
+/* ---------- Scroll progress + editorial marquee banner ---------- */
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const width = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  return (
+    <motion.div
+      style={{ width }}
+      className="fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-foreground/70"
+      aria-hidden
+    />
+  );
+}
+
+function BigTextBanner({ text }: { text: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const x = useTransform(scrollYProgress, [0, 1], ["8%", "-18%"]);
+  const loop = Array.from({ length: 4 });
+  return (
+    <section ref={ref} aria-hidden className="relative -mx-6 my-16 overflow-hidden py-6 md:-mx-12 md:my-24 lg:-mx-20">
+      <motion.div style={{ x }} className="flex whitespace-nowrap gap-14 text-display text-[clamp(3rem,10vw,9rem)] leading-[0.95] text-foreground/[0.08]">
+        {loop.map((_, i) => (
+          <span key={i} className="inline-flex items-center gap-14">
+            {text}
+            <span className="inline-block h-3 w-3 rounded-full bg-highlight/60 align-middle" />
+          </span>
+        ))}
+      </motion.div>
+    </section>
   );
 }
 
@@ -1385,10 +1420,12 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
 
 
 function Contact() {
+  const ref = useRef<HTMLElement>(null);
+  const words = ["Have", "a", "project", "in", "mind?"];
   return (
-    <section id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 p-8 md:my-24 md:p-16">
+    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 p-8 md:my-24 md:p-16">
       <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb" aria-hidden />
-      <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-foreground/[0.06] blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
+      <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-highlight/20 blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
 
       <div className="relative grid gap-12 md:grid-cols-12">
         <div className="md:col-span-5">
@@ -1402,9 +1439,30 @@ function Contact() {
           </div>
         </div>
         <div className="md:col-span-7">
-          <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)]">
-            Have a project? <br />
-            <a href="mailto:arbaazsince2002@gmail.com" className="link-underline">Let's make it.</a>
+          <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02]">
+            {words.map((w, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ delay: i * 0.06, duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                className="mr-[0.2em] inline-block"
+              >
+                {w}
+              </motion.span>
+            ))}
+            <br />
+            <motion.a
+              href="mailto:arbaazsince2002@gmail.com"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ delay: words.length * 0.06 + 0.1, duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+              className="link-underline italic text-highlight"
+            >
+              Let's make it.
+            </motion.a>
           </h2>
 
           <div className="mt-12 grid gap-8 md:grid-cols-2">
