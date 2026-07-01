@@ -72,9 +72,10 @@ const BROCHURES: Brochure[] = [
   { id: "edufinn", name: "Edu Finn", tagline: "EdTech · Program Brochure",
     cover: brochurePageUrl("edufinn-1.jpg"),
     pages: [2,3,4].map((n)=>brochurePageUrl(`edufinn-${n}.jpg`)) },
-  { id: "swiftams", name: "Swift AMS", tagline: "CRM · Product Brochure",
-    cover: brochurePageUrl("swiftams-1.jpg"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`swiftams-${n}.jpg`)) },
+  { id: "swiftams", name: "Swift AMS", tagline: "SaaS · Product Brochure",
+    cover: brochurePageUrl("swiftams_1.jpg"),
+    pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`swiftams_${n}.jpg`)) },
+
 ];
 
 const LOGOS: { name: string; src: string }[] = [
