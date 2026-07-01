@@ -18,9 +18,26 @@ if (!existsSync(indexPath)) {
 }
 
 const html = readFileSync(indexPath, "utf8");
+const requiredRootFiles = [
+  "index.html",
+  "404.html",
+  ".nojekyll",
+  "favicon.ico",
+  "favicon-16x16.png",
+  "favicon-32x32.png",
+  "apple-touch-icon.png",
+  "android-chrome-192x192.png",
+  "android-chrome-512x512.png",
+];
 
 if (html.includes('/src/main.tsx')) {
   throw new Error("dist/index.html still references /src/main.tsx instead of the built bundle.");
+}
+
+const missingRootFiles = requiredRootFiles.filter((file) => !existsSync(join(distDir, file)));
+
+if (missingRootFiles.length) {
+  throw new Error(`GitHub Pages artifact is missing required root file(s):\n${missingRootFiles.join("\n")}`);
 }
 
 if (!existsSync(join(distDir, ".nojekyll"))) {
@@ -36,7 +53,7 @@ if (readFileSync(join(distDir, "404.html"), "utf8") !== html) {
 }
 
 const staticRefs = [
-  ...html.matchAll(/(?:src|href)=["'](\/(?:assets|assets-cdn)\/[^"']+)["']/g),
+  ...html.matchAll(/(?:src|href)=["'](\/(?:assets|assets-cdn|favicon|apple-touch-icon|android-chrome)[^"']+)["']/g),
 ].map((match) => match[1]);
 
 const missing = staticRefs.filter((ref) => !existsSync(join(distDir, ref.slice(1))));
@@ -80,9 +97,14 @@ if (missingAssetCdn.length) {
 }
 
 const jsRefs = staticRefs.filter((ref) => ref.startsWith("/assets/") && ref.endsWith(".js"));
+const cssRefs = staticRefs.filter((ref) => ref.startsWith("/assets/") && ref.endsWith(".css"));
 
 if (!jsRefs.length) {
   throw new Error("dist/index.html does not reference a built JavaScript module in /assets.");
+}
+
+if (!cssRefs.length) {
+  throw new Error("dist/index.html does not reference a built stylesheet in /assets.");
 }
 
 const publicAssetCount = walk("public/assets-cdn").length;
