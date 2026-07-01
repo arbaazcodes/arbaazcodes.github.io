@@ -1685,24 +1685,75 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
 
 /* ---------- Lightbox: image (download + comment) OR video (inline) ---------- */
 
-function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClose: () => void }) {
+function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxState>; onClose: () => void; onNavigate?: (dir: -1 | 1) => void }) {
   const [comments, setComments] = useState<string[]>([]);
   const [draft, setDraft] = useState("");
+  const touchStartX = useRef<number | null>(null);
 
+  const activeItemId = state.kind === "image" ? state.item.id : state.item.id;
   // reset comments when item changes
-  useEffect(() => { setComments([]); setDraft(""); }, [state]);
+  useEffect(() => { setComments([]); setDraft(""); }, [activeItemId]);
+
+  // Keyboard arrows for prev/next
+  useEffect(() => {
+    if (!onNavigate || state.kind !== "image" || !state.list) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); onNavigate(-1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); onNavigate(1); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onNavigate, state]);
+
+  // Preload adjacent images
+  useEffect(() => {
+    if (state.kind !== "image" || !state.list || state.index == null) return;
+    const preload = (i: number) => {
+      const it = state.list?.[i];
+      if (it?.src) { const img = new Image(); img.src = it.src; }
+    };
+    preload(state.index + 1);
+    preload(state.index - 1);
+  }, [state]);
+
+  const hasNav = state.kind === "image" && !!state.list && state.list.length > 1;
 
   return (
     <motion.div
-      key={state.kind === "image" ? state.item.id : state.item.id}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
       className="fixed inset-0 z-[80] flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
+      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => {
+        if (touchStartX.current == null || !hasNav || !onNavigate) return;
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        touchStartX.current = null;
+        if (Math.abs(dx) > 50) onNavigate(dx < 0 ? 1 : -1);
+      }}
     >
       <div className="absolute inset-0 bg-background/85 backdrop-blur-xl" />
+
+      {hasNav && (
+        <>
+          <button
+            aria-label="Previous"
+            onClick={(e) => { e.stopPropagation(); onNavigate?.(-1); }}
+            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 backdrop-blur hover:bg-foreground hover:text-background md:left-6"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            aria-label="Next"
+            onClick={(e) => { e.stopPropagation(); onNavigate?.(1); }}
+            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 backdrop-blur hover:bg-foreground hover:text-background md:right-6"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </>
+      )}
 
       <motion.div
         initial={{ scale: 0.92, y: 20 }}
@@ -1716,14 +1767,30 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
         <div className="relative bg-black/40">
           {state.kind === "image" ? (
             <div className="relative h-full min-h-[280px]">
-              <Placeholder
-                label={state.item.label}
-                ratio="aspect-[4/3] md:aspect-auto md:h-full"
-                variant={state.item.variant}
-                badge={state.item.category}
-                src={state.item.src}
-                fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
-              />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={state.item.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="h-full"
+                >
+                  <Placeholder
+                    label={state.item.label}
+                    ratio="aspect-[4/3] md:aspect-auto md:h-full"
+                    variant={state.item.variant}
+                    badge={state.item.category}
+                    src={state.item.src}
+                    fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
+                  />
+                </motion.div>
+              </AnimatePresence>
+              {hasNav && state.index != null && state.list && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur">
+                  {String(state.index + 1).padStart(2, "0")} / {String(state.list.length).padStart(2, "0")}
+                </div>
+              )}
             </div>
           ) : (
             <div className="relative aspect-video w-full md:aspect-auto md:h-full md:min-h-[360px]">
