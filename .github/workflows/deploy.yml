@@ -1,8 +1,9 @@
 name: Deploy to GitHub Pages
 
+# Manual-only deployment. This workflow NEVER runs on push, merge, or PR.
+# It runs only when explicitly dispatched from the GitHub Actions UI (or API)
+# against the `main` branch, after the user says "Deploy to Production".
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
