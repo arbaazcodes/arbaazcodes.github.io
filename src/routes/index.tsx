@@ -1110,6 +1110,153 @@ const CATEGORY_CONFIG: Record<
   },
 };
 
+/* ---------- Brochure — front poster + flipbook that opens like a book ---------- */
+
+function BrochureBook({
+  cover,
+  pages,
+  onOpen,
+}: {
+  cover: GalleryItem;
+  pages: GalleryItem[];
+  onOpen: (item: GalleryItem) => void;
+}) {
+  const [opened, setOpened] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const [dir, setDir] = useState<1 | -1>(1);
+  const total = pages.length;
+
+  const go = (n: number) => {
+    if (n < 0 || n >= total) return;
+    setDir(n > idx ? 1 : -1);
+    setIdx(n);
+  };
+
+  return (
+    <div className="mx-auto max-w-5xl">
+      {/* Front poster (main image) */}
+      <div className="mx-auto mb-14 max-w-xl">
+        <motion.button
+          onClick={() => onOpen(cover)}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7 }}
+          whileHover={{ y: -6 }}
+          className="group relative block w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/10"
+        >
+          <div className="aspect-[3/2] w-full bg-black">
+            <img
+              src={cover.src}
+              alt={cover.label}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/50 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5 text-white">
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Brochure · Front Poster</span>
+            <span className="rounded-full bg-white/95 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-black">Preview</span>
+          </div>
+        </motion.button>
+      </div>
+
+      {/* Book viewer */}
+      <div className="mb-5 text-center">
+        <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
+          Full brochure — opens like a book
+        </p>
+      </div>
+
+      <div className="relative mx-auto w-full max-w-3xl" style={{ perspective: 2400 }}>
+        <div
+          className="relative aspect-[3/2] w-full rounded-2xl bg-black shadow-[0_30px_80px_-20px_rgba(0,0,0,0.45)]"
+          style={{ transformStyle: "preserve-3d" }}
+        >
+          {/* spine */}
+          <div className="pointer-events-none absolute inset-y-4 left-1/2 z-30 w-[2px] -translate-x-1/2 bg-black/60" />
+
+          <AnimatePresence mode="wait" initial={false} custom={dir}>
+            {!opened ? (
+              <motion.button
+                key="cover"
+                onClick={() => setOpened(true)}
+                initial={{ rotateY: -180, opacity: 0 }}
+                animate={{ rotateY: 0, opacity: 1 }}
+                exit={{ rotateY: -160, opacity: 0 }}
+                transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
+                whileHover={{ rotateY: -6 }}
+                style={{ transformOrigin: "left center", transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
+                className="group absolute inset-0 overflow-hidden rounded-2xl"
+              >
+                <img src={cover.src} alt="Brochure cover" className="h-full w-full object-cover" />
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-2 bg-black/40" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-6 py-2.5 font-mono text-[10px] uppercase tracking-[0.35em] text-black shadow-xl group-hover:bg-highlight group-hover:text-white transition-colors">
+                  Open Book →
+                </div>
+              </motion.button>
+            ) : (
+              <motion.button
+                key={idx}
+                onClick={() => onOpen(pages[idx])}
+                custom={dir}
+                initial={{ rotateY: dir === 1 ? 100 : -100, opacity: 0 }}
+                animate={{ rotateY: 0, opacity: 1 }}
+                exit={{ rotateY: dir === 1 ? -100 : 100, opacity: 0 }}
+                transition={{ duration: 0.75, ease: [0.65, 0, 0.35, 1] }}
+                style={{
+                  transformOrigin: dir === 1 ? "left center" : "right center",
+                  transformStyle: "preserve-3d",
+                  backfaceVisibility: "hidden",
+                }}
+                className="absolute inset-0 overflow-hidden rounded-2xl"
+              >
+                <img src={pages[idx].src} alt={pages[idx].label} className="h-full w-full object-cover" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/25" />
+                <div className="absolute bottom-4 right-4 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white backdrop-blur">
+                  {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                </div>
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {opened && (
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => go(idx - 1)}
+              disabled={idx === 0}
+              className="rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors hover:border-foreground hover:text-foreground disabled:opacity-30"
+            >
+              ← Prev
+            </button>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+              {pages[idx].label}
+            </span>
+            <button
+              onClick={() => go(idx + 1)}
+              disabled={idx === total - 1}
+              className="rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors hover:border-foreground hover:text-foreground disabled:opacity-30"
+            >
+              Next →
+            </button>
+            <button
+              onClick={() => {
+                setOpened(false);
+                setIdx(0);
+              }}
+              className="ml-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors hover:border-foreground hover:text-foreground"
+            >
+              Close
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
   const categories = ["All", ...CATEGORY_ORDER] as const;
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
@@ -1288,6 +1435,26 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                               </p>
                             </div>
                             <div className="md:col-span-8">{Grid}</div>
+                          </div>
+                        );
+                      }
+
+                      if (sg.name === "Brochure") {
+                        const cover = sg.list.find((x) => x.id === "p4") ?? sg.list[0];
+                        const pages = sg.list.filter((x) => x !== cover);
+                        return (
+                          <div key="Brochure">
+                            <div className="mb-8 flex items-baseline gap-3">
+                              <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                                {sg.name}
+                              </h4>
+                              {sg.script && (
+                                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                                  {sg.script}
+                                </span>
+                              )}
+                            </div>
+                            {cover && <BrochureBook cover={cover} pages={pages} onOpen={onOpen} />}
                           </div>
                         );
                       }
