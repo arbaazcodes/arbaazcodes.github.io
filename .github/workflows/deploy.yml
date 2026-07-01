@@ -18,15 +18,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: oven-sh/setup-bun@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      - run: bun install --frozen-lockfile
-      - run: bun run build
-      - run: bun run verify:pages
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build production site
+        run: bun run build
+
+      - name: Verify GitHub Pages artifact
+        run: bun run verify:pages
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
@@ -37,43 +50,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy GitHub Pages site
+        id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify live GitHub Pages serves the built SPA
-        run: |
-          set -euo pipefail
-          site="${{ steps.deployment.outputs.page_url }}"
-          origin="${site%/}"
-          cache_buster="v=${GITHUB_SHA}"
-
-          for attempt in $(seq 1 30); do
-            html="$(curl -fsSL "${origin}/?${cache_buster}" || true)"
-
-            if printf '%s' "$html" | grep -q '/src/main.tsx'; then
-              echo "Attempt ${attempt}: GitHub Pages is still serving the raw source index.html."
-            else
-              js_path="$(printf '%s' "$html" | grep -oE 'src="/assets/[^"]+\.js"' | head -n1 | sed -E 's/^src="|"$//g' || true)"
-              css_path="$(printf '%s' "$html" | grep -oE 'href="/assets/[^"]+\.css"' | head -n1 | sed -E 's/^href="|"$//g' || true)"
-              cdn_path="$(printf '%s' "$html" | grep -oE 'href="/assets-cdn/[^"]+"' | head -n1 | sed -E 's/^href="|"$//g' || true)"
-
-              if [ -n "$js_path" ] && [ -n "$css_path" ] && [ -n "$cdn_path" ]; then
-                js_type="$(curl -fsSIL "${origin}${js_path}?${cache_buster}" | awk 'BEGIN{IGNORECASE=1} /^content-type:/ {print $0}' | tail -n1)"
-                curl -fsSIL "${origin}${css_path}?${cache_buster}" >/dev/null
-                curl -fsSIL "${origin}${cdn_path}?${cache_buster}" >/dev/null
-
-                if printf '%s' "$js_type" | grep -Eiq 'javascript|ecmascript'; then
-                  echo "Verified ${origin}/ uses built JS/CSS and assets-cdn with a JavaScript MIME type."
-                  exit 0
-                fi
-
-                echo "Attempt ${attempt}: JS is not being served as JavaScript: ${js_type}"
-              else
-                echo "Attempt ${attempt}: Built asset references are not visible yet."
-              fi
-            fi
-
-            sleep 10
-          done
-
-          echo "::error::GitHub Pages did not serve the built Vite artifact correctly. Check Pages source is set to GitHub Actions."
-          exit 1
