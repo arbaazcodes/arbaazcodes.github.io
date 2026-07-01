@@ -61,9 +61,10 @@ const brochurePageUrl = (file: string): string => {
 };
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
-  { id: "crown", name: "Crown", tagline: "Real Estate · Property Brochure",
-    cover: brochurePageUrl("Crown_New_Brochure-1.jpg"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`Crown_New_Brochure-${n}.jpg`)) },
+  { id: "crown", name: "Crown Milk", tagline: "Dairy · Manufacturer & Exporter Brochure",
+    cover: brochurePageUrl("Crown_1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`Crown_${n}.jpg`)) },
+
   { id: "metro", name: "Metropolia", tagline: "Study in Finland · University Brochure",
     cover: brochurePageUrl("metropolia_A4_-_1.png"),
     pages: [brochurePageUrl("metropolia_A4_-_2.png")] },
