@@ -24,21 +24,6 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Ensure Pages source is GitHub Actions
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPOSITORY: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          curl -fsSL \
-            -X PUT \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${GH_TOKEN}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${GH_REPOSITORY}/pages" \
-            -d '{"build_type":"workflow"}' \
-            >/dev/null
-          echo "GitHub Pages source is configured for GitHub Actions."
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
