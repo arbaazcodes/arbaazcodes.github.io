@@ -211,6 +211,8 @@ function Portfolio() {
         <BigTextBanner text="Design · Direction · Detail" />
         <About />
         <Stats />
+        <Skills />
+        <Experience />
         <Work />
         <Gallery onOpen={(item) => setLightbox({ kind: "image", item })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
