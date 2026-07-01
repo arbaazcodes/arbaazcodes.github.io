@@ -1460,22 +1460,22 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                                   >
                                     <button
                                       onClick={() => onOpen(main)}
-                                      className="group block w-full cursor-pointer overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all hover:ring-highlight"
+                                      className="group block w-full cursor-pointer overflow-hidden rounded-2xl bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
                                     >
                                       <Placeholder
                                         label={main.label}
-                                        ratio="aspect-[4/5]"
+                                        ratio="aspect-square"
                                         variant={main.variant}
                                         src={main.src}
-                                        fit={cfg.fit}
+                                        fit="contain"
                                       />
                                     </button>
-                                    <div className="flex gap-3">
+                                    <div className="grid grid-cols-3 gap-2">
                                       {thumbs.map((t) => (
                                         <button
                                           key={t.id}
                                           onClick={() => onOpen(t)}
-                                          className="group block w-16 shrink-0 cursor-pointer overflow-hidden rounded-lg ring-1 ring-border/60 transition-all hover:ring-highlight"
+                                          className="group block w-full cursor-pointer overflow-hidden rounded-lg bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
                                           aria-label={t.label}
                                         >
                                           <Placeholder
@@ -1483,7 +1483,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                                             ratio="aspect-square"
                                             variant={t.variant}
                                             src={t.src}
-                                            fit={cfg.fit}
+                                            fit="contain"
                                           />
                                         </button>
                                       ))}
