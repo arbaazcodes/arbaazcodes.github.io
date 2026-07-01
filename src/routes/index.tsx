@@ -49,6 +49,34 @@ import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.js
 import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
 import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
 
+// Real brochure PDFs → rasterized page images
+const brochurePages = import.meta.glob<{ default: { url: string } }>(
+  "@/assets/brochures/*.jpg.asset.json",
+  { eager: true }
+);
+const brochurePageUrl = (file: string): string => {
+  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
+  return entry ? entry[1].default.url : "";
+};
+type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
+const BROCHURES: Brochure[] = [
+  { id: "crown", name: "Crown", tagline: "Real Estate · Property Brochure",
+    cover: brochurePageUrl("Crown_New_Brochure-1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`Crown_New_Brochure-${n}.jpg`)) },
+  { id: "metro", name: "Metropolia", tagline: "Corporate · Company Profile",
+    cover: brochurePageUrl("Metropolioa-1.jpg"),
+    pages: [2].map((n)=>brochurePageUrl(`Metropolioa-${n}.jpg`)) },
+  { id: "tutku", name: "Tutku", tagline: "Product · Marketing Collateral",
+    cover: brochurePageUrl("Tutku-1.jpg"),
+    pages: [2].map((n)=>brochurePageUrl(`Tutku-${n}.jpg`)) },
+  { id: "edufinn", name: "Edu Finn", tagline: "EdTech · Program Brochure",
+    cover: brochurePageUrl("edufinn-1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`edufinn-${n}.jpg`)) },
+  { id: "swiftams", name: "Swift AMS", tagline: "CRM · Product Brochure",
+    cover: brochurePageUrl("swiftams-1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`swiftams-${n}.jpg`)) },
+];
+
 const LOGOS: { name: string; src: string }[] = [
   { name: "Swift AMS", src: logoSwiftAms.url },
   { name: "Wavox WMS", src: logoWavox.url },
