@@ -49,6 +49,34 @@ import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.js
 import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
 import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
 
+// Real brochure PDFs → rasterized page images
+const brochurePages = import.meta.glob<{ default: { url: string } }>(
+  "@/assets/brochures/*.jpg.asset.json",
+  { eager: true }
+);
+const brochurePageUrl = (file: string): string => {
+  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
+  return entry ? entry[1].default.url : "";
+};
+type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
+const BROCHURES: Brochure[] = [
+  { id: "crown", name: "Crown", tagline: "Real Estate · Property Brochure",
+    cover: brochurePageUrl("Crown_New_Brochure-1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`Crown_New_Brochure-${n}.jpg`)) },
+  { id: "metro", name: "Metropolia", tagline: "Corporate · Company Profile",
+    cover: brochurePageUrl("Metropolioa-1.jpg"),
+    pages: [2].map((n)=>brochurePageUrl(`Metropolioa-${n}.jpg`)) },
+  { id: "tutku", name: "Tutku", tagline: "Product · Marketing Collateral",
+    cover: brochurePageUrl("Tutku-1.jpg"),
+    pages: [2].map((n)=>brochurePageUrl(`Tutku-${n}.jpg`)) },
+  { id: "edufinn", name: "Edu Finn", tagline: "EdTech · Program Brochure",
+    cover: brochurePageUrl("edufinn-1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`edufinn-${n}.jpg`)) },
+  { id: "swiftams", name: "Swift AMS", tagline: "CRM · Product Brochure",
+    cover: brochurePageUrl("swiftams-1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`swiftams-${n}.jpg`)) },
+];
+
 const LOGOS: { name: string; src: string }[] = [
   { name: "Swift AMS", src: logoSwiftAms.url },
   { name: "Wavox WMS", src: logoWavox.url },
@@ -1440,61 +1468,68 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                       }
 
                       if (sg.name === "Brochure") {
-                        const mains = sg.list.slice(0, 3);
+                        const toItem = (id: string, label: string, src: string, variant: 1|2|3 = 1): GalleryItem => ({
+                          id, label, category: "Print", ratio: "aspect-[3/4]", variant, src,
+                        });
                         return (
                           <div key={sg.name}>
                             <h4 className="mb-8 font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
                               {sg.name}
                             </h4>
-                            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                              {mains.map((main, idx) => {
-                                const thumbs = sg.list.filter((x) => x.id !== main.id).slice(0, 3);
-                                return (
-                                  <motion.div
-                                    key={main.id}
-                                    initial={{ opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, margin: "-40px" }}
-                                    transition={{ duration: 0.55, delay: idx * 0.08 }}
-                                    className="flex flex-col gap-3"
+                            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+                              {BROCHURES.map((b, idx) => (
+                                <motion.div
+                                  key={b.id}
+                                  initial={{ opacity: 0, y: 24 }}
+                                  whileInView={{ opacity: 1, y: 0 }}
+                                  viewport={{ once: true, margin: "-40px" }}
+                                  transition={{ duration: 0.55, delay: (idx % 3) * 0.08 }}
+                                  className="flex flex-col gap-3"
+                                >
+                                  <button
+                                    onClick={() => onOpen(toItem(`${b.id}-cover`, `${b.name} — Cover`, b.cover))}
+                                    className="group block w-full cursor-pointer overflow-hidden rounded-2xl bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
                                   >
-                                    <button
-                                      onClick={() => onOpen(main)}
-                                      className="group block w-full cursor-pointer overflow-hidden rounded-2xl bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
-                                    >
-                                      <Placeholder
-                                        label={main.label}
-                                        ratio="aspect-square"
-                                        variant={main.variant}
-                                        src={main.src}
-                                        fit="contain"
-                                      />
-                                    </button>
-                                    <div className="grid grid-cols-3 gap-2">
-                                      {thumbs.map((t) => (
+                                    <Placeholder
+                                      label={`${b.name} — Cover`}
+                                      ratio="aspect-square"
+                                      variant={((idx % 3) + 1) as 1|2|3}
+                                      src={b.cover}
+                                      fit="contain"
+                                    />
+                                  </button>
+                                  <div className="flex items-baseline justify-between gap-2 px-1">
+                                    <p className="truncate text-sm font-medium text-foreground">{b.name}</p>
+                                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{b.tagline}</span>
+                                  </div>
+                                  <div className="grid grid-cols-3 gap-2">
+                                    {Array.from({ length: 3 }).map((_, ti) => {
+                                      const src = b.pages[ti] ?? b.pages[b.pages.length - 1] ?? b.cover;
+                                      return (
                                         <button
-                                          key={t.id}
-                                          onClick={() => onOpen(t)}
+                                          key={ti}
+                                          onClick={() => onOpen(toItem(`${b.id}-p${ti+2}`, `${b.name} — Page ${ti+2}`, src))}
                                           className="group block w-full cursor-pointer overflow-hidden rounded-lg bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
-                                          aria-label={t.label}
+                                          aria-label={`${b.name} page ${ti+2}`}
                                         >
                                           <Placeholder
-                                            label={t.label}
+                                            label={`${b.name} p${ti+2}`}
                                             ratio="aspect-square"
-                                            variant={t.variant}
-                                            src={t.src}
+                                            variant={(((ti+idx) % 3) + 1) as 1|2|3}
+                                            src={src}
                                             fit="contain"
                                           />
                                         </button>
-                                      ))}
-                                    </div>
-                                  </motion.div>
-                                );
-                              })}
+                                      );
+                                    })}
+                                  </div>
+                                </motion.div>
+                              ))}
                             </div>
                           </div>
                         );
                       }
+
 
                       if (sg.name === "Standee") {
                         return (
