@@ -1312,7 +1312,7 @@ function BrochureBook({
   );
 }
 
-function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
+function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[], index?: number) => void }) {
   const categories = ["All", ...CATEGORY_ORDER] as const;
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
   const visibleCats = filter === "All" ? CATEGORY_ORDER : [filter as (typeof CATEGORY_ORDER)[number]];
