@@ -63,24 +63,24 @@ const brochurePageUrl = (file: string): string => {
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
   { id: "crown", name: "Crown Milk", tagline: "Dairy · Manufacturer & Exporter Brochure",
-    cover: brochurePageUrl("Crown_1.jpg"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`Crown_${n}.jpg`)) },
+    cover: brochurePageUrl("drive_crown_1.jpg"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`drive_crown_${n}.jpg`)) },
 
   { id: "metro", name: "Metropolia", tagline: "Study in Finland · University Brochure",
-    cover: brochurePageUrl("metropolia_A4_-_1.png"),
-    pages: [brochurePageUrl("metropolia_A4_-_2.png")] },
+    cover: brochurePageUrl("drive_metropolia_1.png"),
+    pages: [brochurePageUrl("drive_metropolia_2.png")] },
 
   { id: "tutku", name: "Turku", tagline: "Tampere University · PG Diploma Brochure",
-    cover: brochurePageUrl("turku_A4_-_3.png"),
-    pages: [brochurePageUrl("turku_A4_-_4.png")] },
+    cover: brochurePageUrl("drive_turku_1.png"),
+    pages: [brochurePageUrl("drive_turku_2.png")] },
 
   { id: "edufinn", name: "Edu Finn", tagline: "Study in Finland · Program Brochure",
-    cover: brochurePageUrl("EduFinn_1.png"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`EduFinn_${n}.png`)) },
+    cover: brochurePageUrl("drive_edufinn_1.png"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`drive_edufinn_${n}.png`)) },
 
   { id: "swiftams", name: "Swift AMS", tagline: "SaaS · Product Brochure",
-    cover: brochurePageUrl("swiftams_1.jpg"),
-    pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`swiftams_${n}.jpg`)) },
+    cover: brochurePageUrl("drive_swiftams_1.jpg"),
+    pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`drive_swiftams_${n}.jpg`)) },
 
 ];
 
