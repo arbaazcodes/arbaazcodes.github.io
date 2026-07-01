@@ -1495,9 +1495,6 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
                       }
 
                       if (sg.name === "Brochure") {
-                        const toItem = (id: string, label: string, src: string, variant: 1|2|3 = 1): GalleryItem => ({
-                          id, label, category: "Print", ratio: "aspect-[3/4]", variant, src,
-                        });
                         return (
                           <div key={sg.name}>
                             <h4 className="mb-8 font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
@@ -1505,57 +1502,13 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
                             </h4>
                             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
                               {BROCHURES.map((b, idx) => (
-                                <motion.div
-                                  key={b.id}
-                                  initial={{ opacity: 0, y: 24 }}
-                                  whileInView={{ opacity: 1, y: 0 }}
-                                  viewport={{ once: true, margin: "-40px" }}
-                                  transition={{ duration: 0.55, delay: (idx % 3) * 0.08 }}
-                                  className="flex flex-col gap-3"
-                                >
-                                  <button
-                                    onClick={() => onOpen(toItem(`${b.id}-cover`, `${b.name} — Cover`, b.cover))}
-                                    className="group block w-full cursor-pointer overflow-hidden rounded-2xl bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
-                                  >
-                                    <Placeholder
-                                      label={`${b.name} — Cover`}
-                                      ratio="aspect-square"
-                                      variant={((idx % 3) + 1) as 1|2|3}
-                                      src={b.cover}
-                                      fit="contain"
-                                    />
-                                  </button>
-                                  <div className="flex items-baseline justify-between gap-2 px-1">
-                                    <p className="truncate text-sm font-medium text-foreground">{b.name}</p>
-                                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{b.tagline}</span>
-                                  </div>
-                                  <div className="grid grid-cols-3 gap-2">
-                                    {Array.from({ length: 3 }).map((_, ti) => {
-                                      const src = b.pages[ti] ?? b.pages[b.pages.length - 1] ?? b.cover;
-                                      return (
-                                        <button
-                                          key={ti}
-                                          onClick={() => onOpen(toItem(`${b.id}-p${ti+2}`, `${b.name} — Page ${ti+2}`, src))}
-                                          className="group block w-full cursor-pointer overflow-hidden rounded-lg bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
-                                          aria-label={`${b.name} page ${ti+2}`}
-                                        >
-                                          <Placeholder
-                                            label={`${b.name} p${ti+2}`}
-                                            ratio="aspect-square"
-                                            variant={(((ti+idx) % 3) + 1) as 1|2|3}
-                                            src={src}
-                                            fit="contain"
-                                          />
-                                        </button>
-                                      );
-                                    })}
-                                  </div>
-                                </motion.div>
+                                <BrochureCard key={b.id} brochure={b} idx={idx} onOpen={onOpen} />
                               ))}
                             </div>
                           </div>
                         );
                       }
+
 
 
                       if (sg.name === "Standee") {
