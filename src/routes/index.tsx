@@ -1824,6 +1824,7 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
 function Contact() {
   const ref = useRef<HTMLElement>(null);
   const words = ["Have", "a", "project", "in", "mind?"];
+  const [open, setOpen] = useState(false);
   return (
     <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 p-8 md:my-24 md:p-16">
       <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb" aria-hidden />
@@ -1839,6 +1840,12 @@ function Contact() {
             <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-foreground opacity-60" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-foreground" /></span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em]">Open · Q1 2026</span>
           </div>
+          <button
+            onClick={() => setOpen(true)}
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:text-background"
+          >
+            <Mail size={14} /> Contact me
+          </button>
         </div>
         <div className="md:col-span-7">
           <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02]">
@@ -1855,8 +1862,9 @@ function Contact() {
               </motion.span>
             ))}
             <br />
-            <motion.a
-              href="mailto:arbaazsince2002@gmail.com"
+            <motion.button
+              type="button"
+              onClick={() => setOpen(true)}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
@@ -1864,7 +1872,7 @@ function Contact() {
               className="link-underline italic text-highlight"
             >
               Let's make it.
-            </motion.a>
+            </motion.button>
           </h2>
 
           <div className="mt-12 grid gap-8 md:grid-cols-2">
@@ -1885,9 +1893,137 @@ function Contact() {
           </div>
         </div>
       </div>
+      <ContactFormDialog open={open} onOpenChange={setOpen} />
     </section>
   );
 }
+
+function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sent, setSent] = useState(false);
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs: Record<string, string> = {};
+    if (!name.trim() || name.length > 100) errs.name = "Please enter your name (max 100)";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) || email.length > 255) errs.email = "Enter a valid email";
+    if (!message.trim() || message.length > 2000) errs.message = "Message required (max 2000)";
+    if (subject.length > 150) errs.subject = "Subject too long";
+    setErrors(errs);
+    if (Object.keys(errs).length) return;
+
+    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+    const href = `mailto:arbaazsince2002@gmail.com?subject=${encodeURIComponent(
+      subject || `New project inquiry from ${name}`
+    )}&body=${encodeURIComponent(body)}`;
+    window.location.href = href;
+    setSent(true);
+    setTimeout(() => {
+      onOpenChange(false);
+      setSent(false);
+      setName(""); setEmail(""); setSubject(""); setMessage("");
+    }, 1200);
+  };
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/70 p-4 backdrop-blur-md"
+          onClick={() => onOpenChange(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.96 }}
+            transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-lg rounded-3xl border border-border/60 bg-card p-8 shadow-2xl md:p-10"
+          >
+            <button
+              onClick={() => onOpenChange(false)}
+              className="absolute right-5 top-5 rounded-full p-2 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
+              aria-label="Close"
+            >
+              <X size={18} />
+            </button>
+            <p className="text-eyebrow mb-2">/ Get in touch</p>
+            <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Let's start a <span className="text-highlight italic" style={{ fontFamily: "'Instrument Serif', serif" }}>conversation</span>
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Tell me a bit about your project. I'll get back within 24 hours.
+            </p>
+
+            {sent ? (
+              <div className="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-highlight/40 bg-highlight/10 p-8 text-center">
+                <div className="rounded-full bg-highlight/20 p-3"><Send size={20} className="text-highlight" /></div>
+                <p className="font-medium text-foreground">Opening your email app…</p>
+                <p className="text-xs text-muted-foreground">Thanks for reaching out.</p>
+              </div>
+            ) : (
+              <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Name</label>
+                    <input
+                      value={name} onChange={(e) => setName(e.target.value)} maxLength={100}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                      placeholder="Your full name"
+                    />
+                    {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email</label>
+                    <input
+                      type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                      placeholder="you@company.com"
+                    />
+                    {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Subject</label>
+                  <input
+                    value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={150}
+                    className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                    placeholder="Project inquiry, collaboration…"
+                  />
+                  {errors.subject && <p className="mt-1 text-xs text-red-500">{errors.subject}</p>}
+                </div>
+                <div>
+                  <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Message</label>
+                  <textarea
+                    value={message} onChange={(e) => setMessage(e.target.value)} maxLength={2000} rows={5}
+                    className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                    placeholder="Tell me about your idea, timeline, and budget…"
+                  />
+                  <div className="mt-1 flex items-center justify-between">
+                    {errors.message ? <p className="text-xs text-red-500">{errors.message}</p> : <span />}
+                    <p className="font-mono text-[10px] text-muted-foreground">{message.length}/2000</p>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight"
+                >
+                  Send message <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                </button>
+              </form>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 
 function Footer() {
   return (
