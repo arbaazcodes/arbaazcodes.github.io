@@ -202,7 +202,7 @@ const VIDEOS = [
 ];
 
 type LightboxState =
-  | { kind: "image"; item: GalleryItem }
+  | { kind: "image"; item: GalleryItem; list?: GalleryItem[]; index?: number }
   | { kind: "video"; item: (typeof VIDEOS)[number] }
   | null;
 
@@ -250,7 +250,7 @@ function Portfolio() {
         <Skills />
         <Experience />
         <Work />
-        <Gallery onOpen={(item) => setLightbox({ kind: "image", item })} />
+        <Gallery onOpen={(item, list, index) => setLightbox({ kind: "image", item, list, index })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
         <BigTextBanner text="Available for work — 2026" />
         <Contact />
@@ -259,7 +259,20 @@ function Portfolio() {
       </main>
 
       <AnimatePresence>
-        {lightbox && <Lightbox state={lightbox} onClose={() => setLightbox(null)} />}
+        {lightbox && (
+          <Lightbox
+            key={lightbox.kind === "image" ? lightbox.item.id : lightbox.item.id}
+            state={lightbox}
+            onClose={() => setLightbox(null)}
+            onNavigate={(dir) => {
+              setLightbox((prev) => {
+                if (!prev || prev.kind !== "image" || !prev.list || prev.index == null) return prev;
+                const next = (prev.index + dir + prev.list.length) % prev.list.length;
+                return { kind: "image", item: prev.list[next], list: prev.list, index: next };
+              });
+            }}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
@@ -1152,154 +1165,123 @@ const CATEGORY_CONFIG: Record<
   },
 };
 
-/* ---------- Brochure — front poster + flipbook that opens like a book ---------- */
+/* ---------- Brochure card: large preview + thumbnail strip ---------- */
 
-function BrochureBook({
-  cover,
-  pages,
+function BrochureCard({
+  brochure,
+  idx,
   onOpen,
 }: {
-  cover: GalleryItem;
-  pages: GalleryItem[];
-  onOpen: (item: GalleryItem) => void;
+  brochure: Brochure;
+  idx: number;
+  onOpen: (item: GalleryItem, list?: GalleryItem[], index?: number) => void;
 }) {
-  const [opened, setOpened] = useState(false);
-  const [idx, setIdx] = useState(0);
-  const [dir, setDir] = useState<1 | -1>(1);
-  const total = pages.length;
+  // All pages, cover first — filter out empty (missing) srcs.
+  const pages = [brochure.cover, ...brochure.pages].filter((s): s is string => !!s && s.length > 0);
+  const items: GalleryItem[] = pages.map((src, i) => ({
+    id: `${brochure.id}-page-${i + 1}`,
+    label: `${brochure.name} — Page ${i + 1}`,
+    category: "Print",
+    ratio: "aspect-[3/4]",
+    variant: (((i + idx) % 3) + 1) as 1 | 2 | 3,
+    src,
+  }));
+  const [selected, setSelected] = useState(0);
+  const safeIndex = Math.min(selected, items.length - 1);
+  const current = items[safeIndex];
 
-  const go = (n: number) => {
-    if (n < 0 || n >= total) return;
-    setDir(n > idx ? 1 : -1);
-    setIdx(n);
-  };
+  // Preload adjacent pages for smooth switching
+  useEffect(() => {
+    const preload = (i: number) => {
+      const it = items[i];
+      if (it?.src) { const img = new Image(); img.src = it.src; }
+    };
+    preload(safeIndex + 1);
+    preload(safeIndex - 1);
+  }, [safeIndex, items]);
+
+  if (!current) return null;
 
   return (
-    <div className="mx-auto max-w-5xl">
-      {/* Front poster (main image) */}
-      <div className="mx-auto mb-14 max-w-xl">
-        <motion.button
-          onClick={() => onOpen(cover)}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7 }}
-          whileHover={{ y: -6 }}
-          className="group relative block w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-black/10"
-        >
-          <div className="aspect-[3/2] w-full bg-black">
-            <img
-              src={cover.src}
-              alt={cover.label}
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-3 bg-gradient-to-r from-black/50 to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5 text-white">
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Brochure · Front Poster</span>
-            <span className="rounded-full bg-white/95 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-black">Preview</span>
-          </div>
-        </motion.button>
-      </div>
-
-      {/* Book viewer */}
-      <div className="mb-5 text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
-          Full brochure — opens like a book
-        </p>
-      </div>
-
-      <div className="relative mx-auto w-full max-w-3xl" style={{ perspective: 2400 }}>
-        <div
-          className="relative aspect-[3/2] w-full rounded-2xl bg-black shadow-[0_30px_80px_-20px_rgba(0,0,0,0.45)]"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {/* spine */}
-          <div className="pointer-events-none absolute inset-y-4 left-1/2 z-30 w-[2px] -translate-x-1/2 bg-black/60" />
-
-          <AnimatePresence mode="wait" initial={false} custom={dir}>
-            {!opened ? (
-              <motion.button
-                key="cover"
-                onClick={() => setOpened(true)}
-                initial={{ rotateY: -180, opacity: 0 }}
-                animate={{ rotateY: 0, opacity: 1 }}
-                exit={{ rotateY: -160, opacity: 0 }}
-                transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
-                whileHover={{ rotateY: -6 }}
-                style={{ transformOrigin: "left center", transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
-                className="group absolute inset-0 overflow-hidden rounded-2xl"
-              >
-                <img src={cover.src} alt="Brochure cover" className="h-full w-full object-cover" />
-                <div className="pointer-events-none absolute inset-y-0 right-0 w-2 bg-black/40" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-white/10" />
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-6 py-2.5 font-mono text-[10px] uppercase tracking-[0.35em] text-black shadow-xl group-hover:bg-highlight group-hover:text-white transition-colors">
-                  Open Book →
-                </div>
-              </motion.button>
-            ) : (
-              <motion.button
-                key={idx}
-                onClick={() => onOpen(pages[idx])}
-                custom={dir}
-                initial={{ rotateY: dir === 1 ? 100 : -100, opacity: 0 }}
-                animate={{ rotateY: 0, opacity: 1 }}
-                exit={{ rotateY: dir === 1 ? -100 : 100, opacity: 0 }}
-                transition={{ duration: 0.75, ease: [0.65, 0, 0.35, 1] }}
-                style={{
-                  transformOrigin: dir === 1 ? "left center" : "right center",
-                  transformStyle: "preserve-3d",
-                  backfaceVisibility: "hidden",
-                }}
-                className="absolute inset-0 overflow-hidden rounded-2xl"
-              >
-                <img src={pages[idx].src} alt={pages[idx].label} className="h-full w-full object-cover" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/25" />
-                <div className="absolute bottom-4 right-4 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white backdrop-blur">
-                  {String(idx + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
-                </div>
-              </motion.button>
-            )}
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.55, delay: (idx % 3) * 0.08 }}
+      className="flex flex-col gap-3"
+    >
+      {/* Large preview — the only click target that opens the lightbox */}
+      <button
+        type="button"
+        onClick={() => onOpen(current, items, safeIndex)}
+        aria-label={`Open ${brochure.name} in fullscreen viewer`}
+        className="group block w-full cursor-pointer overflow-hidden rounded-2xl bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
+      >
+        <div className="relative aspect-[3/4] w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="absolute inset-0"
+            >
+              <Placeholder
+                label={current.label}
+                ratio="aspect-[3/4]"
+                variant={current.variant}
+                src={current.src}
+                fit="contain"
+              />
+            </motion.div>
           </AnimatePresence>
-        </div>
-
-        {opened && (
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={() => go(idx - 1)}
-              disabled={idx === 0}
-              className="rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors hover:border-foreground hover:text-foreground disabled:opacity-30"
-            >
-              ← Prev
-            </button>
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-              {pages[idx].label}
-            </span>
-            <button
-              onClick={() => go(idx + 1)}
-              disabled={idx === total - 1}
-              className="rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors hover:border-foreground hover:text-foreground disabled:opacity-30"
-            >
-              Next →
-            </button>
-            <button
-              onClick={() => {
-                setOpened(false);
-                setIdx(0);
-              }}
-              className="ml-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] transition-colors hover:border-foreground hover:text-foreground"
-            >
-              Close
-            </button>
+          <div className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-black/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+            View {String(safeIndex + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
           </div>
-        )}
+        </div>
+      </button>
+
+      <div className="flex items-baseline justify-between gap-2 px-1">
+        <p className="truncate text-sm font-medium text-foreground">{brochure.name}</p>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{brochure.tagline}</span>
       </div>
-    </div>
+
+      {/* Thumbnail strip — only rendered for existing pages, no popup on click */}
+      {items.length > 1 && (
+        <div className="flex flex-wrap gap-1.5">
+          {items.map((it, ti) => {
+            const isActive = ti === safeIndex;
+            return (
+              <button
+                key={it.id}
+                type="button"
+                onClick={() => setSelected(ti)}
+                aria-label={`Show page ${ti + 1}`}
+                aria-current={isActive ? "true" : undefined}
+                className={`relative h-14 w-11 shrink-0 overflow-hidden rounded-md bg-white ring-1 transition-all sm:h-16 sm:w-12 ${
+                  isActive
+                    ? "ring-2 ring-highlight scale-[1.03] shadow-md"
+                    : "ring-border/60 opacity-70 hover:opacity-100 hover:ring-foreground/40"
+                }`}
+              >
+                <img
+                  src={it.src}
+                  alt={`${brochure.name} page ${ti + 1} thumbnail`}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </motion.div>
   );
 }
 
-function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
+
+function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[], index?: number) => void }) {
   const categories = ["All", ...CATEGORY_ORDER] as const;
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
   const visibleCats = filter === "All" ? CATEGORY_ORDER : [filter as (typeof CATEGORY_ORDER)[number]];
@@ -1482,9 +1464,6 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                       }
 
                       if (sg.name === "Brochure") {
-                        const toItem = (id: string, label: string, src: string, variant: 1|2|3 = 1): GalleryItem => ({
-                          id, label, category: "Print", ratio: "aspect-[3/4]", variant, src,
-                        });
                         return (
                           <div key={sg.name}>
                             <h4 className="mb-8 font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
@@ -1492,57 +1471,13 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                             </h4>
                             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
                               {BROCHURES.map((b, idx) => (
-                                <motion.div
-                                  key={b.id}
-                                  initial={{ opacity: 0, y: 24 }}
-                                  whileInView={{ opacity: 1, y: 0 }}
-                                  viewport={{ once: true, margin: "-40px" }}
-                                  transition={{ duration: 0.55, delay: (idx % 3) * 0.08 }}
-                                  className="flex flex-col gap-3"
-                                >
-                                  <button
-                                    onClick={() => onOpen(toItem(`${b.id}-cover`, `${b.name} — Cover`, b.cover))}
-                                    className="group block w-full cursor-pointer overflow-hidden rounded-2xl bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
-                                  >
-                                    <Placeholder
-                                      label={`${b.name} — Cover`}
-                                      ratio="aspect-square"
-                                      variant={((idx % 3) + 1) as 1|2|3}
-                                      src={b.cover}
-                                      fit="contain"
-                                    />
-                                  </button>
-                                  <div className="flex items-baseline justify-between gap-2 px-1">
-                                    <p className="truncate text-sm font-medium text-foreground">{b.name}</p>
-                                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{b.tagline}</span>
-                                  </div>
-                                  <div className="grid grid-cols-3 gap-2">
-                                    {Array.from({ length: 3 }).map((_, ti) => {
-                                      const src = b.pages[ti] ?? b.pages[b.pages.length - 1] ?? b.cover;
-                                      return (
-                                        <button
-                                          key={ti}
-                                          onClick={() => onOpen(toItem(`${b.id}-p${ti+2}`, `${b.name} — Page ${ti+2}`, src))}
-                                          className="group block w-full cursor-pointer overflow-hidden rounded-lg bg-white ring-1 ring-border/60 transition-all hover:ring-highlight"
-                                          aria-label={`${b.name} page ${ti+2}`}
-                                        >
-                                          <Placeholder
-                                            label={`${b.name} p${ti+2}`}
-                                            ratio="aspect-square"
-                                            variant={(((ti+idx) % 3) + 1) as 1|2|3}
-                                            src={src}
-                                            fit="contain"
-                                          />
-                                        </button>
-                                      );
-                                    })}
-                                  </div>
-                                </motion.div>
+                                <BrochureCard key={b.id} brochure={b} idx={idx} onOpen={onOpen} />
                               ))}
                             </div>
                           </div>
                         );
                       }
+
 
 
                       if (sg.name === "Standee") {
@@ -1685,24 +1620,75 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
 
 /* ---------- Lightbox: image (download + comment) OR video (inline) ---------- */
 
-function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClose: () => void }) {
+function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxState>; onClose: () => void; onNavigate?: (dir: -1 | 1) => void }) {
   const [comments, setComments] = useState<string[]>([]);
   const [draft, setDraft] = useState("");
+  const touchStartX = useRef<number | null>(null);
 
+  const activeItemId = state.kind === "image" ? state.item.id : state.item.id;
   // reset comments when item changes
-  useEffect(() => { setComments([]); setDraft(""); }, [state]);
+  useEffect(() => { setComments([]); setDraft(""); }, [activeItemId]);
+
+  // Keyboard arrows for prev/next
+  useEffect(() => {
+    if (!onNavigate || state.kind !== "image" || !state.list) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); onNavigate(-1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); onNavigate(1); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onNavigate, state]);
+
+  // Preload adjacent images
+  useEffect(() => {
+    if (state.kind !== "image" || !state.list || state.index == null) return;
+    const preload = (i: number) => {
+      const it = state.list?.[i];
+      if (it?.src) { const img = new Image(); img.src = it.src; }
+    };
+    preload(state.index + 1);
+    preload(state.index - 1);
+  }, [state]);
+
+  const hasNav = state.kind === "image" && !!state.list && state.list.length > 1;
 
   return (
     <motion.div
-      key={state.kind === "image" ? state.item.id : state.item.id}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
       className="fixed inset-0 z-[80] flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
+      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => {
+        if (touchStartX.current == null || !hasNav || !onNavigate) return;
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        touchStartX.current = null;
+        if (Math.abs(dx) > 50) onNavigate(dx < 0 ? 1 : -1);
+      }}
     >
       <div className="absolute inset-0 bg-background/85 backdrop-blur-xl" />
+
+      {hasNav && (
+        <>
+          <button
+            aria-label="Previous"
+            onClick={(e) => { e.stopPropagation(); onNavigate?.(-1); }}
+            className="absolute left-3 top-1/2 z-20 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 backdrop-blur hover:bg-foreground hover:text-background md:left-6"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            aria-label="Next"
+            onClick={(e) => { e.stopPropagation(); onNavigate?.(1); }}
+            className="absolute right-3 top-1/2 z-20 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 backdrop-blur hover:bg-foreground hover:text-background md:right-6"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </>
+      )}
 
       <motion.div
         initial={{ scale: 0.92, y: 20 }}
@@ -1716,14 +1702,30 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
         <div className="relative bg-black/40">
           {state.kind === "image" ? (
             <div className="relative h-full min-h-[280px]">
-              <Placeholder
-                label={state.item.label}
-                ratio="aspect-[4/3] md:aspect-auto md:h-full"
-                variant={state.item.variant}
-                badge={state.item.category}
-                src={state.item.src}
-                fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
-              />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={state.item.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="h-full"
+                >
+                  <Placeholder
+                    label={state.item.label}
+                    ratio="aspect-[4/3] md:aspect-auto md:h-full"
+                    variant={state.item.variant}
+                    badge={state.item.category}
+                    src={state.item.src}
+                    fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
+                  />
+                </motion.div>
+              </AnimatePresence>
+              {hasNav && state.index != null && state.list && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur">
+                  {String(state.index + 1).padStart(2, "0")} / {String(state.list.length).padStart(2, "0")}
+                </div>
+              )}
             </div>
           ) : (
             <div className="relative aspect-video w-full md:aspect-auto md:h-full md:min-h-[360px]">
