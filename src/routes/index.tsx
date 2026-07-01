@@ -51,9 +51,10 @@ import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
 
 // Real brochure PDFs → rasterized page images
 const brochurePages = import.meta.glob<{ default: { url: string } }>(
-  "@/assets/brochures/*.jpg.asset.json",
+  "@/assets/brochures/*.asset.json",
   { eager: true }
 );
+
 const brochurePageUrl = (file: string): string => {
   const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
   return entry ? entry[1].default.url : "";
