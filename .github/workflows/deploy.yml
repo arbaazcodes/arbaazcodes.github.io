@@ -19,13 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Force GitHub Pages to deploy the Actions artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          gh api --method PUT "/repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow || \
-          gh api --method POST "/repos/${GITHUB_REPOSITORY}/pages" -f build_type=workflow
       - uses: actions/configure-pages@v5
       - uses: oven-sh/setup-bun@v2
         with:
