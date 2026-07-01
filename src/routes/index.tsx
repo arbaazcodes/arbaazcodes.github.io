@@ -25,9 +25,10 @@ export const Route = createFileRoute("/")({
 const NAV = [
   { id: "intro", label: "Index" },
   { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "experience", label: "Experience" },
   { id: "work", label: "Work" },
   { id: "gallery", label: "Gallery" },
-  { id: "videos", label: "Reels" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -210,6 +211,8 @@ function Portfolio() {
         <BigTextBanner text="Design · Direction · Detail" />
         <About />
         <Stats />
+        <Skills />
+        <Experience />
         <Work />
         <Gallery onOpen={(item) => setLightbox({ kind: "image", item })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
@@ -826,6 +829,135 @@ function Stats() {
     </section>
   );
 }
+
+/* ---------- Skills ---------- */
+
+const SKILL_GROUPS: { group: string; items: string[] }[] = [
+  { group: "Design", items: ["UI Design", "UX Design", "Branding", "Social Media Design", "Print Design", "Video Editing"] },
+  { group: "Tools", items: ["Figma", "Adobe Photoshop", "Adobe Illustrator", "Adobe Premiere Pro", "After Effects", "Canva"] },
+];
+
+function Skills() {
+  return (
+    <section id="skills" className="py-28 md:py-40">
+      <div className="grid gap-12 md:grid-cols-12 md:gap-16">
+        <div className="md:col-span-4">
+          <p className="text-eyebrow mb-6">/ 03 — Skills</p>
+          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
+            Craft, <em className="text-highlight italic">tools</em> & disciplines.
+          </h2>
+          <p className="mt-6 max-w-sm text-muted-foreground">
+            A working toolkit built over four years across brand systems, product interfaces and motion.
+          </p>
+        </div>
+
+        <div className="space-y-10 md:col-span-8">
+          {SKILL_GROUPS.map((g, gi) => (
+            <div key={g.group}>
+              <div className="mb-5 flex items-baseline gap-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+                  {String(gi + 1).padStart(2, "0")}
+                </span>
+                <span className="text-display text-2xl">{g.group}</span>
+                <span className="h-px flex-1 bg-border" />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {g.items.map((s, i) => (
+                  <motion.span
+                    key={s}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
+                    className="card-white rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
+                  >
+                    {s}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Experience ---------- */
+
+type Job = { company: string; role: string; period: string; summary: string; Icon: ComponentType<{ className?: string; size?: number }> };
+
+const EXPERIENCE: Job[] = [
+  {
+    company: "SwiftAMS",
+    role: "Graphic & UI/UX Designer",
+    period: "2023 — Present",
+    summary: "Corporate brand system, product UI and marketing collateral for the SwiftAMS CRM ecosystem.",
+    Icon: Briefcase,
+  },
+  {
+    company: "Edu Finn",
+    role: "Design Lead — EdTech",
+    period: "2022 — 2023",
+    summary: "End-to-end campaign design, social storytelling, video editing and course creative for the Edu Finn platform.",
+    Icon: Layers,
+  },
+  {
+    company: "Digital Cappuccino",
+    role: "Multidisciplinary Designer",
+    period: "2021 — 2022",
+    summary: "Branding, social media and print collateral across a mixed portfolio of startup and enterprise clients.",
+    Icon: Coffee,
+  },
+];
+
+function Experience() {
+  return (
+    <section id="experience" className="py-28 md:py-40">
+      <div className="mb-14 grid gap-6 md:grid-cols-12 md:items-end">
+        <div className="md:col-span-8">
+          <p className="text-eyebrow mb-6">/ 04 — Experience</p>
+          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
+            Four years across <em className="text-highlight italic">EdTech, CRM</em> & corporate brands.
+          </h2>
+        </div>
+        <div className="md:col-span-4">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Full-time roles and long-running collaborations — shipping brand systems, product UI and video for growing teams.
+          </p>
+        </div>
+      </div>
+
+      <ol className="relative">
+        <span aria-hidden className="absolute left-4 top-2 bottom-2 w-px bg-border md:left-6" />
+        {EXPERIENCE.map((job, i) => (
+          <motion.li
+            key={job.company}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: i * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+            className="relative pl-14 md:pl-20 py-6 first:pt-0 last:pb-0"
+          >
+            <span className="absolute left-1 top-7 grid h-8 w-8 place-items-center rounded-full border border-border bg-background text-foreground md:left-2 md:h-10 md:w-10">
+              <job.Icon size={15} />
+            </span>
+            <div className="card-white rounded-2xl p-6 transition-transform hover:-translate-y-0.5 md:p-8">
+              <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="text-display text-2xl md:text-3xl">{job.company}</h3>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{job.period}</span>
+              </div>
+              <p className="text-sm uppercase tracking-[0.15em] text-highlight">{job.role}</p>
+              <p className="mt-3 max-w-2xl leading-relaxed text-foreground/80">{job.summary}</p>
+            </div>
+          </motion.li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+
 
 
 
