@@ -57,8 +57,9 @@ const brochurePages = import.meta.glob<{ default: { url: string } }>(
 
 
 const brochurePageUrl = (file: string): string => {
-  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
-  return entry ? entry[1].default.url : "";
+  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}.asset.json`));
+  if (!entry) { if (typeof window !== 'undefined') console.warn('[brochure] miss', file, Object.keys(brochurePages).length); return ""; }
+  return entry[1].default.url;
 };
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
