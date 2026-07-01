@@ -250,7 +250,7 @@ function Portfolio() {
         <Skills />
         <Experience />
         <Work />
-        <Gallery onOpen={(item) => setLightbox({ kind: "image", item })} />
+        <Gallery onOpen={(item, list, index) => setLightbox({ kind: "image", item, list, index })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
         <BigTextBanner text="Available for work — 2026" />
         <Contact />
