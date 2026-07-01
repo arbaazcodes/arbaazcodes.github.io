@@ -1420,10 +1420,12 @@ function Lightbox({ state, onClose }: { state: NonNullable<LightboxState>; onClo
 
 
 function Contact() {
+  const ref = useRef<HTMLElement>(null);
+  const words = ["Have", "a", "project", "in", "mind?"];
   return (
-    <section id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 p-8 md:my-24 md:p-16">
+    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 p-8 md:my-24 md:p-16">
       <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb" aria-hidden />
-      <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-foreground/[0.06] blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
+      <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-highlight/20 blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
 
       <div className="relative grid gap-12 md:grid-cols-12">
         <div className="md:col-span-5">
@@ -1437,9 +1439,30 @@ function Contact() {
           </div>
         </div>
         <div className="md:col-span-7">
-          <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)]">
-            Have a project? <br />
-            <a href="mailto:arbaazsince2002@gmail.com" className="link-underline">Let's make it.</a>
+          <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02]">
+            {words.map((w, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ delay: i * 0.06, duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+                className="mr-[0.2em] inline-block"
+              >
+                {w}
+              </motion.span>
+            ))}
+            <br />
+            <motion.a
+              href="mailto:arbaazsince2002@gmail.com"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ delay: words.length * 0.06 + 0.1, duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+              className="link-underline italic text-highlight"
+            >
+              Let's make it.
+            </motion.a>
           </h2>
 
           <div className="mt-12 grid gap-8 md:grid-cols-2">
