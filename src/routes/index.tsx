@@ -1439,6 +1439,26 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                         );
                       }
 
+                      if (sg.name === "Brochure") {
+                        const cover = sg.list.find((x) => x.id === "p4") ?? sg.list[0];
+                        const pages = sg.list.filter((x) => x !== cover);
+                        return (
+                          <div key="Brochure">
+                            <div className="mb-8 flex items-baseline gap-3">
+                              <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                                {sg.name}
+                              </h4>
+                              {sg.script && (
+                                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                                  {sg.script}
+                                </span>
+                              )}
+                            </div>
+                            {cover && <BrochureBook cover={cover} pages={pages} onOpen={onOpen} />}
+                          </div>
+                        );
+                      }
+
                       return (
                         <div key={sg.name ?? "all"}>
                           {sg.name && (
