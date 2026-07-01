@@ -202,7 +202,7 @@ const VIDEOS = [
 ];
 
 type LightboxState =
-  | { kind: "image"; item: GalleryItem }
+  | { kind: "image"; item: GalleryItem; list?: GalleryItem[]; index?: number }
   | { kind: "video"; item: (typeof VIDEOS)[number] }
   | null;
 
