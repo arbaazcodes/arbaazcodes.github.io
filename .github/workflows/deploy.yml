@@ -51,9 +51,10 @@ jobs:
           set -euo pipefail
           site="${{ steps.deployment.outputs.page_url }}"
           origin="${site%/}"
+          cache_buster="v=${GITHUB_SHA}"
 
           for attempt in $(seq 1 30); do
-            html="$(curl -fsSL "${origin}/" || true)"
+            html="$(curl -fsSL "${origin}/?${cache_buster}" || true)"
 
             if printf '%s' "$html" | grep -q '/src/main.tsx'; then
               echo "Attempt ${attempt}: GitHub Pages is still serving the raw source index.html."
@@ -63,9 +64,9 @@ jobs:
               cdn_path="$(printf '%s' "$html" | grep -oE 'href="/assets-cdn/[^"]+"' | head -n1 | sed -E 's/^href="|"$//g' || true)"
 
               if [ -n "$js_path" ] && [ -n "$css_path" ] && [ -n "$cdn_path" ]; then
-                js_type="$(curl -fsSIL "${origin}${js_path}" | awk 'BEGIN{IGNORECASE=1} /^content-type:/ {print $0}' | tail -n1)"
-                curl -fsSIL "${origin}${css_path}" >/dev/null
-                curl -fsSIL "${origin}${cdn_path}" >/dev/null
+                js_type="$(curl -fsSIL "${origin}${js_path}?${cache_buster}" | awk 'BEGIN{IGNORECASE=1} /^content-type:/ {print $0}' | tail -n1)"
+                curl -fsSIL "${origin}${css_path}?${cache_buster}" >/dev/null
+                curl -fsSIL "${origin}${cdn_path}?${cache_buster}" >/dev/null
 
                 if printf '%s' "$js_type" | grep -Eiq 'javascript|ecmascript'; then
                   echo "Verified ${origin}/ uses built JS/CSS and assets-cdn with a JavaScript MIME type."
