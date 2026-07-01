@@ -68,9 +68,10 @@ const BROCHURES: Brochure[] = [
     cover: brochurePageUrl("metropolia_A4_-_1.png"),
     pages: [brochurePageUrl("metropolia_A4_-_2.png")] },
 
-  { id: "tutku", name: "Tutku", tagline: "Product · Marketing Collateral",
-    cover: brochurePageUrl("Tutku-1.jpg"),
-    pages: [2].map((n)=>brochurePageUrl(`Tutku-${n}.jpg`)) },
+  { id: "tutku", name: "Turku", tagline: "Tampere University · PG Diploma Brochure",
+    cover: brochurePageUrl("turku_A4_-_3.png"),
+    pages: [brochurePageUrl("turku_A4_-_4.png")] },
+
   { id: "edufinn", name: "Edu Finn", tagline: "Study in Finland · Program Brochure",
     cover: brochurePageUrl("EduFinn_1.png"),
     pages: [2,3,4].map((n)=>brochurePageUrl(`EduFinn_${n}.png`)) },
