@@ -64,9 +64,10 @@ const BROCHURES: Brochure[] = [
   { id: "crown", name: "Crown", tagline: "Real Estate · Property Brochure",
     cover: brochurePageUrl("Crown_New_Brochure-1.jpg"),
     pages: [2,3,4].map((n)=>brochurePageUrl(`Crown_New_Brochure-${n}.jpg`)) },
-  { id: "metro", name: "Metropolia", tagline: "Corporate · Company Profile",
-    cover: brochurePageUrl("Metropolioa-1.jpg"),
-    pages: [2].map((n)=>brochurePageUrl(`Metropolioa-${n}.jpg`)) },
+  { id: "metro", name: "Metropolia", tagline: "Study in Finland · University Brochure",
+    cover: brochurePageUrl("metropolia_A4_-_1.png"),
+    pages: [brochurePageUrl("metropolia_A4_-_2.png")] },
+
   { id: "tutku", name: "Tutku", tagline: "Product · Marketing Collateral",
     cover: brochurePageUrl("Tutku-1.jpg"),
     pages: [2].map((n)=>brochurePageUrl(`Tutku-${n}.jpg`)) },
