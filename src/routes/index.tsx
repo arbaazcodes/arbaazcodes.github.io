@@ -1439,22 +1439,74 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem) => void }) {
                         );
                       }
 
-                      if (sg.name === "Brochure") {
-                        const cover = sg.list.find((x) => x.id === "p4") ?? sg.list[0];
-                        const pages = sg.list.filter((x) => x !== cover);
+                      if (sg.name === "Brochure" || sg.name === "Standee") {
+                        const cover =
+                          sg.name === "Brochure"
+                            ? sg.list.find((x) => x.id === "p4") ?? sg.list[0]
+                            : sg.list[0];
+                        const thumbs = sg.list.filter((x) => x !== cover);
+                        const coverRatio = sg.name === "Brochure" ? "aspect-[4/3]" : "aspect-[3/4]";
+                        const thumbRatio = sg.name === "Brochure" ? "aspect-[4/3]" : "aspect-[3/4]";
                         return (
-                          <div key="Brochure">
-                            <div className="mb-8 flex items-baseline gap-3">
-                              <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-                                {sg.name}
+                          <div key={sg.name}>
+                            <div className="mb-6 flex items-baseline gap-3">
+                              <h4 className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+                                {sg.name} Design
                               </h4>
-                              {sg.script && (
-                                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
-                                  {sg.script}
-                                </span>
-                              )}
                             </div>
-                            {cover && <BrochureBook cover={cover} pages={pages} onOpen={onOpen} />}
+                            <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_140px] md:gap-8">
+                              <motion.button
+                                onClick={() => cover && onOpen(cover)}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-40px" }}
+                                transition={{ duration: 0.6 }}
+                                className="group relative block cursor-pointer text-left"
+                              >
+                                <Tilt strength={5}>
+                                  {cover && (
+                                    <Placeholder
+                                      label={cover.label}
+                                      ratio={coverRatio}
+                                      variant={cover.variant}
+                                      badge="Front Poster"
+                                      src={cover.src}
+                                      fit={cfg.fit}
+                                    />
+                                  )}
+                                </Tilt>
+                                <div className="mt-3 flex items-center justify-between gap-3">
+                                  <p className="truncate text-sm font-medium text-foreground">
+                                    {cover?.label ?? sg.name}
+                                  </p>
+                                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-highlight">
+                                    Open →
+                                  </span>
+                                </div>
+                              </motion.button>
+
+                              <div className="flex flex-row gap-3 overflow-x-auto md:flex-col md:overflow-visible">
+                                {thumbs.map((t, i) => (
+                                  <motion.button
+                                    key={t.id}
+                                    onClick={() => onOpen(t)}
+                                    initial={{ opacity: 0, x: 12 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-40px" }}
+                                    transition={{ duration: 0.45, delay: i * 0.05 }}
+                                    className="group relative block w-[110px] shrink-0 cursor-pointer overflow-hidden rounded-xl ring-1 ring-border/60 transition-all hover:ring-highlight md:w-full"
+                                  >
+                                    <Placeholder
+                                      label={t.label}
+                                      ratio={thumbRatio}
+                                      variant={t.variant}
+                                      src={t.src}
+                                      fit={cfg.fit}
+                                    />
+                                  </motion.button>
+                                ))}
+                              </div>
+                            </div>
                           </div>
                         );
                       }
