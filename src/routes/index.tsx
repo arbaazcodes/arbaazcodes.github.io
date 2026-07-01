@@ -259,7 +259,20 @@ function Portfolio() {
       </main>
 
       <AnimatePresence>
-        {lightbox && <Lightbox state={lightbox} onClose={() => setLightbox(null)} />}
+        {lightbox && (
+          <Lightbox
+            key={lightbox.kind === "image" ? lightbox.item.id : lightbox.item.id}
+            state={lightbox}
+            onClose={() => setLightbox(null)}
+            onNavigate={(dir) => {
+              setLightbox((prev) => {
+                if (!prev || prev.kind !== "image" || !prev.list || prev.index == null) return prev;
+                const next = (prev.index + dir + prev.list.length) % prev.list.length;
+                return { kind: "image", item: prev.list[next], list: prev.list, index: next };
+              });
+            }}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
