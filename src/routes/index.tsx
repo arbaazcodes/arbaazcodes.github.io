@@ -51,9 +51,10 @@ import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
 
 // Real brochure PDFs → rasterized page images
 const brochurePages = import.meta.glob<{ default: { url: string } }>(
-  "@/assets/brochures/*.jpg.asset.json",
+  "@/assets/brochures/*.asset.json",
   { eager: true }
 );
+
 const brochurePageUrl = (file: string): string => {
   const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
   return entry ? entry[1].default.url : "";
@@ -69,9 +70,10 @@ const BROCHURES: Brochure[] = [
   { id: "tutku", name: "Tutku", tagline: "Product · Marketing Collateral",
     cover: brochurePageUrl("Tutku-1.jpg"),
     pages: [2].map((n)=>brochurePageUrl(`Tutku-${n}.jpg`)) },
-  { id: "edufinn", name: "Edu Finn", tagline: "EdTech · Program Brochure",
-    cover: brochurePageUrl("edufinn-1.jpg"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`edufinn-${n}.jpg`)) },
+  { id: "edufinn", name: "Edu Finn", tagline: "Study in Finland · Program Brochure",
+    cover: brochurePageUrl("EduFinn_1.png"),
+    pages: [2,3,4].map((n)=>brochurePageUrl(`EduFinn_${n}.png`)) },
+
   { id: "swiftams", name: "Swift AMS", tagline: "SaaS · Product Brochure",
     cover: brochurePageUrl("swiftams_1.jpg"),
     pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`swiftams_${n}.jpg`)) },
