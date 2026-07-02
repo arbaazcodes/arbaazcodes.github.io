@@ -29,9 +29,20 @@ const requiredRootFiles = [
   "android-chrome-192x192.png",
   "android-chrome-512x512.png",
 ];
+const invalidProductionReferences = [
+  "/src/main.tsx",
+  "/src/",
+  "/__l5e/",
+  "/assets-v1/",
+  "/internal-assets/",
+];
 
-if (html.includes('/src/main.tsx') || html.includes('/src/')) {
-  throw new Error("dist/index.html still references source files instead of the built bundle.");
+const invalidHtmlReferences = invalidProductionReferences.filter((ref) => html.includes(ref));
+
+if (invalidHtmlReferences.length) {
+  throw new Error(
+    `dist/index.html contains invalid production reference(s):\n${invalidHtmlReferences.join("\n")}`,
+  );
 }
 
 const missingRootFiles = requiredRootFiles.filter((file) => !existsSync(join(distDir, file)));
@@ -67,29 +78,37 @@ if (!existsSync(join(distDir, "assets"))) {
 }
 
 const textFiles = walk(distDir).filter((file) => /\.(html|js|css)$/i.test(file));
-const sourceReferences = [];
-const externalAssetReferences = [];
-const internalLovableAssetPath = `/${"__"}l5e/assets-v1/`;
-const legacyPublicAssetPath = `/${"assets"}-${"cdn"}/`;
+const invalidReferencesByFile = [];
+const missingAssetReferences = [];
+const assetReferencePattern = /["'(](\/assets\/[^"')?#]+)["')?]/g;
 
 for (const file of textFiles) {
   const contents = readFileSync(file, "utf8");
+  const relativeFile = relative(distDir, file);
+  const invalidReferences = invalidProductionReferences.filter((ref) => contents.includes(ref));
 
-  if (contents.includes("/src/main.tsx")) {
-    sourceReferences.push(relative(distDir, file));
+  if (invalidReferences.length) {
+    invalidReferencesByFile.push(`${relativeFile}: ${invalidReferences.join(", ")}`);
   }
 
-  if (contents.includes(internalLovableAssetPath) || contents.includes(legacyPublicAssetPath)) {
-    externalAssetReferences.push(relative(distDir, file));
+  for (const match of contents.matchAll(assetReferencePattern)) {
+    const assetPath = match[1];
+    if (!existsSync(join(distDir, assetPath.slice(1)))) {
+      missingAssetReferences.push(`${relativeFile}: ${assetPath}`);
+    }
   }
 }
 
-if (sourceReferences.length) {
-  throw new Error(`Built files still reference the Vite source entry:\n${sourceReferences.join("\n")}`);
+if (invalidReferencesByFile.length) {
+  throw new Error(
+    `Built files contain invalid source/internal asset reference(s):\n${invalidReferencesByFile.join("\n")}`,
+  );
 }
 
-if (externalAssetReferences.length) {
-  throw new Error(`Built files still reference internal/external asset paths instead of Vite assets:\n${externalAssetReferences.join("\n")}`);
+if (missingAssetReferences.length) {
+  throw new Error(
+    `Built files reference missing /assets files:\n${missingAssetReferences.join("\n")}`,
+  );
 }
 
 const jsRefs = staticRefs.filter((ref) => ref.startsWith("/assets/") && ref.endsWith(".js"));

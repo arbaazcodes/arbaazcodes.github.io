@@ -22,12 +22,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -39,7 +33,7 @@ jobs:
       - name: Build production site
         run: bun run build
 
-      - name: Verify GitHub Pages artifact
+      - name: Verify dist
         run: bun run verify:pages
 
       - name: Upload GitHub Pages artifact
