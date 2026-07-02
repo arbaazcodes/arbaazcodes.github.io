@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { SplashCursorMount } from "../components/SplashCursorMount";
+import { AdaptiveCursor } from "../components/AdaptiveCursor";
 
 function NotFoundComponent() {
   return (
