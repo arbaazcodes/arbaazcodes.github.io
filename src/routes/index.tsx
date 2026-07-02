@@ -884,11 +884,11 @@ function About() {
             {([
               ["Product", "SaaS · CRM · Dashboards", Layers],
               ["UX", "Research · Flows · Prototypes", Sparkles],
-              ["Visual", "Brand · Print · Social", PenTool],
+              ["Visual", <>Brand · Print ·{"\u00a0"}<br />Social</>, PenTool],
               ["AI Workflow", "Figma AI · Cursor · Lovable", Atom],
               ["Tools", "Figma · Adobe CS · Canva", Wrench],
-              ["Based in", "Gurugram, IN · Remote", MapPin],
-            ] as const).map(([k, v, Icon], i) => (
+              ["Based in", <>Gurugram, IN{"\u00a0"}<br />· Remote</>, MapPin],
+            ] as any).map(([k, v, Icon]: any, i: number) => (
               <Reveal key={k} delay={0.05 * i} y={14} blur={6}>
                 <div className="card-white rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.18)]">
                   <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
