@@ -887,6 +887,27 @@ function Stats() {
 
 /* ---------- Skills ---------- */
 
+const TOOL_LOGOS: Record<string, string> = {
+  "Figma": "figma",
+  "Adobe Photoshop": "adobephotoshop",
+  "Adobe Illustrator": "adobeillustrator",
+  "Adobe InDesign": "adobeindesign",
+  "Adobe XD": "adobexd",
+  "Adobe Premiere Pro": "adobepremierepro",
+  "Adobe After Effects": "adobeaftereffects",
+  "Canva": "canva",
+  "CorelDRAW": "coreldraw",
+  "ChatGPT": "openai",
+  "Claude": "anthropic",
+  "Gemini": "googlegemini",
+  "Adobe Firefly": "adobe",
+  "Figma AI": "figma",
+  "Canva AI": "canva",
+  "Cursor": "cursor",
+  "Lovable": "lovable",
+  "Midjourney": "midjourney",
+};
+
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
   { group: "Product Domains", items: ["SaaS Product Design", "CRM Product Design", "Dashboard Design", "Responsive Web Design", "Landing Page Design"] },
@@ -921,18 +942,31 @@ function Skills() {
                 <span className="h-px flex-1 bg-border" />
               </div>
               <div className="flex flex-wrap gap-2">
-                {g.items.map((s, i) => (
-                  <motion.span
-                    key={s}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
-                    className="card-white rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
-                  >
-                    {s}
-                  </motion.span>
-                ))}
+                {g.items.map((s, i) => {
+                  const slug = TOOL_LOGOS[s];
+                  return (
+                    <motion.span
+                      key={s}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-40px" }}
+                      transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
+                      className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
+                    >
+                      {slug ? (
+                        <img
+                          src={`https://cdn.simpleicons.org/${slug}`}
+                          alt=""
+                          aria-hidden
+                          loading="lazy"
+                          className="h-4 w-4 shrink-0 object-contain"
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                        />
+                      ) : null}
+                      {s}
+                    </motion.span>
+                  );
+                })}
               </div>
             </div>
           ))}
@@ -1707,30 +1741,23 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
         exit={{ scale: 0.95, y: 10 }}
         transition={{ type: "spring", stiffness: 220, damping: 24 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 grid w-full max-w-[1100px] gap-0 overflow-hidden rounded-3xl border border-border/70 glass shadow-2xl md:grid-cols-[1.4fr_1fr]"
+        className="relative z-10 flex max-h-[92vh] w-auto max-w-[95vw] flex-col overflow-hidden rounded-3xl border border-border/70 glass shadow-2xl md:flex-row md:items-stretch"
       >
-        {/* Media side */}
-        <div className="relative bg-black/40">
+        {/* Media side — sized to image's natural dimensions, capped to viewport */}
+        <div className="relative flex items-center justify-center bg-black/40">
           {state.kind === "image" ? (
-            <div className="relative h-full min-h-[280px]">
+            <div className="relative flex max-h-[92vh] items-center justify-center">
               <AnimatePresence mode="wait">
-                <motion.div
+                <motion.img
                   key={state.item.id}
+                  src={state.item.src}
+                  alt={state.item.label}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="h-full"
-                >
-                  <Placeholder
-                    label={state.item.label}
-                    ratio="aspect-[4/3] md:aspect-auto md:h-full"
-                    variant={state.item.variant}
-                    badge={state.item.category}
-                    src={state.item.src}
-                    fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
-                  />
-                </motion.div>
+                  className="block h-auto w-auto max-h-[92vh] max-w-[min(75vw,1200px)] object-contain"
+                />
               </AnimatePresence>
               {hasNav && state.index != null && state.list && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur">
@@ -1739,7 +1766,7 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
               )}
             </div>
           ) : (
-            <div className="relative aspect-video w-full md:aspect-auto md:h-full md:min-h-[360px]">
+            <div className="relative aspect-video w-[min(80vw,1000px)]">
               <iframe
                 src={`https://www.youtube.com/embed/${state.item.id}?autoplay=1&rel=0`}
                 title={state.item.title}
@@ -1751,8 +1778,9 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
           )}
         </div>
 
+
         {/* Detail side */}
-        <div className="flex flex-col gap-5 p-6 md:p-8">
+        <div className="flex w-full shrink-0 flex-col gap-5 overflow-y-auto p-6 md:w-[340px] md:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-eyebrow mb-2">
