@@ -1,0 +1,22 @@
+/**
+ * Fullscreen ambient multi-color gradient background.
+ * - Fixed behind all content (z-[-1]).
+ * - Soft pastel blobs that float continuously.
+ * - Respects prefers-reduced-motion.
+ */
+export function AmbientBackground() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+    >
+      <div className="ambient-blob ambient-blob-1" />
+      <div className="ambient-blob ambient-blob-2" />
+      <div className="ambient-blob ambient-blob-3" />
+      <div className="ambient-blob ambient-blob-4" />
+      <div className="ambient-blob ambient-blob-5" />
+    </div>
+  );
+}
+
+export default AmbientBackground;
