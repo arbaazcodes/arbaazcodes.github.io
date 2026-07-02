@@ -238,7 +238,7 @@ function Portfolio() {
   }, [lightbox]);
 
   return (
-    <div className="grain relative min-h-screen bg-background text-foreground">
+    <div className="grain relative min-h-screen text-foreground">
       <ScrollProgress />
       <AmbientOrbs />
       <Cursor />
