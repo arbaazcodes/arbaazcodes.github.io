@@ -257,6 +257,7 @@ function Portfolio() {
 
         <Footer />
       </main>
+      <QuickChatFab />
 
       <AnimatePresence>
         {lightbox && (
@@ -349,6 +350,7 @@ function Cursor() {
 
 function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
   const [open, setOpen] = useState(false);
+  const [deskOpen, setDeskOpen] = useState(false);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -363,30 +365,52 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           </span>
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">arbaaz/2026</span>
         </a>
-        <nav className="hidden gap-0.5 md:flex">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className={`relative rounded-full px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
-                active === n.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {active === n.id && (
-                <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-foreground/10" transition={{ type: "spring", stiffness: 350, damping: 30 }} />
-              )}
-              <span className="relative">{n.label}</span>
-            </a>
-          ))}
-          <Link
-            to="/resume"
-            className="relative inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <FileText className="h-3 w-3" /> Resume
-          </Link>
-        </nav>
-
         <div className="flex items-center gap-2">
+          <div className="relative hidden md:block">
+            <button
+              onClick={() => setDeskOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={deskOpen}
+              className="inline-flex items-center gap-2 rounded-full border border-border/60 px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-foreground hover:bg-foreground/10 transition-colors"
+            >
+              <Menu size={13} />
+              <span>{NAV.find((n) => n.id === active)?.label ?? "Menu"}</span>
+            </button>
+            <AnimatePresence>
+              {deskOpen && (
+                <>
+                  <button
+                    aria-label="Close menu"
+                    onClick={() => setDeskOpen(false)}
+                    className="fixed inset-0 z-[54] cursor-default"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    role="menu"
+                    className="absolute right-0 top-[calc(100%+8px)] z-[56] min-w-[220px] rounded-2xl border border-border/60 bg-popover p-1.5 shadow-2xl backdrop-blur-md"
+                  >
+                    {NAV.map((n) => (
+                      <a
+                        key={n.id}
+                        href={`#${n.id}`}
+                        role="menuitem"
+                        onClick={() => setDeskOpen(false)}
+                        className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
+                          active === n.id ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+                        }`}
+                      >
+                        <span>{n.label}</span>
+                        <ArrowUpRight size={13} className="opacity-40" />
+                      </a>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
           <button
             onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
@@ -394,9 +418,12 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           >
             {dark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
-          <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
-            Let's talk <ArrowRight size={13} />
-          </a>
+          <Link
+            to="/resume"
+            className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors"
+          >
+            <FileText size={13} /> Resume
+          </Link>
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
@@ -473,13 +500,13 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
                   </Link>
                 </motion.div>
               </nav>
-              <a
-                href="#contact"
+              <Link
+                to="/resume"
                 onClick={() => setOpen(false)}
                 className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-background"
               >
-                Let's talk <ArrowRight size={13} />
-              </a>
+                <FileText size={13} /> Resume
+              </Link>
             </motion.div>
           </motion.div>
         )}
@@ -2140,5 +2167,89 @@ function Footer() {
       <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">© 2026 Arbaaz — Product Designer · UI/UX · Visual</p>
       <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Gurugram, India · Available worldwide</p>
     </footer>
+  );
+}
+
+function QuickChatFab() {
+  const [open, setOpen] = useState(false);
+  const [msg, setMsg] = useState("");
+  const send = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = msg.trim();
+    if (!text) return;
+    window.location.href = `mailto:arbaazsince2002@gmail.com?subject=${encodeURIComponent("Quick chat from portfolio")}&body=${encodeURIComponent(text)}`;
+    setMsg("");
+    setOpen(false);
+  };
+  return (
+    <>
+      <motion.button
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close quick chat" : "Open quick chat"}
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.6, type: "spring", stiffness: 260, damping: 20 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        className="fixed bottom-5 right-5 z-[90] flex h-14 w-14 items-center justify-center rounded-full bg-foreground text-background shadow-2xl ring-1 ring-foreground/10 hover:bg-foreground/90 md:bottom-8 md:right-8"
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {open ? (
+            <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <X size={20} />
+            </motion.span>
+          ) : (
+            <motion.span key="c" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <MessageCircle size={20} />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        {!open && <span className="pulse-ring absolute inset-0 rounded-full" />}
+      </motion.button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.96 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-24 right-5 z-[89] w-[calc(100vw-2.5rem)] max-w-[340px] overflow-hidden rounded-3xl border border-border/60 bg-popover shadow-2xl backdrop-blur-md md:bottom-28 md:right-8"
+          >
+            <div className="flex items-center gap-3 border-b border-border/60 bg-foreground/[0.03] px-4 py-3">
+              <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
+                <span className="font-display text-sm font-semibold">a</span>
+                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-popover" />
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-foreground">Chat with Arbaaz</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Usually replies in a few hours</p>
+              </div>
+            </div>
+            <form onSubmit={send} className="p-3">
+              <textarea
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                rows={3}
+                maxLength={1000}
+                autoFocus
+                placeholder="Hi Arbaaz, I'd love to talk about…"
+                className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+              />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <p className="font-mono text-[10px] text-muted-foreground">{msg.length}/1000</p>
+                <button
+                  type="submit"
+                  disabled={!msg.trim()}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-opacity hover:bg-foreground/85 disabled:opacity-40"
+                >
+                  Send <Send size={12} />
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
