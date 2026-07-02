@@ -924,6 +924,27 @@ const TOOL_LOGOS: Record<string, string> = {
   "Midjourney": midjourneyLogo.url,
 };
 
+const TOOL_LINKS: Record<string, string> = {
+  "Figma": "https://www.figma.com/",
+  "Adobe Photoshop": "https://www.adobe.com/products/photoshop.html",
+  "Adobe Illustrator": "https://www.adobe.com/products/illustrator.html",
+  "Adobe InDesign": "https://www.adobe.com/products/indesign.html",
+  "Adobe XD": "https://www.adobe.com/products/xd.html",
+  "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
+  "Adobe After Effects": "https://www.adobe.com/products/aftereffects.html",
+  "Canva": "https://www.canva.com/",
+  "CorelDRAW": "https://www.coreldraw.com/",
+  "ChatGPT": "https://chat.openai.com/",
+  "Claude": "https://claude.ai/",
+  "Gemini": "https://gemini.google.com/",
+  "Adobe Firefly": "https://www.adobe.com/products/firefly.html",
+  "Figma AI": "https://www.figma.com/ai/",
+  "Canva AI": "https://www.canva.com/ai/",
+  "Cursor": "https://cursor.com/",
+  "Lovable": "https://lovable.dev/",
+  "Midjourney": "https://www.midjourney.com/",
+};
+
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
@@ -961,15 +982,9 @@ function Skills() {
               <div className="flex flex-wrap gap-2">
                 {g.items.map((s, i) => {
                   const slug = TOOL_LOGOS[s];
-                  return (
-                    <motion.span
-                      key={s}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-40px" }}
-                      transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
-                      className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
-                    >
+                  const link = TOOL_LINKS[s];
+                  const inner = (
+                    <>
                       {slug ? (
                         <img
                           src={slug}
@@ -981,6 +996,22 @@ function Skills() {
                         />
                       ) : null}
                       {s}
+                    </>
+                  );
+                  const commonProps = {
+                    initial: { opacity: 0, y: 12 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, margin: "-40px" },
+                    transition: { duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
+                    className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight",
+                  };
+                  return link ? (
+                    <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
+                      {inner}
+                    </motion.a>
+                  ) : (
+                    <motion.span key={s} {...commonProps}>
+                      {inner}
                     </motion.span>
                   );
                 })}
