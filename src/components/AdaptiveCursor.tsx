@@ -245,37 +245,36 @@ export function AdaptiveCursor() {
         ctx.fill();
       }
 
-      // Ripples
+      // Ripples — smaller and quicker
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
-        rp.life -= 0.02 * dt;
+        rp.life -= 0.05 * dt;
         if (rp.life <= 0) { ripples.splice(i, 1); continue; }
-        const r = (1 - rp.life) * 140;
-        ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.6})`;
-        ctx.lineWidth = 2 * rp.life + 0.5;
+        const r = (1 - rp.life) * 42;
+        ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.35})`;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(rp.x, rp.y, r, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // Main orb (breathing when idle)
-      const breathe = mouse.moving ? 0 : (Math.sin(now / 620) * 0.5 + 0.5);
-      const baseR = 14 + Math.min(18, speed * 0.35) + breathe * 4;
+      // Main orb (breathing when idle) — small & subtle
+      const breathe = mouse.moving ? 0 : (Math.sin(now / 720) * 0.5 + 0.5);
+      const baseR = 5 + Math.min(3, speed * 0.08) + breathe * 1.2;
 
-      // outer bloom
-      const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 5);
-      bloom.addColorStop(0, `hsla(${hue}, ${sat}%, ${Math.min(85, light + 20)}%, 0.55)`);
-      bloom.addColorStop(0.4, `hsla(${hue}, ${sat}%, ${light}%, 0.18)`);
+      // soft bloom (small radius, low alpha)
+      const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 3);
+      bloom.addColorStop(0, `hsla(${hue}, ${sat}%, ${Math.min(80, light + 15)}%, 0.18)`);
       bloom.addColorStop(1, `hsla(${hue}, ${sat}%, ${light}%, 0)`);
       ctx.fillStyle = bloom;
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, baseR * 5, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, baseR * 3, 0, Math.PI * 2);
       ctx.fill();
 
-      // core
+      // core dot
       const core = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR);
-      core.addColorStop(0, `hsla(${hue}, ${Math.min(100, sat + 10)}%, 92%, 0.95)`);
-      core.addColorStop(0.5, `hsla(${hue}, ${sat}%, ${Math.min(80, light + 15)}%, 0.7)`);
+      core.addColorStop(0, `hsla(${hue}, ${Math.min(100, sat + 10)}%, 90%, 0.7)`);
+      core.addColorStop(0.6, `hsla(${hue}, ${sat}%, ${Math.min(75, light + 10)}%, 0.4)`);
       core.addColorStop(1, `hsla(${hue}, ${sat}%, ${light}%, 0)`);
       ctx.fillStyle = core;
       ctx.beginPath();
