@@ -1780,7 +1780,7 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
 
 
         {/* Detail side */}
-        <div className="flex flex-col gap-5 p-6 md:p-8">
+        <div className="flex w-full shrink-0 flex-col gap-5 overflow-y-auto p-6 md:w-[340px] md:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-eyebrow mb-2">
