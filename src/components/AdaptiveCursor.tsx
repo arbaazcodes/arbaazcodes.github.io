@@ -232,13 +232,12 @@ export function AdaptiveCursor() {
         p.y += p.vy * dt;
         p.vx *= 0.96;
         p.vy *= 0.96;
-        p.life -= 0.018 * dt;
+        p.life -= 0.035 * dt;
         if (p.life <= 0) { trail.splice(i, 1); continue; }
-        const r = p.size * (0.6 + 0.6 * p.life);
+        const r = p.size * (0.5 + 0.5 * p.life);
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-        const alpha = 0.35 * p.life;
-        grad.addColorStop(0, `hsla(${p.hue}, ${p.sat}%, ${Math.min(80, p.light + 15)}%, ${alpha})`);
-        grad.addColorStop(0.5, `hsla(${p.hue}, ${p.sat}%, ${p.light}%, ${alpha * 0.35})`);
+        const alpha = 0.16 * p.life;
+        grad.addColorStop(0, `hsla(${p.hue}, ${p.sat}%, ${Math.min(80, p.light + 10)}%, ${alpha})`);
         grad.addColorStop(1, `hsla(${p.hue}, ${p.sat}%, ${p.light}%, 0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
