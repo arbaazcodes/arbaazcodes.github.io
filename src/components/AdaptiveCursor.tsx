@@ -181,45 +181,28 @@ export function AdaptiveCursor() {
       speed += (instSpeed - speed) * 0.2;
       mouse.moving = now - lastMoveTs < 120;
 
-      // Sample bg every ~6 frames for adaptive color
-      sampleTick++;
-      if (sampleTick % 6 === 0 && mouse.active) {
-        try {
-          const [sh, ss, sl] = sampleBackground(mouse.x, mouse.y);
-          // Choose complementary / vibrant glow.
-          // If the sampled area is nearly grayscale, fall back to a premium violet.
-          let targetH = ss < 8 ? 268 : (sh + 180) % 360;
-          // Ensure a rich saturated glow
-          let targetS = ss < 8 ? 85 : Math.max(70, Math.min(95, ss + 20));
-          // Contrast: bright on dark, slightly dimmer on light bg
-          let targetL = sl < 45 ? 65 : 55;
-
-          const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-          const lerpH = (a: number, b: number, t: number) => {
-            let d = ((b - a + 540) % 360) - 180;
-            return (a + d * t + 360) % 360;
-          };
-          hue = lerpH(hue, targetH, 0.15);
-          sat = lerp(sat, targetS, 0.15);
-          light = lerp(light, targetL, 0.15);
-        } catch { /* ignore */ }
-      }
+      // Continuously cycle hue for a multi-color rainbow glow
+      hue = (hue + 0.9 * dt) % 360;
+      sat = 90;
+      light = 62;
 
       // Emit trail points as the cursor moves — sparse and small
       const emitCount = instSpeed > 4 && Math.random() < 0.5 ? 1 : 0;
       for (let i = 0; i < emitCount; i++) {
+        // Slight hue offset per particle so the trail becomes a gradient ribbon
+        const pHue = (hue + (Math.random() - 0.5) * 40 + 360) % 360;
         trail.push({
           x: orb.x + (Math.random() - 0.5) * 1.5,
           y: orb.y + (Math.random() - 0.5) * 1.5,
           vx: (Math.random() - 0.5) * 0.3,
           vy: (Math.random() - 0.5) * 0.3 - 0.08,
           life: 1,
-          size: 4 + Math.random() * 3 + Math.min(6, instSpeed * 0.15),
-          hue, sat, light,
+          size: (4 + Math.random() * 3 + Math.min(6, instSpeed * 0.15)) * 1.1,
+          hue: pHue, sat, light,
         });
       }
       // cap trail length (shorter)
-      if (trail.length > 40) trail.splice(0, trail.length - 40);
+      if (trail.length > 44) trail.splice(0, trail.length - 44);
 
       // Clear with slight transparency to allow motion blur trails
       ctx.clearRect(0, 0, w, h);
