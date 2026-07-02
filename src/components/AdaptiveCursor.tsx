@@ -142,14 +142,14 @@ export function AdaptiveCursor() {
         x: e.clientX, y: e.clientY, life: 1,
         hue, sat, light,
       });
-      // spawn extra splash points
-      for (let i = 0; i < 14; i++) {
+      // subtle splash — very few particles
+      for (let i = 0; i < 3; i++) {
         const a = Math.random() * Math.PI * 2;
-        const sp = 2 + Math.random() * 5;
+        const sp = 1 + Math.random() * 1.6;
         trail.push({
           x: e.clientX, y: e.clientY,
           vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
-          life: 1, size: 8 + Math.random() * 14,
+          life: 1, size: 5 + Math.random() * 5,
           hue, sat, light,
         });
       }
