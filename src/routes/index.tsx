@@ -942,18 +942,31 @@ function Skills() {
                 <span className="h-px flex-1 bg-border" />
               </div>
               <div className="flex flex-wrap gap-2">
-                {g.items.map((s, i) => (
-                  <motion.span
-                    key={s}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
-                    className="card-white rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
-                  >
-                    {s}
-                  </motion.span>
-                ))}
+                {g.items.map((s, i) => {
+                  const slug = TOOL_LOGOS[s];
+                  return (
+                    <motion.span
+                      key={s}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-40px" }}
+                      transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
+                      className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
+                    >
+                      {slug ? (
+                        <img
+                          src={`https://cdn.simpleicons.org/${slug}`}
+                          alt=""
+                          aria-hidden
+                          loading="lazy"
+                          className="h-4 w-4 shrink-0 object-contain"
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                        />
+                      ) : null}
+                      {s}
+                    </motion.span>
+                  );
+                })}
               </div>
             </div>
           ))}
