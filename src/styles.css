@@ -266,102 +266,91 @@
 }
 
 /* ==========================================================================
-   Ambient floating blob layer
-   - Sits behind all content, does NOT paint any page background.
-   - 8 independent blurred colored blobs drifting slowly like clouds.
-   - GPU-accelerated transforms + opacity only.
+   Ambient mesh background — pure CSS
+   - Fixed behind all content, base page stays #ffffff.
+   - 4 large blurred radial-gradient blobs, each animated independently.
+   - Only transform is animated -> GPU-accelerated, 60 FPS.
    ========================================================================== */
-.ambient-root {
-  /* Intentionally transparent — preserves the underlying page background. */
-  background: transparent;
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: #ffffff;
   contain: strict;
 }
 
-.ambient-blob {
+.ambient-bg .blob {
   position: absolute;
-  display: block;
+  width: 1000px;
+  height: 1000px;
   border-radius: 50%;
-  will-change: transform, opacity;
+  filter: blur(140px);
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-.dark .ambient-blob { mix-blend-mode: screen; }
-
-/* Colors: White, Baby Blue, Sky Blue, Soft Pink, Lavender, Mint.
-   Opacity 5–10%, Blur 220–300px, Duration 35–60s. Each blob unique. */
-.ab-1 { top: -12%; left: -10%;  width: 58vmax; height: 58vmax;
-  background: radial-gradient(circle at 40% 40%, #FFFFFF 0%, transparent 60%);
-  filter: blur(260px); opacity: 0.10;
-  animation: ab-drift-1 58s ease-in-out infinite; }
-.ab-2 { top: 6%; right: -14%; width: 50vmax; height: 50vmax;
-  background: radial-gradient(circle at 55% 45%, #B8DCFF 0%, transparent 60%);
-  filter: blur(240px); opacity: 0.09;
-  animation: ab-drift-2 46s ease-in-out infinite; }
-.ab-3 { bottom: -16%; left: 4%; width: 62vmax; height: 62vmax;
-  background: radial-gradient(circle at 45% 55%, #DCC8FF 0%, transparent 60%);
-  filter: blur(280px); opacity: 0.08;
-  animation: ab-drift-3 54s ease-in-out infinite; }
-.ab-4 { bottom: -10%; right: -8%; width: 52vmax; height: 52vmax;
-  background: radial-gradient(circle at 50% 50%, #D8FFF3 0%, transparent 60%);
-  filter: blur(230px); opacity: 0.09;
-  animation: ab-drift-4 41s ease-in-out infinite; }
-.ab-5 { top: 34%; left: 26%; width: 44vmax; height: 44vmax;
-  background: radial-gradient(circle at 50% 50%, #F8B8D8 0%, transparent 60%);
-  filter: blur(250px); opacity: 0.06;
-  animation: ab-drift-5 50s ease-in-out infinite; }
-.ab-6 { top: 52%; right: 18%; width: 40vmax; height: 40vmax;
-  background: radial-gradient(circle at 50% 50%, #7FC8FF 0%, transparent 60%);
-  filter: blur(220px); opacity: 0.08;
-  animation: ab-drift-6 37s ease-in-out infinite; }
-.ab-7 { top: 18%; left: 38%; width: 46vmax; height: 46vmax;
-  background: radial-gradient(circle at 50% 50%, #CFE9FF 0%, transparent 60%);
-  filter: blur(270px); opacity: 0.07;
-  animation: ab-drift-7 43s ease-in-out infinite; }
-.ab-8 { bottom: 12%; left: 42%; width: 42vmax; height: 42vmax;
-  background: radial-gradient(circle at 50% 50%, #CFF6E6 0%, transparent 60%);
-  filter: blur(240px); opacity: 0.07;
-  animation: ab-drift-8 48s ease-in-out infinite; }
-
-/* Each blob: unique direction, distance, scale, rotation, duration */
-@keyframes ab-drift-1 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(7vw, 5vh, 0) scale(1.08) rotate(6deg); }
-}
-@keyframes ab-drift-2 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(-6vw, 6vh, 0) scale(1.10) rotate(-7deg); }
-}
-@keyframes ab-drift-3 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(5vw, -7vh, 0) scale(1.07) rotate(5deg); }
-}
-@keyframes ab-drift-4 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(-7vw, -4vh, 0) scale(1.09) rotate(-6deg); }
-}
-@keyframes ab-drift-5 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(6vw, 7vh, 0) scale(1.06) rotate(8deg); }
-}
-@keyframes ab-drift-6 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(-5vw, -6vh, 0) scale(1.08) rotate(-5deg); }
-}
-@keyframes ab-drift-7 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(-4vw, 5vh, 0) scale(1.05) rotate(4deg); }
-}
-@keyframes ab-drift-8 {
-  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
-  50%     { transform: translate3d(5vw, -5vh, 0) scale(1.07) rotate(-4deg); }
 }
 
-@media (max-width: 640px) {
-  .ambient-blob { filter: blur(180px); }
+.ambient-bg .blob1 {
+  width: 1100px; height: 1100px;
+  top: -280px; right: -260px;
+  background: radial-gradient(circle, #57A9FF 0%, transparent 70%);
+  animation: ambient-float-1 62s ease-in-out infinite alternate;
 }
+.ambient-bg .blob2 {
+  width: 1200px; height: 1200px;
+  bottom: -320px; left: -300px;
+  background: radial-gradient(circle, #F8A9C8 0%, transparent 70%);
+  animation: ambient-float-2 74s ease-in-out infinite alternate;
+}
+.ambient-bg .blob3 {
+  width: 900px; height: 900px;
+  top: 32%; left: 38%;
+  background: radial-gradient(circle, #C8B7FF 0%, transparent 70%);
+  animation: ambient-float-3 54s ease-in-out infinite alternate;
+}
+.ambient-bg .blob4 {
+  width: 950px; height: 950px;
+  bottom: 18%; right: 24%;
+  background: radial-gradient(circle, #BFDFFF 0%, transparent 70%);
+  animation: ambient-float-4 68s ease-in-out infinite alternate;
+}
+
+/* Each blob drifts on its own path — no synchronized looping. */
+@keyframes ambient-float-1 {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  25%  { transform: translate3d(80px, -60px, 0) scale(1.08) rotate(2deg); }
+  50%  { transform: translate3d(-60px, 70px, 0) scale(0.95) rotate(-2deg); }
+  75%  { transform: translate3d(40px, 100px, 0) scale(1.05) rotate(1deg); }
+  100% { transform: translate3d(-80px, -50px, 0) scale(1.02) rotate(-1deg); }
+}
+@keyframes ambient-float-2 {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  25%  { transform: translate3d(-70px, 90px, 0) scale(1.06) rotate(-2deg); }
+  50%  { transform: translate3d(90px, -60px, 0) scale(0.97) rotate(2deg); }
+  75%  { transform: translate3d(-40px, -90px, 0) scale(1.04) rotate(-1deg); }
+  100% { transform: translate3d(60px, 70px, 0) scale(1.01) rotate(1deg); }
+}
+@keyframes ambient-float-3 {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  25%  { transform: translate3d(60px, 70px, 0) scale(1.07) rotate(1deg); }
+  50%  { transform: translate3d(-80px, -50px, 0) scale(0.94) rotate(-2deg); }
+  75%  { transform: translate3d(90px, -80px, 0) scale(1.03) rotate(2deg); }
+  100% { transform: translate3d(-50px, 60px, 0) scale(1.05) rotate(-1deg); }
+}
+@keyframes ambient-float-4 {
+  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  25%  { transform: translate3d(-90px, -70px, 0) scale(1.05) rotate(-1deg); }
+  50%  { transform: translate3d(70px, 80px, 0) scale(0.96) rotate(2deg); }
+  75%  { transform: translate3d(-60px, 90px, 0) scale(1.06) rotate(-2deg); }
+  100% { transform: translate3d(80px, -60px, 0) scale(1.02) rotate(1deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .ambient-blob { animation: none !important; }
+  .ambient-bg .blob { animation: none !important; }
 }
+
 
