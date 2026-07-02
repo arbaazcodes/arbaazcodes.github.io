@@ -1062,7 +1062,7 @@ function Skills() {
                     transition: { duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
                     className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:text-highlight hover:shadow-[0_10px_26px_-14px_rgba(0,0,0,0.22)]",
                   };
-                  return link ? (
+                  const chip = link ? (
                     <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
                       {inner}
                     </motion.a>
@@ -1070,6 +1070,11 @@ function Skills() {
                     <motion.span key={s} {...commonProps}>
                       {inner}
                     </motion.span>
+                  );
+                  return (
+                    <Magnetic key={s} strength={6} padding={10}>
+                      {chip}
+                    </Magnetic>
                   );
                 })}
               </div>
