@@ -982,15 +982,9 @@ function Skills() {
               <div className="flex flex-wrap gap-2">
                 {g.items.map((s, i) => {
                   const slug = TOOL_LOGOS[s];
-                  return (
-                    <motion.span
-                      key={s}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-40px" }}
-                      transition={{ duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] }}
-                      className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight"
-                    >
+                  const link = TOOL_LINKS[s];
+                  const inner = (
+                    <>
                       {slug ? (
                         <img
                           src={slug}
@@ -1002,6 +996,22 @@ function Skills() {
                         />
                       ) : null}
                       {s}
+                    </>
+                  );
+                  const commonProps = {
+                    initial: { opacity: 0, y: 12 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, margin: "-40px" },
+                    transition: { duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
+                    className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight",
+                  };
+                  return link ? (
+                    <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
+                      {inner}
+                    </motion.a>
+                  ) : (
+                    <motion.span key={s} {...commonProps}>
+                      {inner}
                     </motion.span>
                   );
                 })}
