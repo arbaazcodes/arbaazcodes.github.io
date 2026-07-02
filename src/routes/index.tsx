@@ -1741,30 +1741,23 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
         exit={{ scale: 0.95, y: 10 }}
         transition={{ type: "spring", stiffness: 220, damping: 24 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 grid w-full max-w-[1100px] gap-0 overflow-hidden rounded-3xl border border-border/70 glass shadow-2xl md:grid-cols-[1.4fr_1fr]"
+        className="relative z-10 flex max-h-[92vh] w-auto max-w-[95vw] flex-col overflow-hidden rounded-3xl border border-border/70 glass shadow-2xl md:flex-row md:items-stretch"
       >
-        {/* Media side */}
-        <div className="relative bg-black/40">
+        {/* Media side — sized to image's natural dimensions, capped to viewport */}
+        <div className="relative flex items-center justify-center bg-black/40">
           {state.kind === "image" ? (
-            <div className="relative h-full min-h-[280px]">
+            <div className="relative flex max-h-[92vh] items-center justify-center">
               <AnimatePresence mode="wait">
-                <motion.div
+                <motion.img
                   key={state.item.id}
+                  src={state.item.src}
+                  alt={state.item.label}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="h-full"
-                >
-                  <Placeholder
-                    label={state.item.label}
-                    ratio="aspect-[4/3] md:aspect-auto md:h-full"
-                    variant={state.item.variant}
-                    badge={state.item.category}
-                    src={state.item.src}
-                    fit={state.item.category === "Brand" || state.item.category === "Mobile" ? "contain" : "cover"}
-                  />
-                </motion.div>
+                  className="block h-auto w-auto max-h-[92vh] max-w-[min(75vw,1200px)] object-contain"
+                />
               </AnimatePresence>
               {hasNav && state.index != null && state.list && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur">
@@ -1773,7 +1766,7 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
               )}
             </div>
           ) : (
-            <div className="relative aspect-video w-full md:aspect-auto md:h-full md:min-h-[360px]">
+            <div className="relative aspect-video w-[min(80vw,1000px)]">
               <iframe
                 src={`https://www.youtube.com/embed/${state.item.id}?autoplay=1&rel=0`}
                 title={state.item.title}
@@ -1784,6 +1777,7 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
             </div>
           )}
         </div>
+
 
         {/* Detail side */}
         <div className="flex flex-col gap-5 p-6 md:p-8">
