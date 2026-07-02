@@ -499,13 +499,13 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
                   </Link>
                 </motion.div>
               </nav>
-              <a
-                href="#contact"
+              <Link
+                to="/resume"
                 onClick={() => setOpen(false)}
                 className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-background"
               >
-                Let's talk <ArrowRight size={13} />
-              </a>
+                <FileText size={13} /> Resume
+              </Link>
             </motion.div>
           </motion.div>
         )}
