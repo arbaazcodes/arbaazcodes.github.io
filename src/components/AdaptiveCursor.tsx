@@ -243,7 +243,7 @@ export function AdaptiveCursor() {
 
       // Main orb (breathing when idle) — small & subtle
       const breathe = mouse.moving ? 0 : (Math.sin(now / 720) * 0.5 + 0.5);
-      const baseR = 5 + Math.min(3, speed * 0.08) + breathe * 1.2;
+      const baseR = (5 + Math.min(3, speed * 0.08) + breathe * 1.2) * 1.1;
 
       // soft bloom (small radius, low alpha)
       const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 3);
