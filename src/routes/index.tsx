@@ -131,59 +131,77 @@ const DISCIPLINES: Discipline[] = [
 
 type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3; src?: string };
 
-// Real assets extracted from arbaazsince2002.wixsite.com/arbaaz-portfolio
-const wix = (hash: string, _w = 900, _ext: "png" | "jpg" = "png") =>
-  `https://static.wixstatic.com/media/${hash}`;
+const portfolioAssets = import.meta.glob<string>(
+  "../assets/portfolio/*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
+);
+
+const videoThumbnails = import.meta.glob<string>(
+  "../assets/video-thumbnails/*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
+);
+
+const portfolioAsset = (file: string): string => {
+  const entry = Object.entries(portfolioAssets).find(([k]) => k.endsWith(`/${file}`));
+  if (!entry) { if (typeof window !== 'undefined') console.warn('[portfolio] miss', file, Object.keys(portfolioAssets).length); return ""; }
+  return entry[1];
+};
+
+const videoThumbnail = (id: string): string => {
+  const entry = Object.entries(videoThumbnails).find(([k]) => k.endsWith(`/${id}.jpg`));
+  if (!entry) { if (typeof window !== 'undefined') console.warn('[video thumbnail] miss', id, Object.keys(videoThumbnails).length); return ""; }
+  return entry[1];
+};
 
 const GALLERY: GalleryItem[] = [
   // Brand & Logos — real client identities from the old portfolio
   
-  { id: "b2", label: "SwiftAMS · Identity",    category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_ca3694966e014708a64fce392f994256~mv2.png") },
-  { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: wix("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
-  { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
-  { id: "b5", label: "Iksha Lab · Identity",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png") },
+  { id: "b2", label: "SwiftAMS · Identity",    category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: portfolioAsset("89f4f8_ca3694966e014708a64fce392f994256~mv2.png") },
+  { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: portfolioAsset("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
+  { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
+  { id: "b5", label: "Iksha Lab · Identity",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: portfolioAsset("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png") },
 
   // Social Media — posters & campaign creatives (numbered, S-series, E-series)
-  { id: "s1",  label: "Social Poster · 01",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
-  { id: "s2",  label: "Social Poster · 02",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png") },
-  { id: "s4",  label: "Social Poster · 04",    category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png") },
-  { id: "s5",  label: "Social Poster · 05",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png") },
-  { id: "s6",  label: "Social Poster · 06",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png") },
-  { id: "ss1", label: "Campaign · S1",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png") },
-  { id: "ss2", label: "Campaign · S2",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png") },
-  { id: "ss3", label: "Campaign · S3",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png") },
-  { id: "ss4", label: "Campaign · S4",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png") },
-  { id: "ss5", label: "Campaign · S5",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png") },
-  { id: "se1", label: "Edu Finn · E1",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png") },
-  { id: "se2", label: "Edu Finn · E2",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png") },
-  { id: "se3", label: "Edu Finn · E3",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
-  { id: "se4", label: "Edu Finn · E4",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
-  { id: "se5", label: "Edu Finn · E5",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
+  { id: "s1",  label: "Social Poster · 01",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
+  { id: "s2",  label: "Social Poster · 02",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png") },
+  { id: "s4",  label: "Social Poster · 04",    category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png") },
+  { id: "s5",  label: "Social Poster · 05",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png") },
+  { id: "s6",  label: "Social Poster · 06",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png") },
+  { id: "ss1", label: "Campaign · S1",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png") },
+  { id: "ss2", label: "Campaign · S2",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png") },
+  { id: "ss3", label: "Campaign · S3",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png") },
+  { id: "ss4", label: "Campaign · S4",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png") },
+  { id: "ss5", label: "Campaign · S5",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png") },
+  { id: "se1", label: "Edu Finn · E1",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png") },
+  { id: "se2", label: "Edu Finn · E2",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png") },
+  { id: "se3", label: "Edu Finn · E3",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
+  { id: "se4", label: "Edu Finn · E4",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
+  { id: "se5", label: "Edu Finn · E5",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
 
   // Print Media — brochures, covers & standees (print materials)
-  { id: "p1", label: "Brochure · Spread 01",   category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png") },
-  { id: "p2", label: "Brochure · Spread 03",   category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: wix("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png") },
-  { id: "p3", label: "Brochure · Spread 05",   category: "Print",  ratio: "aspect-[3/2]",   variant: 3, src: wix("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png") },
-  { id: "p4", label: "Brochure · Cover",       category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png") },
-  { id: "p5", label: "Brochure · Mini",        category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: wix("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png") },
-  { id: "p6", label: "Standee · 01",           category: "Print",  ratio: "aspect-[3/4]",   variant: 3, src: wix("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png") },
-  { id: "p7", label: "Standee · 02",           category: "Print",  ratio: "aspect-[3/4]",   variant: 1, src: wix("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png") },
-  { id: "p8", label: "Standee · 03",           category: "Print",  ratio: "aspect-[3/4]",   variant: 2, src: wix("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png") },
+  { id: "p1", label: "Brochure · Spread 01",   category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: portfolioAsset("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png") },
+  { id: "p2", label: "Brochure · Spread 03",   category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: portfolioAsset("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png") },
+  { id: "p3", label: "Brochure · Spread 05",   category: "Print",  ratio: "aspect-[3/2]",   variant: 3, src: portfolioAsset("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png") },
+  { id: "p4", label: "Brochure · Cover",       category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: portfolioAsset("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png") },
+  { id: "p5", label: "Brochure · Mini",        category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: portfolioAsset("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png") },
+  { id: "p6", label: "Standee · 01",           category: "Print",  ratio: "aspect-[3/4]",   variant: 3, src: portfolioAsset("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png") },
+  { id: "p7", label: "Standee · 02",           category: "Print",  ratio: "aspect-[3/4]",   variant: 1, src: portfolioAsset("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png") },
+  { id: "p8", label: "Standee · 03",           category: "Print",  ratio: "aspect-[3/4]",   variant: 2, src: portfolioAsset("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png") },
 
   // UI / UX — web platforms & dashboards
-  { id: "u1", label: "Marketing Landing",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: wix("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png") },
-  { id: "u2", label: "MacBook · Showcase",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: wix("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png") },
+  { id: "u1", label: "Marketing Landing",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: portfolioAsset("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png") },
+  { id: "u2", label: "MacBook · Showcase",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: portfolioAsset("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png") },
   
 
   // Mobile App — full app screens
-  { id: "m1", label: "Mobile App · Hero",      category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png") },
-  { id: "m2", label: "Mobile · Screen 02",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png") },
-  { id: "m3", label: "Mobile · Screen 03",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: wix("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png") },
-  { id: "m4", label: "Mobile · Screen 04",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png") },
-  { id: "m5", label: "Mobile · Screen 05",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png") },
-  { id: "m6", label: "Mobile · Screen 06",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: wix("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png") },
-  { id: "m7", label: "Mobile · Screen 07",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png") },
-  { id: "m8", label: "Mobile · Screen 08",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png") },
+  { id: "m1", label: "Mobile App · Hero",      category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png") },
+  { id: "m2", label: "Mobile · Screen 02",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png") },
+  { id: "m3", label: "Mobile · Screen 03",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: portfolioAsset("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png") },
+  { id: "m4", label: "Mobile · Screen 04",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png") },
+  { id: "m5", label: "Mobile · Screen 05",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png") },
+  { id: "m6", label: "Mobile · Screen 06",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: portfolioAsset("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png") },
+  { id: "m7", label: "Mobile · Screen 07",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png") },
+  { id: "m8", label: "Mobile · Screen 08",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png") },
 ];
 
 const VIDEOS = [
