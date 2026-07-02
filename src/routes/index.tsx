@@ -959,7 +959,7 @@ function Skills() {
                     >
                       {slug ? (
                         <img
-                          src={`https://cdn.simpleicons.org/${slug}`}
+                          src={slug}
                           alt=""
                           aria-hidden
                           loading="lazy"
