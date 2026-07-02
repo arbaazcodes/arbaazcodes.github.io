@@ -799,17 +799,17 @@ function Marquee({ items }: { items: LogoItem[] }) {
         {loop.map((c, i) => (
           <motion.div
             key={i}
-            whileHover={{ y: -6, scale: 1.02 }}
+            whileHover={{ y: -6, scale: 1.03 }}
             transition={{ type: "spring", stiffness: 280, damping: 20 }}
-            className="group relative flex h-32 w-[280px] shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-white px-8 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] dark:bg-white md:h-36 md:w-[320px]"
+            className="group relative flex h-32 w-[280px] shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-white px-8 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] transition-shadow duration-500 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.28)] dark:bg-white md:h-36 md:w-[320px]"
           >
             <img
               src={c.src}
               alt={c.name}
               loading="lazy"
-              className="max-h-20 w-auto max-w-full object-contain md:max-h-24"
+              className="max-h-20 w-auto max-w-full object-contain transition-transform duration-500 group-hover:scale-[1.06] md:max-h-24"
             />
-            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent transition group-hover:ring-foreground/20" />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent transition duration-500 group-hover:ring-highlight/45" />
           </motion.div>
         ))}
       </div>
@@ -1062,7 +1062,7 @@ function Skills() {
                     transition: { duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
                     className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:text-highlight hover:shadow-[0_10px_26px_-14px_rgba(0,0,0,0.22)]",
                   };
-                  return link ? (
+                  const chip = link ? (
                     <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
                       {inner}
                     </motion.a>
@@ -1070,6 +1070,11 @@ function Skills() {
                     <motion.span key={s} {...commonProps}>
                       {inner}
                     </motion.span>
+                  );
+                  return (
+                    <Magnetic key={s} strength={6} padding={10}>
+                      {chip}
+                    </Magnetic>
                   );
                 })}
               </div>
@@ -1443,10 +1448,10 @@ function BrochureCard({
                 onClick={() => setSelected(ti)}
                 aria-label={`Show page ${ti + 1}`}
                 aria-current={isActive ? "true" : undefined}
-                className={`relative h-14 w-11 shrink-0 overflow-hidden rounded-md bg-white ring-1 transition-all sm:h-16 sm:w-12 ${
+                className={`relative h-11 w-9 shrink-0 overflow-hidden rounded-md bg-white ring-1 transition-all duration-300 sm:h-12 sm:w-10 ${
                   isActive
-                    ? "ring-2 ring-highlight scale-[1.03] shadow-md"
-                    : "ring-border/60 opacity-70 hover:opacity-100 hover:ring-foreground/40"
+                    ? "ring-2 ring-highlight scale-[1.06] shadow-[0_8px_18px_-8px_rgba(0,0,0,0.35)]"
+                    : "ring-border/60 opacity-70 hover:opacity-100 hover:scale-[1.03] hover:ring-foreground/40"
                 }`}
               >
                 <img
@@ -1603,17 +1608,21 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
                               transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
                               className="group relative block cursor-pointer text-left"
                             >
-                              <Tilt strength={6}>
-                                <Placeholder
-                                  label={g.label}
-                                  ratio={ratio}
-                                  variant={g.variant}
-                                  badge={g.category}
-                                  src={g.src}
-                                  fit={cfg.fit}
-                                />
-                              </Tilt>
-                              <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-foreground/0 transition-all group-hover:ring-1 group-hover:ring-foreground/30" />
+                              <div className="relative overflow-hidden rounded-2xl transition-shadow duration-500 group-hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)]">
+                                <Tilt strength={6}>
+                                  <div className="transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
+                                    <Placeholder
+                                      label={g.label}
+                                      ratio={ratio}
+                                      variant={g.variant}
+                                      badge={g.category}
+                                      src={g.src}
+                                      fit={cfg.fit}
+                                    />
+                                  </div>
+                                </Tilt>
+                                <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-highlight/0 transition-all duration-500 group-hover:ring-2 group-hover:ring-highlight/50" />
+                              </div>
                               <div className="mt-3 flex items-center justify-between gap-3">
                                 <p className="truncate text-sm">{g.label}</p>
                                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">View →</span>
