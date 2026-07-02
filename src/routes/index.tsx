@@ -1142,6 +1142,22 @@ function Experience() {
               </div>
               <p className="text-sm uppercase tracking-[0.15em] text-highlight">{job.role}</p>
               <p className="mt-3 max-w-2xl leading-relaxed text-foreground/80">{job.summary}</p>
+              {job.links && job.links.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {job.links.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="card-white inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium text-foreground transition-transform hover:-translate-y-0.5"
+                    >
+                      {l.label}
+                      <ArrowUpRight size={12} />
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.li>
         ))}
