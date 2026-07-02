@@ -44,25 +44,25 @@ const SOCIALS = [
   { label: "Phone", href: "tel:+918527766839" },
 ];
 
-import logoSwiftAms from "@/assets/logo-swift-ams.png.asset.json";
-import logoWavox from "@/assets/logo-wavox.png.asset.json";
-import logoAiSwift from "@/assets/logo-ai-swift.png.asset.json";
-import logoKsha from "@/assets/logo-ksha.png.asset.json";
-import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.json";
-import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
-import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
+import logoSwiftAms from "@/assets/logo-swift-ams.png";
+import logoWavox from "@/assets/logo-wavox.png";
+import logoAiSwift from "@/assets/logo-ai-swift.png";
+import logoKsha from "@/assets/logo-ksha.png";
+import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png";
+import logoEduFinn from "@/assets/logo-edu-finn.png";
+import arbaazHero from "@/assets/arbaaz-hero.png";
 
 // Real brochure PDFs → rasterized page images
-const brochurePages = import.meta.glob<{ default: { url: string } }>(
-  "../assets/brochures/*.asset.json",
-  { eager: true }
+const brochurePages = import.meta.glob<string>(
+  "../assets/brochures/*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
 );
 
 
 const brochurePageUrl = (file: string): string => {
-  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}.asset.json`));
+  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
   if (!entry) { if (typeof window !== 'undefined') console.warn('[brochure] miss', file, Object.keys(brochurePages).length); return ""; }
-  return entry[1].default.url;
+  return entry[1];
 };
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
@@ -89,12 +89,12 @@ const BROCHURES: Brochure[] = [
 ];
 
 const LOGOS: { name: string; src: string }[] = [
-  { name: "Swift AMS", src: logoSwiftAms.url },
-  { name: "Wavox WMS", src: logoWavox.url },
-  { name: "Ai SWIFT", src: logoAiSwift.url },
-  { name: "KSHA LABS", src: logoKsha.url },
-  { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino.url },
-  { name: "Edu Finn", src: logoEduFinn.url },
+  { name: "Swift AMS", src: logoSwiftAms },
+  { name: "Wavox WMS", src: logoWavox },
+  { name: "Ai SWIFT", src: logoAiSwift },
+  { name: "KSHA LABS", src: logoKsha },
+  { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino },
+  { name: "Edu Finn", src: logoEduFinn },
 ];
 
 type Discipline = {
@@ -701,7 +701,7 @@ function Hero() {
           <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
             <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10">
               <img
-                src={arbaazHero.url}
+                src={arbaazHero}
                 alt="Arbaaz K. — portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
@@ -828,7 +828,7 @@ function About() {
           <Tilt strength={10} className="relative aspect-[4/5] w-full max-w-[320px]">
             <div className="absolute inset-0 overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring">
               <img
-                src={arbaazHero.url}
+                src={arbaazHero}
                 alt="Arbaaz K. — about portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
@@ -944,41 +944,41 @@ function Stats() {
 
 /* ---------- Skills ---------- */
 
-import figmaLogo from "@/assets/tools/figma.png.asset.json";
-import photoshopLogo from "@/assets/tools/photoshop.png.asset.json";
-import illustratorLogo from "@/assets/tools/illustrator.png.asset.json";
-import indesignLogo from "@/assets/tools/indesign.png.asset.json";
-import xdLogo from "@/assets/tools/xd.png.asset.json";
-import premiereproLogo from "@/assets/tools/premierepro.png.asset.json";
-import aftereffectsLogo from "@/assets/tools/aftereffects.png.asset.json";
-import canvaLogo from "@/assets/tools/canva.jpg.asset.json";
-import coreldrawLogo from "@/assets/tools/coreldraw.jpg.asset.json";
-import chatgptLogo from "@/assets/tools/chatgpt.png.asset.json";
-import claudeLogo from "@/assets/tools/claude.png.asset.json";
-import geminiLogo from "@/assets/tools/gemini.jpg.asset.json";
-import cursorLogo from "@/assets/tools/cursor.png.asset.json";
-import lovableLogo from "@/assets/tools/lovable.jpg.asset.json";
-import midjourneyLogo from "@/assets/tools/midjourney.png.asset.json";
+import figmaLogo from "@/assets/tools/figma.png";
+import photoshopLogo from "@/assets/tools/photoshop.png";
+import illustratorLogo from "@/assets/tools/illustrator.png";
+import indesignLogo from "@/assets/tools/indesign.png";
+import xdLogo from "@/assets/tools/xd.png";
+import premiereproLogo from "@/assets/tools/premierepro.png";
+import aftereffectsLogo from "@/assets/tools/aftereffects.png";
+import canvaLogo from "@/assets/tools/canva.jpg";
+import coreldrawLogo from "@/assets/tools/coreldraw.jpg";
+import chatgptLogo from "@/assets/tools/chatgpt.png";
+import claudeLogo from "@/assets/tools/claude.png";
+import geminiLogo from "@/assets/tools/gemini.jpg";
+import cursorLogo from "@/assets/tools/cursor.png";
+import lovableLogo from "@/assets/tools/lovable.jpg";
+import midjourneyLogo from "@/assets/tools/midjourney.png";
 
 const TOOL_LOGOS: Record<string, string> = {
-  "Figma": figmaLogo.url,
-  "Adobe Photoshop": photoshopLogo.url,
-  "Adobe Illustrator": illustratorLogo.url,
-  "Adobe InDesign": indesignLogo.url,
-  "Adobe XD": xdLogo.url,
-  "Adobe Premiere Pro": premiereproLogo.url,
-  "Adobe After Effects": aftereffectsLogo.url,
-  "Canva": canvaLogo.url,
-  "CorelDRAW": coreldrawLogo.url,
-  "ChatGPT": chatgptLogo.url,
-  "Claude": claudeLogo.url,
-  "Gemini": geminiLogo.url,
-  "Adobe Firefly": photoshopLogo.url,
-  "Figma AI": figmaLogo.url,
-  "Canva AI": canvaLogo.url,
-  "Cursor": cursorLogo.url,
-  "Lovable": lovableLogo.url,
-  "Midjourney": midjourneyLogo.url,
+  "Figma": figmaLogo,
+  "Adobe Photoshop": photoshopLogo,
+  "Adobe Illustrator": illustratorLogo,
+  "Adobe InDesign": indesignLogo,
+  "Adobe XD": xdLogo,
+  "Adobe Premiere Pro": premiereproLogo,
+  "Adobe After Effects": aftereffectsLogo,
+  "Canva": canvaLogo,
+  "CorelDRAW": coreldrawLogo,
+  "ChatGPT": chatgptLogo,
+  "Claude": claudeLogo,
+  "Gemini": geminiLogo,
+  "Adobe Firefly": photoshopLogo,
+  "Figma AI": figmaLogo,
+  "Canva AI": canvaLogo,
+  "Cursor": cursorLogo,
+  "Lovable": lovableLogo,
+  "Midjourney": midjourneyLogo,
 };
 
 const TOOL_LINKS: Record<string, string> = {
