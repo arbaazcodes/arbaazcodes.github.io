@@ -433,32 +433,33 @@
   position: absolute;
   display: block;
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(250px);
   will-change: transform, opacity;
   transform: translate3d(0,0,0);
   mix-blend-mode: multiply;
-  opacity: 0.09;
+  opacity: 0.08;
 }
 .dark .fb-blob { mix-blend-mode: screen; opacity: 0.10; }
 
-.fb-b1 { top: -8%;  left: -6%;  width: 44vmax; height: 44vmax;
-  background: radial-gradient(circle at 30% 30%, #7FC8FF 0%, transparent 62%);
-  animation: fb-float-1 52s ease-in-out infinite; }
-.fb-b2 { top: 12%;  right: -10%; width: 38vmax; height: 38vmax;
-  background: radial-gradient(circle at 60% 40%, #F8B8D8 0%, transparent 62%);
+/* Spec: white, light blue, baby blue, lavender, soft pink, mint. 5–10% opacity, 250px blur, 35–60s. */
+.fb-b1 { top: -10%; left: -8%;  width: 56vmax; height: 56vmax;
+  background: radial-gradient(circle at 30% 30%, #FFFFFF 0%, transparent 62%);
+  animation: fb-float-1 58s ease-in-out infinite; opacity: 0.09; }
+.fb-b2 { top: 8%;   right: -12%; width: 48vmax; height: 48vmax;
+  background: radial-gradient(circle at 60% 40%, #B8DCFF 0%, transparent 62%);
   animation: fb-float-2 46s ease-in-out infinite; opacity: 0.08; }
-.fb-b3 { bottom: -12%; left: 8%; width: 50vmax; height: 50vmax;
+.fb-b3 { bottom: -14%; left: 6%; width: 60vmax; height: 60vmax;
   background: radial-gradient(circle at 40% 60%, #DCC8FF 0%, transparent 62%);
-  animation: fb-float-3 58s ease-in-out infinite; opacity: 0.07; }
-.fb-b4 { bottom: -6%; right: -8%; width: 42vmax; height: 42vmax;
+  animation: fb-float-3 55s ease-in-out infinite; opacity: 0.07; }
+.fb-b4 { bottom: -8%; right: -10%; width: 52vmax; height: 52vmax;
   background: radial-gradient(circle at 50% 50%, #D8FFF3 0%, transparent 62%);
-  animation: fb-float-4 40s ease-in-out infinite; opacity: 0.09; }
-.fb-b5 { top: 40%; left: 30%; width: 34vmax; height: 34vmax;
-  background: radial-gradient(circle at 50% 50%, #FFD8C7 0%, transparent 62%);
-  animation: fb-float-5 48s ease-in-out infinite; opacity: 0.07; }
-.fb-b6 { top: 55%; right: 22%; width: 30vmax; height: 30vmax;
-  background: radial-gradient(circle at 50% 50%, #B8DCFF 0%, transparent 62%);
-  animation: fb-float-6 36s ease-in-out infinite; opacity: 0.08; }
+  animation: fb-float-4 42s ease-in-out infinite; opacity: 0.08; }
+.fb-b5 { top: 38%; left: 28%; width: 42vmax; height: 42vmax;
+  background: radial-gradient(circle at 50% 50%, #F8B8D8 0%, transparent 62%);
+  animation: fb-float-5 50s ease-in-out infinite; opacity: 0.06; }
+.fb-b6 { top: 55%; right: 20%; width: 38vmax; height: 38vmax;
+  background: radial-gradient(circle at 50% 50%, #7FC8FF 0%, transparent 62%);
+  animation: fb-float-6 37s ease-in-out infinite; opacity: 0.07; }
 
 @keyframes fb-float-1 {
   0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
