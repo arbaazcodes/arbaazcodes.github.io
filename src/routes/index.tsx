@@ -15,8 +15,8 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Arbaaz K. — Multidisciplinary Designer" },
-      { name: "description", content: "Portfolio of Arbaaz K. — Graphic & UI/UX designer with 4 years bridging functional design and brand storytelling for EdTech, CRM and corporate brands." },
+      { title: "Arbaaz — Product Designer | UI/UX & Visual Designer" },
+      { name: "description", content: "Portfolio of Arbaaz — Product Designer with 4.5+ years crafting SaaS products, CRM platforms, responsive websites, dashboards and brand systems, powered by AI-assisted workflows." },
     ],
   }),
   component: Portfolio,
@@ -35,10 +35,10 @@ const NAV = [
 
 
 const SOCIALS = [
-  { label: "LinkedIn", href: "#" },
-  { label: "Behance", href: "#" },
-  { label: "Instagram", href: "#" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/arbaaz-designer" },
+  { label: "Portfolio", href: "https://arbaazcodes.github.io" },
   { label: "Email", href: "mailto:arbaazsince2002@gmail.com" },
+  { label: "Phone", href: "tel:+918527766839" },
 ];
 
 import logoSwiftAms from "@/assets/logo-swift-ams.png.asset.json";
@@ -592,7 +592,7 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
   const op = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
 
-  const words = ["Multidisciplinary", "designer", "shaping", "brands,", "interfaces", "&", "stories."];
+  const words = ["Product", "designer", "shaping", "SaaS,", "dashboards", "&", "brands."];
 
   return (
     <section id="intro" ref={ref} className="relative pt-32 pb-16 md:pt-40 md:pb-20">
@@ -616,14 +616,14 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "brands," ? <em className="text-highlight italic">{w}</em> : w}
+                {w === "SaaS," ? <em className="text-highlight italic">{w}</em> : w}
               </motion.span>
             ))}
           </h1>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-12 grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end">
             <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-              I'm <span className="text-foreground">Arbaaz K.</span> — a graphic & UI/UX designer with four years of experience bridging functional design and brand storytelling for EdTech, CRM and corporate brands.
+              I'm <span className="text-foreground">Arbaaz</span> — a Product Designer with 4.5+ years designing SaaS products, CRM platforms, dashboards and digital experiences, blending UX research, design systems and AI-assisted workflows.
             </p>
             <div className="flex items-center gap-4">
               <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm text-background transition-transform hover:scale-[1.02]">
@@ -673,7 +673,7 @@ function Hero() {
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 0.6 }} className="mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
         <span className="flex items-center gap-2"><span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" /></span>
-        <span className="hidden md:inline">India · Remote worldwide</span>
+        <span className="hidden md:inline">Gurugram, Haryana · Remote worldwide</span>
       </motion.div>
     </section>
   );
@@ -801,20 +801,20 @@ function About() {
 
         <div className="space-y-10 md:col-span-8">
           <h2 className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
-            Analytical thinking meets <em className="text-highlight italic">creative execution</em> — every project ships toward a real business outcome.
+            User-centered design meets <em className="text-highlight italic">measurable business impact</em> — from research to developer handoff.
           </h2>
           <p className="max-w-xl leading-relaxed text-muted-foreground">
-            From corporate branding for SwiftAMS to educational content for Edu Finn, I pride myself on clarity, precision and the ability to adapt visual language across industries. Driven by simplicity and meticulous attention to detail.
+            From CRM dashboards and SaaS modules for SwiftAMS to brand systems, brochures and campaign creative for Edu Finn and Digital Cappuccino, I design responsive products and identities that are clear, accessible and shipped end-to-end — accelerated by AI-powered workflows.
           </p>
 
           <div className="grid grid-cols-2 gap-3 pt-4 md:grid-cols-3">
             {([
-              ["Design", "Brand · Print · Digital", Sparkles],
-              ["Product", "UI · UX · Mobile", Layers],
-              ["Motion", "Editing · Storytelling", Clapperboard],
-              ["Tools", "Figma · Adobe · AE", Wrench],
-              ["Industries", "EdTech · CRM · Corp", Building2],
-              ["Based in", "India · Remote", MapPin],
+              ["Product", "SaaS · CRM · Dashboards", Layers],
+              ["UX", "Research · Flows · Prototypes", Sparkles],
+              ["Visual", "Brand · Print · Social", PenTool],
+              ["AI Workflow", "Figma AI · Cursor · Lovable", Atom],
+              ["Tools", "Figma · Adobe CS · Canva", Wrench],
+              ["Based in", "Gurugram, IN · Remote", MapPin],
             ] as const).map(([k, v, Icon]) => (
               <div key={k} className="card-white rounded-2xl p-4 transition-transform hover:-translate-y-0.5">
                 <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
@@ -835,9 +835,9 @@ function About() {
 
 function Stats() {
   const highlights = [
-    "Multidisciplinary across UI/UX, brand, print & motion",
-    "EdTech, CRM and corporate brand systems shipped",
-    "End-to-end: research, design, handoff & delivery",
+    "Shipped SaaS, CRM & dashboard modules end-to-end",
+    "150+ marketing creatives, brochures & landing pages",
+    "AI-assisted workflows for ideation, UI & content",
   ];
   return (
     <section className="py-12">
@@ -855,13 +855,13 @@ function Stats() {
               <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Experience</span>
             </div>
             <p className="text-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9]">
-              4<span className="text-highlight">+</span>
+              4.5<span className="text-highlight">+</span>
             </p>
-            <p className="text-eyebrow mt-3">Years in the design industry</p>
+            <p className="text-eyebrow mt-3">Years designing products & brands</p>
           </div>
           <div className="md:col-span-7">
             <p className="text-lg leading-relaxed text-foreground/85 md:text-xl">
-              Four years of hands-on craft across <em className="text-highlight not-italic font-medium">six design disciplines</em> — building identity systems, interfaces, social, print and motion for EdTech, CRM and corporate brands.
+              4.5+ years designing <em className="text-highlight not-italic font-medium">SaaS products, CRM platforms, dashboards and responsive websites</em> — from UX research and wireframes to high-fidelity UI, design systems and developer handoff.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
               {highlights.map((h, i) => (
@@ -888,8 +888,12 @@ function Stats() {
 /* ---------- Skills ---------- */
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
-  { group: "Design", items: ["UI Design", "UX Design", "Branding", "Social Media Design", "Print Design", "Video Editing"] },
-  { group: "Tools", items: ["Figma", "Adobe Photoshop", "Adobe Illustrator", "Adobe Premiere Pro", "After Effects", "Canva"] },
+  { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
+  { group: "Product Domains", items: ["SaaS Product Design", "CRM Product Design", "Dashboard Design", "Responsive Web Design", "Landing Page Design"] },
+  { group: "Visual & Brand", items: ["Brand Identity", "Visual Design", "Social Media Design", "Print Design", "Video Editing"] },
+  { group: "AI Workflow", items: ["AI-assisted UI Design", "AI-assisted Wireframing", "Prompt Engineering", "AI Image Generation", "UX Research with AI", "AI Content Creation", "Rapid Prototyping"] },
+  { group: "Design Tools", items: ["Figma", "Adobe Photoshop", "Adobe Illustrator", "Adobe InDesign", "Adobe XD", "Adobe Premiere Pro", "Adobe After Effects", "Canva", "CorelDRAW"] },
+  { group: "AI Tools", items: ["ChatGPT", "Claude", "Gemini", "Adobe Firefly", "Figma AI", "Canva AI", "Cursor", "Lovable", "Midjourney"] },
 ];
 
 function Skills() {
@@ -899,10 +903,10 @@ function Skills() {
         <div className="md:col-span-4">
           <p className="text-eyebrow mb-6">/ 03 — Skills</p>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
-            Craft, <em className="text-highlight italic">tools</em> & disciplines.
+            Product craft, <em className="text-highlight italic">AI workflows</em> & tools.
           </h2>
           <p className="mt-6 max-w-sm text-muted-foreground">
-            A working toolkit built over four years across brand systems, product interfaces and motion.
+            A working toolkit built over 4.5+ years across SaaS, CRM, brand systems and AI-accelerated design.
           </p>
         </div>
 
@@ -944,25 +948,32 @@ type Job = { company: string; role: string; period: string; summary: string; Ico
 
 const EXPERIENCE: Job[] = [
   {
-    company: "SwiftAMS",
-    role: "Graphic & UI/UX Designer",
-    period: "2023 — Present",
-    summary: "Corporate brand system, product UI and marketing collateral for the SwiftAMS CRM ecosystem.",
+    company: "SwiftAMS (Study Abroad CRM)",
+    role: "Product Designer · UI/UX Designer",
+    period: "Jun 2022 — Present",
+    summary: "Designed responsive CRM dashboards, lead and document management, payments, reporting and workflow modules for a SaaS platform. Built user flows, wireframes, interactive prototypes and high-fidelity UI in Figma; shipped 150+ marketing creatives, presentations, brochures and landing pages while maintaining brand identity. Partnered with developers and product managers, and leveraged AI tools to accelerate ideation, prototyping and content.",
     Icon: Briefcase,
   },
   {
     company: "Edu Finn",
-    role: "Design Lead — EdTech",
-    period: "2022 — 2023",
-    summary: "End-to-end campaign design, social storytelling, video editing and course creative for the Edu Finn platform.",
+    role: "Contract Graphic Designer · Freelance",
+    period: "2024 — 2025",
+    summary: "Designed brochures, standees, presentations, flyers and event marketing materials, plus social media campaigns, promotional videos, reels and digital marketing assets for the study-abroad brand.",
     Icon: Layers,
   },
   {
     company: "Digital Cappuccino",
-    role: "Multidisciplinary Designer",
-    period: "2021 — 2022",
-    summary: "Branding, social media and print collateral across a mixed portfolio of startup and enterprise clients.",
+    role: "Creative Designer · Freelance",
+    period: "2022 — 2023",
+    summary: "Designed campaign creatives, social media content, advertisements and website graphics; planned and managed a six-month creative content calendar.",
     Icon: Coffee,
+  },
+  {
+    company: "Independent Projects",
+    role: "UI/UX & Visual Designer",
+    period: "2021",
+    summary: "Designed responsive websites, CRM dashboards, landing pages and branding systems. Conducted UX research and produced user flows, wireframes, prototypes and high-fidelity UI designs.",
+    Icon: Layers,
   },
 ];
 
@@ -973,12 +984,12 @@ function Experience() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-6">/ 04 — Experience</p>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
-            Four years across <em className="text-highlight italic">EdTech, CRM</em> & corporate brands.
+            4.5+ years across <em className="text-highlight italic">SaaS, CRM</em> & study-abroad brands.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Full-time roles and long-running collaborations — shipping brand systems, product UI and video for growing teams.
+            Long-running product design roles and freelance collaborations — shipping SaaS modules, brand systems, print and digital campaigns for growing teams.
           </p>
         </div>
       </div>
@@ -1850,7 +1861,7 @@ function Contact() {
         <div className="md:col-span-5">
           <p className="text-eyebrow mb-6">/ Say hello</p>
           <p className="font-mono text-xs leading-relaxed text-muted-foreground">
-            Currently accepting <br /> select projects in <br /> branding, product & motion.
+            Currently accepting <br /> select projects in <br /> product, SaaS & brand design.
           </p>
           <div className="mt-8 flex items-center gap-3">
             <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-foreground opacity-60" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-foreground" /></span>
@@ -1897,12 +1908,18 @@ function Contact() {
               <a href="mailto:arbaazsince2002@gmail.com" className="text-lg link-underline break-all">
                 arbaazsince2002@gmail.com
               </a>
+              <p className="text-eyebrow mb-2 mt-6">Phone</p>
+              <a href="tel:+918527766839" className="text-lg link-underline">
+                +91 85277 66839
+              </a>
+              <p className="text-eyebrow mb-2 mt-6">Based in</p>
+              <p className="text-lg">Gurugram, Haryana · India</p>
             </div>
             <div>
               <p className="text-eyebrow mb-2">Elsewhere</p>
               <div className="flex flex-wrap gap-4">
                 {SOCIALS.map((s) => (
-                  <a key={s.label} href={s.href} className="link-underline text-sm">{s.label}</a>
+                  <a key={s.label} href={s.href} target={s.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="link-underline text-sm">{s.label}</a>
                 ))}
               </div>
             </div>
@@ -2044,8 +2061,8 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
 function Footer() {
   return (
     <footer className="flex flex-col gap-4 border-t border-border/60 py-8 md:flex-row md:items-center md:justify-between">
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">© 2026 Arbaaz K. — Multidisciplinary Designer</p>
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Crafted with care · Made in India</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">© 2026 Arbaaz — Product Designer · UI/UX · Visual</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Gurugram, India · Available worldwide</p>
     </footer>
   );
 }
