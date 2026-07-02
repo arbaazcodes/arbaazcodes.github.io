@@ -290,45 +290,45 @@
   backface-visibility: hidden;
 }
 
-/* Vivid sky blue — top-right, strong like the reference */
+/* Vivid sky blue — top-right corner accent */
 .ambient-bg .blob1 {
-  width: 1400px; height: 1400px;
-  top: -520px; right: -520px;
-  background: radial-gradient(circle, #1E90FF 0%, rgba(30,144,255,0.55) 25%, transparent 68%);
-  filter: blur(120px);
-  opacity: 0.85;
+  width: 1200px; height: 1200px;
+  top: -420px; right: -420px;
+  background: radial-gradient(circle, #4DA3FF 0%, rgba(77,163,255,0.35) 35%, transparent 70%);
+  filter: blur(140px);
+  opacity: 0.55;
   animation: ambient-float-1 65s ease-in-out infinite alternate;
 }
 
-/* Soft pink glow — bottom-left / center-left, gentle and diffused */
+/* Soft pink — bottom-left / center-left glow */
 .ambient-bg .blob2 {
-  width: 1300px; height: 1300px;
-  bottom: -260px; left: -420px;
-  background: radial-gradient(circle, #FFB3D1 0%, rgba(255,179,209,0.45) 30%, transparent 70%);
-  filter: blur(140px);
-  opacity: 0.75;
+  width: 1200px; height: 1200px;
+  bottom: -320px; left: -380px;
+  background: radial-gradient(circle, #FFB8D4 0%, rgba(255,184,212,0.35) 35%, transparent 70%);
+  filter: blur(150px);
+  opacity: 0.55;
   animation: ambient-float-2 72s ease-in-out infinite alternate;
 }
 
-/* Very soft baby blue wash — helps blend blue into white */
+/* Blend halos to soften the transition into white */
 .ambient-bg .blob3 {
   width: 900px; height: 900px;
-  top: 20%; right: 20%;
+  top: 15%; right: 18%;
   background: radial-gradient(circle, #BFDFFF 0%, transparent 70%);
   filter: blur(160px);
-  opacity: 0.45;
+  opacity: 0.35;
   animation: ambient-float-3 58s ease-in-out infinite alternate;
 }
 
-/* Very soft pink halo — helps blend pink into white */
 .ambient-bg .blob4 {
   width: 850px; height: 850px;
-  bottom: 22%; left: 18%;
+  bottom: 20%; left: 15%;
   background: radial-gradient(circle, #FFD4E5 0%, transparent 70%);
   filter: blur(160px);
-  opacity: 0.5;
+  opacity: 0.4;
   animation: ambient-float-4 68s ease-in-out infinite alternate;
 }
+
 
 /* Independent gentle drift — clouds-in-wind, no synchronized loop. */
 @keyframes ambient-float-1 {
