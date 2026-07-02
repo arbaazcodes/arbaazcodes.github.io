@@ -533,7 +533,7 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }
 
