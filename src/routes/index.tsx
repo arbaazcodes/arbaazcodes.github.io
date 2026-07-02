@@ -8,6 +8,7 @@ import {
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
   ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark
 } from "lucide-react";
+import { Magnetic } from "@/components/reactbits/Magnetic";
 
 
 
