@@ -205,22 +205,21 @@ export function AdaptiveCursor() {
         } catch { /* ignore */ }
       }
 
-      // Emit trail points as the cursor moves
-      const emitCount = Math.min(6, Math.floor(instSpeed / 3));
+      // Emit trail points as the cursor moves — sparse and small
+      const emitCount = instSpeed > 4 && Math.random() < 0.5 ? 1 : 0;
       for (let i = 0; i < emitCount; i++) {
-        const t = i / Math.max(1, emitCount);
         trail.push({
-          x: orb.x + (mouse.x - orb.x) * t + (Math.random() - 0.5) * 2,
-          y: orb.y + (mouse.y - orb.y) * t + (Math.random() - 0.5) * 2,
-          vx: (Math.random() - 0.5) * 0.6,
-          vy: (Math.random() - 0.5) * 0.6 - 0.15,
+          x: orb.x + (Math.random() - 0.5) * 1.5,
+          y: orb.y + (Math.random() - 0.5) * 1.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3 - 0.08,
           life: 1,
-          size: 10 + Math.random() * 10 + Math.min(24, instSpeed * 0.4),
+          size: 4 + Math.random() * 3 + Math.min(6, instSpeed * 0.15),
           hue, sat, light,
         });
       }
-      // cap trail length
-      if (trail.length > 260) trail.splice(0, trail.length - 260);
+      // cap trail length (shorter)
+      if (trail.length > 40) trail.splice(0, trail.length - 40);
 
       // Clear with slight transparency to allow motion blur trails
       ctx.clearRect(0, 0, w, h);
