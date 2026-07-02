@@ -79,7 +79,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <SplashCursorMount />
+      <AdaptiveCursor />
       <Outlet />
     </QueryClientProvider>
   );
