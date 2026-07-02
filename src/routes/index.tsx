@@ -257,6 +257,7 @@ function Portfolio() {
 
         <Footer />
       </main>
+      <QuickChatFab />
 
       <AnimatePresence>
         {lightbox && (
