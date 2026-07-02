@@ -8,6 +8,7 @@ import {
 import { useEffect } from "react";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AdaptiveCursor } from "../components/AdaptiveCursor";
+import { AmbientBackground } from "../components/AmbientBackground";
 
 function NotFoundComponent() {
   return (
@@ -79,6 +80,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <AmbientBackground />
       <AdaptiveCursor />
       <Outlet />
     </QueryClientProvider>

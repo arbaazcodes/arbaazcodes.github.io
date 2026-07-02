@@ -264,3 +264,71 @@
     radial-gradient(120% 80% at 50% 100%, oklch(1 0 0 / 0.05), transparent 55%),
     linear-gradient(135deg, oklch(0.28 0.003 260), oklch(0.17 0.003 260));
 }
+
+/* Floating multi-color ambient background */
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+  mix-blend-mode: multiply;
+}
+.dark .ambient-blob {
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  filter: blur(110px);
+}
+.ambient-blob-1 {
+  width: 46vw; height: 46vw;
+  left: -10vw; top: -10vw;
+  background: radial-gradient(circle, #ffd1dc 0%, transparent 70%);
+  animation: ambient-float-1 22s ease-in-out infinite;
+}
+.ambient-blob-2 {
+  width: 42vw; height: 42vw;
+  right: -8vw; top: 5vh;
+  background: radial-gradient(circle, #cfe8ff 0%, transparent 70%);
+  animation: ambient-float-2 26s ease-in-out infinite;
+}
+.ambient-blob-3 {
+  width: 48vw; height: 48vw;
+  left: 20vw; bottom: -14vw;
+  background: radial-gradient(circle, #dcd0ff 0%, transparent 70%);
+  animation: ambient-float-3 30s ease-in-out infinite;
+}
+.ambient-blob-4 {
+  width: 38vw; height: 38vw;
+  right: 10vw; bottom: -8vw;
+  background: radial-gradient(circle, #d4f5d4 0%, transparent 70%);
+  animation: ambient-float-4 28s ease-in-out infinite;
+}
+.ambient-blob-5 {
+  width: 34vw; height: 34vw;
+  left: 35vw; top: 30vh;
+  background: radial-gradient(circle, #ffe7bf 0%, transparent 70%);
+  animation: ambient-float-5 34s ease-in-out infinite;
+}
+@keyframes ambient-float-1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(8vw, 6vh) scale(1.12); }
+}
+@keyframes ambient-float-2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-9vw, 8vh) scale(1.15); }
+}
+@keyframes ambient-float-3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-6vw,-7vh) scale(1.1); }
+}
+@keyframes ambient-float-4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(7vw,-6vh) scale(1.18); }
+}
+@keyframes ambient-float-5 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-5vw, 5vh) scale(1.2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob { animation: none !important; }
+}
