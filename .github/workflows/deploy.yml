@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
   pages: write
   id-token: write
@@ -47,10 +48,73 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://arbaazcodes.github.io/
     steps:
+      - name: Checkout for live verification
+        uses: actions/checkout@v4
+
+      - name: Wait for other GitHub Pages deployment to finish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          for attempt in {1..60}; do
+            in_progress=$(gh run list --repo "$REPO" --status in_progress --json name,databaseId --jq '[.[] | select(.name == "pages build and deployment")] | length')
+            queued=$(gh run list --repo "$REPO" --status queued --json name,databaseId --jq '[.[] | select(.name == "pages build and deployment")] | length')
+            total=$((in_progress + queued))
+
+            if [ "$total" -eq 0 ]; then
+              echo "No competing GitHub Pages deployment is running."
+              sleep 20
+              exit 0
+            fi
+
+            echo "Waiting for $total competing GitHub Pages deployment(s) to finish... attempt $attempt/60"
+            sleep 10
+          done
+
+          echo "::error::Timed out waiting for the competing GitHub Pages deployment to finish."
+          exit 1
+
       - name: Deploy GitHub Pages site
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify live GitHub Pages site
+        run: |
+          set -euo pipefail
+
+          for attempt in {1..30}; do
+            html=$(curl -fsSL https://arbaazcodes.github.io/)
+
+            if printf '%s' "$html" | grep -q '/src/main.tsx'; then
+              echo "Waiting for GitHub Pages to serve the built artifact instead of the raw repository... attempt $attempt/30"
+              sleep 10
+              continue
+            fi
+
+            js_path=$(printf '%s' "$html" | grep -oE '/assets/[^"'"' ]+\.js' | head -n 1)
+            css_path=$(printf '%s' "$html" | grep -oE '/assets/[^"'"' ]+\.css' | head -n 1)
+
+            test -n "$js_path"
+            test -n "$css_path"
+
+            curl -fsSI "https://arbaazcodes.github.io$js_path" | grep -qi 'content-type: .*javascript'
+            curl -fsSI "https://arbaazcodes.github.io$css_path" | grep -qi 'content-type: .*css'
+            curl -fsSI https://arbaazcodes.github.io/favicon.ico | grep -qi 'content-type: .*image'
+
+            asset_cdn_path=$(find public/assets-cdn -type f | head -n 1 | sed 's#^public##')
+            test -n "$asset_cdn_path"
+            curl -fsSL "https://arbaazcodes.github.io$asset_cdn_path" -o /dev/null
+
+            echo "Live GitHub Pages site is serving the built artifact with valid asset MIME types."
+            exit 0
+          done
+
+          echo "::error::GitHub Pages is still serving the raw repository index.html after deployment."
+          exit 1
