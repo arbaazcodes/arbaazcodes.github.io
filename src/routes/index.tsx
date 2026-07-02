@@ -1053,7 +1053,8 @@ function Skills() {
 
 /* ---------- Experience ---------- */
 
-type Job = { company: string; role: string; period: string; summary: string; Icon: ComponentType<{ className?: string; size?: number }> };
+type JobLink = { label: string; href: string };
+type Job = { company: string; role: string; period: string; summary: string; Icon: ComponentType<{ className?: string; size?: number }>; links?: JobLink[] };
 
 const EXPERIENCE: Job[] = [
   {
@@ -1062,6 +1063,17 @@ const EXPERIENCE: Job[] = [
     period: "Jun 2022 — Present",
     summary: "Designed responsive CRM dashboards, lead and document management, payments, reporting and workflow modules for a SaaS platform. Built user flows, wireframes, interactive prototypes and high-fidelity UI in Figma; shipped 150+ marketing creatives, presentations, brochures and landing pages while maintaining brand identity. Partnered with developers and product managers, and leveraged AI tools to accelerate ideation, prototyping and content.",
     Icon: Briefcase,
+    links: [
+      { label: "Website", href: "https://www.swiftams.com/" },
+      { label: "CRM", href: "https://app.swiftams.com/login" },
+      { label: "Instagram", href: "https://www.instagram.com/swiftams/" },
+      { label: "Agency App · Android", href: "https://play.google.com/store/apps/details?id=com.codexplabs.swiftcounsellorapp&pli=1" },
+      { label: "Agency App · iOS", href: "https://apps.apple.com/in/app/swiftams-business/id6451433255" },
+      { label: "Student App · Android", href: "https://play.google.com/store/apps/details?id=com.swiftams.swiftmobileapp" },
+      { label: "Student App · iOS", href: "https://apps.apple.com/in/app/swiftams/id6469041818" },
+      { label: "B2B Hub · Android", href: "https://play.google.com/store/apps/details?id=com.swiftams.swifthubapp" },
+      { label: "B2B Hub · iOS", href: "https://apps.apple.com/us/app/swiftams-hub/id6474495227" },
+    ],
   },
   {
     company: "Edu Finn",
@@ -1069,6 +1081,9 @@ const EXPERIENCE: Job[] = [
     period: "2024 — 2025",
     summary: "Designed brochures, standees, presentations, flyers and event marketing materials, plus social media campaigns, promotional videos, reels and digital marketing assets for the study-abroad brand.",
     Icon: Layers,
+    links: [
+      { label: "Instagram", href: "https://www.instagram.com/edu_finn/" },
+    ],
   },
   {
     company: "Digital Cappuccino",
@@ -1076,6 +1091,9 @@ const EXPERIENCE: Job[] = [
     period: "2022 — 2023",
     summary: "Designed campaign creatives, social media content, advertisements and website graphics; planned and managed a six-month creative content calendar.",
     Icon: Coffee,
+    links: [
+      { label: "Website", href: "https://www.digitalcappuccino.com/" },
+    ],
   },
   {
     company: "Independent Projects",
