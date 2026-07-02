@@ -924,6 +924,27 @@ const TOOL_LOGOS: Record<string, string> = {
   "Midjourney": midjourneyLogo.url,
 };
 
+const TOOL_LINKS: Record<string, string> = {
+  "Figma": "https://www.figma.com/",
+  "Adobe Photoshop": "https://www.adobe.com/products/photoshop.html",
+  "Adobe Illustrator": "https://www.adobe.com/products/illustrator.html",
+  "Adobe InDesign": "https://www.adobe.com/products/indesign.html",
+  "Adobe XD": "https://www.adobe.com/products/xd.html",
+  "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
+  "Adobe After Effects": "https://www.adobe.com/products/aftereffects.html",
+  "Canva": "https://www.canva.com/",
+  "CorelDRAW": "https://www.coreldraw.com/",
+  "ChatGPT": "https://chat.openai.com/",
+  "Claude": "https://claude.ai/",
+  "Gemini": "https://gemini.google.com/",
+  "Adobe Firefly": "https://www.adobe.com/products/firefly.html",
+  "Figma AI": "https://www.figma.com/ai/",
+  "Canva AI": "https://www.canva.com/ai/",
+  "Cursor": "https://cursor.com/",
+  "Lovable": "https://lovable.dev/",
+  "Midjourney": "https://www.midjourney.com/",
+};
+
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
