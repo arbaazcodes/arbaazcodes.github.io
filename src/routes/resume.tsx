@@ -4,8 +4,8 @@ import { useRef, useState, type MouseEvent } from "react";
 import {
   ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer,
 } from "lucide-react";
-import resumePdf from "../assets/resume.pdf.asset.json";
-import resumePreview from "../assets/resume-preview.jpg.asset.json";
+import resumePdf from "../assets/resume.pdf";
+import resumePreview from "../assets/resume-preview.jpg";
 
 export const Route = createFileRoute("/resume")({
   head: () => ({
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/resume")({
       { name: "description", content: "Download or preview the resume of Arbaaz — Product Designer with 4.5+ years across SaaS, CRM, dashboards, UI/UX and visual design." },
       { property: "og:title", content: "Resume — Arbaaz · Product Designer" },
       { property: "og:description", content: "One-page resume of Arbaaz — Product Designer, UI/UX and Visual Designer." },
-      { property: "og:image", content: resumePreview.url },
+      { property: "og:image", content: resumePreview },
     ],
   }),
   component: ResumePage,
@@ -26,6 +26,8 @@ const HIGHLIGHTS = [
   "Selected clients, tools & AI stack on one page",
   "Open in browser, download or print directly",
 ];
+
+const RESUME_SIZE_KB = 1756;
 
 function ResumePage() {
   const reduce = useReducedMotion();
@@ -69,7 +71,7 @@ function ResumePage() {
             arbaaz/resume.pdf
           </span>
           <a
-            href={resumePdf.url}
+            href={resumePdf}
             download="Arbaaz-K-Resume.pdf"
             className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-background transition-transform hover:-translate-y-0.5"
           >
@@ -141,7 +143,7 @@ function ResumePage() {
                       <Maximize2 className="h-3 w-3" /> Full
                     </button>
                     <a
-                      href={resumePdf.url}
+                      href={resumePdf}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground hover:bg-foreground/5"
@@ -157,12 +159,12 @@ function ResumePage() {
                   style={{ aspectRatio: "1 / 1.414" }}
                 >
                   <object
-                    data={`${resumePdf.url}#toolbar=0&navpanes=0&view=FitH`}
+                    data={`${resumePdf}#toolbar=0&navpanes=0&view=FitH`}
                     type="application/pdf"
                     className="h-full w-full"
                   >
                     <iframe
-                      src={resumePdf.url}
+                      src={resumePdf}
                       title="Resume preview — Arbaaz K."
                       className="h-full w-full"
                     />
@@ -213,7 +215,7 @@ function ResumePage() {
                 <div>
                   <p className="font-medium">Arbaaz-K-Resume.pdf</p>
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    A4 · ~{Math.max(1, Math.round(resumePdf.size / 1024))} KB · 1 page
+                    A4 · ~{RESUME_SIZE_KB} KB · 1 page
                   </p>
                 </div>
               </div>
@@ -235,7 +237,7 @@ function ResumePage() {
 
               <div className="mt-7 flex flex-col gap-3">
                 <a
-                  href={resumePdf.url}
+                  href={resumePdf}
                   download="Arbaaz-K-Resume.pdf"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
                 >
@@ -248,7 +250,7 @@ function ResumePage() {
                   <Eye className="h-4 w-4" /> Full preview
                 </button>
                 <a
-                  href={resumePdf.url}
+                  href={resumePdf}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
@@ -283,7 +285,7 @@ function ResumePage() {
             </span>
             <div className="flex items-center gap-2">
               <a
-                href={resumePdf.url}
+                href={resumePdf}
                 download="Arbaaz-K-Resume.pdf"
                 className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-background hover:-translate-y-0.5 transition-transform"
               >
@@ -304,12 +306,12 @@ function ResumePage() {
             className="flex-1 overflow-hidden p-3 md:p-6"
           >
             <object
-              data={`${resumePdf.url}#toolbar=1&view=FitH`}
+              data={`${resumePdf}#toolbar=1&view=FitH`}
               type="application/pdf"
               className="h-full w-full rounded-xl border border-border bg-background"
             >
               <iframe
-                src={resumePdf.url}
+                src={resumePdf}
                 title="Resume PDF"
                 className="h-full w-full rounded-xl"
               />

@@ -44,25 +44,25 @@ const SOCIALS = [
   { label: "Phone", href: "tel:+918527766839" },
 ];
 
-import logoSwiftAms from "@/assets/logo-swift-ams.png.asset.json";
-import logoWavox from "@/assets/logo-wavox.png.asset.json";
-import logoAiSwift from "@/assets/logo-ai-swift.png.asset.json";
-import logoKsha from "@/assets/logo-ksha.png.asset.json";
-import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png.asset.json";
-import logoEduFinn from "@/assets/logo-edu-finn.png.asset.json";
-import arbaazHero from "@/assets/arbaaz-hero.png.asset.json";
+import logoSwiftAms from "@/assets/logo-swift-ams.png";
+import logoWavox from "@/assets/logo-wavox.png";
+import logoAiSwift from "@/assets/logo-ai-swift.png";
+import logoKsha from "@/assets/logo-ksha.png";
+import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png";
+import logoEduFinn from "@/assets/logo-edu-finn.png";
+import arbaazHero from "@/assets/arbaaz-hero.png";
 
 // Real brochure PDFs → rasterized page images
-const brochurePages = import.meta.glob<{ default: { url: string } }>(
-  "../assets/brochures/*.asset.json",
-  { eager: true }
+const brochurePages = import.meta.glob<string>(
+  "../assets/brochures/*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
 );
 
 
 const brochurePageUrl = (file: string): string => {
-  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}.asset.json`));
+  const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
   if (!entry) { if (typeof window !== 'undefined') console.warn('[brochure] miss', file, Object.keys(brochurePages).length); return ""; }
-  return entry[1].default.url;
+  return entry[1];
 };
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
@@ -89,12 +89,12 @@ const BROCHURES: Brochure[] = [
 ];
 
 const LOGOS: { name: string; src: string }[] = [
-  { name: "Swift AMS", src: logoSwiftAms.url },
-  { name: "Wavox WMS", src: logoWavox.url },
-  { name: "Ai SWIFT", src: logoAiSwift.url },
-  { name: "KSHA LABS", src: logoKsha.url },
-  { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino.url },
-  { name: "Edu Finn", src: logoEduFinn.url },
+  { name: "Swift AMS", src: logoSwiftAms },
+  { name: "Wavox WMS", src: logoWavox },
+  { name: "Ai SWIFT", src: logoAiSwift },
+  { name: "KSHA LABS", src: logoKsha },
+  { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino },
+  { name: "Edu Finn", src: logoEduFinn },
 ];
 
 type Discipline = {
@@ -131,59 +131,77 @@ const DISCIPLINES: Discipline[] = [
 
 type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3; src?: string };
 
-// Real assets extracted from arbaazsince2002.wixsite.com/arbaaz-portfolio
-const wix = (hash: string, _w = 900, _ext: "png" | "jpg" = "png") =>
-  `https://static.wixstatic.com/media/${hash}`;
+const portfolioAssets = import.meta.glob<string>(
+  "../assets/portfolio/*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
+);
+
+const videoThumbnails = import.meta.glob<string>(
+  "../assets/video-thumbnails/*.{jpg,jpeg,png,webp}",
+  { eager: true, import: "default" }
+);
+
+const portfolioAsset = (file: string): string => {
+  const entry = Object.entries(portfolioAssets).find(([k]) => k.endsWith(`/${file}`));
+  if (!entry) { if (typeof window !== 'undefined') console.warn('[portfolio] miss', file, Object.keys(portfolioAssets).length); return ""; }
+  return entry[1];
+};
+
+const videoThumbnail = (id: string): string => {
+  const entry = Object.entries(videoThumbnails).find(([k]) => k.endsWith(`/${id}.jpg`));
+  if (!entry) { if (typeof window !== 'undefined') console.warn('[video thumbnail] miss', id, Object.keys(videoThumbnails).length); return ""; }
+  return entry[1];
+};
 
 const GALLERY: GalleryItem[] = [
   // Brand & Logos — real client identities from the old portfolio
   
-  { id: "b2", label: "SwiftAMS · Identity",    category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_ca3694966e014708a64fce392f994256~mv2.png") },
-  { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: wix("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
-  { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
-  { id: "b5", label: "Iksha Lab · Identity",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: wix("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png") },
+  { id: "b2", label: "SwiftAMS · Identity",    category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: portfolioAsset("89f4f8_ca3694966e014708a64fce392f994256~mv2.png") },
+  { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: portfolioAsset("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
+  { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
+  { id: "b5", label: "Iksha Lab · Identity",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: portfolioAsset("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png") },
 
   // Social Media — posters & campaign creatives (numbered, S-series, E-series)
-  { id: "s1",  label: "Social Poster · 01",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
-  { id: "s2",  label: "Social Poster · 02",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png") },
-  { id: "s4",  label: "Social Poster · 04",    category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png") },
-  { id: "s5",  label: "Social Poster · 05",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png") },
-  { id: "s6",  label: "Social Poster · 06",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png") },
-  { id: "ss1", label: "Campaign · S1",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png") },
-  { id: "ss2", label: "Campaign · S2",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png") },
-  { id: "ss3", label: "Campaign · S3",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png") },
-  { id: "ss4", label: "Campaign · S4",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png") },
-  { id: "ss5", label: "Campaign · S5",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png") },
-  { id: "se1", label: "Edu Finn · E1",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png") },
-  { id: "se2", label: "Edu Finn · E2",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png") },
-  { id: "se3", label: "Edu Finn · E3",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: wix("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
-  { id: "se4", label: "Edu Finn · E4",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: wix("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
-  { id: "se5", label: "Edu Finn · E5",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: wix("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
+  { id: "s1",  label: "Social Poster · 01",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
+  { id: "s2",  label: "Social Poster · 02",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png") },
+  { id: "s4",  label: "Social Poster · 04",    category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png") },
+  { id: "s5",  label: "Social Poster · 05",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png") },
+  { id: "s6",  label: "Social Poster · 06",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png") },
+  { id: "ss1", label: "Campaign · S1",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png") },
+  { id: "ss2", label: "Campaign · S2",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png") },
+  { id: "ss3", label: "Campaign · S3",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png") },
+  { id: "ss4", label: "Campaign · S4",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png") },
+  { id: "ss5", label: "Campaign · S5",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png") },
+  { id: "se1", label: "Edu Finn · E1",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png") },
+  { id: "se2", label: "Edu Finn · E2",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png") },
+  { id: "se3", label: "Edu Finn · E3",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
+  { id: "se4", label: "Edu Finn · E4",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
+  { id: "se5", label: "Edu Finn · E5",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
 
   // Print Media — brochures, covers & standees (print materials)
-  { id: "p1", label: "Brochure · Spread 01",   category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png") },
-  { id: "p2", label: "Brochure · Spread 03",   category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: wix("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png") },
-  { id: "p3", label: "Brochure · Spread 05",   category: "Print",  ratio: "aspect-[3/2]",   variant: 3, src: wix("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png") },
-  { id: "p4", label: "Brochure · Cover",       category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: wix("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png") },
-  { id: "p5", label: "Brochure · Mini",        category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: wix("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png") },
-  { id: "p6", label: "Standee · 01",           category: "Print",  ratio: "aspect-[3/4]",   variant: 3, src: wix("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png") },
-  { id: "p7", label: "Standee · 02",           category: "Print",  ratio: "aspect-[3/4]",   variant: 1, src: wix("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png") },
-  { id: "p8", label: "Standee · 03",           category: "Print",  ratio: "aspect-[3/4]",   variant: 2, src: wix("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png") },
+  { id: "p1", label: "Brochure · Spread 01",   category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: portfolioAsset("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png") },
+  { id: "p2", label: "Brochure · Spread 03",   category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: portfolioAsset("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png") },
+  { id: "p3", label: "Brochure · Spread 05",   category: "Print",  ratio: "aspect-[3/2]",   variant: 3, src: portfolioAsset("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png") },
+  { id: "p4", label: "Brochure · Cover",       category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: portfolioAsset("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png") },
+  { id: "p5", label: "Brochure · Mini",        category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: portfolioAsset("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png") },
+  { id: "p6", label: "Standee · 01",           category: "Print",  ratio: "aspect-[3/4]",   variant: 3, src: portfolioAsset("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png") },
+  { id: "p7", label: "Standee · 02",           category: "Print",  ratio: "aspect-[3/4]",   variant: 1, src: portfolioAsset("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png") },
+  { id: "p8", label: "Standee · 03",           category: "Print",  ratio: "aspect-[3/4]",   variant: 2, src: portfolioAsset("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png") },
 
   // UI / UX — web platforms & dashboards
-  { id: "u1", label: "Marketing Landing",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: wix("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png") },
-  { id: "u2", label: "MacBook · Showcase",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: wix("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png") },
+  { id: "u1", label: "Marketing Landing",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: portfolioAsset("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png") },
+  { id: "u2", label: "MacBook · Showcase",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: portfolioAsset("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png") },
   
 
   // Mobile App — full app screens
-  { id: "m1", label: "Mobile App · Hero",      category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png") },
-  { id: "m2", label: "Mobile · Screen 02",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png") },
-  { id: "m3", label: "Mobile · Screen 03",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: wix("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png") },
-  { id: "m4", label: "Mobile · Screen 04",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png") },
-  { id: "m5", label: "Mobile · Screen 05",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png") },
-  { id: "m6", label: "Mobile · Screen 06",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: wix("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png") },
-  { id: "m7", label: "Mobile · Screen 07",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: wix("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png") },
-  { id: "m8", label: "Mobile · Screen 08",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: wix("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png") },
+  { id: "m1", label: "Mobile App · Hero",      category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png") },
+  { id: "m2", label: "Mobile · Screen 02",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png") },
+  { id: "m3", label: "Mobile · Screen 03",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: portfolioAsset("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png") },
+  { id: "m4", label: "Mobile · Screen 04",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png") },
+  { id: "m5", label: "Mobile · Screen 05",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png") },
+  { id: "m6", label: "Mobile · Screen 06",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: portfolioAsset("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png") },
+  { id: "m7", label: "Mobile · Screen 07",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png") },
+  { id: "m8", label: "Mobile · Screen 08",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png") },
 ];
 
 const VIDEOS = [
@@ -701,7 +719,7 @@ function Hero() {
           <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
             <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10">
               <img
-                src={arbaazHero.url}
+                src={arbaazHero}
                 alt="Arbaaz K. — portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
@@ -828,7 +846,7 @@ function About() {
           <Tilt strength={10} className="relative aspect-[4/5] w-full max-w-[320px]">
             <div className="absolute inset-0 overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring">
               <img
-                src={arbaazHero.url}
+                src={arbaazHero}
                 alt="Arbaaz K. — about portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
@@ -944,41 +962,41 @@ function Stats() {
 
 /* ---------- Skills ---------- */
 
-import figmaLogo from "@/assets/tools/figma.png.asset.json";
-import photoshopLogo from "@/assets/tools/photoshop.png.asset.json";
-import illustratorLogo from "@/assets/tools/illustrator.png.asset.json";
-import indesignLogo from "@/assets/tools/indesign.png.asset.json";
-import xdLogo from "@/assets/tools/xd.png.asset.json";
-import premiereproLogo from "@/assets/tools/premierepro.png.asset.json";
-import aftereffectsLogo from "@/assets/tools/aftereffects.png.asset.json";
-import canvaLogo from "@/assets/tools/canva.jpg.asset.json";
-import coreldrawLogo from "@/assets/tools/coreldraw.jpg.asset.json";
-import chatgptLogo from "@/assets/tools/chatgpt.png.asset.json";
-import claudeLogo from "@/assets/tools/claude.png.asset.json";
-import geminiLogo from "@/assets/tools/gemini.jpg.asset.json";
-import cursorLogo from "@/assets/tools/cursor.png.asset.json";
-import lovableLogo from "@/assets/tools/lovable.jpg.asset.json";
-import midjourneyLogo from "@/assets/tools/midjourney.png.asset.json";
+import figmaLogo from "@/assets/tools/figma.png";
+import photoshopLogo from "@/assets/tools/photoshop.png";
+import illustratorLogo from "@/assets/tools/illustrator.png";
+import indesignLogo from "@/assets/tools/indesign.png";
+import xdLogo from "@/assets/tools/xd.png";
+import premiereproLogo from "@/assets/tools/premierepro.png";
+import aftereffectsLogo from "@/assets/tools/aftereffects.png";
+import canvaLogo from "@/assets/tools/canva.jpg";
+import coreldrawLogo from "@/assets/tools/coreldraw.jpg";
+import chatgptLogo from "@/assets/tools/chatgpt.png";
+import claudeLogo from "@/assets/tools/claude.png";
+import geminiLogo from "@/assets/tools/gemini.jpg";
+import cursorLogo from "@/assets/tools/cursor.png";
+import lovableLogo from "@/assets/tools/lovable.jpg";
+import midjourneyLogo from "@/assets/tools/midjourney.png";
 
 const TOOL_LOGOS: Record<string, string> = {
-  "Figma": figmaLogo.url,
-  "Adobe Photoshop": photoshopLogo.url,
-  "Adobe Illustrator": illustratorLogo.url,
-  "Adobe InDesign": indesignLogo.url,
-  "Adobe XD": xdLogo.url,
-  "Adobe Premiere Pro": premiereproLogo.url,
-  "Adobe After Effects": aftereffectsLogo.url,
-  "Canva": canvaLogo.url,
-  "CorelDRAW": coreldrawLogo.url,
-  "ChatGPT": chatgptLogo.url,
-  "Claude": claudeLogo.url,
-  "Gemini": geminiLogo.url,
-  "Adobe Firefly": photoshopLogo.url,
-  "Figma AI": figmaLogo.url,
-  "Canva AI": canvaLogo.url,
-  "Cursor": cursorLogo.url,
-  "Lovable": lovableLogo.url,
-  "Midjourney": midjourneyLogo.url,
+  "Figma": figmaLogo,
+  "Adobe Photoshop": photoshopLogo,
+  "Adobe Illustrator": illustratorLogo,
+  "Adobe InDesign": indesignLogo,
+  "Adobe XD": xdLogo,
+  "Adobe Premiere Pro": premiereproLogo,
+  "Adobe After Effects": aftereffectsLogo,
+  "Canva": canvaLogo,
+  "CorelDRAW": coreldrawLogo,
+  "ChatGPT": chatgptLogo,
+  "Claude": claudeLogo,
+  "Gemini": geminiLogo,
+  "Adobe Firefly": photoshopLogo,
+  "Figma AI": figmaLogo,
+  "Canva AI": canvaLogo,
+  "Cursor": cursorLogo,
+  "Lovable": lovableLogo,
+  "Midjourney": midjourneyLogo,
 };
 
 const TOOL_LINKS: Record<string, string> = {
@@ -1882,7 +1900,7 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
             <Tilt strength={10}>
               <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/60 bg-surface transition-shadow duration-500 group-hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]">
                 <img
-                  src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                  src={videoThumbnail(v.id)}
                   alt={v.title}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover grayscale-[20%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
