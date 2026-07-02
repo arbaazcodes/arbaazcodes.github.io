@@ -1,10 +1,15 @@
 /**
- * Premium ambient floating background.
- * - Soft off-white base with a subtle diagonal pastel wash.
- * - 7 organic (non-circular) blurred gradient shapes drifting slowly like wind.
- * - Each shape has its own size, blur, opacity, direction, duration, and easing.
- * - Fixed behind content (-z-10), pointer-events: none.
- * - Respects prefers-reduced-motion (handled in CSS).
+ * Ambient floating blob layer.
+ *
+ * Sits fixed behind all content and does NOT paint any page background —
+ * the underlying white (or dark) page color shows through untouched.
+ *
+ * 8 independently animated, softly blurred colored blobs drift slowly like
+ * clouds. Each has a unique size, color, opacity (5–10%), blur (220–300px),
+ * direction, duration (35–60s), scale and rotation. Only `transform` and
+ * `opacity` are animated for GPU-accelerated 60 FPS.
+ *
+ * `prefers-reduced-motion` handled in CSS.
  */
 export function AmbientBackground() {
   return (
@@ -12,15 +17,14 @@ export function AmbientBackground() {
       aria-hidden
       className="ambient-root pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      <div className="ambient-wash" />
-      <div className="ambient-shape s1" />
-      <div className="ambient-shape s2" />
-      <div className="ambient-shape s3" />
-      <div className="ambient-shape s4" />
-      <div className="ambient-shape s5" />
-      <div className="ambient-shape s6" />
-      <div className="ambient-shape s7" />
-      <div className="ambient-grain" />
+      <span className="ambient-blob ab-1" />
+      <span className="ambient-blob ab-2" />
+      <span className="ambient-blob ab-3" />
+      <span className="ambient-blob ab-4" />
+      <span className="ambient-blob ab-5" />
+      <span className="ambient-blob ab-6" />
+      <span className="ambient-blob ab-7" />
+      <span className="ambient-blob ab-8" />
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AdaptiveCursor } from "../components/AdaptiveCursor";
 import { AmbientBackground } from "../components/AmbientBackground";
-import { FloatingBlobs } from "../components/FloatingBlobs";
+
 
 function NotFoundComponent() {
   return (
@@ -82,7 +82,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AmbientBackground />
-      <FloatingBlobs />
+
       <AdaptiveCursor />
       <Outlet />
     </QueryClientProvider>
