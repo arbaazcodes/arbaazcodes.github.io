@@ -8,6 +8,7 @@ import {
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
   ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark
 } from "lucide-react";
+import { Magnetic } from "@/components/reactbits/Magnetic";
 
 
 
@@ -637,8 +638,8 @@ function Hero() {
             {words.map((w, i) => (
               <motion.span
                 key={i}
-                initial={{ opacity: 0, y: 40, rotateX: 60 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                initial={{ opacity: 0, y: 40, rotateX: 60, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
                 transition={{ delay: 0.1 + i * 0.07, duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
@@ -653,13 +654,17 @@ function Hero() {
               I'm <span className="text-foreground">Arbaaz</span> — a Product Designer with 4.5+ years designing SaaS products, CRM platforms, dashboards and digital experiences, blending UX research, design systems and AI-assisted workflows.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm text-background transition-transform hover:scale-[1.02]">
-                <span className="relative z-10">See the work</span>
-                <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
-              </a>
-              <a href="#contact" className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
-                Get in touch
-              </a>
+              <Magnetic strength={14} padding={20}>
+                <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm text-background transition-transform hover:scale-[1.02]">
+                  <span className="relative z-10">See the work</span>
+                  <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
+                </a>
+              </Magnetic>
+              <Magnetic strength={8} padding={12}>
+                <a href="#contact" className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
+                  Get in touch
+                </a>
+              </Magnetic>
             </div>
           </motion.div>
         </div>
