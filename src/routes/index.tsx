@@ -1438,6 +1438,7 @@ function BrochureCard({
 function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[], index?: number) => void }) {
   const categories = ["All", ...CATEGORY_ORDER] as const;
   const [filter, setFilter] = useState<(typeof categories)[number]>("All");
+  const [socialMoreOpen, setSocialMoreOpen] = useState(false);
   const visibleCats = filter === "All" ? CATEGORY_ORDER : [filter as (typeof CATEGORY_ORDER)[number]];
 
   return (
@@ -1683,6 +1684,20 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
                         </div>
                       );
                     })}
+                    {cat === "Social" && (
+                      <div className="flex justify-center pt-4">
+                        <motion.button
+                          type="button"
+                          onClick={() => setSocialMoreOpen(true)}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="inline-flex items-center gap-2 rounded-full border border-foreground bg-foreground px-6 py-3 font-mono text-[11px] uppercase tracking-[0.25em] text-background shadow-sm transition-colors hover:bg-highlight hover:border-highlight hover:text-background"
+                        >
+                          <Plus className="h-4 w-4" />
+                          More
+                        </motion.button>
+                      </div>
+                    )}
                   </div>
                 );
               })()}
@@ -1690,6 +1705,88 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
           );
         })}
       </div>
+
+      <AnimatePresence>
+        {socialMoreOpen && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
+              onClick={() => setSocialMoreOpen(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            <motion.div
+              role="dialog"
+              aria-label="More social work"
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 260, damping: 24 }}
+              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-border bg-background p-8 shadow-2xl"
+            >
+              <button
+                type="button"
+                onClick={() => setSocialMoreOpen(false)}
+                aria-label="Close"
+                className="absolute right-4 top-4 rounded-full border border-border p-2 text-muted-foreground transition-colors hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-highlight">
+                / See more
+              </p>
+              <h3 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground">
+                Follow the full feed
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Live social work continues on Instagram — tap a handle to open the profile.
+              </p>
+              <div className="mt-6 space-y-3">
+                <a
+                  href="https://www.instagram.com/swiftams/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between rounded-2xl border border-border bg-card p-4 transition-all hover:border-highlight hover:shadow-md"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-foreground text-background">
+                      <Instagram className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">SwiftAMS</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">@swiftams</p>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-highlight" />
+                </a>
+                <a
+                  href="https://www.instagram.com/edu_finn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between rounded-2xl border border-border bg-card p-4 transition-all hover:border-highlight hover:shadow-md"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-foreground text-background">
+                      <Instagram className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">Edu Finn</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">@edu_finn</p>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-highlight" />
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
