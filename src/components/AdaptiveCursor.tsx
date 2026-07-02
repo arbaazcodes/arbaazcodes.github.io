@@ -142,14 +142,14 @@ export function AdaptiveCursor() {
         x: e.clientX, y: e.clientY, life: 1,
         hue, sat, light,
       });
-      // spawn extra splash points
-      for (let i = 0; i < 14; i++) {
+      // subtle splash — very few particles
+      for (let i = 0; i < 3; i++) {
         const a = Math.random() * Math.PI * 2;
-        const sp = 2 + Math.random() * 5;
+        const sp = 1 + Math.random() * 1.6;
         trail.push({
           x: e.clientX, y: e.clientY,
           vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
-          life: 1, size: 8 + Math.random() * 14,
+          life: 1, size: 5 + Math.random() * 5,
           hue, sat, light,
         });
       }
@@ -205,22 +205,21 @@ export function AdaptiveCursor() {
         } catch { /* ignore */ }
       }
 
-      // Emit trail points as the cursor moves
-      const emitCount = Math.min(6, Math.floor(instSpeed / 3));
+      // Emit trail points as the cursor moves — sparse and small
+      const emitCount = instSpeed > 4 && Math.random() < 0.5 ? 1 : 0;
       for (let i = 0; i < emitCount; i++) {
-        const t = i / Math.max(1, emitCount);
         trail.push({
-          x: orb.x + (mouse.x - orb.x) * t + (Math.random() - 0.5) * 2,
-          y: orb.y + (mouse.y - orb.y) * t + (Math.random() - 0.5) * 2,
-          vx: (Math.random() - 0.5) * 0.6,
-          vy: (Math.random() - 0.5) * 0.6 - 0.15,
+          x: orb.x + (Math.random() - 0.5) * 1.5,
+          y: orb.y + (Math.random() - 0.5) * 1.5,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3 - 0.08,
           life: 1,
-          size: 10 + Math.random() * 10 + Math.min(24, instSpeed * 0.4),
+          size: 4 + Math.random() * 3 + Math.min(6, instSpeed * 0.15),
           hue, sat, light,
         });
       }
-      // cap trail length
-      if (trail.length > 260) trail.splice(0, trail.length - 260);
+      // cap trail length (shorter)
+      if (trail.length > 40) trail.splice(0, trail.length - 40);
 
       // Clear with slight transparency to allow motion blur trails
       ctx.clearRect(0, 0, w, h);
@@ -233,13 +232,12 @@ export function AdaptiveCursor() {
         p.y += p.vy * dt;
         p.vx *= 0.96;
         p.vy *= 0.96;
-        p.life -= 0.018 * dt;
+        p.life -= 0.035 * dt;
         if (p.life <= 0) { trail.splice(i, 1); continue; }
-        const r = p.size * (0.6 + 0.6 * p.life);
+        const r = p.size * (0.5 + 0.5 * p.life);
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-        const alpha = 0.35 * p.life;
-        grad.addColorStop(0, `hsla(${p.hue}, ${p.sat}%, ${Math.min(80, p.light + 15)}%, ${alpha})`);
-        grad.addColorStop(0.5, `hsla(${p.hue}, ${p.sat}%, ${p.light}%, ${alpha * 0.35})`);
+        const alpha = 0.16 * p.life;
+        grad.addColorStop(0, `hsla(${p.hue}, ${p.sat}%, ${Math.min(80, p.light + 10)}%, ${alpha})`);
         grad.addColorStop(1, `hsla(${p.hue}, ${p.sat}%, ${p.light}%, 0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
@@ -247,37 +245,36 @@ export function AdaptiveCursor() {
         ctx.fill();
       }
 
-      // Ripples
+      // Ripples — smaller and quicker
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
-        rp.life -= 0.02 * dt;
+        rp.life -= 0.05 * dt;
         if (rp.life <= 0) { ripples.splice(i, 1); continue; }
-        const r = (1 - rp.life) * 140;
-        ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.6})`;
-        ctx.lineWidth = 2 * rp.life + 0.5;
+        const r = (1 - rp.life) * 42;
+        ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.35})`;
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(rp.x, rp.y, r, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // Main orb (breathing when idle)
-      const breathe = mouse.moving ? 0 : (Math.sin(now / 620) * 0.5 + 0.5);
-      const baseR = 14 + Math.min(18, speed * 0.35) + breathe * 4;
+      // Main orb (breathing when idle) — small & subtle
+      const breathe = mouse.moving ? 0 : (Math.sin(now / 720) * 0.5 + 0.5);
+      const baseR = 5 + Math.min(3, speed * 0.08) + breathe * 1.2;
 
-      // outer bloom
-      const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 5);
-      bloom.addColorStop(0, `hsla(${hue}, ${sat}%, ${Math.min(85, light + 20)}%, 0.55)`);
-      bloom.addColorStop(0.4, `hsla(${hue}, ${sat}%, ${light}%, 0.18)`);
+      // soft bloom (small radius, low alpha)
+      const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 3);
+      bloom.addColorStop(0, `hsla(${hue}, ${sat}%, ${Math.min(80, light + 15)}%, 0.18)`);
       bloom.addColorStop(1, `hsla(${hue}, ${sat}%, ${light}%, 0)`);
       ctx.fillStyle = bloom;
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, baseR * 5, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, baseR * 3, 0, Math.PI * 2);
       ctx.fill();
 
-      // core
+      // core dot
       const core = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR);
-      core.addColorStop(0, `hsla(${hue}, ${Math.min(100, sat + 10)}%, 92%, 0.95)`);
-      core.addColorStop(0.5, `hsla(${hue}, ${sat}%, ${Math.min(80, light + 15)}%, 0.7)`);
+      core.addColorStop(0, `hsla(${hue}, ${Math.min(100, sat + 10)}%, 90%, 0.7)`);
+      core.addColorStop(0.6, `hsla(${hue}, ${sat}%, ${Math.min(75, light + 10)}%, 0.4)`);
       core.addColorStop(1, `hsla(${hue}, ${sat}%, ${light}%, 0)`);
       ctx.fillStyle = core;
       ctx.beginPath();
