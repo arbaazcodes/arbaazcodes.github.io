@@ -120,9 +120,11 @@ export function AdaptiveCursor() {
     const orb = { x: w / 2, y: h / 2 }; // eased follower
     let lastMoveTs = 0;
     let speed = 0;
+    let hovering = false; // over an interactive element (magnetic feel)
 
-    // Adaptive color (HSL) — smoothed
-    let hue = 260, sat = 70, light = 60;
+    // Adaptive color (HSL) — smoothed toward a target complementary hue
+    let hue = 260, sat = 70, light = 62;
+    let tHue = 260, tSat = 70, tLight = 62;
     let sampleTick = 0;
 
     const trail: TrailPoint[] = [];
@@ -142,17 +144,6 @@ export function AdaptiveCursor() {
         x: e.clientX, y: e.clientY, life: 1,
         hue, sat, light,
       });
-      // subtle splash — very few particles
-      for (let i = 0; i < 3; i++) {
-        const a = Math.random() * Math.PI * 2;
-        const sp = 1 + Math.random() * 1.6;
-        trail.push({
-          x: e.clientX, y: e.clientY,
-          vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
-          life: 1, size: 5 + Math.random() * 5,
-          hue, sat, light,
-        });
-      }
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -169,57 +160,67 @@ export function AdaptiveCursor() {
       const dt = Math.min(48, now - prev) / 16.6667; // in ~frames
       prev = now;
 
-      // Ease orb toward mouse
+      // Ease orb toward mouse (a bit slower when hovering interactive → magnetic feel)
       const ex = mouse.x - orb.x;
       const ey = mouse.y - orb.y;
-      const easing = 0.18;
+      const easing = hovering ? 0.24 : 0.2;
       orb.x += ex * easing * dt;
       orb.y += ey * easing * dt;
 
-      // Speed for trail length + orb scale
+      // Speed for trail intensity + orb scale
       const instSpeed = Math.hypot(ex, ey);
       speed += (instSpeed - speed) * 0.2;
       mouse.moving = now - lastMoveTs < 120;
 
-      // Continuously cycle hue for a multi-color rainbow glow
-      hue = (hue + 0.9 * dt) % 360;
-      sat = 90;
-      light = 62;
+      // Adaptive color: sample under cursor every ~8 frames, smooth toward complementary hue.
+      sampleTick += dt;
+      if (sampleTick > 8) {
+        sampleTick = 0;
+        const [bh, bs, bl] = sampleBackground(mouse.x, mouse.y);
+        // Complementary hue for contrast; keep vivid but not neon.
+        tHue = (bh + 180) % 360;
+        tSat = Math.min(80, Math.max(45, bs + 10));
+        // If background is dark, use lighter glow; if bright, mid tone.
+        tLight = bl > 55 ? 55 : 70;
+        // Detect interactive element under cursor for a gentle magnetic feel
+        const el = document.elementFromPoint(mouse.x, mouse.y);
+        hovering = !!(el && el.closest("a, button, [role='button'], input, textarea, select, label"));
+      }
+      hue += (tHue - hue) * 0.08 * dt;
+      sat += (tSat - sat) * 0.08 * dt;
+      light += (tLight - light) * 0.08 * dt;
 
-      // Emit trail points as the cursor moves — sparse and small
-      const emitCount = instSpeed > 4 && Math.random() < 0.5 ? 1 : 0;
-      for (let i = 0; i < emitCount; i++) {
-        // Slight hue offset per particle so the trail becomes a gradient ribbon
-        const pHue = (hue + (Math.random() - 0.5) * 40 + 360) % 360;
+      // Emit trail points as the cursor moves — sparse, small, short-lived
+      const emit = instSpeed > 5 && Math.random() < 0.35 ? 1 : 0;
+      for (let i = 0; i < emit; i++) {
         trail.push({
-          x: orb.x + (Math.random() - 0.5) * 1.5,
-          y: orb.y + (Math.random() - 0.5) * 1.5,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3 - 0.08,
+          x: orb.x + (Math.random() - 0.5) * 1.2,
+          y: orb.y + (Math.random() - 0.5) * 1.2,
+          vx: (Math.random() - 0.5) * 0.22,
+          vy: (Math.random() - 0.5) * 0.22 - 0.06,
           life: 1,
-          size: (4 + Math.random() * 3 + Math.min(6, instSpeed * 0.15)) * 1.1,
-          hue: pHue, sat, light,
+          size: 3 + Math.random() * 2 + Math.min(3, instSpeed * 0.08),
+          hue, sat, light,
         });
       }
-      // cap trail length (shorter)
-      if (trail.length > 44) trail.splice(0, trail.length - 44);
+      // Shorter trail cap
+      if (trail.length > 22) trail.splice(0, trail.length - 22);
 
-      // Clear with slight transparency to allow motion blur trails
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = "lighter";
 
-      // Draw trail
+      // Draw trail (softer + faster decay)
       for (let i = trail.length - 1; i >= 0; i--) {
         const p = trail[i];
         p.x += p.vx * dt;
         p.y += p.vy * dt;
-        p.vx *= 0.96;
-        p.vy *= 0.96;
-        p.life -= 0.035 * dt;
+        p.vx *= 0.95;
+        p.vy *= 0.95;
+        p.life -= 0.055 * dt;
         if (p.life <= 0) { trail.splice(i, 1); continue; }
         const r = p.size * (0.5 + 0.5 * p.life);
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-        const alpha = 0.16 * p.life;
+        const alpha = 0.11 * p.life;
         grad.addColorStop(0, `hsla(${p.hue}, ${p.sat}%, ${Math.min(80, p.light + 10)}%, ${alpha})`);
         grad.addColorStop(1, `hsla(${p.hue}, ${p.sat}%, ${p.light}%, 0)`);
         ctx.fillStyle = grad;
@@ -228,36 +229,37 @@ export function AdaptiveCursor() {
         ctx.fill();
       }
 
-      // Ripples — smaller and quicker
+      // Ripples — small & quick
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
-        rp.life -= 0.05 * dt;
+        rp.life -= 0.055 * dt;
         if (rp.life <= 0) { ripples.splice(i, 1); continue; }
-        const r = (1 - rp.life) * 42;
-        ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.35})`;
+        const r = (1 - rp.life) * 34;
+        ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.32})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(rp.x, rp.y, r, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // Main orb (breathing when idle) — small & subtle
+      // Main orb — smaller, softer. Gently scales up over interactive elements.
       const breathe = mouse.moving ? 0 : (Math.sin(now / 720) * 0.5 + 0.5);
-      const baseR = (5 + Math.min(3, speed * 0.08) + breathe * 1.2) * 1.1;
+      const hoverBoost = hovering ? 2.2 : 0;
+      const baseR = 3.2 + Math.min(2, speed * 0.06) + breathe * 0.9 + hoverBoost;
 
-      // soft bloom (small radius, low alpha)
-      const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 3);
-      bloom.addColorStop(0, `hsla(${hue}, ${sat}%, ${Math.min(80, light + 15)}%, 0.18)`);
+      // Soft bloom (smaller radius, lower alpha)
+      const bloom = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR * 2.6);
+      bloom.addColorStop(0, `hsla(${hue}, ${sat}%, ${Math.min(80, light + 15)}%, 0.14)`);
       bloom.addColorStop(1, `hsla(${hue}, ${sat}%, ${light}%, 0)`);
       ctx.fillStyle = bloom;
       ctx.beginPath();
-      ctx.arc(orb.x, orb.y, baseR * 3, 0, Math.PI * 2);
+      ctx.arc(orb.x, orb.y, baseR * 2.6, 0, Math.PI * 2);
       ctx.fill();
 
-      // core dot
+      // Core dot
       const core = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, baseR);
-      core.addColorStop(0, `hsla(${hue}, ${Math.min(100, sat + 10)}%, 90%, 0.7)`);
-      core.addColorStop(0.6, `hsla(${hue}, ${sat}%, ${Math.min(75, light + 10)}%, 0.4)`);
+      core.addColorStop(0, `hsla(${hue}, ${Math.min(100, sat + 10)}%, 92%, 0.75)`);
+      core.addColorStop(0.6, `hsla(${hue}, ${sat}%, ${Math.min(75, light + 10)}%, 0.38)`);
       core.addColorStop(1, `hsla(${hue}, ${sat}%, ${light}%, 0)`);
       ctx.fillStyle = core;
       ctx.beginPath();
@@ -269,6 +271,7 @@ export function AdaptiveCursor() {
       raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
+
 
     return () => {
       cancelAnimationFrame(raf);
