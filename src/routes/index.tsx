@@ -887,26 +887,30 @@ function Stats() {
 
 /* ---------- Skills ---------- */
 
+const SI = (slug: string) => `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`;
+const LH = (slug: string) => `https://unpkg.com/@lobehub/icons-static-svg@latest/icons/${slug}.svg`;
+
 const TOOL_LOGOS: Record<string, string> = {
-  "Figma": "figma",
-  "Adobe Photoshop": "adobephotoshop",
-  "Adobe Illustrator": "adobeillustrator",
-  "Adobe InDesign": "adobeindesign",
-  "Adobe XD": "adobexd",
-  "Adobe Premiere Pro": "adobepremierepro",
-  "Adobe After Effects": "adobeaftereffects",
-  "Canva": "canva",
-  "CorelDRAW": "coreldraw",
-  "ChatGPT": "openai",
-  "Claude": "anthropic",
-  "Gemini": "googlegemini",
-  "Adobe Firefly": "adobe",
-  "Figma AI": "figma",
-  "Canva AI": "canva",
-  "Cursor": "cursor",
-  "Lovable": "lovable",
-  "Midjourney": "midjourney",
+  "Figma": SI("figma"),
+  "Adobe Photoshop": SI("adobephotoshop"),
+  "Adobe Illustrator": SI("adobeillustrator"),
+  "Adobe InDesign": SI("adobeindesign"),
+  "Adobe XD": SI("adobexd"),
+  "Adobe Premiere Pro": SI("adobepremierepro"),
+  "Adobe After Effects": SI("adobeaftereffects"),
+  "Canva": SI("canva"),
+  "CorelDRAW": SI("coreldraw"),
+  "ChatGPT": LH("openai"),
+  "Claude": LH("claude"),
+  "Gemini": LH("gemini"),
+  "Adobe Firefly": SI("adobe"),
+  "Figma AI": SI("figma"),
+  "Canva AI": SI("canva"),
+  "Cursor": LH("cursor"),
+  "Lovable": LH("lovable"),
+  "Midjourney": LH("midjourney"),
 };
+
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
