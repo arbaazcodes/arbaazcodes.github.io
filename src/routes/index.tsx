@@ -1060,7 +1060,7 @@ function Skills() {
                     whileInView: { opacity: 1, y: 0 },
                     viewport: { once: true, margin: "-40px" },
                     transition: { duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
-                    className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all hover:-translate-y-0.5 hover:text-highlight",
+                    className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:text-highlight hover:shadow-[0_10px_26px_-14px_rgba(0,0,0,0.22)]",
                   };
                   return link ? (
                     <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
@@ -1165,7 +1165,7 @@ function Experience() {
             <span className="absolute left-1 top-7 grid h-8 w-8 place-items-center rounded-full border border-border bg-background text-foreground md:left-2 md:h-10 md:w-10">
               <job.Icon size={15} />
             </span>
-            <div className="card-white rounded-2xl p-6 transition-transform hover:-translate-y-0.5 md:p-8">
+            <div className="card-white rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-18px_rgba(0,0,0,0.22)] md:p-8">
               <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-display text-2xl md:text-3xl">{job.company}</h3>
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{job.period}</span>
@@ -1869,7 +1869,7 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
             className="group block cursor-pointer text-left"
           >
             <Tilt strength={10}>
-              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/60 bg-surface">
+              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/60 bg-surface transition-shadow duration-500 group-hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]">
                 <img
                   src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
                   alt={v.title}
@@ -2131,12 +2131,14 @@ function Contact() {
             <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-foreground opacity-60" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-foreground" /></span>
             <span className="font-mono text-[10px] uppercase tracking-[0.25em]">Open · Q1 2026</span>
           </div>
-          <button
-            onClick={() => setOpen(true)}
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:text-background"
-          >
-            <Mail size={14} /> Contact me
-          </button>
+          <Magnetic strength={14} padding={20}>
+            <button
+              onClick={() => setOpen(true)}
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:text-background hover:shadow-[0_12px_36px_-14px_rgba(0,0,0,0.35)]"
+            >
+              <Mail size={14} /> Contact me
+            </button>
+          </Magnetic>
         </div>
         <div className="md:col-span-7">
           <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02]">
