@@ -1689,15 +1689,17 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
                                   whileInView={{ opacity: 1, y: 0 }}
                                   viewport={{ once: true, margin: "-40px" }}
                                   transition={{ duration: 0.55, delay: idx * 0.08 }}
-                                  className="group block w-full cursor-pointer overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all hover:ring-highlight"
+                                  className="group block w-full cursor-pointer overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all duration-500 hover:ring-highlight hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.32)]"
                                 >
-                                  <Placeholder
-                                    label={s.label}
-                                    ratio="aspect-[3/4]"
-                                    variant={s.variant}
-                                    src={s.src}
-                                    fit={cfg.fit}
-                                  />
+                                  <div className="transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
+                                    <Placeholder
+                                      label={s.label}
+                                      ratio="aspect-[3/4]"
+                                      variant={s.variant}
+                                      src={s.src}
+                                      fit={cfg.fit}
+                                    />
+                                  </div>
                                 </motion.button>
                               ))}
                             </div>
@@ -2269,11 +2271,23 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
             </p>
 
             {sent ? (
-              <div className="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-highlight/40 bg-highlight/10 p-8 text-center">
-                <div className="rounded-full bg-highlight/20 p-3"><Send size={20} className="text-highlight" /></div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                className="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-highlight/40 bg-highlight/10 p-8 text-center"
+              >
+                <motion.div
+                  initial={{ scale: 0, rotate: -20 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ delay: 0.08, type: "spring", stiffness: 320, damping: 18 }}
+                  className="rounded-full bg-highlight/20 p-3"
+                >
+                  <Send size={20} className="text-highlight" />
+                </motion.div>
                 <p className="font-medium text-foreground">Opening your email app…</p>
                 <p className="text-xs text-muted-foreground">Thanks for reaching out.</p>
-              </div>
+              </motion.div>
             ) : (
               <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -2317,12 +2331,14 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                     <p className="font-mono text-[10px] text-muted-foreground">{message.length}/2000</p>
                   </div>
                 </div>
-                <button
-                  type="submit"
-                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight"
-                >
-                  Send message <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                </button>
+                <Magnetic strength={12} padding={18}>
+                  <button
+                    type="submit"
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:shadow-[0_14px_40px_-16px_rgba(0,0,0,0.4)]"
+                  >
+                    Send message <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                  </button>
+                </Magnetic>
               </form>
             )}
           </motion.div>
