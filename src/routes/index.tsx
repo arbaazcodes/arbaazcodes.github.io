@@ -2169,3 +2169,87 @@ function Footer() {
     </footer>
   );
 }
+
+function QuickChatFab() {
+  const [open, setOpen] = useState(false);
+  const [msg, setMsg] = useState("");
+  const send = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = msg.trim();
+    if (!text) return;
+    window.location.href = `mailto:arbaazsince2002@gmail.com?subject=${encodeURIComponent("Quick chat from portfolio")}&body=${encodeURIComponent(text)}`;
+    setMsg("");
+    setOpen(false);
+  };
+  return (
+    <>
+      <motion.button
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close quick chat" : "Open quick chat"}
+        initial={{ opacity: 0, scale: 0.6 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.6, type: "spring", stiffness: 260, damping: 20 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        className="fixed bottom-5 right-5 z-[90] flex h-14 w-14 items-center justify-center rounded-full bg-foreground text-background shadow-2xl ring-1 ring-foreground/10 hover:bg-foreground/90 md:bottom-8 md:right-8"
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {open ? (
+            <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <X size={20} />
+            </motion.span>
+          ) : (
+            <motion.span key="c" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+              <MessageCircle size={20} />
+            </motion.span>
+          )}
+        </AnimatePresence>
+        {!open && <span className="pulse-ring absolute inset-0 rounded-full" />}
+      </motion.button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.96 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-24 right-5 z-[89] w-[calc(100vw-2.5rem)] max-w-[340px] overflow-hidden rounded-3xl border border-border/60 bg-popover shadow-2xl backdrop-blur-md md:bottom-28 md:right-8"
+          >
+            <div className="flex items-center gap-3 border-b border-border/60 bg-foreground/[0.03] px-4 py-3">
+              <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
+                <span className="font-display text-sm font-semibold">a</span>
+                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-popover" />
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-foreground">Chat with Arbaaz</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Usually replies in a few hours</p>
+              </div>
+            </div>
+            <form onSubmit={send} className="p-3">
+              <textarea
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
+                rows={3}
+                maxLength={1000}
+                autoFocus
+                placeholder="Hi Arbaaz, I'd love to talk about…"
+                className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+              />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <p className="font-mono text-[10px] text-muted-foreground">{msg.length}/1000</p>
+                <button
+                  type="submit"
+                  disabled={!msg.trim()}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-opacity hover:bg-foreground/85 disabled:opacity-40"
+                >
+                  Send <Send size={12} />
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
