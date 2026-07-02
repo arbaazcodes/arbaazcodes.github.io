@@ -363,30 +363,52 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           </span>
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">arbaaz/2026</span>
         </a>
-        <nav className="hidden gap-0.5 md:flex">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              className={`relative rounded-full px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
-                active === n.id ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {active === n.id && (
-                <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-foreground/10" transition={{ type: "spring", stiffness: 350, damping: 30 }} />
-              )}
-              <span className="relative">{n.label}</span>
-            </a>
-          ))}
-          <Link
-            to="/resume"
-            className="relative inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <FileText className="h-3 w-3" /> Resume
-          </Link>
-        </nav>
-
         <div className="flex items-center gap-2">
+          <div className="relative hidden md:block">
+            <button
+              onClick={() => setDeskOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={deskOpen}
+              className="inline-flex items-center gap-2 rounded-full border border-border/60 px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-foreground hover:bg-foreground/10 transition-colors"
+            >
+              <Menu size={13} />
+              <span>{NAV.find((n) => n.id === active)?.label ?? "Menu"}</span>
+            </button>
+            <AnimatePresence>
+              {deskOpen && (
+                <>
+                  <button
+                    aria-label="Close menu"
+                    onClick={() => setDeskOpen(false)}
+                    className="fixed inset-0 z-[54] cursor-default"
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    role="menu"
+                    className="absolute right-0 top-[calc(100%+8px)] z-[56] min-w-[220px] rounded-2xl border border-border/60 bg-popover p-1.5 shadow-2xl backdrop-blur-md"
+                  >
+                    {NAV.map((n) => (
+                      <a
+                        key={n.id}
+                        href={`#${n.id}`}
+                        role="menuitem"
+                        onClick={() => setDeskOpen(false)}
+                        className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
+                          active === n.id ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+                        }`}
+                      >
+                        <span>{n.label}</span>
+                        <ArrowUpRight size={13} className="opacity-40" />
+                      </a>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
           <button
             onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
@@ -394,9 +416,12 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           >
             {dark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
-          <a href="#contact" className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors">
-            Let's talk <ArrowRight size={13} />
-          </a>
+          <Link
+            to="/resume"
+            className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors"
+          >
+            <FileText size={13} /> Resume
+          </Link>
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
