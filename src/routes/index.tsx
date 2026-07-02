@@ -887,28 +887,41 @@ function Stats() {
 
 /* ---------- Skills ---------- */
 
-const SI = (slug: string) => `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${slug}.svg`;
-const LH = (slug: string) => `https://unpkg.com/@lobehub/icons-static-svg@latest/icons/${slug}.svg`;
+import figmaLogo from "@/assets/tools/figma.png.asset.json";
+import photoshopLogo from "@/assets/tools/photoshop.png.asset.json";
+import illustratorLogo from "@/assets/tools/illustrator.png.asset.json";
+import indesignLogo from "@/assets/tools/indesign.png.asset.json";
+import xdLogo from "@/assets/tools/xd.png.asset.json";
+import premiereproLogo from "@/assets/tools/premierepro.png.asset.json";
+import aftereffectsLogo from "@/assets/tools/aftereffects.png.asset.json";
+import canvaLogo from "@/assets/tools/canva.jpg.asset.json";
+import coreldrawLogo from "@/assets/tools/coreldraw.jpg.asset.json";
+import chatgptLogo from "@/assets/tools/chatgpt.png.asset.json";
+import claudeLogo from "@/assets/tools/claude.png.asset.json";
+import geminiLogo from "@/assets/tools/gemini.jpg.asset.json";
+import cursorLogo from "@/assets/tools/cursor.png.asset.json";
+import lovableLogo from "@/assets/tools/lovable.jpg.asset.json";
+import midjourneyLogo from "@/assets/tools/midjourney.png.asset.json";
 
 const TOOL_LOGOS: Record<string, string> = {
-  "Figma": SI("figma"),
-  "Adobe Photoshop": SI("adobephotoshop"),
-  "Adobe Illustrator": SI("adobeillustrator"),
-  "Adobe InDesign": SI("adobeindesign"),
-  "Adobe XD": SI("adobexd"),
-  "Adobe Premiere Pro": SI("adobepremierepro"),
-  "Adobe After Effects": SI("adobeaftereffects"),
-  "Canva": SI("canva"),
-  "CorelDRAW": SI("coreldraw"),
-  "ChatGPT": LH("openai"),
-  "Claude": LH("claude"),
-  "Gemini": LH("gemini"),
-  "Adobe Firefly": SI("adobe"),
-  "Figma AI": SI("figma"),
-  "Canva AI": SI("canva"),
-  "Cursor": LH("cursor"),
-  "Lovable": LH("lovable"),
-  "Midjourney": LH("midjourney"),
+  "Figma": figmaLogo.url,
+  "Adobe Photoshop": photoshopLogo.url,
+  "Adobe Illustrator": illustratorLogo.url,
+  "Adobe InDesign": indesignLogo.url,
+  "Adobe XD": xdLogo.url,
+  "Adobe Premiere Pro": premiereproLogo.url,
+  "Adobe After Effects": aftereffectsLogo.url,
+  "Canva": canvaLogo.url,
+  "CorelDRAW": coreldrawLogo.url,
+  "ChatGPT": chatgptLogo.url,
+  "Claude": claudeLogo.url,
+  "Gemini": geminiLogo.url,
+  "Adobe Firefly": photoshopLogo.url,
+  "Figma AI": figmaLogo.url,
+  "Canva AI": canvaLogo.url,
+  "Cursor": cursorLogo.url,
+  "Lovable": lovableLogo.url,
+  "Midjourney": midjourneyLogo.url,
 };
 
 
