@@ -98,8 +98,8 @@ jobs:
               continue
             fi
 
-            js_path=$(printf '%s' "$html" | grep -oE '/assets/[^"'"' ]+\.js' | head -n 1)
-            css_path=$(printf '%s' "$html" | grep -oE '/assets/[^"'"' ]+\.css' | head -n 1)
+            js_path=$(printf '%s' "$html" | grep -oE "/assets/[^\"' ]+\.js" | head -n 1)
+            css_path=$(printf '%s' "$html" | grep -oE "/assets/[^\"' ]+\.css" | head -n 1)
 
             test -n "$js_path"
             test -n "$css_path"
