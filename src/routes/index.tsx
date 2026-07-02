@@ -1900,7 +1900,7 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
             <Tilt strength={10}>
               <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/60 bg-surface transition-shadow duration-500 group-hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]">
                 <img
-                  src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                  src={videoThumbnail(v.id)}
                   alt={v.title}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover grayscale-[20%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
