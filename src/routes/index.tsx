@@ -887,6 +887,27 @@ function Stats() {
 
 /* ---------- Skills ---------- */
 
+const TOOL_LOGOS: Record<string, string> = {
+  "Figma": "figma",
+  "Adobe Photoshop": "adobephotoshop",
+  "Adobe Illustrator": "adobeillustrator",
+  "Adobe InDesign": "adobeindesign",
+  "Adobe XD": "adobexd",
+  "Adobe Premiere Pro": "adobepremierepro",
+  "Adobe After Effects": "adobeaftereffects",
+  "Canva": "canva",
+  "CorelDRAW": "coreldraw",
+  "ChatGPT": "openai",
+  "Claude": "anthropic",
+  "Gemini": "googlegemini",
+  "Adobe Firefly": "adobe",
+  "Figma AI": "figma",
+  "Canva AI": "canva",
+  "Cursor": "cursor",
+  "Lovable": "lovable",
+  "Midjourney": "midjourney",
+};
+
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
   { group: "Product Domains", items: ["SaaS Product Design", "CRM Product Design", "Dashboard Design", "Responsive Web Design", "Landing Page Design"] },
