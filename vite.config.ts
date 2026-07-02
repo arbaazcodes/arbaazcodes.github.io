@@ -6,6 +6,10 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 export default defineConfig({
   base: "/",
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+  },
   plugins: [
     TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
     react(),
