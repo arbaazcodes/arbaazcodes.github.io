@@ -266,9 +266,9 @@
 }
 
 /* ==========================================================================
-   Ambient mesh background — pure CSS
+   Ambient mesh background — pure CSS (reference: pink SW + vivid blue NE)
    - Fixed behind all content, base page stays #ffffff.
-   - 4 large blurred radial-gradient blobs, each animated independently.
+   - Vivid blue anchored top-right, soft pink anchored bottom-left.
    - Only transform is animated -> GPU-accelerated, 60 FPS.
    ========================================================================== */
 .ambient-bg {
@@ -283,74 +283,77 @@
 
 .ambient-bg .blob {
   position: absolute;
-  width: 1000px;
-  height: 1000px;
   border-radius: 50%;
-  filter: blur(140px);
-  opacity: 0.35;
-  mix-blend-mode: multiply;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
 
+/* Vivid sky blue — top-right, strong like the reference */
 .ambient-bg .blob1 {
-  width: 1100px; height: 1100px;
-  top: -280px; right: -260px;
-  background: radial-gradient(circle, #57A9FF 0%, transparent 70%);
-  animation: ambient-float-1 62s ease-in-out infinite alternate;
+  width: 1400px; height: 1400px;
+  top: -520px; right: -520px;
+  background: radial-gradient(circle, #1E90FF 0%, rgba(30,144,255,0.55) 25%, transparent 68%);
+  filter: blur(120px);
+  opacity: 0.85;
+  animation: ambient-float-1 65s ease-in-out infinite alternate;
 }
+
+/* Soft pink glow — bottom-left / center-left, gentle and diffused */
 .ambient-bg .blob2 {
-  width: 1200px; height: 1200px;
-  bottom: -320px; left: -300px;
-  background: radial-gradient(circle, #F8A9C8 0%, transparent 70%);
-  animation: ambient-float-2 74s ease-in-out infinite alternate;
+  width: 1300px; height: 1300px;
+  bottom: -260px; left: -420px;
+  background: radial-gradient(circle, #FFB3D1 0%, rgba(255,179,209,0.45) 30%, transparent 70%);
+  filter: blur(140px);
+  opacity: 0.75;
+  animation: ambient-float-2 72s ease-in-out infinite alternate;
 }
+
+/* Very soft baby blue wash — helps blend blue into white */
 .ambient-bg .blob3 {
   width: 900px; height: 900px;
-  top: 32%; left: 38%;
-  background: radial-gradient(circle, #C8B7FF 0%, transparent 70%);
-  animation: ambient-float-3 54s ease-in-out infinite alternate;
-}
-.ambient-bg .blob4 {
-  width: 950px; height: 950px;
-  bottom: 18%; right: 24%;
+  top: 20%; right: 20%;
   background: radial-gradient(circle, #BFDFFF 0%, transparent 70%);
+  filter: blur(160px);
+  opacity: 0.45;
+  animation: ambient-float-3 58s ease-in-out infinite alternate;
+}
+
+/* Very soft pink halo — helps blend pink into white */
+.ambient-bg .blob4 {
+  width: 850px; height: 850px;
+  bottom: 22%; left: 18%;
+  background: radial-gradient(circle, #FFD4E5 0%, transparent 70%);
+  filter: blur(160px);
+  opacity: 0.5;
   animation: ambient-float-4 68s ease-in-out infinite alternate;
 }
 
-/* Each blob drifts on its own path — no synchronized looping. */
+/* Independent gentle drift — clouds-in-wind, no synchronized loop. */
 @keyframes ambient-float-1 {
   0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  25%  { transform: translate3d(80px, -60px, 0) scale(1.08) rotate(2deg); }
-  50%  { transform: translate3d(-60px, 70px, 0) scale(0.95) rotate(-2deg); }
-  75%  { transform: translate3d(40px, 100px, 0) scale(1.05) rotate(1deg); }
-  100% { transform: translate3d(-80px, -50px, 0) scale(1.02) rotate(-1deg); }
+  50%  { transform: translate3d(-60px, 50px, 0) scale(1.05) rotate(-2deg); }
+  100% { transform: translate3d(40px, -30px, 0) scale(1.02) rotate(1deg); }
 }
 @keyframes ambient-float-2 {
   0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  25%  { transform: translate3d(-70px, 90px, 0) scale(1.06) rotate(-2deg); }
-  50%  { transform: translate3d(90px, -60px, 0) scale(0.97) rotate(2deg); }
-  75%  { transform: translate3d(-40px, -90px, 0) scale(1.04) rotate(-1deg); }
-  100% { transform: translate3d(60px, 70px, 0) scale(1.01) rotate(1deg); }
+  50%  { transform: translate3d(70px, -50px, 0) scale(1.06) rotate(2deg); }
+  100% { transform: translate3d(-40px, 40px, 0) scale(1.03) rotate(-1deg); }
 }
 @keyframes ambient-float-3 {
   0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  25%  { transform: translate3d(60px, 70px, 0) scale(1.07) rotate(1deg); }
-  50%  { transform: translate3d(-80px, -50px, 0) scale(0.94) rotate(-2deg); }
-  75%  { transform: translate3d(90px, -80px, 0) scale(1.03) rotate(2deg); }
-  100% { transform: translate3d(-50px, 60px, 0) scale(1.05) rotate(-1deg); }
+  50%  { transform: translate3d(-40px, 60px, 0) scale(1.04) rotate(-1deg); }
+  100% { transform: translate3d(30px, -40px, 0) scale(1.02) rotate(1deg); }
 }
 @keyframes ambient-float-4 {
   0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  25%  { transform: translate3d(-90px, -70px, 0) scale(1.05) rotate(-1deg); }
-  50%  { transform: translate3d(70px, 80px, 0) scale(0.96) rotate(2deg); }
-  75%  { transform: translate3d(-60px, 90px, 0) scale(1.06) rotate(-2deg); }
-  100% { transform: translate3d(80px, -60px, 0) scale(1.02) rotate(1deg); }
+  50%  { transform: translate3d(50px, -40px, 0) scale(1.05) rotate(1deg); }
+  100% { transform: translate3d(-30px, 50px, 0) scale(1.03) rotate(-1deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ambient-bg .blob { animation: none !important; }
 }
+
 
 
