@@ -352,13 +352,34 @@ function Cursor() {
 function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
   const [open, setOpen] = useState(false);
   const [deskOpen, setDeskOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 12);
+      // Hide on scroll down (past 120px), reveal on scroll up. Never hide while menus open.
+      const delta = y - lastY.current;
+      if (!open && !deskOpen && y > 120 && delta > 6) setHidden(true);
+      else if (delta < -4 || y < 60) setHidden(false);
+      lastY.current = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open, deskOpen]);
   return (
-    <header className="fixed inset-x-0 top-4 z-50 px-4 md:top-6">
-      <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4">
+    <motion.header
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: hidden ? -80 : 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 260, damping: 30 }}
+      className="fixed inset-x-0 top-4 z-50 px-4 md:top-6"
+    >
+      <div className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 transition-shadow duration-500 ${scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""}`}>
         <a href="#intro" className="flex items-center gap-2 pl-3 pr-2">
           <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background">
             <span className="font-display text-sm font-semibold">a</span>
