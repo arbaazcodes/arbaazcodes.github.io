@@ -306,7 +306,7 @@
 .s1 {
   width: 55vw; height: 48vw;
   top: -12vw; left: -10vw;
-  background: radial-gradient(ellipse at 30% 40%, #9FD3FF 0%, transparent 65%);
+  background: radial-gradient(ellipse at 30% 40%, #7FC8FF 0%, transparent 65%);
   border-radius: 62% 38% 55% 45% / 55% 45% 60% 40%;
   filter: blur(90px);
   opacity: 0.18;
@@ -315,7 +315,7 @@
 .s2 {
   width: 46vw; height: 42vw;
   top: 5vh; right: -12vw;
-  background: radial-gradient(ellipse at 60% 50%, #F8B8D9 0%, transparent 65%);
+  background: radial-gradient(ellipse at 60% 50%, #F8B8D8 0%, transparent 65%);
   border-radius: 48% 52% 40% 60% / 52% 48% 60% 40%;
   filter: blur(100px);
   opacity: 0.16;
@@ -324,7 +324,7 @@
 .s3 {
   width: 60vw; height: 50vw;
   bottom: -18vw; left: 10vw;
-  background: radial-gradient(ellipse at 50% 50%, #DCCBFF 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 50%, #DCC8FF 0%, transparent 65%);
   border-radius: 55% 45% 60% 40% / 42% 58% 42% 58%;
   filter: blur(120px);
   opacity: 0.14;
@@ -333,7 +333,7 @@
 .s4 {
   width: 40vw; height: 36vw;
   bottom: -8vw; right: 8vw;
-  background: radial-gradient(ellipse at 40% 60%, #CFF6E6 0%, transparent 65%);
+  background: radial-gradient(ellipse at 40% 60%, #D8FFF3 0%, transparent 65%);
   border-radius: 40% 60% 55% 45% / 60% 40% 55% 45%;
   filter: blur(85px);
   opacity: 0.20;
@@ -342,7 +342,7 @@
 .s5 {
   width: 34vw; height: 32vw;
   top: 30vh; left: 32vw;
-  background: radial-gradient(ellipse at 50% 50%, #FFF2CC 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 50%, #FFF2C9 0%, transparent 65%);
   border-radius: 58% 42% 48% 52% / 45% 55% 48% 52%;
   filter: blur(95px);
   opacity: 0.14;
@@ -351,7 +351,7 @@
 .s6 {
   width: 42vw; height: 38vw;
   top: 45vh; left: -8vw;
-  background: radial-gradient(ellipse at 50% 50%, #B9E4FF 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 50%, #B8DCFF 0%, transparent 65%);
   border-radius: 50% 50% 42% 58% / 55% 45% 55% 45%;
   filter: blur(110px);
   opacity: 0.13;
@@ -360,7 +360,7 @@
 .s7 {
   width: 36vw; height: 34vw;
   top: 10vh; left: 45vw;
-  background: radial-gradient(ellipse at 50% 50%, #FFD8C2 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 50%, #FFD8C7 0%, transparent 65%);
   border-radius: 45% 55% 55% 45% / 50% 50% 45% 55%;
   filter: blur(90px);
   opacity: 0.15;
