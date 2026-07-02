@@ -27,6 +27,8 @@ const HIGHLIGHTS = [
   "Open in browser, download or print directly",
 ];
 
+const RESUME_SIZE_KB = 1756;
+
 function ResumePage() {
   const reduce = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -213,7 +215,7 @@ function ResumePage() {
                 <div>
                   <p className="font-medium">Arbaaz-K-Resume.pdf</p>
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    A4 · ~{Math.max(1, Math.round(resumePdf.size / 1024))} KB · 1 page
+                    A4 · ~{RESUME_SIZE_KB} KB · 1 page
                   </p>
                 </div>
               </div>

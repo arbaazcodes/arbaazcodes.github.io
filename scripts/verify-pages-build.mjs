@@ -53,7 +53,7 @@ if (readFileSync(join(distDir, "404.html"), "utf8") !== html) {
 }
 
 const staticRefs = [
-  ...html.matchAll(/(?:src|href)=["'](\/(?:assets|assets-cdn|favicon|apple-touch-icon|android-chrome)[^"']+)["']/g),
+  ...html.matchAll(/(?:src|href)=["'](\/(?:assets|favicon|apple-touch-icon|android-chrome)[^"']+)["']/g),
 ].map((match) => match[1]);
 
 const missing = staticRefs.filter((ref) => !existsSync(join(distDir, ref.slice(1))));
@@ -66,13 +66,9 @@ if (!existsSync(join(distDir, "assets"))) {
   throw new Error("dist/assets is missing. The built JS/CSS bundle will not deploy correctly.");
 }
 
-if (!existsSync(join(distDir, "assets-cdn"))) {
-  throw new Error("dist/assets-cdn is missing. Portfolio images/PDF assets will 404 on GitHub Pages.");
-}
-
 const textFiles = walk(distDir).filter((file) => /\.(html|js|css)$/i.test(file));
 const sourceReferences = [];
-const assetCdnReferences = new Set(staticRefs.filter((ref) => ref.startsWith("/assets-cdn/")));
+const externalAssetReferences = [];
 
 for (const file of textFiles) {
   const contents = readFileSync(file, "utf8");
@@ -81,8 +77,8 @@ for (const file of textFiles) {
     sourceReferences.push(relative(distDir, file));
   }
 
-  for (const match of contents.matchAll(/\/assets-cdn\/[^"'`)\s<>]+/g)) {
-    assetCdnReferences.add(match[0]);
+  if (contents.includes("/__l5e/assets-v1/") || contents.includes("/assets-cdn/")) {
+    externalAssetReferences.push(relative(distDir, file));
   }
 }
 
@@ -90,10 +86,8 @@ if (sourceReferences.length) {
   throw new Error(`Built files still reference the Vite source entry:\n${sourceReferences.join("\n")}`);
 }
 
-const missingAssetCdn = [...assetCdnReferences].filter((ref) => !existsSync(join(distDir, ref.slice(1))));
-
-if (missingAssetCdn.length) {
-  throw new Error(`Built files reference assets-cdn files that are missing from dist:\n${missingAssetCdn.join("\n")}`);
+if (externalAssetReferences.length) {
+  throw new Error(`Built files still reference internal/external asset paths instead of Vite assets:\n${externalAssetReferences.join("\n")}`);
 }
 
 const jsRefs = staticRefs.filter((ref) => ref.startsWith("/assets/") && ref.endsWith(".js"));
@@ -112,13 +106,8 @@ if (!cssRefs.length) {
   throw new Error("dist/index.html does not reference a built stylesheet in /assets.");
 }
 
-const publicAssetCount = walk("public/assets-cdn").length;
-const distAssetCount = walk(join(distDir, "assets-cdn")).length;
-
-if (publicAssetCount !== distAssetCount) {
-  throw new Error(`dist/assets-cdn file count (${distAssetCount}) does not match public/assets-cdn (${publicAssetCount}).`);
-}
+const builtAssetFiles = walk(join(distDir, "assets")).filter((file) => /\.(png|jpe?g|webp|gif|svg|ico|pdf|js|css)$/i.test(file));
 
 console.log(
-  `GitHub Pages build verified: ${staticRefs.length} index asset reference(s), ${assetCdnReferences.size} assets-cdn reference(s), ${distAssetCount} deployed media file(s).`,
+  `GitHub Pages build verified: ${staticRefs.length} index asset reference(s), ${builtAssetFiles.length} built file(s) in dist/assets, no internal asset URLs.`,
 );
