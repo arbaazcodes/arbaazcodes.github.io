@@ -82,7 +82,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AmbientBackground />
-      <FloatingBlobs />
+
       <AdaptiveCursor />
       <Outlet />
     </QueryClientProvider>
