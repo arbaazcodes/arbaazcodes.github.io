@@ -424,3 +424,66 @@
   .ambient-wash, .ambient-shape { animation: none !important; }
 }
 
+
+/* ==========================================================================
+   Additive floating blobs (overlay on top of AmbientBackground)
+   ========================================================================== */
+.fb-root { contain: strict; }
+.fb-blob {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform, opacity;
+  transform: translate3d(0,0,0);
+  mix-blend-mode: multiply;
+  opacity: 0.09;
+}
+.dark .fb-blob { mix-blend-mode: screen; opacity: 0.10; }
+
+.fb-b1 { top: -8%;  left: -6%;  width: 44vmax; height: 44vmax;
+  background: radial-gradient(circle at 30% 30%, #7FC8FF 0%, transparent 62%);
+  animation: fb-float-1 52s ease-in-out infinite; }
+.fb-b2 { top: 12%;  right: -10%; width: 38vmax; height: 38vmax;
+  background: radial-gradient(circle at 60% 40%, #F8B8D8 0%, transparent 62%);
+  animation: fb-float-2 46s ease-in-out infinite; opacity: 0.08; }
+.fb-b3 { bottom: -12%; left: 8%; width: 50vmax; height: 50vmax;
+  background: radial-gradient(circle at 40% 60%, #DCC8FF 0%, transparent 62%);
+  animation: fb-float-3 58s ease-in-out infinite; opacity: 0.07; }
+.fb-b4 { bottom: -6%; right: -8%; width: 42vmax; height: 42vmax;
+  background: radial-gradient(circle at 50% 50%, #D8FFF3 0%, transparent 62%);
+  animation: fb-float-4 40s ease-in-out infinite; opacity: 0.09; }
+.fb-b5 { top: 40%; left: 30%; width: 34vmax; height: 34vmax;
+  background: radial-gradient(circle at 50% 50%, #FFD8C7 0%, transparent 62%);
+  animation: fb-float-5 48s ease-in-out infinite; opacity: 0.07; }
+.fb-b6 { top: 55%; right: 22%; width: 30vmax; height: 30vmax;
+  background: radial-gradient(circle at 50% 50%, #B8DCFF 0%, transparent 62%);
+  animation: fb-float-6 36s ease-in-out infinite; opacity: 0.08; }
+
+@keyframes fb-float-1 {
+  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  50%     { transform: translate3d(6vw, 4vh, 0) scale(1.08) rotate(6deg); }
+}
+@keyframes fb-float-2 {
+  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  50%     { transform: translate3d(-5vw, 5vh, 0) scale(1.1) rotate(-8deg); }
+}
+@keyframes fb-float-3 {
+  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  50%     { transform: translate3d(4vw, -6vh, 0) scale(1.07) rotate(5deg); }
+}
+@keyframes fb-float-4 {
+  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  50%     { transform: translate3d(-6vw, -4vh, 0) scale(1.09) rotate(-6deg); }
+}
+@keyframes fb-float-5 {
+  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  50%     { transform: translate3d(5vw, 6vh, 0) scale(1.06) rotate(7deg); }
+}
+@keyframes fb-float-6 {
+  0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+  50%     { transform: translate3d(-4vw, -5vh, 0) scale(1.08) rotate(-5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fb-blob { animation: none !important; }
+}
