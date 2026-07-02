@@ -9,6 +9,8 @@ import {
   ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark
 } from "lucide-react";
 import { Magnetic } from "@/components/reactbits/Magnetic";
+import { Reveal } from "@/components/reactbits/Reveal";
+import { CountUp } from "@/components/reactbits/CountUp";
 
 
 
@@ -853,12 +855,12 @@ function About() {
         </div>
 
         <div className="space-y-10 md:col-span-8">
-          <h2 className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
+          <Reveal as="h2" className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
             User-centered design meets <em className="text-highlight italic">measurable business impact</em> — from research to developer handoff.
-          </h2>
-          <p className="max-w-xl leading-relaxed text-muted-foreground">
+          </Reveal>
+          <Reveal as="p" delay={0.08} className="max-w-xl leading-relaxed text-muted-foreground">
             From CRM dashboards and SaaS modules for SwiftAMS to brand systems, brochures and campaign creative for Edu Finn and Digital Cappuccino, I design responsive products and identities that are clear, accessible and shipped end-to-end — accelerated by AI-powered workflows.
-          </p>
+          </Reveal>
 
           <div className="grid grid-cols-2 gap-3 pt-4 md:grid-cols-3">
             {([
@@ -868,14 +870,16 @@ function About() {
               ["AI Workflow", "Figma AI · Cursor · Lovable", Atom],
               ["Tools", "Figma · Adobe CS · Canva", Wrench],
               ["Based in", "Gurugram, IN · Remote", MapPin],
-            ] as const).map(([k, v, Icon]) => (
-              <div key={k} className="card-white rounded-2xl p-4 transition-transform hover:-translate-y-0.5">
-                <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
-                  <Icon size={15} />
+            ] as const).map(([k, v, Icon], i) => (
+              <Reveal key={k} delay={0.05 * i} y={14} blur={6}>
+                <div className="card-white rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.18)]">
+                  <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
+                    <Icon size={15} />
+                  </div>
+                  <p className="text-eyebrow mb-1">{k}</p>
+                  <p className="text-sm">{v}</p>
                 </div>
-                <p className="text-eyebrow mb-1">{k}</p>
-                <p className="text-sm">{v}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -908,7 +912,7 @@ function Stats() {
               <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Experience</span>
             </div>
             <p className="text-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9]">
-              4.5<span className="text-highlight">+</span>
+              <CountUp end={4.5} decimals={1} /><span className="text-highlight">+</span>
             </p>
             <p className="text-eyebrow mt-3">Years designing products & brands</p>
           </div>
