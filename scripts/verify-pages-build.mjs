@@ -69,6 +69,8 @@ if (!existsSync(join(distDir, "assets"))) {
 const textFiles = walk(distDir).filter((file) => /\.(html|js|css)$/i.test(file));
 const sourceReferences = [];
 const externalAssetReferences = [];
+const internalLovableAssetPath = `/${"__"}l5e/assets-v1/`;
+const legacyPublicAssetPath = `/${"assets"}-${"cdn"}/`;
 
 for (const file of textFiles) {
   const contents = readFileSync(file, "utf8");
@@ -77,7 +79,7 @@ for (const file of textFiles) {
     sourceReferences.push(relative(distDir, file));
   }
 
-  if (contents.includes("/__l5e/assets-v1/") || contents.includes("/assets-cdn/")) {
+  if (contents.includes(internalLovableAssetPath) || contents.includes(legacyPublicAssetPath)) {
     externalAssetReferences.push(relative(distDir, file));
   }
 }
