@@ -349,6 +349,7 @@ function Cursor() {
 
 function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
   const [open, setOpen] = useState(false);
+  const [deskOpen, setDeskOpen] = useState(false);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
