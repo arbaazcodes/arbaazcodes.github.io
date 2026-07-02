@@ -30,8 +30,8 @@ const requiredRootFiles = [
   "android-chrome-512x512.png",
 ];
 
-if (html.includes('/src/main.tsx')) {
-  throw new Error("dist/index.html still references /src/main.tsx instead of the built bundle.");
+if (html.includes('/src/main.tsx') || html.includes('/src/')) {
+  throw new Error("dist/index.html still references source files instead of the built bundle.");
 }
 
 const missingRootFiles = requiredRootFiles.filter((file) => !existsSync(join(distDir, file)));
@@ -98,9 +98,14 @@ if (missingAssetCdn.length) {
 
 const jsRefs = staticRefs.filter((ref) => ref.startsWith("/assets/") && ref.endsWith(".js"));
 const cssRefs = staticRefs.filter((ref) => ref.startsWith("/assets/") && ref.endsWith(".css"));
+const entryJsRefs = jsRefs.filter((ref) => /^\/assets\/index-[^/]+\.js$/.test(ref));
 
 if (!jsRefs.length) {
   throw new Error("dist/index.html does not reference a built JavaScript module in /assets.");
+}
+
+if (!entryJsRefs.length) {
+  throw new Error("dist/index.html must reference the compiled Vite entry bundle at /assets/index-*.js.");
 }
 
 if (!cssRefs.length) {
