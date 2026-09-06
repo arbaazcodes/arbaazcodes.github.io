@@ -122,13 +122,13 @@ export function AiSplashModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="relative z-10 w-full max-w-3xl overflow-hidden rounded-3xl border border-border/80 bg-card text-foreground shadow-2xl"
+            className="relative z-10 w-full max-w-3xl max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-3xl border border-border/80 bg-card text-foreground shadow-2xl"
           >
             {/* Close Button */}
             <button
               onClick={handleClose}
               aria-label="Close announcement"
-              className="card-white absolute right-4 top-4 z-30 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 text-foreground transition-all hover:bg-foreground/5"
+              className="card-white absolute right-3 top-3 sm:right-4 sm:top-4 z-30 inline-flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border/70 text-foreground transition-all hover:bg-foreground/5"
             >
               <X size={16} />
             </button>

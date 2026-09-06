@@ -275,7 +275,7 @@ const CORPORATE_REELS: VideoItem[] = [
   // Swift AMS Vertical Reels (Official Channel: https://www.youtube.com/@SwiftAMS)
   { id: "_-IVA13JMLA", title: "Master Your Notifications: Tailored Alerts Your Way", client: "Swift AMS", len: "00:41", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
   { id: "QI_LnzCfEKA", title: "Collaborate Seamlessly: Multiple Sub-Agent Logins Now Live", client: "Swift AMS", len: "00:35", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
-  { id: "phqR0kyMaSE", title: "Customise Your Notifications with SwiftAMS CRM", client: "Swift AMS", len: "00:33", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  { id: "phqR0kyMaSE", title: "Customize Your Notifications with SwiftAMS CRM", client: "Swift AMS", len: "00:33", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
   { id: "4K-9YQNYxqk", title: "Track Every Login Session Securely in Real-Time", client: "Swift AMS", len: "00:38", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
   { id: "2fcoBEoggls", title: "Lead Migrations Across Branches with SwiftAMS", client: "Swift AMS", len: "00:30", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
   { id: "4C_FVNRcFFo", title: "Team Announcements: Direct, Timely & Effective", client: "Swift AMS", len: "00:32", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
@@ -335,13 +335,13 @@ function Portfolio() {
   }, [lightbox]);
 
   return (
-    <div className="grain relative min-h-screen text-foreground">
+    <div className="grain relative min-h-screen text-foreground overflow-x-hidden">
       <ScrollProgress />
       <AmbientOrbs />
       <Cursor />
       <Nav active={active} dark={dark} setDark={setDark} />
       <SideRail />
-      <main className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-12 lg:px-20">
+      <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-12">
         <Hero />
         <AiVideosSection onOpen={(item) => setLightbox({ kind: "video", item })} />
         <Marquee items={LOGOS} />
@@ -550,13 +550,13 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
           <button
             onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
-            className="h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
+            className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
           >
-            {dark ? <Sun size={15} /> : <Moon size={15} />}
+            {dark ? <Sun size={16} /> : <Moon size={16} />}
           </button>
           <Link
             to="/resume"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors"
+            className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2.5 text-[11px] min-h-[40px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors"
           >
             <FileText size={13} /> Resume
           </Link>
@@ -564,9 +564,9 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
             onClick={() => setOpen(true)}
             aria-label="Open menu"
             aria-expanded={open}
-            className="md:hidden h-9 w-9 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
+            className="md:hidden h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
           >
-            <Menu size={16} />
+            <Menu size={18} />
           </button>
         </div>
       </div>
@@ -592,16 +592,16 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-4 top-20 rounded-3xl card-white p-6 shadow-2xl"
+              className="absolute inset-x-4 top-20 rounded-3xl card-white p-6 shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between pb-4 border-b border-border/60">
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Menu</span>
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
-                  className="h-8 w-8 rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10"
+                  className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10"
                 >
-                  <X size={14} />
+                  <X size={16} />
                 </button>
               </div>
               <nav className="mt-4 flex flex-col">
@@ -613,35 +613,21 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 + i * 0.04 }}
-                    className={`flex items-center justify-between rounded-2xl px-4 py-3.5 font-display text-2xl transition-colors ${
-                      active === n.id ? "bg-foreground/5 text-foreground" : "text-foreground/80 hover:bg-foreground/5"
+                    className={`flex items-center justify-between rounded-2xl px-4 py-3 font-display text-xl sm:text-2xl transition-colors ${
+                      active === n.id ? "bg-foreground/5 text-foreground font-semibold" : "text-foreground/80 hover:bg-foreground/5"
                     }`}
                   >
                     <span>{n.label}</span>
                     <ArrowUpRight size={18} className="opacity-50" />
                   </motion.a>
                 ))}
-                <motion.div
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 + NAV.length * 0.04 }}
-                >
-                  <Link
-                    to="/resume"
-                    onClick={() => setOpen(false)}
-                    className="flex items-center justify-between rounded-2xl px-4 py-3.5 font-display text-2xl text-foreground/80 hover:bg-foreground/5"
-                  >
-                    <span className="inline-flex items-center gap-2"><FileText size={18} /> Resume</span>
-                    <ArrowUpRight size={18} className="opacity-50" />
-                  </Link>
-                </motion.div>
               </nav>
               <Link
                 to="/resume"
                 onClick={() => setOpen(false)}
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-[11px] font-medium uppercase tracking-[0.2em] text-background"
+                className="mt-6 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-xs font-medium uppercase tracking-[0.2em] text-background transition-colors hover:bg-foreground/85"
               >
-                <FileText size={13} /> Resume
+                <FileText size={14} /> Resume (PDF)
               </Link>
             </motion.div>
           </motion.div>
@@ -758,10 +744,10 @@ function Hero() {
   const words = ["Designing", "Seamless", "Digital", "Experiences", "&", "AI-Powered", "Visual", "Media."];
 
   return (
-    <section id="intro" ref={ref} className="relative pt-32 pb-16 md:pt-40 md:pb-20">
-      <motion.div style={{ y, opacity: op }} className="relative grid gap-16 md:grid-cols-12 md:items-center">
+    <section id="intro" ref={ref} className="relative pt-28 pb-14 sm:pt-32 sm:pb-16 md:pt-36 md:pb-20 lg:pt-40 lg:pb-24">
+      <motion.div style={{ y, opacity: op }} className="relative grid gap-10 md:grid-cols-12 md:gap-14 md:items-center">
         <div className="md:col-span-7">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-6 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-foreground opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
@@ -769,7 +755,7 @@ function Hero() {
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Available for Freelance & Creative Roles • UI/UX & AI Video Specialist</span>
           </motion.div>
 
-          <h1 className="text-display text-[clamp(2.75rem,8vw,6.75rem)]">
+          <h1 className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] font-bold tracking-tight leading-[1.05]">
             {words.map((w, i) => (
               <motion.span
                 key={i}
@@ -784,25 +770,25 @@ function Hero() {
             ))}
           </h1>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-12 grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end">
-            <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-8 sm:mt-10 grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
+            <p className="max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
               I combine modern UI/UX design with high-converting marketing visuals — from intuitive Figma prototypes and ad posters to dynamic video editing and generative AI videos.
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <Magnetic strength={14} padding={20}>
-                <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]">
+                <a href="#work" className="group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]">
                   <span className="relative z-10">Explore My Work</span>
                   <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
                 </a>
               </Magnetic>
               <Magnetic strength={10} padding={14}>
-                <a href="#ai-videos" className="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5">
+                <a href="#ai-videos" className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5">
                   <Play size={12} className="fill-current text-highlight" />
                   <span>Watch Video Reel</span>
                 </a>
               </Magnetic>
               <Magnetic strength={8} padding={12}>
-                <a href="#contact" className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
+                <a href="#contact" className="link-underline inline-flex min-h-[44px] items-center font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
                   Contact
                 </a>
               </Magnetic>
@@ -939,10 +925,10 @@ function Marquee({ items }: { items: LogoItem[] }) {
 
 function About() {
   return (
-    <section id="about" className="py-28 md:py-40">
-      <div className="grid gap-16 md:grid-cols-12">
+    <section id="about" className="py-14 sm:py-16 md:py-20 lg:py-24">
+      <div className="grid gap-12 md:grid-cols-12 md:gap-16 items-center">
         <div className="md:col-span-4">
-          <p className="text-eyebrow mb-6">/ About</p>
+          <p className="text-eyebrow mb-4 sm:mb-6">/ About</p>
           <Tilt strength={10} className="relative aspect-[4/5] w-full max-w-[320px]">
             <div className="absolute inset-0 overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring">
               <img
@@ -950,8 +936,8 @@ function About() {
                 alt="Arbaaz K. — about portrait"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent p-4 text-white">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/75">About</p>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent p-4 text-white">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">About</p>
                 <p className="font-display text-xl">Arbaaz K.</p>
               </div>
             </div>
@@ -972,15 +958,15 @@ function About() {
           </Tilt>
         </div>
 
-        <div className="space-y-10 md:col-span-8">
-          <Reveal as="h2" className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
+        <div className="space-y-8 md:col-span-8">
+          <Reveal as="h2" className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
             Frictionless UI/UX meets <em className="text-highlight italic">high-impact visual media</em> — from concept to final cut.
           </Reveal>
-          <Reveal as="p" delay={0.08} className="max-w-xl leading-relaxed text-muted-foreground">
+          <Reveal as="p" delay={0.08} className="max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
             From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I blend user-centered design, bold visual storytelling, and modern creative workflows to craft memorable digital experiences.
           </Reveal>
 
-          <div className="grid grid-cols-2 gap-3 pt-4 md:grid-cols-3">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-4 md:grid-cols-3">
             {([
               ["UI/UX Design", "Wireframes · Figma · App UI", Layout],
               ["Graphic Design", "Posters · Banners · Creatives", PenTool],
@@ -990,12 +976,12 @@ function About() {
               ["Based in", <>Gurugram, IN{"\u00a0"}<br />· Remote</>, MapPin],
             ] as any).map(([k, v, Icon]: any, i: number) => (
               <Reveal key={k} delay={0.05 * i} y={14} blur={6}>
-                <div className="card-white rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.18)]">
+                <div className="card-white rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.18)]">
                   <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
                     <Icon size={15} />
                   </div>
                   <p className="text-eyebrow mb-1">{k}</p>
-                  <p className="text-sm">{v}</p>
+                  <p className="text-sm font-medium">{v}</p>
                 </div>
               </Reveal>
             ))}
@@ -1015,13 +1001,13 @@ function Stats() {
     "50+ dynamic video edits, vertical reels & AI video creations",
   ];
   return (
-    <section className="py-12">
+    <section className="py-10 sm:py-12 md:py-14">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="card-white rounded-3xl p-8 md:p-12"
+        className="card-white rounded-3xl p-6 sm:p-8 md:p-12"
       >
         <div className="grid items-center gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -1029,13 +1015,13 @@ function Stats() {
               <Sparkles size={14} />
               <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Experience</span>
             </div>
-            <p className="text-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9]">
+            <p className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9]">
               <CountUp end={4.5} decimals={1} /><span className="text-highlight">+</span>
             </p>
             <p className="text-eyebrow mt-3">Years designing digital products & visual media</p>
           </div>
           <div className="md:col-span-7">
-            <p className="text-lg leading-relaxed text-foreground/85 md:text-xl">
+            <p className="text-base sm:text-lg md:text-xl leading-relaxed text-foreground/85">
               4.5+ years crafting <em className="text-highlight not-italic font-medium">intuitive UI/UX designs, high-impact graphic collateral, dynamic video edits, and AI-powered visual media</em> — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and cinematic reels.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
@@ -1064,11 +1050,11 @@ function Stats() {
 
 function Services() {
   return (
-    <section id="services" className="py-28 md:py-40">
-      <div className="mb-16 grid gap-6 md:grid-cols-12 md:items-end">
+    <section id="services" className="py-14 sm:py-16 md:py-20 lg:py-24">
+      <div className="mb-12 sm:mb-16 grid gap-6 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4">/ 03 — What I Do</p>
-          <h2 className="text-display text-[clamp(2rem,5vw,4.5rem)] leading-[1.02]">
+          <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
             Creative services built for <em className="text-highlight italic">maximum impact</em>.
           </h2>
         </div>
@@ -1079,7 +1065,7 @@ function Services() {
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {SERVICES.map((s, i) => (
           <motion.div
             key={s.no}
@@ -1175,50 +1161,108 @@ const TOOL_LINKS: Record<string, string> = {
   "Adobe XD": "https://www.adobe.com/products/xd.html",
   "Adobe Photoshop": "https://www.adobe.com/products/photoshop.html",
   "Adobe Illustrator": "https://www.adobe.com/products/illustrator.html",
+  "Adobe InDesign": "https://www.adobe.com/products/indesign.html",
   "Canva": "https://www.canva.com/",
+  "CorelDRAW": "https://www.coreldraw.com/",
   "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
+  "Adobe After Effects": "https://www.adobe.com/products/aftereffects.html",
   "After Effects": "https://www.adobe.com/products/aftereffects.html",
   "CapCut": "https://www.capcut.com/",
+  "ChatGPT": "https://chatgpt.com/",
+  "Claude": "https://claude.ai/",
+  "Gemini": "https://gemini.google.com/",
+  "Adobe Firefly": "https://www.adobe.com/products/firefly.html",
+  "Figma AI": "https://www.figma.com/ai/",
+  "Canva AI": "https://www.canva.com/ai/",
+  "Cursor": "https://cursor.com/",
+  "Lovable": "https://lovable.dev/",
+  "Midjourney": "https://www.midjourney.com/",
   "Runway": "https://runwayml.com/",
   "Kling": "https://klingai.com/",
   "Luma Dream Machine": "https://lumalabs.ai/dream-machine",
-  "Midjourney": "https://www.midjourney.com/",
   "ElevenLabs": "https://elevenlabs.io/",
 };
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   {
-    group: "UI/UX",
+    group: "Product & UX",
+    items: [
+      "Product Design",
+      "UI Design",
+      "UX Design",
+      "UX Research",
+      "User Flows",
+      "Wireframing",
+      "Interactive Prototyping",
+      "Design Systems",
+      "Information Architecture",
+      "Accessibility",
+      "Developer Handoff",
+    ],
+  },
+  {
+    group: "Product Domains",
+    items: [
+      "SaaS Product Design",
+      "CRM Product Design",
+      "Dashboard Design",
+      "Responsive Web Design",
+      "Landing Page Design",
+      "Mobile App Design",
+    ],
+  },
+  {
+    group: "Visual & Brand",
+    items: [
+      "Brand Identity",
+      "Visual Design",
+      "Social Media Design",
+      "Print Design",
+      "Video Editing",
+      "Motion Graphics",
+    ],
+  },
+  {
+    group: "AI Workflow",
+    items: [
+      "AI-assisted UI Design",
+      "AI-assisted Wireframing",
+      "Prompt Engineering",
+      "AI Image Generation",
+      "UX Research with AI",
+      "AI Content Creation",
+      "Rapid Prototyping",
+    ],
+  },
+  {
+    group: "Design Tools",
     items: [
       "Figma",
-      "FigJam",
-      "Adobe XD",
-      "Wireframing & Prototyping",
-    ],
-  },
-  {
-    group: "Graphic Design",
-    items: [
       "Adobe Photoshop",
       "Adobe Illustrator",
-      "Canva",
-    ],
-  },
-  {
-    group: "Video Editing",
-    items: [
+      "Adobe InDesign",
+      "Adobe XD",
       "Adobe Premiere Pro",
-      "After Effects",
+      "Adobe After Effects",
+      "Canva",
       "CapCut",
     ],
   },
   {
-    group: "AI Creative Tools",
+    group: "AI Tools",
     items: [
+      "ChatGPT",
+      "Claude",
+      "Gemini",
+      "Adobe Firefly",
+      "Figma AI",
+      "Canva AI",
+      "Cursor",
+      "Lovable",
+      "Midjourney",
       "Runway",
       "Kling",
       "Luma Dream Machine",
-      "Midjourney",
       "ElevenLabs",
     ],
   },
@@ -1226,32 +1270,33 @@ const SKILL_GROUPS: { group: string; items: string[] }[] = [
 
 function Skills() {
   return (
-    <section id="skills" className="py-28 md:py-40">
+    <section id="skills" className="py-14 sm:py-16 md:py-20 lg:py-24">
       <div className="grid gap-12 md:grid-cols-12 md:gap-16">
         <div className="md:col-span-4">
-          <p className="text-eyebrow mb-6">/ 04 — Skills & Tools</p>
-          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
-            Creative craft, <em className="text-highlight italic">design tools</em> & AI video.
+          <p className="text-eyebrow mb-4 sm:mb-6">/ 04 — Skills & Tools</p>
+          <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+            Product craft, <em className="text-highlight italic">AI workflows</em> & tools.
           </h2>
-          <p className="mt-6 max-w-sm text-muted-foreground">
-            A focused creative toolkit built over 4.5+ years across UI/UX design, advertising graphics, dynamic video editing, and generative AI tools.
+          <p className="mt-4 sm:mt-6 max-w-sm text-sm sm:text-base leading-relaxed text-muted-foreground">
+            A working creative toolkit built over 4.5+ years across digital products, CRM platforms, brand collateral, and AI-accelerated workflows.
           </p>
         </div>
 
-        <div className="space-y-10 md:col-span-8">
+        <div className="space-y-8 sm:space-y-10 md:col-span-8">
           {SKILL_GROUPS.map((g, gi) => (
             <div key={g.group}>
-              <div className="mb-5 flex items-baseline gap-4">
-                <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+              <div className="mb-4 sm:mb-5 flex items-baseline gap-3 sm:gap-4">
+                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
                   {String(gi + 1).padStart(2, "0")}
                 </span>
-                <span className="text-display text-2xl">{g.group}</span>
-                <span className="h-px flex-1 bg-border" />
+                <span className="text-display text-xl sm:text-2xl font-semibold text-foreground">{g.group}</span>
+                <span className="h-px flex-1 bg-border/60" />
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 sm:gap-2.5">
                 {g.items.map((s, i) => {
                   const slug = TOOL_LOGOS[s];
                   const link = TOOL_LINKS[s];
+                  const isAiGroup = g.group === "AI Tools";
                   const inner = (
                     <>
                       {slug ? (
@@ -1260,21 +1305,21 @@ function Skills() {
                           alt=""
                           aria-hidden
                           loading="lazy"
-                          className="h-4 w-4 shrink-0 object-contain"
+                          className="h-4 w-4 shrink-0 rounded-sm object-contain"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                         />
-                      ) : g.group === "AI Creative Tools" ? (
+                      ) : isAiGroup ? (
                         <Sparkles className="h-3.5 w-3.5 shrink-0 text-highlight" />
                       ) : null}
-                      {s}
+                      <span>{s}</span>
                     </>
                   );
                   const commonProps = {
                     initial: { opacity: 0, y: 12 },
                     whileInView: { opacity: 1, y: 0 },
                     viewport: { once: true, margin: "-40px" },
-                    transition: { duration: 0.5, delay: i * 0.04, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
-                    className: "card-white inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:text-highlight hover:shadow-[0_10px_26px_-14px_rgba(0,0,0,0.22)]",
+                    transition: { duration: 0.4, delay: i * 0.03, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
+                    className: "card-white inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:text-highlight hover:border-foreground/30 hover:shadow-md",
                   };
                   const chip = link ? (
                     <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
@@ -1356,17 +1401,17 @@ const EXPERIENCE: Job[] = [
 
 function Experience() {
   return (
-    <section id="experience" className="py-28 md:py-40">
-      <div className="mb-14 grid gap-6 md:grid-cols-12 md:items-end">
+    <section id="experience" className="py-14 sm:py-16 md:py-20 lg:py-24">
+      <div className="mb-12 sm:mb-14 grid gap-6 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
-          <p className="text-eyebrow mb-6">/ 04 — Experience</p>
-          <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
+          <p className="text-eyebrow mb-4 sm:mb-6">/ 05 — Experience</p>
+          <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
             4.5+ years shaping <em className="text-highlight italic">UI/UX, visual media</em> & dynamic video.
           </h2>
         </div>
         <div className="md:col-span-4">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Creative design roles and freelance collaborations — crafting frictionless digital products, high-impact ad campaigns, and engaging video content.
+          <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
+            Creative design roles and client collaborations — crafting frictionless digital products, high-impact ad campaigns, and engaging video content.
           </p>
         </div>
       </div>
@@ -1636,17 +1681,17 @@ function Work({
   const allVideos = [...reelVideos, ...filmVideos, ...aiVideos];
 
   return (
-    <section id="work" className="relative py-28 md:py-40">
+    <section id="work" className="relative py-14 sm:py-16 md:py-20 lg:py-24">
       {/* Target anchor for #gallery backward-compatibility */}
       <div id="gallery" className="absolute -top-24 left-0" aria-hidden />
 
-      <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="mb-12 sm:mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-eyebrow mb-4">/ 05 — Portfolio & Selected Work</p>
-          <h2 className="text-display text-[clamp(2.25rem,6vw,4.75rem)] max-w-[20ch] leading-[1.02]">
+          <p className="text-eyebrow mb-4">/ 06 — Portfolio & Selected Work</p>
+          <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1] max-w-[20ch]">
             Selected Works & <em className="text-highlight italic">Creative Showcase</em>
           </h2>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-3 max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
             Explore curated projects across UI/UX design, marketing posters & brand collateral, and dynamic video edits. Tap any item to inspect details or launch playback.
           </p>
         </div>
@@ -1660,7 +1705,7 @@ function Work({
                 key={tab}
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`rounded-full border px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                className={`inline-flex min-h-[44px] items-center rounded-full border px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] transition-all duration-300 ${
                   isActive
                     ? "border-foreground bg-foreground text-background shadow-md scale-[1.02]"
                     : "border-border/70 text-muted-foreground hover:border-foreground/50 hover:text-foreground"
@@ -1674,7 +1719,7 @@ function Work({
       </div>
 
       {/* Content for Tabs */}
-      <div className="space-y-28">
+      <div className="space-y-16 sm:space-y-20">
         {/* 1. UI/UX Designs Tab */}
         {(activeTab === "All" || activeTab === "UI/UX Designs") && (
           <div className="space-y-16">
@@ -2146,7 +2191,7 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
   const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
 
   return (
-    <section id="ai-videos" className="py-20 md:py-28">
+    <section id="ai-videos" className="py-14 sm:py-16 md:py-20 lg:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -2158,22 +2203,22 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           <span className="h-1.5 w-1.5 rounded-full bg-highlight" />
           <span>Generative AI & Motion Direction</span>
         </div>
-        <h3 className="font-display font-bold leading-[0.95] tracking-tight text-foreground text-[clamp(2.5rem,8vw,5.5rem)]">
+        <h2 className="font-display font-bold leading-[1.05] tracking-tight text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
           AI Video <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Lab</span>
-        </h3>
-        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+        </h2>
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
           13 Speculative Commercials · 3D Product Reels · Automotive Cinematics
         </p>
-        <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+        <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground">
           Bridging cinematic visual storytelling and generative AI workflows. Featuring 13 brand-new AI speculative commercials, 3D product reels, and automotive cinematics created with Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
         </p>
       </motion.div>
 
       <div className="mb-10 flex items-center justify-center gap-4">
         <span className="h-px w-10 bg-border" />
-        <p className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+        <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground">
           Curated <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>AI Films</span>
-        </p>
+        </h3>
         <span className="h-px w-10 bg-border" />
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           {String(AI_VIDEOS.length).padStart(2, "0")} videos
@@ -2351,7 +2396,7 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
   const totalCount = displayedReels.length + displayedFilms.length;
 
   return (
-    <section id="videos" className="py-28 md:py-40">
+    <section id="videos" className="py-14 sm:py-16 md:py-20 lg:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -2363,13 +2408,13 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           <Film size={12} />
           <span>Motion Direction & Production</span>
         </div>
-        <h3 className="font-display font-bold leading-[0.95] tracking-tight text-foreground text-[clamp(2.5rem,8vw,5.5rem)]">
+        <h2 className="font-display font-bold leading-[1.05] tracking-tight text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
           Corporate <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Reels</span>
-        </h3>
-        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+        </h2>
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
           Vertical Reels (9:16) · Founder Stories · Product Video Promos
         </p>
-        <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+        <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground">
           High-conversion vertical social reels, student testimonial documentaries, and product video promos produced for Edu Finn and Swift AMS.
         </p>
 
@@ -3014,7 +3059,7 @@ function Contact() {
   const words = ["Have", "a", "project", "in", "mind?"];
   const [open, setOpen] = useState(false);
   return (
-    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 p-8 md:my-24 md:p-16">
+    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-12 sm:my-16 md:my-20 p-6 sm:p-10 md:p-14 lg:p-16">
       <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb" aria-hidden />
       <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-highlight/20 blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
 
@@ -3031,7 +3076,7 @@ function Contact() {
           <Magnetic strength={14} padding={20}>
             <button
               onClick={() => setOpen(true)}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:text-background hover:shadow-[0_12px_36px_-14px_rgba(0,0,0,0.35)]"
+              className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 min-h-[44px] text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:text-background hover:shadow-[0_12px_36px_-14px_rgba(0,0,0,0.35)]"
             >
               <Mail size={14} /> Contact me
             </button>
@@ -3143,7 +3188,7 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
           >
             <button
               onClick={() => onOpenChange(false)}
-              className="absolute right-5 top-5 rounded-full p-2 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
+              className="absolute right-5 top-5 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
               aria-label="Close"
             >
               <X size={18} />
@@ -3181,7 +3226,7 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                     <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Name</label>
                     <input
                       value={name} onChange={(e) => setName(e.target.value)} maxLength={100}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 min-h-[44px] text-sm outline-none transition-colors focus:border-foreground"
                       placeholder="Your full name"
                     />
                     {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
@@ -3190,7 +3235,7 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                     <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email</label>
                     <input
                       type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 min-h-[44px] text-sm outline-none transition-colors focus:border-foreground"
                       placeholder="you@company.com"
                     />
                     {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
@@ -3200,7 +3245,7 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                   <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Subject</label>
                   <input
                     value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={150}
-                    className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
+                    className="w-full rounded-lg border border-border bg-background px-3 py-2.5 min-h-[44px] text-sm outline-none transition-colors focus:border-foreground"
                     placeholder="Project inquiry, collaboration…"
                   />
                   {errors.subject && <p className="mt-1 text-xs text-red-500">{errors.subject}</p>}
@@ -3220,7 +3265,7 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                 <Magnetic strength={12} padding={18}>
                   <button
                     type="submit"
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:shadow-[0_14px_40px_-16px_rgba(0,0,0,0.4)]"
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 min-h-[44px] text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:shadow-[0_14px_40px_-16px_rgba(0,0,0,0.4)]"
                   >
                     Send message <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
                   </button>
@@ -3238,7 +3283,7 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
 function Footer() {
   return (
     <footer className="flex flex-col gap-4 border-t border-border/60 py-8 md:flex-row md:items-center md:justify-between">
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">© 2026 Arbaaz — Product Designer · UI/UX · Visual</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">© 2026 Arbaaz — UI/UX Designer · Graphic Artist · AI Video Creator</p>
       <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Gurugram, India · Available worldwide</p>
     </footer>
   );
