@@ -21,8 +21,10 @@ import { AiPromoBanner } from "@/components/AiPromoBanner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Arbaaz — Product Designer | UI/UX & Visual Designer" },
-      { name: "description", content: "Portfolio of Arbaaz — Product Designer with 4.5+ years crafting SaaS products, CRM platforms, responsive websites, dashboards and brand systems, powered by AI-assisted workflows." },
+      { title: "Arbaaz | UI/UX Designer, Graphic Artist & Video Editor" },
+      { name: "description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, and dynamic video editing." },
+      { property: "og:title", content: "Arbaaz | UI/UX Designer, Graphic Artist & Video Editor" },
+      { property: "og:description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, and dynamic video editing." },
     ],
   }),
   component: Portfolio,
@@ -32,10 +34,10 @@ const NAV = [
   { id: "intro", label: "Index" },
   { id: "ai-videos", label: "AI Videos" },
   { id: "about", label: "About" },
+  { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "experience", label: "Experience" },
-  { id: "work", label: "Work" },
-  { id: "gallery", label: "Gallery" },
+  { id: "work", label: "Portfolio" },
   { id: "videos", label: "Client Reels" },
   { id: "contact", label: "Contact" },
 ];
@@ -55,7 +57,7 @@ import logoAiSwift from "@/assets/logo-ai-swift.png";
 import logoKsha from "@/assets/logo-ksha.png";
 import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png";
 import logoEduFinn from "@/assets/logo-edu-finn.png";
-import arbaazHero from "@/assets/arbaaz-hero.png";
+import arbaazHero from "@/assets/arbaaz-hero.jpg";
 
 // Real brochure PDFs → rasterized page images
 const brochurePages = import.meta.glob<string>(
@@ -87,7 +89,7 @@ const BROCHURES: Brochure[] = [
     cover: brochurePageUrl("drive_edufinn_1.png"),
     pages: [2,3,4].map((n)=>brochurePageUrl(`drive_edufinn_${n}.png`)) },
 
-  { id: "swiftams", name: "Swift AMS", tagline: "SaaS · Product Brochure",
+  { id: "swiftams", name: "Swift AMS", tagline: "Product & CRM · Brochure",
     cover: brochurePageUrl("drive_swiftams_1.jpg"),
     pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`drive_swiftams_${n}.jpg`)) },
 
@@ -102,35 +104,62 @@ const LOGOS: { name: string; src: string }[] = [
   { name: "Edu Finn", src: logoEduFinn },
 ];
 
-type Discipline = {
+type CreativeService = {
   no: string;
   title: string;
-  sub: string;
+  subtitle: string;
   desc: string;
+  offerings: string[];
   tags: string[];
-  meta: string;
   Icon: ComponentType<{ className?: string; size?: number }>;
 };
 
-const DISCIPLINES: Discipline[] = [
-  { no: "01", title: "Brand Identity", sub: "Logos & visual systems", Icon: PenTool,
-    desc: "Distinctive, scalable identities engineered for resonance across every touchpoint — built for SwiftAMS, Wavox, Swift AI and Iksha Lab.",
-    tags: ["Logo", "Identity", "Typography"], meta: "15 marks · 6 systems" },
-  { no: "02", title: "Social Media", sub: "Campaigns & content design", Icon: Share2,
-    desc: "High-conversion creatives for LinkedIn, Instagram and corporate channels — sophisticated assets that respect strict brand guidelines.",
-    tags: ["Campaigns", "Reels", "Carousels"], meta: "200+ posts shipped" },
-  { no: "03", title: "Print Media", sub: "Brochures, standees & collateral", Icon: Printer,
-    desc: "Brochures, trade-show standees and executive stationery — print-perfect execution with absolute brand fidelity.",
-    tags: ["Brochure", "Standee", "Stationery"], meta: "Print-ready · CMYK" },
-  { no: "04", title: "UI / UX", sub: "Web platforms & dashboards", Icon: Layout,
-    desc: "Intuitive digital ecosystems built on user-centric architecture — interfaces that make complex platforms feel calm and accessible.",
-    tags: ["Web", "Dashboard", "Design System"], meta: "12 products" },
-  { no: "05", title: "Mobile App", sub: "Native & cross-platform", Icon: Smartphone,
-    desc: "Mobile flows engineered for clarity at a glance — identity, motion and meticulous attention to the small moments.",
-    tags: ["iOS", "Android", "Prototyping"], meta: "5 apps · 80+ screens" },
-  { no: "06", title: "Motion & Video", sub: "Corporate storytelling", Icon: Film,
-    desc: "End-to-end post-production — corporate storytelling, testimonials and product demos for Edu Finn and Swift AMS.",
-    tags: ["Editing", "Reels", "Motion GFX"], meta: "15+ films" },
+const SERVICES: CreativeService[] = [
+  {
+    no: "01",
+    title: "UI/UX & Product Design",
+    subtitle: "Web, Mobile & Design Systems",
+    desc: "Designing intuitive, user-centered digital products that turn complex workflows into frictionless, aesthetically polished interfaces.",
+    offerings: [
+      "Wireframing & Interactive Prototyping (Figma)",
+      "Mobile App UI (iOS & Android)",
+      "Responsive Web & Landing Page Design",
+      "Design Systems & Component Libraries",
+      "User Journey & Usability Optimization",
+    ],
+    tags: ["Figma", "UI Design", "UX Research", "Mobile Apps", "Design Systems"],
+    Icon: Layout,
+  },
+  {
+    no: "02",
+    title: "Graphic Design & Brand Collateral",
+    subtitle: "Posters, Ad Banners & Print",
+    desc: "Crafting thumb-stopping visual marketing assets that harmonize with strict brand guidelines while maximizing click-through and engagement.",
+    offerings: [
+      "Event & Promotional Posters",
+      "High-Converting Advertising Banners (Social & Display)",
+      "Social Media Creatives & Carousel Posts",
+      "Typography & Visual Hierarchy",
+      "Brand Identity & Print Collateral (Brochures, Standees)",
+    ],
+    tags: ["Photoshop", "Illustrator", "Posters", "Ad Banners", "Brochures"],
+    Icon: PenTool,
+  },
+  {
+    no: "03",
+    title: "Video Editing & Motion",
+    subtitle: "Reels, Commercials & YouTube",
+    desc: "Producing rhythmic, dynamic video edits and motion graphics with crisp narrative pacing, rich sound design, and cinematic color grading.",
+    offerings: [
+      "Short-form Content (Instagram Reels, TikToks, YouTube Shorts)",
+      "Long-form YouTube & Corporate Video Editing",
+      "Commercial & Promotional Video Ads",
+      "Sound Design, Transitions & Pacing",
+      "Color Grading & Kinetic Typography",
+    ],
+    tags: ["Premiere Pro", "After Effects", "CapCut", "Reels", "Sound Design"],
+    Icon: Film,
+  },
 ];
 
 
@@ -320,10 +349,13 @@ function Portfolio() {
         <BigTextBanner text="Design · Direction · Detail" />
         <About />
         <Stats />
+        <Services />
         <Skills />
         <Experience />
-        <Work />
-        <Gallery onOpen={(item, list, index) => setLightbox({ kind: "image", item, list, index })} />
+        <Work
+          onOpenImage={(item, list, index) => setLightbox({ kind: "image", item, list, index })}
+          onOpenVideo={(item) => setLightbox({ kind: "video", item })}
+        />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
         <BigTextBanner text="Available for work — 2026" />
         <Contact />
@@ -724,18 +756,18 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
   const op = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
 
-  const words = ["Product", "designer", "shaping", "SaaS,", "dashboards", "&", "brands."];
+  const words = ["Designing", "Intuitive", "Digital", "Products", "&", "High-Impact", "Visual", "Media."];
 
   return (
     <section id="intro" ref={ref} className="relative pt-32 pb-16 md:pt-40 md:pb-20">
       <motion.div style={{ y, opacity: op }} className="relative grid gap-16 md:grid-cols-12 md:items-center">
         <div className="md:col-span-7">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8 inline-flex items-center gap-2 rounded-full glass px-3 py-1.5">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-8 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-foreground opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Available · Q1 2026</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Available for Freelance & Full-Time Creative Roles</span>
           </motion.div>
 
           <h1 className="text-display text-[clamp(2.75rem,8vw,6.75rem)]">
@@ -748,25 +780,25 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "SaaS," ? <em className="text-highlight italic">{w}</em> : w}
+                {w === "Visual" || w === "Media." ? <em className="text-highlight italic">{w}</em> : w}
               </motion.span>
             ))}
           </h1>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-12 grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end">
             <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-              I'm <span className="text-foreground">Arbaaz</span> — a Product Designer with 4.5+ years designing SaaS products, CRM platforms, dashboards and digital experiences, blending UX research, design systems and AI-assisted workflows.
+              I help brands and startups bridge the gap between user experience and visual marketing — from frictionless UI/UX in Figma to thumb-stopping posters, ad banners, and dynamic video edits.
             </p>
             <div className="flex items-center gap-4">
               <Magnetic strength={14} padding={20}>
                 <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm text-background transition-transform hover:scale-[1.02]">
-                  <span className="relative z-10">See the work</span>
+                  <span className="relative z-10">View Work</span>
                   <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
                 </a>
               </Magnetic>
               <Magnetic strength={8} padding={12}>
                 <a href="#contact" className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
-                  Get in touch
+                  Get in Touch
                 </a>
               </Magnetic>
             </div>
@@ -780,26 +812,26 @@ function Hero() {
           className="md:col-span-5"
         >
           <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
-            <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10">
+            <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
               <img
                 src={arbaazHero}
-                alt="Arbaaz K. — portrait"
+                alt="Arbaaz — UI/UX Designer, Graphic Artist & Video Editor"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent p-5 text-white">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/75">Designer · Portrait</p>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent p-5 text-white">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/75">UI/UX · Graphics · Video</p>
                 <p className="font-display text-2xl">Arbaaz K.</p>
               </div>
             </div>
 
             <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-6 top-10 glass rounded-2xl p-3" style={{ transform: "translateZ(60px)" }}>
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Now</p>
-              <p className="font-display text-sm">Crafting motion</p>
+              <p className="font-display text-sm">Designing in Figma</p>
             </motion.div>
             <motion.div animate={{ y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-6 bottom-20 glass rounded-2xl px-3 py-2" style={{ transform: "translateZ(80px)" }}>
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-foreground" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em]">4 yrs · craft</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em]">4.5+ yrs · creative</span>
               </div>
             </motion.div>
             <div className="absolute -inset-2 -z-10 rounded-[2.5rem] border border-foreground/10" />
@@ -937,19 +969,19 @@ function About() {
 
         <div className="space-y-10 md:col-span-8">
           <Reveal as="h2" className="text-display text-[clamp(1.85rem,4vw,3.5rem)]">
-            User-centered design meets <em className="text-highlight italic">measurable business impact</em> — from research to developer handoff.
+            Frictionless UI/UX meets <em className="text-highlight italic">high-impact visual media</em> — from concept to final cut.
           </Reveal>
           <Reveal as="p" delay={0.08} className="max-w-xl leading-relaxed text-muted-foreground">
-            From CRM dashboards and SaaS modules for SwiftAMS to brand systems, brochures and campaign creative for Edu Finn and Digital Cappuccino, I design responsive products and identities that are clear, accessible and shipped end-to-end — accelerated by AI-powered workflows.
+            From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I blend user-centered design, bold visual storytelling, and modern creative workflows to craft memorable digital experiences.
           </Reveal>
 
           <div className="grid grid-cols-2 gap-3 pt-4 md:grid-cols-3">
             {([
-              ["Product", "SaaS · CRM · Dashboards", Layers],
-              ["UX", "Research · Flows · Prototypes", Sparkles],
-              ["Visual", <>Brand · Print ·{"\u00a0"}<br />Social</>, PenTool],
-              ["AI Workflow", "Figma AI · Cursor · Lovable", Atom],
-              ["Tools", "Figma · Adobe CS · Canva", Wrench],
+              ["UI/UX Design", "Wireframes · Figma · App UI", Layout],
+              ["Graphic Design", "Posters · Banners · Creatives", PenTool],
+              ["Video Editing", "Reels · Promos · Sound FX", Film],
+              ["Collateral", "Brochures · Standees · Print", Printer],
+              ["Creative Tools", "Figma · Photoshop · Premiere", Wrench],
               ["Based in", <>Gurugram, IN{"\u00a0"}<br />· Remote</>, MapPin],
             ] as any).map(([k, v, Icon]: any, i: number) => (
               <Reveal key={k} delay={0.05 * i} y={14} blur={6}>
@@ -973,9 +1005,9 @@ function About() {
 
 function Stats() {
   const highlights = [
-    "Shipped SaaS, CRM & dashboard modules end-to-end",
-    "150+ marketing creatives, brochures & landing pages",
-    "AI-assisted workflows for ideation, UI & content",
+    "Designed intuitive web & mobile UI/UX platforms in Figma",
+    "200+ high-impact posters, ad banners & brand collateral",
+    "50+ dynamic video edits, vertical reels & motion promos",
   ];
   return (
     <section className="py-12">
@@ -995,11 +1027,11 @@ function Stats() {
             <p className="text-display text-[clamp(3.5rem,10vw,7rem)] leading-[0.9]">
               <CountUp end={4.5} decimals={1} /><span className="text-highlight">+</span>
             </p>
-            <p className="text-eyebrow mt-3">Years designing products & brands</p>
+            <p className="text-eyebrow mt-3">Years designing digital products & visual media</p>
           </div>
           <div className="md:col-span-7">
             <p className="text-lg leading-relaxed text-foreground/85 md:text-xl">
-              4.5+ years designing <em className="text-highlight not-italic font-medium">SaaS products, CRM platforms, dashboards and responsive websites</em> — from UX research and wireframes to high-fidelity UI, design systems and developer handoff.
+              4.5+ years crafting <em className="text-highlight not-italic font-medium">intuitive UI/UX designs, high-impact graphic collateral, and dynamic video edits</em> — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and cinematic reels.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
               {highlights.map((h, i) => (
@@ -1019,6 +1051,74 @@ function Stats() {
           </div>
         </div>
       </motion.div>
+    </section>
+  );
+}
+
+/* ---------- Services / What I Do ---------- */
+
+function Services() {
+  return (
+    <section id="services" className="py-28 md:py-40">
+      <div className="mb-16 grid gap-6 md:grid-cols-12 md:items-end">
+        <div className="md:col-span-8">
+          <p className="text-eyebrow mb-4">/ 03 — What I Do</p>
+          <h2 className="text-display text-[clamp(2rem,5vw,4.5rem)] leading-[1.02]">
+            Creative services built for <em className="text-highlight italic">maximum impact</em>.
+          </h2>
+        </div>
+        <div className="md:col-span-4">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            Three focused creative pillars — from frictionless Figma prototypes to high-converting ad banners and dynamic video edits.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-3">
+        {SERVICES.map((s, i) => (
+          <motion.div
+            key={s.no}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.2, 0.8, 0.2, 1] }}
+            className="card-white group relative flex flex-col justify-between rounded-3xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.2)]"
+          >
+            <div>
+              <div className="mb-6 flex items-center justify-between">
+                <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">{s.no}</span>
+                <span className="card-white inline-flex h-12 w-12 items-center justify-center rounded-2xl text-foreground group-hover:text-highlight transition-colors">
+                  <s.Icon size={22} />
+                </span>
+              </div>
+              <h3 className="text-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">{s.title}</h3>
+              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-highlight">{s.subtitle}</p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+
+              <div className="my-6 h-px w-full bg-border/60" />
+
+              <ul className="space-y-3">
+                {s.offerings.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-xs text-foreground/85">
+                    <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-highlight/15 text-highlight">
+                      <Sparkles size={9} />
+                    </span>
+                    <span className="leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-1.5 pt-4 border-t border-border/40">
+              {s.tags.map((t) => (
+                <span key={t} className="rounded-full bg-foreground/[0.05] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
@@ -1043,6 +1143,7 @@ import midjourneyLogo from "@/assets/tools/midjourney.png";
 
 const TOOL_LOGOS: Record<string, string> = {
   "Figma": figmaLogo,
+  "FigJam": figmaLogo,
   "Adobe Photoshop": photoshopLogo,
   "Adobe Illustrator": illustratorLogo,
   "Adobe InDesign": indesignLogo,
@@ -1064,6 +1165,7 @@ const TOOL_LOGOS: Record<string, string> = {
 
 const TOOL_LINKS: Record<string, string> = {
   "Figma": "https://www.figma.com/",
+  "FigJam": "https://www.figma.com/figjam/",
   "Adobe Photoshop": "https://www.adobe.com/products/photoshop.html",
   "Adobe Illustrator": "https://www.adobe.com/products/illustrator.html",
   "Adobe InDesign": "https://www.adobe.com/products/indesign.html",
@@ -1071,6 +1173,7 @@ const TOOL_LINKS: Record<string, string> = {
   "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
   "Adobe After Effects": "https://www.adobe.com/products/aftereffects.html",
   "Canva": "https://www.canva.com/",
+  "CapCut": "https://www.capcut.com/",
   "CorelDRAW": "https://www.coreldraw.com/",
   "ChatGPT": "https://chat.openai.com/",
   "Claude": "https://claude.ai/",
@@ -1085,12 +1188,48 @@ const TOOL_LINKS: Record<string, string> = {
 
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
-  { group: "Product & UX", items: ["Product Design", "UI Design", "UX Design", "UX Research", "User Flows", "Wireframing", "Interactive Prototyping", "Design Systems", "Information Architecture", "Accessibility", "Developer Handoff"] },
-  { group: "Product Domains", items: ["SaaS Product Design", "CRM Product Design", "Dashboard Design", "Responsive Web Design", "Landing Page Design"] },
-  { group: "Visual & Brand", items: ["Brand Identity", "Visual Design", "Social Media Design", "Print Design", "Video Editing"] },
-  { group: "AI Workflow", items: ["AI-assisted UI Design", "AI-assisted Wireframing", "Prompt Engineering", "AI Image Generation", "UX Research with AI", "AI Content Creation", "Rapid Prototyping"] },
-  { group: "Design Tools", items: ["Figma", "Adobe Photoshop", "Adobe Illustrator", "Adobe InDesign", "Adobe XD", "Adobe Premiere Pro", "Adobe After Effects", "Canva", "CorelDRAW"] },
-  { group: "AI Tools", items: ["ChatGPT", "Claude", "Gemini", "Adobe Firefly", "Figma AI", "Canva AI", "Cursor", "Lovable", "Midjourney"] },
+  {
+    group: "UI / UX Design",
+    items: [
+      "Figma",
+      "FigJam",
+      "Adobe XD",
+      "Wireframing",
+      "User Testing",
+      "Interactive Prototyping",
+      "Mobile App UI",
+      "Design Systems",
+      "Information Architecture",
+    ],
+  },
+  {
+    group: "Graphic Design & Collateral",
+    items: [
+      "Adobe Photoshop",
+      "Adobe Illustrator",
+      "Canva",
+      "Advertising Banners",
+      "Event & Promo Posters",
+      "Social Media Creatives",
+      "Brochure & Print Collateral",
+      "Typography",
+      "Brand Identity",
+    ],
+  },
+  {
+    group: "Video Editing & Motion",
+    items: [
+      "Adobe Premiere Pro",
+      "Adobe After Effects",
+      "CapCut",
+      "Short-form Content (Reels & Shorts)",
+      "Commercial & Promotional Video Ads",
+      "YouTube Video Editing",
+      "Sound Design & Audio Pacing",
+      "Color Grading",
+      "Kinetic Typography",
+    ],
+  },
 ];
 
 function Skills() {
@@ -1098,12 +1237,12 @@ function Skills() {
     <section id="skills" className="py-28 md:py-40">
       <div className="grid gap-12 md:grid-cols-12 md:gap-16">
         <div className="md:col-span-4">
-          <p className="text-eyebrow mb-6">/ 03 — Skills</p>
+          <p className="text-eyebrow mb-6">/ 04 — Skills & Tools</p>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
-            Product craft, <em className="text-highlight italic">AI workflows</em> & tools.
+            Creative craft, <em className="text-highlight italic">design tools</em> & motion.
           </h2>
           <p className="mt-6 max-w-sm text-muted-foreground">
-            A working toolkit built over 4.5+ years across SaaS, CRM, brand systems and AI-accelerated design.
+            A focused creative toolkit built over 4.5+ years across UI/UX design, advertising graphics, and dynamic video editing.
           </p>
         </div>
 
@@ -1175,9 +1314,9 @@ type Job = { company: string; role: string; period: string; summary: string; Ico
 const EXPERIENCE: Job[] = [
   {
     company: "SwiftAMS (Study Abroad CRM)",
-    role: "Product Designer · UI/UX Designer",
+    role: "UI/UX Designer & Creative Lead",
     period: "Jun 2022 — Present",
-    summary: "Designed responsive CRM dashboards, lead and document management, payments, reporting and workflow modules for a SaaS platform. Built user flows, wireframes, interactive prototypes and high-fidelity UI in Figma; shipped 150+ marketing creatives, presentations, brochures and landing pages while maintaining brand identity. Partnered with developers and product managers, and leveraged AI tools to accelerate ideation, prototyping and content.",
+    summary: "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design.",
     Icon: Briefcase,
     links: [
       { label: "Website", href: "https://www.swiftams.com/" },
@@ -1193,19 +1332,20 @@ const EXPERIENCE: Job[] = [
   },
   {
     company: "Edu Finn",
-    role: "Contract Graphic Designer · Freelance",
+    role: "Graphic Designer & Video Editor",
     period: "2024 — 2025",
-    summary: "Designed brochures, standees, presentations, flyers and event marketing materials, plus social media campaigns, promotional videos, reels and digital marketing assets for the study-abroad brand.",
+    summary: "Designed multi-page brochures, event standees, promotional posters, and social media ad creatives. Produced, edited, and sound-designed high-retention vertical reels, student testimonial films, and marketing video campaigns for European university programs.",
     Icon: Layers,
     links: [
       { label: "Instagram", href: "https://www.instagram.com/edu_finn/" },
+      { label: "YouTube", href: "https://www.youtube.com/@EduFinn" },
     ],
   },
   {
     company: "Digital Cappuccino",
-    role: "Creative Designer · Freelance",
+    role: "Graphic Designer & Visual Artist",
     period: "2022 — 2023",
-    summary: "Designed campaign creatives, social media content, advertisements and website graphics; planned and managed a six-month creative content calendar.",
+    summary: "Designed high-converting ad banners, social media campaigns, promotional graphics, and brand assets. Managed creative direction and content calendars across multi-channel client accounts.",
     Icon: Coffee,
     links: [
       { label: "Website", href: "https://www.digitalcappuccino.com/" },
@@ -1213,9 +1353,9 @@ const EXPERIENCE: Job[] = [
   },
   {
     company: "Independent Projects",
-    role: "UI/UX & Visual Designer",
+    role: "UI/UX Designer & Video Editor",
     period: "2021",
-    summary: "Designed responsive websites, CRM dashboards, landing pages and branding systems. Conducted UX research and produced user flows, wireframes, prototypes and high-fidelity UI designs.",
+    summary: "Designed web and mobile app interfaces, wireframes, and interactive prototypes. Produced promotional video edits, motion graphics, and distinctive brand identities for startups and creators.",
     Icon: Layers,
   },
 ];
@@ -1227,12 +1367,12 @@ function Experience() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-6">/ 04 — Experience</p>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
-            4.5+ years across <em className="text-highlight italic">SaaS, CRM</em> & study-abroad brands.
+            4.5+ years shaping <em className="text-highlight italic">UI/UX, visual media</em> & dynamic video.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Long-running product design roles and freelance collaborations — shipping SaaS modules, brand systems, print and digital campaigns for growing teams.
+            Creative design roles and freelance collaborations — crafting frictionless digital products, high-impact ad campaigns, and engaging video content.
           </p>
         </div>
       </div>
@@ -1286,83 +1426,6 @@ function Experience() {
 
 
 
-/* ---------- Work (text-only, no placeholders per section) ---------- */
-
-function Work() {
-  return (
-    <section id="work" className="py-28 md:py-40">
-      <div className="mb-16 flex items-end justify-between gap-6">
-        <div>
-          <p className="text-eyebrow mb-4">/ Selected work</p>
-          <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[18ch]">
-            Six disciplines. <em className="text-highlight italic">One craft.</em>
-          </h2>
-        </div>
-        <p className="hidden font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground md:block">
-          2021 — 2025
-        </p>
-      </div>
-
-      <div className="divide-y divide-border/60 border-y border-border/60">
-        {DISCIPLINES.map((d, i) => (
-          <DisciplineRow key={d.no} d={d} index={i} />
-        ))}
-      </div>
-
-      <div className="mt-10 flex items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-        <span>Full visual archive ↓</span>
-        <a href="#gallery" className="link-underline text-foreground">Open Gallery</a>
-      </div>
-    </section>
-  );
-}
-
-function DisciplineRow({ d, index }: { d: Discipline; index: number }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay: index * 0.04 }}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      className="group grid cursor-default grid-cols-12 items-center gap-4 py-6 transition-colors hover:bg-foreground/[0.03] md:py-8"
-    >
-      <span className="col-span-2 font-mono text-xs text-foreground/70 md:col-span-1">{d.no}</span>
-      <div className="col-span-10 flex items-center gap-4 md:col-span-5">
-        <span className="card-white inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-foreground">
-          <d.Icon size={20} />
-        </span>
-        <div>
-          <h3 className="text-display text-[clamp(1.5rem,3vw,2.5rem)]">{d.title}</h3>
-          <p className="text-eyebrow mt-1">{d.sub}</p>
-        </div>
-      </div>
-      <p className="col-span-12 max-w-md text-sm leading-relaxed text-foreground/80 md:col-span-4">
-        {d.desc}
-      </p>
-      <div className="col-span-12 flex items-center justify-between gap-3 md:col-span-2 md:justify-end">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground/70">{d.meta}</span>
-        <motion.span animate={{ rotate: open ? 45 : 0 }} className="card-white inline-flex h-8 w-8 items-center justify-center rounded-full"><Plus size={14} /></motion.span>
-      </div>
-      <div className="col-span-12 md:col-start-2 md:col-span-11">
-        <motion.div
-          initial={false}
-          animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-          className="overflow-hidden"
-        >
-          <div className="flex flex-wrap gap-2 pt-4">
-            {d.tags.map((t) => (
-              <span key={t} className="card-white rounded-full px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-foreground/85">{t}</span>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    </motion.div>
-  );
-}
 
 
 /* ---------- Gallery (grouped by category, aligned & always-visible) ---------- */
@@ -1551,283 +1614,453 @@ function BrochureCard({
 }
 
 
-function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[], index?: number) => void }) {
-  const categories = ["All", ...CATEGORY_ORDER] as const;
-  const [filter, setFilter] = useState<(typeof categories)[number]>("All");
+type WorkTab = "All" | "UI/UX Projects" | "Graphic Design & Posters" | "Video Editing";
+const WORK_TABS: WorkTab[] = ["All", "UI/UX Projects", "Graphic Design & Posters", "Video Editing"];
+
+function Work({
+  onOpenImage,
+  onOpenVideo,
+}: {
+  onOpenImage: (item: GalleryItem, list?: GalleryItem[], index?: number) => void;
+  onOpenVideo: (item: VideoItem) => void;
+}) {
+  const [activeTab, setActiveTab] = useState<WorkTab>("All");
   const [socialMoreOpen, setSocialMoreOpen] = useState(false);
-  const visibleCats = filter === "All" ? CATEGORY_ORDER : [filter as (typeof CATEGORY_ORDER)[number]];
+
+  // Categorized items
+  const uiWebItems = GALLERY.filter((g) => g.category === "UI/UX");
+  const uiMobileItems = GALLERY.filter((g) => g.category === "Mobile");
+  const uiAllItems = [...uiWebItems, ...uiMobileItems];
+
+  const posterItems = GALLERY.filter((g) => g.category === "Social");
+  const standeeItems = GALLERY.filter((g) => g.category === "Print" && g.id.startsWith("p") && Number(g.id.slice(1)) >= 6);
+  const brandItems = GALLERY.filter((g) => g.category === "Brand");
+
+  const reelVideos = CORPORATE_REELS;
+  const filmVideos = CORPORATE_FILMS;
+  const aiVideos = AI_VIDEOS;
+  const allVideos = [...reelVideos, ...filmVideos, ...aiVideos];
 
   return (
-    <section id="gallery" className="py-28 md:py-40">
-      <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <section id="work" className="relative py-28 md:py-40">
+      {/* Target anchor for #gallery backward-compatibility */}
+      <div id="gallery" className="absolute -top-24 left-0" aria-hidden />
+
+      <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-eyebrow mb-4">/ Gallery</p>
-          <h2 className="text-display text-[clamp(2rem,5.5vw,4.5rem)] max-w-[20ch]">
-            Organised by craft — tap any tile to <em className="text-highlight italic">preview</em>, download or comment.
+          <p className="text-eyebrow mb-4">/ 05 — Portfolio & Selected Work</p>
+          <h2 className="text-display text-[clamp(2.25rem,6vw,4.75rem)] max-w-[20ch] leading-[1.02]">
+            Selected Works & <em className="text-highlight italic">Creative Showcase</em>
           </h2>
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            Explore curated projects across UI/UX design, marketing posters & brand collateral, and dynamic video edits. Tap any item to inspect details or launch playback.
+          </p>
         </div>
+
+        {/* 4 Filter Tabs */}
         <div className="flex flex-wrap gap-2">
-          {categories.map((c) => (
-            <button
-              key={c}
-              onClick={() => setFilter(c)}
-              className={`rounded-full border px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] transition-colors ${
-                filter === c
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border/70 text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {c}
-            </button>
-          ))}
+          {WORK_TABS.map((tab) => {
+            const isActive = activeTab === tab;
+            return (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className={`rounded-full border px-4 py-2 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                  isActive
+                    ? "border-foreground bg-foreground text-background shadow-md scale-[1.02]"
+                    : "border-border/70 text-muted-foreground hover:border-foreground/50 hover:text-foreground"
+                }`}
+              >
+                {tab}
+              </button>
+            );
+          })}
         </div>
       </div>
 
+      {/* Content for Tabs */}
       <div className="space-y-28">
-        {visibleCats.map((cat) => {
-          const cfg = CATEGORY_CONFIG[cat];
-          const items = GALLERY.filter((g) => g.category === cat);
-          if (items.length === 0) return null;
-          return (
-            <div key={cat} id={`gallery-${cat.toLowerCase().replace("/", "-")}`}>
-              {/* Hero-style category header — mirrors old portfolio alignment */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6 }}
-                className="mx-auto mb-12 max-w-3xl text-center"
-              >
-                <h3 className="font-display font-bold leading-[0.95] tracking-tight text-highlight text-[clamp(2.5rem,8vw,5.5rem)]">
-                  {cfg.title}
+        {/* 1. UI/UX Projects Tab */}
+        {(activeTab === "All" || activeTab === "UI/UX Projects") && (
+          <div className="space-y-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border/60 pb-5"
+            >
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                  UI/UX & Product Design
+                </span>
+                <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                  Web Platforms & Mobile Interfaces
                 </h3>
-                <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-highlight">
-                  {cfg.eyebrow}
-                </p>
-                <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-                  {cfg.blurb}
-                </p>
-              </motion.div>
+              </div>
+              <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.18em]">
+                {uiAllItems.length} Interface Screens
+              </p>
+            </motion.div>
 
-              <div className="mb-8 flex items-center justify-center gap-4">
-                <span className="h-px w-10 bg-border" />
-                <p className="font-mono text-[11px] uppercase tracking-[0.35em] text-foreground">
-                  {cfg.postsLabel}
-                </p>
-                <span className="h-px w-10 bg-border" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                  {String(items.length).padStart(2, "0")} pieces
+            {/* Web Platforms & Dashboards */}
+            <div>
+              <div className="mb-6 flex items-baseline gap-3">
+                <h4 className="font-display text-2xl font-bold text-foreground">Web Platforms & Dashboards</h4>
+                <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                  Figma Systems
                 </span>
               </div>
-
-              {(() => {
-                const mobiles = GALLERY.filter((g) => g.category === "Mobile");
-                type SG = {
-                  name: string | null;
-                  script?: string;
-                  blurb?: string;
-                  list: typeof items;
-                  ratio?: string;
-                  grid?: string;
-                  split?: boolean;
-                };
-                const subgroups: SG[] =
-                  cat === "Print"
-                    ? [
-                        { name: "Brochure", script: "Design", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) <= 5) },
-                        { name: "Standee", script: "Design", list: items.filter((x) => x.id.startsWith("p") && Number(x.id.slice(1)) >= 6) },
-                      ]
-                    : cat === "UI/UX"
-                    ? [
-                        {
-                          name: "App",
-                          script: "Design",
-                          blurb:
-                            "With over four years of experience in the design industry, I specialize in crafting visual identities, intuitive user interfaces, and impactful print assets that help brands communicate effectively. My approach merges strategic thinking with creative execution — ensuring every project not only delivers aesthetic excellence but also achieves its intended business goals.",
-                          list: mobiles.slice(0, 2),
-                          ratio: "aspect-[9/16]",
-                          grid: "grid-cols-2",
-                          split: true,
-                        },
-                        {
-                          name: "Main",
-                          script: "Design",
-                          blurb:
-                            "A curated set of production-ready screens — onboarding, dashboards, lists, profiles and dense data views — designed for thumb-zone ergonomics and quick comprehension.",
-                          list: mobiles.slice(2),
-                          ratio: "aspect-[9/16]",
-                          grid: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-                          split: true,
-                        },
-                        {
-                          name: "Web",
-                          script: "Design",
-                          blurb:
-                            "I specialize in building responsive web platforms and data-rich dashboards. My web designs merge aesthetic appeal with robust information architecture, ensuring users can navigate complex datasets and operational tools with clarity and ease across all devices.",
-                          list: items,
-                          ratio: "aspect-[16/10]",
-                          grid: "grid-cols-1 md:grid-cols-2",
-                          split: true,
-                        },
-                      ]
-                    : [{ name: null, list: items }];
-
-                return (
-                  <div className="space-y-20">
-                    {subgroups.map((sg) => {
-                      const ratio = sg.ratio ?? cfg.ratio;
-                      const grid = sg.grid ?? cfg.grid;
-                      const Grid = (
-                        <div className={`grid gap-4 ${grid}`}>
-                          {sg.list.map((g, i) => (
-                            <motion.button
-                              key={g.id}
-                              onClick={() => onOpen(g)}
-                              initial={{ opacity: 0, y: 18 }}
-                              whileInView={{ opacity: 1, y: 0 }}
-                              viewport={{ once: true, margin: "-40px" }}
-                              transition={{ duration: 0.5, delay: (i % 6) * 0.04 }}
-                              className="group relative block cursor-pointer text-left"
-                            >
-                              <div className="relative overflow-hidden rounded-2xl transition-shadow duration-500 group-hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.35)]">
-                                <Tilt strength={6}>
-                                  <div className="transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
-                                    <Placeholder
-                                      label={g.label}
-                                      ratio={ratio}
-                                      variant={g.variant}
-                                      badge={g.category}
-                                      src={g.src}
-                                      fit={cfg.fit}
-                                    />
-                                  </div>
-                                </Tilt>
-                                <div className="pointer-events-none absolute inset-0 rounded-2xl ring-0 ring-highlight/0 transition-all duration-500 group-hover:ring-2 group-hover:ring-highlight/50" />
-                              </div>
-                              <div className="mt-3 flex items-center justify-between gap-3">
-                                <p className="truncate text-sm">{g.label}</p>
-                                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">View →</span>
-                              </div>
-                            </motion.button>
-                          ))}
-                        </div>
-                      );
-
-
-
-                      if (sg.split && sg.blurb) {
-                        return (
-                          <div key={sg.name ?? "all"} className="grid gap-10 md:grid-cols-12 md:gap-12">
-                            <div className="md:col-span-4 md:pt-2">
-                              <div className="mb-5 flex items-baseline gap-3">
-                                <h4 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                                  {sg.name}
-                                </h4>
-                                {sg.script && (
-                                  <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
-                                    {sg.script}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="max-w-sm text-[15px] leading-relaxed text-muted-foreground">
-                                {sg.blurb}
-                              </p>
-                            </div>
-                            <div className="md:col-span-8">{Grid}</div>
-                          </div>
-                        );
-                      }
-
-                      if (sg.name === "Brochure") {
-                        return (
-                          <div key={sg.name}>
-                            <h4 className="mb-8 font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
-                              {sg.name}
-                            </h4>
-                            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-                              {BROCHURES.map((b, idx) => (
-                                <BrochureCard key={b.id} brochure={b} idx={idx} onOpen={onOpen} />
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      }
-
-
-
-                      if (sg.name === "Standee") {
-                        return (
-                          <div key={sg.name}>
-                            <h4 className="mb-8 font-display text-4xl font-bold tracking-tight text-foreground md:text-6xl">
-                              {sg.name}
-                            </h4>
-                            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                              {sg.list.slice(0, 3).map((s, idx) => (
-                                <motion.button
-                                  key={s.id}
-                                  onClick={() => onOpen(s)}
-                                  initial={{ opacity: 0, y: 24 }}
-                                  whileInView={{ opacity: 1, y: 0 }}
-                                  viewport={{ once: true, margin: "-40px" }}
-                                  transition={{ duration: 0.55, delay: idx * 0.08 }}
-                                  className="group block w-full cursor-pointer overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all duration-500 hover:ring-highlight hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.32)]"
-                                >
-                                  <div className="transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]">
-                                    <Placeholder
-                                      label={s.label}
-                                      ratio="aspect-[3/4]"
-                                      variant={s.variant}
-                                      src={s.src}
-                                      fit={cfg.fit}
-                                    />
-                                  </div>
-                                </motion.button>
-                              ))}
-                            </div>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <div key={sg.name ?? "all"}>
-                          {sg.name && (
-                            <div className="mb-5 flex items-baseline gap-3">
-                              <h4 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-                                {sg.name}
-                              </h4>
-                              {sg.script && (
-                                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
-                                  {sg.script}
-                                </span>
-                              )}
-                            </div>
-                          )}
-                          {Grid}
-                        </div>
-                      );
-                    })}
-                    {cat === "Social" && (
-                      <div className="flex justify-center pt-4">
-                        <motion.button
-                          type="button"
-                          onClick={() => setSocialMoreOpen(true)}
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.97 }}
-                          className="inline-flex items-center gap-2 rounded-full border border-foreground bg-foreground px-6 py-3 font-mono text-[11px] uppercase tracking-[0.25em] text-background shadow-sm transition-colors hover:bg-highlight hover:border-highlight hover:text-background"
-                        >
-                          <Plus className="h-4 w-4" />
-                          More
-                        </motion.button>
+              <div className="grid gap-6 md:grid-cols-2">
+                {uiWebItems.map((item, i) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => onOpenImage(item, uiAllItems, i)}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                    className="group relative block cursor-pointer text-left overflow-hidden rounded-3xl border border-border/60 bg-card p-3 transition-all duration-500 hover:border-highlight hover:shadow-2xl"
+                  >
+                    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-black/5">
+                      <Placeholder
+                        label={item.label}
+                        ratio="aspect-[16/10]"
+                        variant={item.variant}
+                        badge="UI/UX · Web"
+                        src={item.src}
+                        fit="contain"
+                      />
+                    </div>
+                    <div className="p-3 flex items-center justify-between">
+                      <div>
+                        <p className="font-display text-lg font-semibold text-foreground">{item.label}</p>
+                        <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Figma High-Fidelity Design</p>
                       </div>
-                    )}
-                  </div>
-                );
-              })()}
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-highlight group-hover:underline">
+                        View UI →
+                      </span>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
             </div>
-          );
-        })}
+
+            {/* Mobile App UI */}
+            <div>
+              <div className="mb-6 flex items-baseline gap-3">
+                <h4 className="font-display text-2xl font-bold text-foreground">Mobile Application UI</h4>
+                <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                  iOS & Android
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {uiMobileItems.map((item, i) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => onOpenImage(item, uiAllItems, uiWebItems.length + i)}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: (i % 4) * 0.06 }}
+                    className="group relative block cursor-pointer text-left overflow-hidden rounded-2xl border border-border/60 bg-card p-2.5 transition-all duration-500 hover:border-highlight hover:shadow-xl"
+                  >
+                    <div className="relative aspect-[9/16] w-full overflow-hidden rounded-xl bg-black/5">
+                      <Placeholder
+                        label={item.label}
+                        ratio="aspect-[9/16]"
+                        variant={item.variant}
+                        badge="Mobile App"
+                        src={item.src}
+                        fit="contain"
+                      />
+                    </div>
+                    <div className="mt-2.5 px-1 flex items-center justify-between">
+                      <p className="truncate text-xs font-medium text-foreground">{item.label}</p>
+                      <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">Preview →</span>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 2. Graphic Design & Posters Tab */}
+        {(activeTab === "All" || activeTab === "Graphic Design & Posters") && (
+          <div className="space-y-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border/60 pb-5"
+            >
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                  Graphic Design & Collateral
+                </span>
+                <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                  Posters, Ad Banners & Brochures
+                </h3>
+              </div>
+              <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.18em]">
+                Print & Social Media Collateral
+              </p>
+            </motion.div>
+
+            {/* Multi-page Brochures */}
+            <div>
+              <div className="mb-6 flex items-baseline gap-3">
+                <h4 className="font-display text-2xl font-bold text-foreground">Multi-Page Brochures</h4>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-highlight">
+                  Print-Ready · CMYK
+                </span>
+              </div>
+              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {BROCHURES.map((b, idx) => (
+                  <BrochureCard key={b.id} brochure={b} idx={idx} onOpen={onOpenImage} />
+                ))}
+              </div>
+            </div>
+
+            {/* Promotional Posters & Social Media Ad Creatives */}
+            <div>
+              <div className="mb-6 flex items-baseline gap-3">
+                <h4 className="font-display text-2xl font-bold text-foreground">Promotional & Event Posters</h4>
+                <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                  Ad Campaigns
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                {posterItems.map((item, i) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => onOpenImage(item, posterItems, i)}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.5, delay: (i % 5) * 0.05 }}
+                    className="group relative block cursor-pointer text-left overflow-hidden rounded-2xl border border-border/60 bg-card p-2 transition-all duration-500 hover:border-highlight hover:shadow-xl"
+                  >
+                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-black/5">
+                      <Placeholder
+                        label={item.label}
+                        ratio="aspect-[4/5]"
+                        variant={item.variant}
+                        badge="Poster"
+                        src={item.src}
+                        fit="contain"
+                      />
+                    </div>
+                    <div className="mt-2 px-1 flex items-center justify-between">
+                      <p className="truncate text-xs font-medium text-foreground">{item.label}</p>
+                      <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">View →</span>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+              <div className="mt-6 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setSocialMoreOpen(true)}
+                  className="inline-flex items-center gap-2 rounded-full border border-foreground bg-foreground px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-background hover:bg-highlight hover:border-highlight transition-colors"
+                >
+                  <Plus size={14} /> See More Social Creatives
+                </button>
+              </div>
+            </div>
+
+            {/* Standees & Brand Logos */}
+            <div className="grid gap-12 md:grid-cols-2">
+              <div>
+                <div className="mb-6 flex items-baseline gap-3">
+                  <h4 className="font-display text-2xl font-bold text-foreground">Event Standees</h4>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Trade-Show Displays</span>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {standeeItems.slice(0, 3).map((s, idx) => (
+                    <motion.button
+                      key={s.id}
+                      onClick={() => onOpenImage(s, standeeItems, idx)}
+                      className="group block cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card p-1.5 transition-all hover:border-highlight"
+                    >
+                      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
+                        <Placeholder label={s.label} ratio="aspect-[3/4]" variant={s.variant} src={s.src} fit="contain" />
+                      </div>
+                      <p className="mt-1 truncate text-center font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{s.label}</p>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-6 flex items-baseline gap-3">
+                  <h4 className="font-display text-2xl font-bold text-foreground">Brand Marks & Logos</h4>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Identity Systems</span>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {brandItems.map((b, idx) => (
+                    <motion.button
+                      key={b.id}
+                      onClick={() => onOpenImage(b, brandItems, idx)}
+                      className="group block cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card p-2.5 transition-all hover:border-highlight"
+                    >
+                      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-black/5">
+                        <Placeholder label={b.label} ratio="aspect-[16/9]" variant={b.variant} src={b.src} fit="contain" />
+                      </div>
+                      <p className="mt-1.5 truncate text-center text-xs font-medium text-foreground">{b.label}</p>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 3. Video Editing Tab */}
+        {(activeTab === "All" || activeTab === "Video Editing") && (
+          <div className="space-y-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border/60 pb-5"
+            >
+              <div>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
+                  Video Editing & Motion
+                </span>
+                <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+                  Vertical Reels, Commercials & YouTube Edits
+                </h3>
+              </div>
+              <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.18em]">
+                {allVideos.length} Video Projects
+              </p>
+            </motion.div>
+
+            {/* Vertical Reels (9:16) */}
+            <div>
+              <div className="mb-6 flex items-baseline gap-3">
+                <h4 className="font-display text-2xl font-bold text-foreground">Short-Form Content (Reels & Shorts)</h4>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-highlight">Format 9:16 · Mobile First</span>
+              </div>
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                {reelVideos.map((v) => (
+                  <motion.div
+                    key={v.id}
+                    className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all hover:border-highlight hover:shadow-xl"
+                  >
+                    <div className="relative aspect-[9/16] w-full overflow-hidden bg-black">
+                      <img
+                        src={videoThumbnail(v.id)}
+                        alt={v.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover grayscale-[15%] transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                      <button
+                        type="button"
+                        onClick={() => onOpenVideo(v)}
+                        aria-label={`Play ${v.title}`}
+                        className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                      >
+                        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-black shadow-lg transition-transform group-hover:scale-110">
+                          <Play size={16} className="translate-x-0.5 fill-black" />
+                        </span>
+                      </button>
+                      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-2.5 text-white">
+                        <span className="rounded-full bg-black/60 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider backdrop-blur">
+                          {v.client}
+                        </span>
+                        <span className="rounded-full bg-black/60 px-2 py-0.5 font-mono text-[9px] tabular-nums backdrop-blur">
+                          {v.len}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-2.5">
+                      <p className="line-clamp-2 text-xs font-semibold text-foreground leading-snug">{v.title}</p>
+                      <button
+                        type="button"
+                        onClick={() => onOpenVideo(v)}
+                        className="mt-2 inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-highlight hover:underline"
+                      >
+                        <Maximize2 size={10} /> Watch Reel
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Corporate & Commercial Films (16:9) */}
+            <div>
+              <div className="mb-6 flex items-baseline gap-3">
+                <h4 className="font-display text-2xl font-bold text-foreground">Long-Form YouTube & Commercial Ads</h4>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Format 16:9 · 4K Mastered</span>
+              </div>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {[...filmVideos.slice(0, 3), ...aiVideos.slice(0, 3)].map((v) => (
+                  <div
+                    key={v.id}
+                    className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all hover:border-highlight hover:shadow-xl"
+                  >
+                    <div className="relative aspect-video w-full overflow-hidden bg-black">
+                      <img
+                        src={videoThumbnail(v.id)}
+                        alt={v.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover grayscale-[15%] transition-transform duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+                      <button
+                        type="button"
+                        onClick={() => onOpenVideo(v)}
+                        aria-label={`Play ${v.title}`}
+                        className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                      >
+                        <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/95 text-black shadow-lg transition-transform group-hover:scale-110">
+                          <Play size={18} className="translate-x-0.5 fill-black" />
+                        </span>
+                      </button>
+                      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 text-white">
+                        <span className="rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider backdrop-blur">
+                          {v.client}
+                        </span>
+                        <span className="rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] tabular-nums backdrop-blur">
+                          {v.len}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex flex-1 flex-col justify-between p-4">
+                      <p className="line-clamp-2 text-sm font-semibold text-foreground leading-snug">{v.title}</p>
+                      <div className="mt-3 flex items-center justify-between border-t border-border/50 pt-3">
+                        <button
+                          type="button"
+                          onClick={() => onOpenVideo(v)}
+                          className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-highlight hover:underline"
+                        >
+                          <Maximize2 size={11} /> Full View
+                        </button>
+                        <a
+                          href={`https://www.youtube.com/watch?v=${v.id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground hover:text-foreground"
+                        >
+                          <Download size={11} /> YouTube HD
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
+      {/* Social Follow Dialog */}
       <AnimatePresence>
         {socialMoreOpen && (
           <motion.div
@@ -1867,7 +2100,7 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
                 Follow the full feed
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Live social work continues on Instagram — tap a handle to open the profile.
+                Live social work and dynamic marketing creatives continue on Instagram & channels — tap a handle to open the profile.
               </p>
               <div className="mt-6 space-y-3">
                 <a
@@ -2140,10 +2373,10 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           Corporate <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Reels</span>
         </h3>
         <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
-          Vertical Reels (9:16) · Founder Stories · SaaS Feature Walkthroughs
+          Vertical Reels (9:16) · Founder Stories · Product Video Promos
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-          High-conversion vertical social reels, student testimonial documentaries, and SaaS platform reveals produced for Edu Finn and Swift AMS.
+          High-conversion vertical social reels, student testimonial documentaries, and product video promos produced for Edu Finn and Swift AMS.
         </p>
 
         {/* Official Channel Links */}
@@ -2393,7 +2626,7 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
                   Documentaries & Product Spotlights
                 </h4>
                 <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                  Format 16:9 · Client Stories & SaaS Reveals
+                  Format 16:9 · Client Stories & Feature Promos
                 </p>
               </div>
             </div>
@@ -2795,7 +3028,7 @@ function Contact() {
         <div className="md:col-span-5">
           <p className="text-eyebrow mb-6">/ Say hello</p>
           <p className="font-mono text-xs leading-relaxed text-muted-foreground">
-            Currently accepting <br /> select projects in <br /> product, SaaS & brand design.
+            Currently accepting <br /> select projects in <br /> UI/UX, visual design & video editing.
           </p>
           <div className="mt-8 flex items-center gap-3">
             <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-foreground opacity-60" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-foreground" /></span>
