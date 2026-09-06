@@ -7,7 +7,7 @@ import {
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
   ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark,
-  Maximize2, ExternalLink, Youtube
+  Maximize2, ExternalLink, Youtube, Compass, Palette, Video, Cpu, Bot, Wand2, MousePointer, Workflow, Monitor
 } from "lucide-react";
 import { Magnetic } from "@/components/reactbits/Magnetic";
 import { Reveal } from "@/components/reactbits/Reveal";
@@ -744,17 +744,26 @@ function Hero() {
   const words = ["Designing", "Seamless", "Digital", "Experiences", "&", "AI-Powered", "Visual", "Media."];
 
   return (
-    <section id="intro" ref={ref} className="relative pt-28 pb-14 sm:pt-32 sm:pb-16 md:pt-36 md:pb-20 lg:pt-40 lg:pb-24">
+    <section id="intro" ref={ref} className="relative pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-24">
       <motion.div style={{ y, opacity: op }} className="relative grid gap-10 md:grid-cols-12 md:gap-14 md:items-center">
-        <div className="md:col-span-7">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-6 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5">
+        <div className="md:col-span-7 flex flex-col items-start">
+          {/* 1. Status Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-6 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5"
+          >
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-foreground opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Available for Freelance & Creative Roles • UI/UX & AI Video Specialist</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              Available for Freelance & Creative Roles • UI/UX & AI Video Specialist
+            </span>
           </motion.div>
 
+          {/* 2. Headline (H1) */}
           <h1 className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] font-bold tracking-tight leading-[1.05]">
             {words.map((w, i) => (
               <motion.span
@@ -770,40 +779,61 @@ function Hero() {
             ))}
           </h1>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-8 sm:mt-10 grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">
-            <p className="max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-              I combine modern UI/UX design with high-converting marketing visuals — from intuitive Figma prototypes and ad posters to dynamic video editing and generative AI videos.
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Magnetic strength={14} padding={20}>
-                <a href="#work" className="group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]">
-                  <span className="relative z-10">Explore My Work</span>
-                  <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
-                </a>
-              </Magnetic>
-              <Magnetic strength={10} padding={14}>
-                <a href="#ai-videos" className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5">
-                  <Play size={12} className="fill-current text-highlight" />
-                  <span>Watch Video Reel</span>
-                </a>
-              </Magnetic>
-              <Magnetic strength={8} padding={12}>
-                <a href="#contact" className="link-underline inline-flex min-h-[44px] items-center font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
-                  Contact
-                </a>
-              </Magnetic>
-            </div>
+          {/* 3. Subheading (Paragraph) */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground"
+          >
+            I combine modern UI/UX design with high-converting marketing visuals — from intuitive Figma prototypes and ad posters to dynamic video editing and generative AI videos.
+          </motion.p>
+
+          {/* 4. CTA Buttons Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.6 }}
+            className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4"
+          >
+            <Magnetic strength={14} padding={20}>
+              <a
+                href="#work"
+                className="group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02] shadow-md shadow-foreground/10"
+              >
+                <span className="relative z-10">Explore My Work</span>
+                <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
+              </a>
+            </Magnetic>
+            <Magnetic strength={10} padding={14}>
+              <a
+                href="#ai-videos"
+                className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border/80 bg-card px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5"
+              >
+                <Play size={12} className="fill-current text-highlight" />
+                <span>Watch Video Reel</span>
+              </a>
+            </Magnetic>
+            <Magnetic strength={8} padding={12}>
+              <a
+                href="#contact"
+                className="link-underline inline-flex min-h-[44px] items-center px-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+              >
+                Contact
+              </a>
+            </Magnetic>
           </motion.div>
         </div>
 
+        {/* Hero Image (Right Column) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
           className="md:col-span-5"
         >
-          <Tilt strength={18} className="relative mx-auto aspect-[3/4] w-full max-w-[400px]">
-            <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
+          <Tilt strength={18} className="relative mx-auto aspect-[4/5] w-full max-w-[420px] max-h-[520px]">
+            <div className="absolute inset-0 rounded-3xl bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
               <img
                 src={arbaazHero}
                 alt="Arbaaz — UI/UX Designer, Graphic Artist & AI Video Creator"
@@ -815,22 +845,22 @@ function Hero() {
               </div>
             </div>
 
-            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-6 top-10 glass rounded-2xl p-3" style={{ transform: "translateZ(60px)" }}>
+            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-5 top-10 glass rounded-2xl p-3" style={{ transform: "translateZ(60px)" }}>
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Specialist</p>
               <p className="font-display text-sm">UI/UX & AI Video</p>
             </motion.div>
-            <motion.div animate={{ y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-6 bottom-20 glass rounded-2xl px-3 py-2" style={{ transform: "translateZ(80px)" }}>
+            <motion.div animate={{ y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-5 bottom-16 glass rounded-2xl px-3 py-2" style={{ transform: "translateZ(80px)" }}>
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-foreground" />
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em]">4.5+ yrs · creative</span>
               </div>
             </motion.div>
-            <div className="absolute -inset-2 -z-10 rounded-[2.5rem] border border-foreground/10" />
+            <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
           </Tilt>
         </motion.div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 0.6 }} className="mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 0.6 }} className="mt-16 sm:mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
         <span className="flex items-center gap-2"><span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" /></span>
         <span className="hidden md:inline">Gurugram, Haryana · Remote worldwide</span>
       </motion.div>
@@ -921,31 +951,35 @@ function Marquee({ items }: { items: LogoItem[] }) {
   );
 }
 
-/* ---------- About ---------- */
+const ABOUT_CARDS = [
+  { key: "UI/UX Design", val: "Wireframes · Figma · App UI", Icon: Layout },
+  { key: "Graphic Design", val: "Posters · Banners · Creatives", Icon: PenTool },
+  { key: "Video Editing", val: "Reels · Promos · Sound FX", Icon: Film },
+  { key: "Collateral", val: "Brochures · Standees · Print", Icon: Printer },
+  { key: "Creative Tools", val: "Figma · Photoshop · Premiere", Icon: Wrench },
+  { key: "Based In", val: "Gurugram, IN · Remote", Icon: MapPin },
+];
 
 function About() {
   return (
-    <section id="about" className="py-14 sm:py-16 md:py-20 lg:py-24">
-      <div className="grid gap-12 md:grid-cols-12 md:gap-16 items-center">
-        <div className="md:col-span-4">
+    <section id="about" className="py-16 sm:py-24">
+      <div className="grid gap-10 md:grid-cols-12 md:gap-12 lg:gap-16 items-stretch">
+        <div className="md:col-span-5 lg:col-span-4 flex flex-col">
           <p className="text-eyebrow mb-4 sm:mb-6">/ About</p>
-          <Tilt strength={10} className="relative aspect-[4/5] w-full max-w-[320px]">
-            <div className="absolute inset-0 overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring">
-              <img
-                src={arbaazHero}
-                alt="Arbaaz K. — about portrait"
-                className="absolute inset-0 h-full w-full object-cover object-top"
-              />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent p-4 text-white">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">About</p>
-                <p className="font-display text-xl">Arbaaz K.</p>
-              </div>
+          <div className="relative flex-1 min-h-[380px] sm:min-h-[440px] md:min-h-0 w-full overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring shadow-xl">
+            <img
+              src={arbaazHero}
+              alt="Arbaaz K. — about portrait"
+              className="absolute inset-0 h-full w-full object-cover object-top"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent p-5 text-white">
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">About</p>
+              <p className="font-display text-xl sm:text-2xl font-semibold">Arbaaz K.</p>
             </div>
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
-              className="absolute -right-6 -top-6 h-20 w-20"
-              style={{ transform: "translateZ(60px)" }}
+              className="absolute -right-4 -top-4 h-20 w-20 pointer-events-none hidden sm:block"
             >
               <svg viewBox="0 0 100 100" className="h-full w-full fill-foreground">
                 <defs><path id="cabout" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" /></defs>
@@ -954,34 +988,34 @@ function About() {
                 </text>
               </svg>
             </motion.div>
-            <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
-          </Tilt>
+          </div>
         </div>
 
-        <div className="space-y-8 md:col-span-8">
-          <Reveal as="h2" className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            Frictionless UI/UX meets <em className="text-highlight italic">high-impact visual media</em> — from concept to final cut.
-          </Reveal>
-          <Reveal as="p" delay={0.08} className="max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-            From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I blend user-centered design, bold visual storytelling, and modern creative workflows to craft memorable digital experiences.
-          </Reveal>
+        <div className="md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-6 sm:space-y-8">
+          <div className="space-y-4 sm:space-y-6">
+            <Reveal as="h2" className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
+              Frictionless UI/UX meets <em className="text-highlight italic">high-impact visual media</em> — from concept to final cut.
+            </Reveal>
+            <Reveal as="p" delay={0.08} className="max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+              From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I blend user-centered design, bold visual storytelling, and modern creative workflows to craft memorable digital experiences.
+            </Reveal>
+          </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-4 md:grid-cols-3">
-            {([
-              ["UI/UX Design", "Wireframes · Figma · App UI", Layout],
-              ["Graphic Design", "Posters · Banners · Creatives", PenTool],
-              ["Video Editing", "Reels · Promos · Sound FX", Film],
-              ["Collateral", "Brochures · Standees · Print", Printer],
-              ["Creative Tools", "Figma · Photoshop · Premiere", Wrench],
-              ["Based in", <>Gurugram, IN{"\u00a0"}<br />· Remote</>, MapPin],
-            ] as any).map(([k, v, Icon]: any, i: number) => (
-              <Reveal key={k} delay={0.05 * i} y={14} blur={6}>
-                <div className="card-white rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(0,0,0,0.18)]">
-                  <div className="mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground">
-                    <Icon size={15} />
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 auto-rows-fr pt-2">
+            {ABOUT_CARDS.map((c, i) => (
+              <Reveal key={c.key} delay={0.04 * i} y={12} blur={4}>
+                <div className="group/card flex h-full min-h-[95px] flex-col justify-between rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 p-3.5 sm:p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-neutral-400 dark:hover:border-neutral-600 hover:shadow-md">
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground transition-colors group-hover/card:bg-foreground/[0.1]">
+                      <c.Icon size={14} className="sm:h-3.5 sm:w-3.5" />
+                    </span>
+                    <span className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 truncate">
+                      {c.key}
+                    </span>
                   </div>
-                  <p className="text-eyebrow mb-1">{k}</p>
-                  <p className="text-sm font-medium">{v}</p>
+                  <p className="mt-2 text-xs sm:text-sm font-medium text-neutral-800 dark:text-neutral-200 truncate">
+                    {c.val}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -1050,7 +1084,7 @@ function Stats() {
 
 function Services() {
   return (
-    <section id="services" className="py-14 sm:py-16 md:py-20 lg:py-24">
+    <section id="services" className="py-16 sm:py-24">
       <div className="mb-12 sm:mb-16 grid gap-6 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4">/ 03 — What I Do</p>
@@ -1114,7 +1148,7 @@ function Services() {
   );
 }
 
-/* ---------- Skills ---------- */
+/* ---------- Skills & Tools ---------- */
 
 import figmaLogo from "@/assets/tools/figma.png";
 import photoshopLogo from "@/assets/tools/photoshop.png";
@@ -1124,7 +1158,6 @@ import xdLogo from "@/assets/tools/xd.png";
 import premiereproLogo from "@/assets/tools/premierepro.png";
 import aftereffectsLogo from "@/assets/tools/aftereffects.png";
 import canvaLogo from "@/assets/tools/canva.jpg";
-import coreldrawLogo from "@/assets/tools/coreldraw.jpg";
 import chatgptLogo from "@/assets/tools/chatgpt.png";
 import claudeLogo from "@/assets/tools/claude.png";
 import geminiLogo from "@/assets/tools/gemini.jpg";
@@ -1132,214 +1165,224 @@ import cursorLogo from "@/assets/tools/cursor.png";
 import lovableLogo from "@/assets/tools/lovable.jpg";
 import midjourneyLogo from "@/assets/tools/midjourney.png";
 
-const TOOL_LOGOS: Record<string, string> = {
-  "Figma": figmaLogo,
-  "FigJam": figmaLogo,
-  "Adobe Photoshop": photoshopLogo,
-  "Adobe Illustrator": illustratorLogo,
-  "Adobe InDesign": indesignLogo,
-  "Adobe XD": xdLogo,
-  "Adobe Premiere Pro": premiereproLogo,
-  "After Effects": aftereffectsLogo,
-  "Adobe After Effects": aftereffectsLogo,
-  "Canva": canvaLogo,
-  "CorelDRAW": coreldrawLogo,
-  "ChatGPT": chatgptLogo,
-  "Claude": claudeLogo,
-  "Gemini": geminiLogo,
-  "Adobe Firefly": photoshopLogo,
-  "Figma AI": figmaLogo,
-  "Canva AI": canvaLogo,
-  "Cursor": cursorLogo,
-  "Lovable": lovableLogo,
-  "Midjourney": midjourneyLogo,
-};
+interface SkillItem {
+  name: string;
+  logo?: string;
+  icon?: ComponentType<{ className?: string; size?: number }>;
+  link?: string;
+}
 
-const TOOL_LINKS: Record<string, string> = {
-  "Figma": "https://www.figma.com/",
-  "FigJam": "https://www.figma.com/figjam/",
-  "Adobe XD": "https://www.adobe.com/products/xd.html",
-  "Adobe Photoshop": "https://www.adobe.com/products/photoshop.html",
-  "Adobe Illustrator": "https://www.adobe.com/products/illustrator.html",
-  "Adobe InDesign": "https://www.adobe.com/products/indesign.html",
-  "Canva": "https://www.canva.com/",
-  "CorelDRAW": "https://www.coreldraw.com/",
-  "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
-  "Adobe After Effects": "https://www.adobe.com/products/aftereffects.html",
-  "After Effects": "https://www.adobe.com/products/aftereffects.html",
-  "CapCut": "https://www.capcut.com/",
-  "ChatGPT": "https://chatgpt.com/",
-  "Claude": "https://claude.ai/",
-  "Gemini": "https://gemini.google.com/",
-  "Adobe Firefly": "https://www.adobe.com/products/firefly.html",
-  "Figma AI": "https://www.figma.com/ai/",
-  "Canva AI": "https://www.canva.com/ai/",
-  "Cursor": "https://cursor.com/",
-  "Lovable": "https://lovable.dev/",
-  "Midjourney": "https://www.midjourney.com/",
-  "Runway": "https://runwayml.com/",
-  "Kling": "https://klingai.com/",
-  "Luma Dream Machine": "https://lumalabs.ai/dream-machine",
-  "ElevenLabs": "https://elevenlabs.io/",
-};
+interface SkillTrackData {
+  id: string;
+  label: string;
+  items: SkillItem[];
+}
 
-const SKILL_GROUPS: { group: string; items: string[] }[] = [
+const SKILL_TRACKS: SkillTrackData[] = [
   {
-    group: "Product & UX",
+    id: "design-tools",
+    label: "Design & Motion Tools",
     items: [
-      "Product Design",
-      "UI Design",
-      "UX Design",
-      "UX Research",
-      "User Flows",
-      "Wireframing",
-      "Interactive Prototyping",
-      "Design Systems",
-      "Information Architecture",
-      "Accessibility",
-      "Developer Handoff",
+      { name: "Figma", logo: figmaLogo, link: "https://www.figma.com/" },
+      { name: "Adobe Photoshop", logo: photoshopLogo, link: "https://www.adobe.com/products/photoshop.html" },
+      { name: "Adobe Illustrator", logo: illustratorLogo, link: "https://www.adobe.com/products/illustrator.html" },
+      { name: "Adobe InDesign", logo: indesignLogo, link: "https://www.adobe.com/products/indesign.html" },
+      { name: "Adobe XD", logo: xdLogo, link: "https://www.adobe.com/products/xd.html" },
+      { name: "Adobe Premiere Pro", logo: premiereproLogo, link: "https://www.adobe.com/products/premiere.html" },
+      { name: "Adobe After Effects", logo: aftereffectsLogo, link: "https://www.adobe.com/products/aftereffects.html" },
+      { name: "Canva", logo: canvaLogo, link: "https://www.canva.com/" },
+      { name: "CapCut", icon: Film, link: "https://www.capcut.com/" },
     ],
   },
   {
-    group: "Product Domains",
+    id: "ai-tools",
+    label: "AI Generation & Creation Tools",
     items: [
-      "SaaS Product Design",
-      "CRM Product Design",
-      "Dashboard Design",
-      "Responsive Web Design",
-      "Landing Page Design",
-      "Mobile App Design",
+      { name: "ChatGPT", logo: chatgptLogo, link: "https://chatgpt.com/" },
+      { name: "Claude", logo: claudeLogo, link: "https://claude.ai/" },
+      { name: "Gemini", logo: geminiLogo, link: "https://gemini.google.com/" },
+      { name: "Adobe Firefly", logo: photoshopLogo, link: "https://www.adobe.com/products/firefly.html" },
+      { name: "Figma AI", logo: figmaLogo, link: "https://www.figma.com/ai/" },
+      { name: "Canva AI", logo: canvaLogo, link: "https://www.canva.com/ai/" },
+      { name: "Cursor", logo: cursorLogo, link: "https://cursor.com/" },
+      { name: "Lovable", logo: lovableLogo, link: "https://lovable.dev/" },
+      { name: "Midjourney", logo: midjourneyLogo, link: "https://www.midjourney.com/" },
+      { name: "Runway", icon: Sparkles, link: "https://runwayml.com/" },
+      { name: "Kling", icon: Sparkles, link: "https://klingai.com/" },
+      { name: "Luma Dream Machine", icon: Sparkles, link: "https://lumalabs.ai/dream-machine" },
+      { name: "ElevenLabs", icon: Sparkles, link: "https://elevenlabs.io/" },
     ],
   },
   {
-    group: "Visual & Brand",
+    id: "core-ux",
+    label: "Core UI/UX & Design Skills",
     items: [
-      "Brand Identity",
-      "Visual Design",
-      "Social Media Design",
-      "Print Design",
-      "Video Editing",
-      "Motion Graphics",
+      { name: "Product Design", icon: Layout },
+      { name: "UI Design", icon: Smartphone },
+      { name: "UX Design", icon: Layers },
+      { name: "UX Research", icon: Compass },
+      { name: "User Flows", icon: Workflow },
+      { name: "Wireframing", icon: PenTool },
+      { name: "Interactive Prototyping", icon: MousePointer },
+      { name: "Design Systems", icon: Atom },
+      { name: "Information Architecture", icon: Network },
+      { name: "SaaS/CRM Design", icon: Building2 },
+      { name: "Landing Pages", icon: Monitor },
     ],
   },
   {
-    group: "AI Workflow",
+    id: "ai-workflow",
+    label: "AI Workflows & Motion",
     items: [
-      "AI-assisted UI Design",
-      "AI-assisted Wireframing",
-      "Prompt Engineering",
-      "AI Image Generation",
-      "UX Research with AI",
-      "AI Content Creation",
-      "Rapid Prototyping",
-    ],
-  },
-  {
-    group: "Design Tools",
-    items: [
-      "Figma",
-      "Adobe Photoshop",
-      "Adobe Illustrator",
-      "Adobe InDesign",
-      "Adobe XD",
-      "Adobe Premiere Pro",
-      "Adobe After Effects",
-      "Canva",
-      "CapCut",
-    ],
-  },
-  {
-    group: "AI Tools",
-    items: [
-      "ChatGPT",
-      "Claude",
-      "Gemini",
-      "Adobe Firefly",
-      "Figma AI",
-      "Canva AI",
-      "Cursor",
-      "Lovable",
-      "Midjourney",
-      "Runway",
-      "Kling",
-      "Luma Dream Machine",
-      "ElevenLabs",
+      { name: "AI-assisted UI Design", icon: Wand2 },
+      { name: "AI-assisted Wireframing", icon: Cpu },
+      { name: "Prompt Engineering", icon: Bot },
+      { name: "AI Image Generation", icon: Palette },
+      { name: "AI Video Creation", icon: Clapperboard },
+      { name: "Motion Graphics", icon: Video },
+      { name: "Brand Identity", icon: Heart },
     ],
   },
 ];
 
+function SkillTrack({
+  label,
+  index,
+  items,
+  reverse = false,
+}: {
+  label: string;
+  index: string;
+  items: SkillItem[];
+  reverse?: boolean;
+}) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const loop = [...items, ...items, ...items];
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    let raf = 0;
+    const tick = () => {
+      if (!isPaused && el) {
+        const step = reverse ? -0.45 : 0.45;
+        el.scrollLeft += step;
+        const oneThird = el.scrollWidth / 3;
+        if (!reverse && el.scrollLeft >= oneThird * 2) {
+          el.scrollLeft -= oneThird;
+        } else if (reverse && el.scrollLeft <= 0) {
+          el.scrollLeft += oneThird;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    if (reverse && el.scrollLeft === 0) {
+      el.scrollLeft = el.scrollWidth / 3;
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isPaused, reverse]);
+
+  return (
+    <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 py-2 border-b border-border/40 last:border-b-0">
+      {/* Row Label */}
+      <div className="flex items-center gap-2.5 shrink-0 md:w-56 lg:w-60">
+        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-highlight font-semibold">
+          {index}
+        </span>
+        <span className="font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-muted-foreground truncate">
+          {label}
+        </span>
+      </div>
+
+      {/* Horizontal Track with fading masks */}
+      <div
+        className="relative flex-1 overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 sm:w-16 bg-gradient-to-r from-card to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 sm:w-16 bg-gradient-to-l from-card to-transparent" />
+
+        <div
+          ref={scrollerRef}
+          className="flex gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar py-1.5 scroll-smooth select-none"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {loop.map((item, i) => {
+            const pillContent = (
+              <>
+                {item.logo ? (
+                  <img
+                    src={item.logo}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    className="h-4 w-4 shrink-0 rounded-sm object-contain"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  />
+                ) : item.icon ? (
+                  <item.icon size={15} className="shrink-0 text-foreground/70" />
+                ) : (
+                  <Sparkles size={14} className="shrink-0 text-highlight" />
+                )}
+                <span className="text-foreground">{item.name}</span>
+              </>
+            );
+
+            const pillClasses =
+              "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 text-xs sm:text-sm whitespace-nowrap font-medium transition-all duration-200 hover:border-neutral-400 hover:scale-[1.02] shadow-sm backdrop-blur-sm cursor-default";
+
+            return item.link ? (
+              <a
+                key={`${item.name}-${i}`}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={pillClasses}
+              >
+                {pillContent}
+              </a>
+            ) : (
+              <span key={`${item.name}-${i}`} className={pillClasses}>
+                {pillContent}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Skills() {
   return (
-    <section id="skills" className="py-14 sm:py-16 md:py-20 lg:py-24">
-      <div className="grid gap-12 md:grid-cols-12 md:gap-16">
-        <div className="md:col-span-4">
-          <p className="text-eyebrow mb-4 sm:mb-6">/ 04 — Skills & Tools</p>
+    <section id="skills" className="py-16 sm:py-24">
+      <div className="mb-8 sm:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <p className="text-eyebrow mb-2 sm:mb-3">/ 04 — Skills & Tools</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
             Product craft, <em className="text-highlight italic">AI workflows</em> & tools.
           </h2>
-          <p className="mt-4 sm:mt-6 max-w-sm text-sm sm:text-base leading-relaxed text-muted-foreground">
-            A working creative toolkit built over 4.5+ years across digital products, CRM platforms, brand collateral, and AI-accelerated workflows.
-          </p>
         </div>
+        <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
+          A landscape view of my creative toolkit across design software, generative AI models, core UI/UX methodologies, and motion pipelines.
+        </p>
+      </div>
 
-        <div className="space-y-8 sm:space-y-10 md:col-span-8">
-          {SKILL_GROUPS.map((g, gi) => (
-            <div key={g.group}>
-              <div className="mb-4 sm:mb-5 flex items-baseline gap-3 sm:gap-4">
-                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
-                  {String(gi + 1).padStart(2, "0")}
-                </span>
-                <span className="text-display text-xl sm:text-2xl font-semibold text-foreground">{g.group}</span>
-                <span className="h-px flex-1 bg-border/60" />
-              </div>
-              <div className="flex flex-wrap gap-2 sm:gap-2.5">
-                {g.items.map((s, i) => {
-                  const slug = TOOL_LOGOS[s];
-                  const link = TOOL_LINKS[s];
-                  const isAiGroup = g.group === "AI Tools";
-                  const inner = (
-                    <>
-                      {slug ? (
-                        <img
-                          src={slug}
-                          alt=""
-                          aria-hidden
-                          loading="lazy"
-                          className="h-4 w-4 shrink-0 rounded-sm object-contain"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                        />
-                      ) : isAiGroup ? (
-                        <Sparkles className="h-3.5 w-3.5 shrink-0 text-highlight" />
-                      ) : null}
-                      <span>{s}</span>
-                    </>
-                  );
-                  const commonProps = {
-                    initial: { opacity: 0, y: 12 },
-                    whileInView: { opacity: 1, y: 0 },
-                    viewport: { once: true, margin: "-40px" },
-                    transition: { duration: 0.4, delay: i * 0.03, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
-                    className: "card-white inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-200 hover:-translate-y-0.5 hover:text-highlight hover:border-foreground/30 hover:shadow-md",
-                  };
-                  const chip = link ? (
-                    <motion.a key={s} href={link} target="_blank" rel="noopener noreferrer" {...commonProps}>
-                      {inner}
-                    </motion.a>
-                  ) : (
-                    <motion.span key={s} {...commonProps}>
-                      {inner}
-                    </motion.span>
-                  );
-                  return (
-                    <Magnetic key={s} strength={6} padding={10}>
-                      {chip}
-                    </Magnetic>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="card-white rounded-3xl p-4 sm:p-6 md:p-8 space-y-1 sm:space-y-2 max-h-[540px] overflow-hidden border border-border/60 shadow-lg">
+        {SKILL_TRACKS.map((track, i) => (
+          <SkillTrack
+            key={track.id}
+            label={track.label}
+            index={String(i + 1).padStart(2, "0")}
+            items={track.items}
+            reverse={i % 2 === 1}
+          />
+        ))}
       </div>
     </section>
   );
@@ -1401,7 +1444,7 @@ const EXPERIENCE: Job[] = [
 
 function Experience() {
   return (
-    <section id="experience" className="py-14 sm:py-16 md:py-20 lg:py-24">
+    <section id="experience" className="py-16 sm:py-24">
       <div className="mb-12 sm:mb-14 grid gap-6 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4 sm:mb-6">/ 05 — Experience</p>
@@ -1681,7 +1724,7 @@ function Work({
   const allVideos = [...reelVideos, ...filmVideos, ...aiVideos];
 
   return (
-    <section id="work" className="relative py-14 sm:py-16 md:py-20 lg:py-24">
+    <section id="work" className="relative py-16 sm:py-24">
       {/* Target anchor for #gallery backward-compatibility */}
       <div id="gallery" className="absolute -top-24 left-0" aria-hidden />
 
@@ -2191,7 +2234,7 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
   const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
 
   return (
-    <section id="ai-videos" className="py-14 sm:py-16 md:py-20 lg:py-24">
+    <section id="ai-videos" className="py-16 sm:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -2396,7 +2439,7 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
   const totalCount = displayedReels.length + displayedFilms.length;
 
   return (
-    <section id="videos" className="py-14 sm:py-16 md:py-20 lg:py-24">
+    <section id="videos" className="py-16 sm:py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -3059,7 +3102,7 @@ function Contact() {
   const words = ["Have", "a", "project", "in", "mind?"];
   const [open, setOpen] = useState(false);
   return (
-    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-12 sm:my-16 md:my-20 p-6 sm:p-10 md:p-14 lg:p-16">
+    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 sm:my-24 p-6 sm:p-10 md:p-14 lg:p-16">
       <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb" aria-hidden />
       <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-highlight/20 blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
 
