@@ -51,12 +51,6 @@ const SOCIALS = [
   { label: "Phone", href: "tel:+918527766839" },
 ];
 
-import logoSwiftAms from "@/assets/logo-swift-ams.png";
-import logoWavox from "@/assets/logo-wavox.png";
-import logoAiSwift from "@/assets/logo-ai-swift.png";
-import logoKsha from "@/assets/logo-ksha.png";
-import logoDigitalCappuccino from "@/assets/logo-digital-cappuccino.png";
-import logoEduFinn from "@/assets/logo-edu-finn.png";
 import arbaazHero from "@/assets/arbaaz-hero.jpg";
 
 // Real brochure PDFs → rasterized page images
@@ -73,10 +67,6 @@ const brochurePageUrl = (file: string): string => {
 };
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
-  { id: "crown", name: "Crown Milk", tagline: "Dairy · Manufacturer & Exporter Brochure",
-    cover: brochurePageUrl("drive_crown_1.jpg"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`drive_crown_${n}.jpg`)) },
-
   { id: "metro", name: "Metropolia", tagline: "Study in Finland · University Brochure",
     cover: brochurePageUrl("drive_metropolia_1.png"),
     pages: [brochurePageUrl("drive_metropolia_2.png")] },
@@ -92,16 +82,6 @@ const BROCHURES: Brochure[] = [
   { id: "swiftams", name: "Swift AMS", tagline: "Product & CRM · Brochure",
     cover: brochurePageUrl("drive_swiftams_1.jpg"),
     pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`drive_swiftams_${n}.jpg`)) },
-
-];
-
-const LOGOS: { name: string; src: string }[] = [
-  { name: "Swift AMS", src: logoSwiftAms },
-  { name: "Wavox WMS", src: logoWavox },
-  { name: "Ai SWIFT", src: logoAiSwift },
-  { name: "KSHA LABS", src: logoKsha },
-  { name: "Digital Cappuccino Enterprises", src: logoDigitalCappuccino },
-  { name: "Edu Finn", src: logoEduFinn },
 ];
 
 type CreativeService = {
@@ -344,7 +324,6 @@ function Portfolio() {
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-12">
         <Hero />
         <AiVideosSection onOpen={(item) => setLightbox({ kind: "video", item })} />
-        <Marquee items={LOGOS} />
         <BigTextBanner text="Design · Direction · Detail" />
         <About />
         <Stats />
@@ -414,7 +393,7 @@ function BigTextBanner({ text }: { text: string }) {
   const x = useTransform(scrollYProgress, [0, 1], ["8%", "-18%"]);
   const loop = Array.from({ length: 4 });
   return (
-    <section ref={ref} aria-hidden className="relative -mx-6 my-16 overflow-hidden py-6 md:-mx-12 md:my-24 lg:-mx-20">
+    <section ref={ref} aria-hidden className="relative -mx-6 my-8 sm:my-10 md:my-12 overflow-hidden py-4 md:-mx-12 lg:-mx-20">
       <motion.div style={{ x }} className="flex whitespace-nowrap gap-14 text-display text-[clamp(3rem,10vw,9rem)] leading-[0.95] text-foreground/[0.08]">
         {loop.map((_, i) => (
           <span key={i} className="inline-flex items-center gap-14">
@@ -868,88 +847,7 @@ function Hero() {
   );
 }
 
-/* ---------- Logo Scroller ---------- */
 
-type LogoItem = { name: string; src: string };
-
-function Marquee({ items }: { items: LogoItem[] }) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
-  const loop = [...items, ...items, ...items];
-
-  const scrollBy = (dir: 1 | -1) => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * 360, behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    let raf = 0;
-    const tick = () => {
-      if (!paused && el) {
-        el.scrollLeft += 0.6;
-        const max = el.scrollWidth / 3;
-        if (el.scrollLeft >= max * 2) el.scrollLeft -= max;
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [paused]);
-
-  return (
-    <section
-      className="relative -mx-6 py-10 md:-mx-12 lg:-mx-20"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-background to-transparent" />
-
-      <button
-        type="button"
-        aria-label="Scroll logos left"
-        onClick={() => scrollBy(-1)}
-        className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-border bg-card text-foreground shadow-lg transition hover:scale-105 hover:bg-foreground hover:text-background md:left-8"
-      >
-        <ChevronLeft className="h-5 w-5" />
-      </button>
-      <button
-        type="button"
-        aria-label="Scroll logos right"
-        onClick={() => scrollBy(1)}
-        className="absolute right-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-border bg-card text-foreground shadow-lg transition hover:scale-105 hover:bg-foreground hover:text-background md:right-8"
-      >
-        <ChevronRight className="h-5 w-5" />
-      </button>
-
-      <div
-        ref={scrollerRef}
-        className="no-scrollbar flex gap-6 overflow-x-auto px-6 md:px-20"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {loop.map((c, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ y: -6, scale: 1.03 }}
-            transition={{ type: "spring", stiffness: 280, damping: 20 }}
-            className="group relative flex h-32 w-[280px] shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-white px-8 shadow-[0_6px_24px_-12px_rgba(0,0,0,0.18)] transition-shadow duration-500 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.28)] dark:bg-white md:h-36 md:w-[320px]"
-          >
-            <img
-              src={c.src}
-              alt={c.name}
-              loading="lazy"
-              className="max-h-20 w-auto max-w-full object-contain transition-transform duration-500 group-hover:scale-[1.06] md:max-h-24"
-            />
-            <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent transition duration-500 group-hover:ring-highlight/45" />
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 const ABOUT_CARDS = [
   { key: "UI/UX Design", val: "Wireframes · Figma · App UI", Icon: Layout },
@@ -1898,7 +1796,7 @@ function Work({
                   Print-Ready · CMYK
                 </span>
               </div>
-              <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
                 {BROCHURES.map((b, idx) => (
                   <BrochureCard key={b.id} brochure={b} idx={idx} onOpen={onOpenImage} />
                 ))}
