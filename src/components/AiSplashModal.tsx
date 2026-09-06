@@ -1,33 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Sparkles, Play, ArrowRight } from "lucide-react";
+import { X, Play, ArrowRight, Sparkles } from "lucide-react";
+import type { VideoItem } from "@/routes/index";
 
 interface AiSplashModalProps {
+  videos: VideoItem[];
+  videoThumbnail: (id: string) => string;
   onWatchAiVideos: () => void;
+  onSelectVideo: (v: VideoItem) => void;
 }
 
-export function AiSplashModal({ onWatchAiVideos }: AiSplashModalProps) {
+export function AiSplashModal({
+  videos,
+  videoThumbnail,
+  onWatchAiVideos,
+  onSelectVideo,
+}: AiSplashModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
-      const seen = localStorage.getItem("has_seen_ai_splash_v1");
+      const seen = localStorage.getItem("has_seen_ai_splash_v2");
       if (!seen) {
-        // Small delay for smooth entry after initial page paint
-        const timer = setTimeout(() => {
-          setIsOpen(true);
-        }, 450);
+        const timer = setTimeout(() => setIsOpen(true), 400);
         return () => clearTimeout(timer);
       }
     } catch {
-      // Fallback if localStorage is disabled in strict private mode
+      // Ignore storage errors
     }
   }, []);
 
   const handleClose = () => {
     try {
-      localStorage.setItem("has_seen_ai_splash_v1", "true");
+      localStorage.setItem("has_seen_ai_splash_v2", "true");
     } catch {
       // Ignore storage errors
     }
@@ -37,6 +45,11 @@ export function AiSplashModal({ onWatchAiVideos }: AiSplashModalProps) {
   const handleCtaClick = () => {
     handleClose();
     onWatchAiVideos();
+  };
+
+  const handleCardClick = (v: VideoItem) => {
+    handleClose();
+    onSelectVideo(v);
   };
 
   // Lock body scroll while splash is active and handle Escape key
@@ -57,6 +70,29 @@ export function AiSplashModal({ onWatchAiVideos }: AiSplashModalProps) {
     };
   }, [isOpen]);
 
+  // Smooth continuous right-to-left scrolling filmstrip
+  const loopVideos = [...videos, ...videos];
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    let raf = 0;
+    const tick = () => {
+      if (!paused && el) {
+        el.scrollLeft += 0.85;
+        const halfWidth = el.scrollWidth / 2;
+        if (el.scrollLeft >= halfWidth) {
+          el.scrollLeft -= halfWidth;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isOpen, paused]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -66,111 +102,144 @@ export function AiSplashModal({ onWatchAiVideos }: AiSplashModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
           role="dialog"
           aria-modal="true"
           aria-labelledby="ai-splash-title"
         >
-          {/* Backdrop with blur */}
+          {/* Backdrop matching portfolio ambient look */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="absolute inset-0 bg-black/75 backdrop-blur-md"
+            className="absolute inset-0 bg-background/80 backdrop-blur-md dark:bg-black/80"
           />
 
-          {/* Modal Container */}
+          {/* Modal Container adhering strictly to Portfolio Design System */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 16 }}
+            initial={{ opacity: 0, scale: 0.95, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="relative z-10 w-full max-w-xl overflow-hidden rounded-3xl border border-white/15 bg-[#0e1117] text-white shadow-[0_25px_70px_-15px_rgba(0,0,0,0.8)]"
+            className="relative z-10 w-full max-w-3xl overflow-hidden rounded-3xl border border-border/80 bg-card text-foreground shadow-2xl"
           >
-            {/* Top glowing ambient accent */}
-            <div className="pointer-events-none absolute -top-24 left-1/2 h-48 w-80 -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500/25 via-violet-500/25 to-amber-500/25 blur-3xl" />
-
             {/* Close Button */}
             <button
               onClick={handleClose}
               aria-label="Close announcement"
-              className="absolute right-4 top-4 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition-all hover:border-white/25 hover:bg-white/15 hover:text-white"
+              className="card-white absolute right-4 top-4 z-30 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 text-foreground transition-all hover:bg-foreground/5"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
-            <div className="relative p-6 sm:p-8">
-              {/* Badge */}
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.25em] text-cyan-300">
-                <Sparkles size={13} className="text-cyan-400" />
-                <span>New Showcase · AI Video Lab</span>
+            <div className="relative pt-7 px-6 sm:px-8 pb-4">
+              {/* Eyebrow Badge */}
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-border/70 bg-surface px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                <span className="h-1.5 w-1.5 rounded-full bg-highlight" />
+                <span>New Work · AI Creative Studio</span>
               </div>
 
-              {/* Title & User specified copy */}
+              {/* Title using Portfolio fonts: Bricolage & Instrument Serif */}
               <h2
                 id="ai-splash-title"
-                className="font-display text-2xl font-bold tracking-tight sm:text-3xl text-white"
+                className="font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl"
               >
                 I also created AI videos —{" "}
-                <span className="bg-gradient-to-r from-cyan-300 via-sky-300 to-indigo-300 bg-clip-text text-transparent">
+                <span
+                  style={{
+                    fontFamily: "'Instrument Serif', serif",
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                  }}
+                  className="text-highlight"
+                >
                   look and watch!
                 </span>
               </h2>
 
-              <p className="mt-3 text-sm leading-relaxed text-zinc-300 sm:text-[15px]">
-                Explore new speculative commercials, cinematic 3D product reels, and tech narratives created with cutting-edge generative AI workflows.
+              <p className="mt-2.5 max-w-xl text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                Explore 13 speculative commercial spots, 3D product reels, and automotive cinematics created with Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
               </p>
+            </div>
 
-              {/* Visual Preview Box */}
+            {/* Continuous Right-to-Left Scrolling Video Filmstrip */}
+            <div
+              className="relative my-4 w-full overflow-hidden border-y border-border/50 bg-surface/50 py-4"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+            >
+              {/* Left & Right Soft Fade Gradients */}
+              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-card to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-card to-transparent" />
+
               <div
-                onClick={handleCtaClick}
-                className="group mt-5 relative cursor-pointer overflow-hidden rounded-2xl border border-white/15 bg-black/60 shadow-inner transition-all hover:border-cyan-400/50"
+                ref={scrollerRef}
+                className="no-scrollbar flex w-full gap-3.5 overflow-x-auto px-4"
+                style={{ scrollBehavior: "auto" }}
               >
-                <div className="aspect-video relative w-full overflow-hidden">
-                  <img
-                    src="https://i.ytimg.com/vi/qfGP0Z3y-Jk/hqdefault.jpg"
-                    alt="AI Video Showcase Preview"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                {loopVideos.map((v, i) => (
+                  <button
+                    key={`${v.id}-${i}`}
+                    type="button"
+                    onClick={() => handleCardClick(v)}
+                    className="group relative flex-shrink-0 w-[210px] sm:w-[240px] text-left cursor-pointer overflow-hidden rounded-xl border border-border/60 bg-card transition-all hover:border-foreground/30 hover:shadow-lg"
+                  >
+                    <div className="relative aspect-video w-full overflow-hidden bg-black/40">
+                      <img
+                        src={videoThumbnail(v.id)}
+                        alt={v.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
 
-                  {/* Centered Play Pill */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-black shadow-lg transition-transform group-hover:scale-110">
-                      <Play size={20} className="translate-x-0.5 fill-black" />
-                    </span>
-                  </div>
+                      {/* Play Icon */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-black shadow-md transition-transform duration-300 group-hover:scale-110">
+                          <Play size={14} className="translate-x-0.5 fill-black" />
+                        </span>
+                      </div>
 
-                  <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
-                    <div>
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-cyan-300">Featured Reel</span>
-                      <p className="text-xs font-semibold text-white line-clamp-1">Why AI Won’t Replace Creators | A Director's Perspective</p>
+                      {/* Top Badges */}
+                      <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5 text-white">
+                        <span className="rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider backdrop-blur">
+                          {v.client}
+                        </span>
+                        <span className="rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] tabular-nums backdrop-blur">
+                          {v.len}
+                        </span>
+                      </div>
                     </div>
-                    <span className="rounded-full bg-black/70 px-2 py-0.5 font-mono text-[10px] text-zinc-300">13 Videos</span>
-                  </div>
-                </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div className="mt-6 flex flex-col-reverse gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-xs font-medium text-zinc-400 transition hover:bg-white/5 hover:text-white"
-                >
-                  Continue to Portfolio
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleCtaClick}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-5 py-2.5 text-xs font-semibold text-black shadow-lg shadow-cyan-500/20 transition-all hover:bg-cyan-300 hover:shadow-cyan-500/40"
-                >
-                  <span>Watch AI Videos</span>
-                  <ArrowRight size={14} />
-                </button>
+                    <div className="p-3">
+                      <p className="font-display text-xs font-semibold leading-snug text-foreground line-clamp-1 group-hover:text-highlight transition-colors">
+                        {v.title}
+                      </p>
+                    </div>
+                  </button>
+                ))}
               </div>
+            </div>
+
+            {/* Modal Bottom Actions */}
+            <div className="flex flex-col-reverse gap-3 p-5 sm:px-8 sm:py-6 sm:flex-row sm:items-center sm:justify-between border-t border-border/40">
+              <button
+                type="button"
+                onClick={handleClose}
+                className="font-mono text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors py-2 px-3 text-center"
+              >
+                Continue to Portfolio
+              </button>
+
+              <button
+                type="button"
+                onClick={handleCtaClick}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-xs font-semibold text-background shadow-md transition-all hover:bg-foreground/90"
+              >
+                <span>Explore AI Video Lab ({videos.length} Films)</span>
+                <ArrowRight size={14} />
+              </button>
             </div>
           </motion.div>
         </motion.div>

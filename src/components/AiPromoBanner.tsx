@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Sparkles, ArrowRight, Film, Play } from "lucide-react";
+import { ArrowRight, Film, Play } from "lucide-react";
 
 interface AiPromoBannerProps {
   onExplore: () => void;
@@ -13,46 +13,42 @@ export function AiPromoBanner({ onExplore, onPlayFeatured }: AiPromoBannerProps)
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6 }}
-      className="my-16 md:my-24"
+      className="my-14 md:my-20"
     >
-      <div className="relative overflow-hidden rounded-3xl border border-cyan-500/20 bg-gradient-to-br from-[#0c121e] via-[#0d1627] to-[#120f24] p-8 sm:p-10 md:p-12 text-white shadow-[0_20px_60px_-15px_rgba(6,182,212,0.15)]">
-        {/* Glow ambient background circles */}
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-cyan-500/15 blur-3xl" />
-        <div className="pointer-events-none absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-indigo-500/15 blur-3xl" />
-
+      <div className="relative overflow-hidden rounded-3xl border border-border/70 bg-surface p-8 sm:p-10 md:p-12 text-foreground shadow-sm">
         <div className="relative z-10 flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
           <div className="max-w-2xl">
             {/* Tagline */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.25em] text-cyan-300">
-              <Sparkles size={13} className="text-cyan-400" />
-              <span>Promotional Showcase · AI Creative Direction</span>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-3.5 py-1 text-[11px] font-mono font-medium uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-highlight" />
+              <span>AI Video Lab · Creative Direction</span>
             </div>
 
             {/* Headline */}
-            <h3 className="font-display text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl text-white">
-              Next-Gen AI Video Production & Spec Ads
+            <h3 className="font-display text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl text-foreground">
+              Generative AI Video Production & Spec Ads
             </h3>
 
             {/* Paragraph */}
-            <p className="mt-3 text-[15px] leading-relaxed text-zinc-300">
-              Transforming brand concepts into hyper-realistic commercial reels, 3D product showcases, and cinematic automotive battles. Powered by an advanced generative stack: Midjourney, Runway Gen-3, Kling AI, and surgical post-production.
+            <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+              Transforming brand narratives into cinematic commercial reels, 3D product showcases, and hyper-realistic automotive battles. Directed and edited using Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
             </p>
 
-            {/* Tool pills */}
+            {/* Tool pills matching portfolio design system */}
             <div className="mt-5 flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-300">
+              <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 13 Films
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-300">
+              <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Runway Gen-3
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-300">
+              <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Kling AI
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-300">
+              <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Midjourney v6
               </span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-zinc-300">
+              <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Premiere & DaVinci
               </span>
             </div>
@@ -63,7 +59,7 @@ export function AiPromoBanner({ onExplore, onPlayFeatured }: AiPromoBannerProps)
             <button
               type="button"
               onClick={onExplore}
-              className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-cyan-400 px-6 py-3.5 text-xs font-semibold text-black shadow-lg shadow-cyan-500/25 transition-all hover:bg-cyan-300 hover:shadow-cyan-500/40"
+              className="inline-flex items-center justify-center gap-2.5 rounded-full bg-foreground px-6 py-3.5 text-xs font-semibold text-background shadow-md transition-all hover:bg-foreground/90"
             >
               <Film size={15} />
               <span>Explore AI Video Lab</span>
@@ -74,9 +70,9 @@ export function AiPromoBanner({ onExplore, onPlayFeatured }: AiPromoBannerProps)
               <button
                 type="button"
                 onClick={onPlayFeatured}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 py-3 text-xs font-medium text-white transition hover:border-white/30 hover:bg-white/10"
+                className="card-white inline-flex items-center justify-center gap-2 rounded-full border border-border/70 px-5 py-3 text-xs font-medium text-foreground transition hover:bg-foreground/5"
               >
-                <Play size={14} className="fill-white" />
+                <Play size={14} className="fill-current" />
                 <span>Watch Featured Reel</span>
               </button>
             )}
