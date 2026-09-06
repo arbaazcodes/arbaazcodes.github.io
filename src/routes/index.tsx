@@ -21,10 +21,10 @@ import { AiPromoBanner } from "@/components/AiPromoBanner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Arbaaz | UI/UX Designer, Graphic Artist & Video Editor" },
-      { name: "description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, and dynamic video editing." },
-      { property: "og:title", content: "Arbaaz | UI/UX Designer, Graphic Artist & Video Editor" },
-      { property: "og:description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, and dynamic video editing." },
+      { title: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator" },
+      { name: "description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." },
+      { property: "og:title", content: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator" },
+      { property: "og:description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." },
     ],
   }),
   component: Portfolio,
@@ -119,45 +119,44 @@ const SERVICES: CreativeService[] = [
     no: "01",
     title: "UI/UX & Product Design",
     subtitle: "Web, Mobile & Design Systems",
-    desc: "Designing intuitive, user-centered digital products that turn complex workflows into frictionless, aesthetically polished interfaces.",
+    desc: "Designing clean, conversion-focused mobile apps and responsive web interfaces.",
     offerings: [
-      "Wireframing & Interactive Prototyping (Figma)",
-      "Mobile App UI (iOS & Android)",
-      "Responsive Web & Landing Page Design",
-      "Design Systems & Component Libraries",
-      "User Journey & Usability Optimization",
+      "Wireframes",
+      "Figma Prototypes",
+      "Mobile App UI",
+      "Landing Pages",
+      "User Flows & Design Systems",
     ],
-    tags: ["Figma", "UI Design", "UX Research", "Mobile Apps", "Design Systems"],
+    tags: ["Figma", "UI/UX", "Mobile App UI", "Landing Pages", "Design Systems"],
     Icon: Layout,
   },
   {
     no: "02",
     title: "Graphic Design & Brand Collateral",
     subtitle: "Posters, Ad Banners & Print",
-    desc: "Crafting thumb-stopping visual marketing assets that harmonize with strict brand guidelines while maximizing click-through and engagement.",
+    desc: "Crafting eye-catching promotional posters, social media banners, and advertising assets.",
     offerings: [
-      "Event & Promotional Posters",
-      "High-Converting Advertising Banners (Social & Display)",
-      "Social Media Creatives & Carousel Posts",
-      "Typography & Visual Hierarchy",
-      "Brand Identity & Print Collateral (Brochures, Standees)",
+      "Event & Promo Posters",
+      "Google/Social Ad Banners",
+      "Marketing Creatives",
+      "Typography & Brand Assets",
     ],
-    tags: ["Photoshop", "Illustrator", "Posters", "Ad Banners", "Brochures"],
+    tags: ["Photoshop", "Illustrator", "Event Posters", "Ad Banners", "Marketing Assets"],
     Icon: PenTool,
   },
   {
     no: "03",
-    title: "Video Editing & Motion",
-    subtitle: "Reels, Commercials & YouTube",
-    desc: "Producing rhythmic, dynamic video edits and motion graphics with crisp narrative pacing, rich sound design, and cinematic color grading.",
+    title: "Video Editing & AI Video Creation",
+    subtitle: "Reels, Commercials & GenAI",
+    desc: "Producing high-retention video content combining traditional timeline editing with cutting-edge AI video generation.",
     offerings: [
-      "Short-form Content (Instagram Reels, TikToks, YouTube Shorts)",
-      "Long-form YouTube & Corporate Video Editing",
-      "Commercial & Promotional Video Ads",
-      "Sound Design, Transitions & Pacing",
-      "Color Grading & Kinetic Typography",
+      "Short-Form Content (Reels/Shorts/TikTok)",
+      "AI B-Roll & Text-to-Video",
+      "Commercial Ads",
+      "Dynamic Subtitles",
+      "Sound Design & Color Grading",
     ],
-    tags: ["Premiere Pro", "After Effects", "CapCut", "Reels", "Sound Design"],
+    tags: ["Premiere Pro", "After Effects", "CapCut", "GenAI Video", "Reels & Shorts"],
     Icon: Film,
   },
 ];
@@ -756,7 +755,7 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
   const op = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
 
-  const words = ["Designing", "Intuitive", "Digital", "Products", "&", "High-Impact", "Visual", "Media."];
+  const words = ["Designing", "Seamless", "Digital", "Experiences", "&", "AI-Powered", "Visual", "Media."];
 
   return (
     <section id="intro" ref={ref} className="relative pt-32 pb-16 md:pt-40 md:pb-20">
@@ -767,7 +766,7 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-foreground opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Available for Freelance & Full-Time Creative Roles</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Available for Freelance & Creative Roles • UI/UX & AI Video Specialist</span>
           </motion.div>
 
           <h1 className="text-display text-[clamp(2.75rem,8vw,6.75rem)]">
@@ -780,25 +779,31 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "Visual" || w === "Media." ? <em className="text-highlight italic">{w}</em> : w}
+                {w === "AI-Powered" || w === "Visual" || w === "Media." ? <em className="text-highlight italic">{w}</em> : w}
               </motion.span>
             ))}
           </h1>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="mt-12 grid gap-8 sm:grid-cols-[1fr_auto] sm:items-end">
             <p className="max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-              I help brands and startups bridge the gap between user experience and visual marketing — from frictionless UI/UX in Figma to thumb-stopping posters, ad banners, and dynamic video edits.
+              I combine modern UI/UX design with high-converting marketing visuals — from intuitive Figma prototypes and ad posters to dynamic video editing and generative AI videos.
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <Magnetic strength={14} padding={20}>
-                <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm text-background transition-transform hover:scale-[1.02]">
-                  <span className="relative z-10">View Work</span>
+                <a href="#work" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02]">
+                  <span className="relative z-10">Explore My Work</span>
                   <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
+                </a>
+              </Magnetic>
+              <Magnetic strength={10} padding={14}>
+                <a href="#ai-videos" className="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5">
+                  <Play size={12} className="fill-current text-highlight" />
+                  <span>Watch Video Reel</span>
                 </a>
               </Magnetic>
               <Magnetic strength={8} padding={12}>
                 <a href="#contact" className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
-                  Get in Touch
+                  Contact
                 </a>
               </Magnetic>
             </div>
@@ -815,18 +820,18 @@ function Hero() {
             <div className="absolute inset-0 rounded-[2rem] bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
               <img
                 src={arbaazHero}
-                alt="Arbaaz — UI/UX Designer, Graphic Artist & Video Editor"
+                alt="Arbaaz — UI/UX Designer, Graphic Artist & AI Video Creator"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent p-5 text-white">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/75">UI/UX · Graphics · Video</p>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent p-5 text-white">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">UI/UX · Graphic Design · AI Video</p>
                 <p className="font-display text-2xl">Arbaaz K.</p>
               </div>
             </div>
 
             <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-6 top-10 glass rounded-2xl p-3" style={{ transform: "translateZ(60px)" }}>
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Now</p>
-              <p className="font-display text-sm">Designing in Figma</p>
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Specialist</p>
+              <p className="font-display text-sm">UI/UX & AI Video</p>
             </motion.div>
             <motion.div animate={{ y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-6 bottom-20 glass rounded-2xl px-3 py-2" style={{ transform: "translateZ(80px)" }}>
               <div className="flex items-center gap-2">
@@ -1007,7 +1012,7 @@ function Stats() {
   const highlights = [
     "Designed intuitive web & mobile UI/UX platforms in Figma",
     "200+ high-impact posters, ad banners & brand collateral",
-    "50+ dynamic video edits, vertical reels & motion promos",
+    "50+ dynamic video edits, vertical reels & AI video creations",
   ];
   return (
     <section className="py-12">
@@ -1031,7 +1036,7 @@ function Stats() {
           </div>
           <div className="md:col-span-7">
             <p className="text-lg leading-relaxed text-foreground/85 md:text-xl">
-              4.5+ years crafting <em className="text-highlight not-italic font-medium">intuitive UI/UX designs, high-impact graphic collateral, and dynamic video edits</em> — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and cinematic reels.
+              4.5+ years crafting <em className="text-highlight not-italic font-medium">intuitive UI/UX designs, high-impact graphic collateral, dynamic video edits, and AI-powered visual media</em> — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and cinematic reels.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
               {highlights.map((h, i) => (
@@ -1149,6 +1154,7 @@ const TOOL_LOGOS: Record<string, string> = {
   "Adobe InDesign": indesignLogo,
   "Adobe XD": xdLogo,
   "Adobe Premiere Pro": premiereproLogo,
+  "After Effects": aftereffectsLogo,
   "Adobe After Effects": aftereffectsLogo,
   "Canva": canvaLogo,
   "CorelDRAW": coreldrawLogo,
@@ -1166,68 +1172,54 @@ const TOOL_LOGOS: Record<string, string> = {
 const TOOL_LINKS: Record<string, string> = {
   "Figma": "https://www.figma.com/",
   "FigJam": "https://www.figma.com/figjam/",
+  "Adobe XD": "https://www.adobe.com/products/xd.html",
   "Adobe Photoshop": "https://www.adobe.com/products/photoshop.html",
   "Adobe Illustrator": "https://www.adobe.com/products/illustrator.html",
-  "Adobe InDesign": "https://www.adobe.com/products/indesign.html",
-  "Adobe XD": "https://www.adobe.com/products/xd.html",
-  "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
-  "Adobe After Effects": "https://www.adobe.com/products/aftereffects.html",
   "Canva": "https://www.canva.com/",
+  "Adobe Premiere Pro": "https://www.adobe.com/products/premiere.html",
+  "After Effects": "https://www.adobe.com/products/aftereffects.html",
   "CapCut": "https://www.capcut.com/",
-  "CorelDRAW": "https://www.coreldraw.com/",
-  "ChatGPT": "https://chat.openai.com/",
-  "Claude": "https://claude.ai/",
-  "Gemini": "https://gemini.google.com/",
-  "Adobe Firefly": "https://www.adobe.com/products/firefly.html",
-  "Figma AI": "https://www.figma.com/ai/",
-  "Canva AI": "https://www.canva.com/ai/",
-  "Cursor": "https://cursor.com/",
-  "Lovable": "https://lovable.dev/",
+  "Runway": "https://runwayml.com/",
+  "Kling": "https://klingai.com/",
+  "Luma Dream Machine": "https://lumalabs.ai/dream-machine",
   "Midjourney": "https://www.midjourney.com/",
+  "ElevenLabs": "https://elevenlabs.io/",
 };
-
 
 const SKILL_GROUPS: { group: string; items: string[] }[] = [
   {
-    group: "UI / UX Design",
+    group: "UI/UX",
     items: [
       "Figma",
       "FigJam",
       "Adobe XD",
-      "Wireframing",
-      "User Testing",
-      "Interactive Prototyping",
-      "Mobile App UI",
-      "Design Systems",
-      "Information Architecture",
+      "Wireframing & Prototyping",
     ],
   },
   {
-    group: "Graphic Design & Collateral",
+    group: "Graphic Design",
     items: [
       "Adobe Photoshop",
       "Adobe Illustrator",
       "Canva",
-      "Advertising Banners",
-      "Event & Promo Posters",
-      "Social Media Creatives",
-      "Brochure & Print Collateral",
-      "Typography",
-      "Brand Identity",
     ],
   },
   {
-    group: "Video Editing & Motion",
+    group: "Video Editing",
     items: [
       "Adobe Premiere Pro",
-      "Adobe After Effects",
+      "After Effects",
       "CapCut",
-      "Short-form Content (Reels & Shorts)",
-      "Commercial & Promotional Video Ads",
-      "YouTube Video Editing",
-      "Sound Design & Audio Pacing",
-      "Color Grading",
-      "Kinetic Typography",
+    ],
+  },
+  {
+    group: "AI Creative Tools",
+    items: [
+      "Runway",
+      "Kling",
+      "Luma Dream Machine",
+      "Midjourney",
+      "ElevenLabs",
     ],
   },
 ];
@@ -1239,10 +1231,10 @@ function Skills() {
         <div className="md:col-span-4">
           <p className="text-eyebrow mb-6">/ 04 — Skills & Tools</p>
           <h2 className="text-display text-[clamp(2rem,5vw,4rem)] leading-[1.02]">
-            Creative craft, <em className="text-highlight italic">design tools</em> & motion.
+            Creative craft, <em className="text-highlight italic">design tools</em> & AI video.
           </h2>
           <p className="mt-6 max-w-sm text-muted-foreground">
-            A focused creative toolkit built over 4.5+ years across UI/UX design, advertising graphics, and dynamic video editing.
+            A focused creative toolkit built over 4.5+ years across UI/UX design, advertising graphics, dynamic video editing, and generative AI tools.
           </p>
         </div>
 
@@ -1271,6 +1263,8 @@ function Skills() {
                           className="h-4 w-4 shrink-0 object-contain"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                         />
+                      ) : g.group === "AI Creative Tools" ? (
+                        <Sparkles className="h-3.5 w-3.5 shrink-0 text-highlight" />
                       ) : null}
                       {s}
                     </>
@@ -1614,8 +1608,8 @@ function BrochureCard({
 }
 
 
-type WorkTab = "All" | "UI/UX Projects" | "Graphic Design & Posters" | "Video Editing";
-const WORK_TABS: WorkTab[] = ["All", "UI/UX Projects", "Graphic Design & Posters", "Video Editing"];
+type WorkTab = "All" | "UI/UX Designs" | "Posters & Banners" | "Video & AI Video";
+const WORK_TABS: WorkTab[] = ["All", "UI/UX Designs", "Posters & Banners", "Video & AI Video"];
 
 function Work({
   onOpenImage,
@@ -1681,8 +1675,8 @@ function Work({
 
       {/* Content for Tabs */}
       <div className="space-y-28">
-        {/* 1. UI/UX Projects Tab */}
-        {(activeTab === "All" || activeTab === "UI/UX Projects") && (
+        {/* 1. UI/UX Designs Tab */}
+        {(activeTab === "All" || activeTab === "UI/UX Designs") && (
           <div className="space-y-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1786,8 +1780,8 @@ function Work({
           </div>
         )}
 
-        {/* 2. Graphic Design & Posters Tab */}
-        {(activeTab === "All" || activeTab === "Graphic Design & Posters") && (
+        {/* 2. Posters & Banners Tab */}
+        {(activeTab === "All" || activeTab === "Posters & Banners") && (
           <div className="space-y-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1800,7 +1794,7 @@ function Work({
                   Graphic Design & Collateral
                 </span>
                 <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                  Posters, Ad Banners & Brochures
+                  Posters, Ad Banners & Brand Collateral
                 </h3>
               </div>
               <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.18em]">
@@ -1917,8 +1911,8 @@ function Work({
           </div>
         )}
 
-        {/* 3. Video Editing Tab */}
-        {(activeTab === "All" || activeTab === "Video Editing") && (
+        {/* 3. Video & AI Video Tab */}
+        {(activeTab === "All" || activeTab === "Video & AI Video") && (
           <div className="space-y-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1928,10 +1922,10 @@ function Work({
             >
               <div>
                 <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight">
-                  Video Editing & Motion
+                  Video Editing & AI Video
                 </span>
                 <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-                  Vertical Reels, Commercials & YouTube Edits
+                  Vertical Reels, Commercials & AI Video Creations
                 </h3>
               </div>
               <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.18em]">

@@ -10,10 +10,10 @@ import resumePreview from "../assets/resume-preview.jpg";
 export const Route = createFileRoute("/resume")({
   head: () => ({
     meta: [
-      { title: "Resume — Arbaaz · UI/UX Designer, Graphic Artist & Video Editor" },
-      { name: "description", content: "Download or preview the resume of Arbaaz — Specializing in UI/UX design, promotional banners, posters, and dynamic video editing." },
-      { property: "og:title", content: "Resume — Arbaaz · UI/UX Designer, Graphic Artist & Video Editor" },
-      { property: "og:description", content: "One-page resume of Arbaaz — UI/UX Designer, Graphic Artist & Video Editor." },
+      { title: "Resume — Arbaaz · UI/UX Designer, Graphic Artist & AI Video Creator" },
+      { name: "description", content: "Download or preview the resume of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." },
+      { property: "og:title", content: "Resume — Arbaaz · UI/UX Designer, Graphic Artist & AI Video Creator" },
+      { property: "og:description", content: "One-page resume of Arbaaz — UI/UX Designer, Graphic Artist & AI Video Creator." },
       { property: "og:image", content: resumePreview },
     ],
   }),
@@ -21,8 +21,8 @@ export const Route = createFileRoute("/resume")({
 });
 
 const HIGHLIGHTS = [
-  "4.5+ years across UI/UX, Graphic Design & Video Editing",
-  "Wireframes, high-converting ad creatives & dynamic video motion",
+  "4.5+ years across UI/UX, Graphic Design & AI Video Creation",
+  "Figma prototypes, conversion ad creatives & dynamic video motion",
   "Selected client work, software stack & visual portfolio",
   "Open in browser, download or print directly",
 ];
