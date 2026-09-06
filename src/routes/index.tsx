@@ -7,7 +7,7 @@ import {
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
   ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark,
-  Maximize2, ExternalLink
+  Maximize2, ExternalLink, Youtube
 } from "lucide-react";
 import { Magnetic } from "@/components/reactbits/Magnetic";
 import { Reveal } from "@/components/reactbits/Reveal";
@@ -216,41 +216,60 @@ export type VideoItem = {
   len: string;
   category: "ai" | "corporate";
   tag?: string;
+  aspect?: "horizontal" | "vertical";
 };
 
 const AI_VIDEOS: VideoItem[] = [
-  { id: "qfGP0Z3y-Jk", title: "Why AI Won’t Replace Creators | A Director's Perspective", client: "AI Director", len: "01:13", category: "ai", tag: "AI Film · Perspective" },
-  { id: "T1iAlRKG9XY", title: "Baaz Energy Drink Spec Ad — \"Fuel Your Flow\"", client: "Baaz Energy", len: "00:40", category: "ai", tag: "Spec Commercial · 3D" },
-  { id: "DrzgzKZU05A", title: "Baaz Citrus 3D Product Reel | Visual Showcase", client: "Baaz Energy", len: "00:29", category: "ai", tag: "Product Reel · Visual FX" },
-  { id: "QG5pQqOiwF4", title: "Baaz Mango Energy Drink — 3D Commercial Showcase", client: "Baaz Energy", len: "00:30", category: "ai", tag: "Commercial · 3D Design" },
-  { id: "7piN3PMeKvM", title: "Bisleri Spec Ad — 50°C in the Sahara Desert", client: "Bisleri Spec", len: "01:22", category: "ai", tag: "Cinematic Spec · Story" },
-  { id: "InYll8W0doQ", title: "Kawasaki Ninja H2 Cinematic — Breaking Realities", client: "Kawasaki Spec", len: "00:42", category: "ai", tag: "Automotive · Hyper-Real" },
-  { id: "ednqs-KqGHQ", title: "Every Ride Has A Reason | Kawasaki Ninja H2 Night Run", client: "Kawasaki Spec", len: "00:24", category: "ai", tag: "Automotive · Speed Reel" },
-  { id: "ZgwUmBFYUCg", title: "Sparco 07 Mustang GT — Night Circuit Battle", client: "Sparco Spec", len: "00:49", category: "ai", tag: "Circuit Battle · VFX" },
-  { id: "Qbw0E0ksRH8", title: "Nexora — The Future of Creative Production & Marketing", client: "Nexora", len: "01:33", category: "ai", tag: "Brand Vision · GenAI" },
-  { id: "G5B-9PgWWO4", title: "Nexora Brand Film — \"Building What Moves Business\"", client: "Nexora", len: "00:54", category: "ai", tag: "Brand Film · Production" },
-  { id: "pt1-OdMbbu0", title: "How ChatGPT Actually Thinks | Tokenization & AI Explained (Hindi)", client: "Tech Explainer", len: "01:10", category: "ai", tag: "AI Explainer · Hindi" },
-  { id: "zn0mtYPp5vM", title: "Are Paper Notes Getting Banned in India? The Truth About Polymer Currency", client: "FinTech Explainer", len: "01:09", category: "ai", tag: "Explainer · Motion" },
-  { id: "KpeI_mdP-iU", title: "What Happens Inside an LED TV in 1 Second? (3D Animation)", client: "3D Animation", len: "01:09", category: "ai", tag: "3D Visuals · Tech" },
+  { id: "qfGP0Z3y-Jk", title: "Why AI Won’t Replace Creators | A Director's Perspective", client: "AI Director", len: "01:13", category: "ai", tag: "AI Film · Perspective", aspect: "horizontal" },
+  { id: "T1iAlRKG9XY", title: "Baaz Energy Drink Spec Ad — \"Fuel Your Flow\"", client: "Baaz Energy", len: "00:40", category: "ai", tag: "Spec Commercial · 3D", aspect: "horizontal" },
+  { id: "DrzgzKZU05A", title: "Baaz Citrus 3D Product Reel | Visual Showcase", client: "Baaz Energy", len: "00:29", category: "ai", tag: "Product Reel · Visual FX", aspect: "horizontal" },
+  { id: "QG5pQqOiwF4", title: "Baaz Mango Energy Drink — 3D Commercial Showcase", client: "Baaz Energy", len: "00:30", category: "ai", tag: "Commercial · 3D Design", aspect: "horizontal" },
+  { id: "7piN3PMeKvM", title: "Bisleri Spec Ad — 50°C in the Sahara Desert", client: "Bisleri Spec", len: "01:22", category: "ai", tag: "Cinematic Spec · Story", aspect: "horizontal" },
+  { id: "InYll8W0doQ", title: "Kawasaki Ninja H2 Cinematic — Breaking Realities", client: "Kawasaki Spec", len: "00:42", category: "ai", tag: "Automotive · Hyper-Real", aspect: "horizontal" },
+  { id: "ednqs-KqGHQ", title: "Every Ride Has A Reason | Kawasaki Ninja H2 Night Run", client: "Kawasaki Spec", len: "00:24", category: "ai", tag: "Automotive · Speed Reel", aspect: "horizontal" },
+  { id: "ZgwUmBFYUCg", title: "Sparco 07 Mustang GT — Night Circuit Battle", client: "Sparco Spec", len: "00:49", category: "ai", tag: "Circuit Battle · VFX", aspect: "horizontal" },
+  { id: "Qbw0E0ksRH8", title: "Nexora — The Future of Creative Production & Marketing", client: "Nexora", len: "01:33", category: "ai", tag: "Brand Vision · GenAI", aspect: "horizontal" },
+  { id: "G5B-9PgWWO4", title: "Nexora Brand Film — \"Building What Moves Business\"", client: "Nexora", len: "00:54", category: "ai", tag: "Brand Film · Production", aspect: "horizontal" },
+  { id: "pt1-OdMbbu0", title: "How ChatGPT Actually Thinks | Tokenization & AI Explained (Hindi)", client: "Tech Explainer", len: "01:10", category: "ai", tag: "AI Explainer · Hindi", aspect: "horizontal" },
+  { id: "zn0mtYPp5vM", title: "Are Paper Notes Getting Banned in India? The Truth About Polymer Currency", client: "FinTech Explainer", len: "01:09", category: "ai", tag: "Explainer · Motion", aspect: "horizontal" },
+  { id: "KpeI_mdP-iU", title: "What Happens Inside an LED TV in 1 Second? (3D Animation)", client: "3D Animation", len: "01:09", category: "ai", tag: "3D Visuals · Tech", aspect: "horizontal" },
 ];
 
-const CORPORATE_VIDEOS: VideoItem[] = [
-  { id: "qsdorOJX_KQ", title: "Pathway to France — Neeraj Marwaha", client: "Edu Finn", len: "08:23", category: "corporate", tag: "Corporate · Interview" },
-  { id: "E_2gBwOA_LI", title: "Finland Spouse Visa — Ramanpreet Kaur", client: "Edu Finn", len: "05:15", category: "corporate", tag: "Client Story" },
-  { id: "CMWVLkfhDV8", title: "Finland Spouse Success Stories 2024", client: "Edu Finn", len: "01:40", category: "corporate", tag: "Success Stories" },
-  { id: "F-n6Uk9clg0", title: "Pathway to France", client: "Edu Finn", len: "00:58", category: "corporate", tag: "Promo Short" },
-  { id: "h7jDP07g5Wg", title: "From Studio Sets to Finnish Classrooms", client: "Edu Finn", len: "05:51", category: "corporate", tag: "Documentary" },
-  { id: "eMOspLnw3C8", title: "Student Feedback — Study in Finland", client: "Edu Finn", len: "08:12", category: "corporate", tag: "Testimonial" },
-  { id: "zRSnRssgh4s", title: "Learn, Grow, Lead — Study in Dubai", client: "Edu Finn", len: "00:59", category: "corporate", tag: "Brand Promo" },
-  { id: "ZtpR21zK6FM", title: "Lead Migration Across Branches", client: "Swift AMS", len: "00:44", category: "corporate", tag: "Product Demo" },
-  { id: "UNKwLmpR6vk", title: "Infopedia Documents Storage", client: "Swift AMS", len: "01:01", category: "corporate", tag: "Feature Reveal" },
-  { id: "iglrTBTykjE", title: "Swift AMS — Partner of ICEF 2025", client: "Swift AMS", len: "00:28", category: "corporate", tag: "Event Promo" },
-  { id: "B4_u3bJF1jo", title: "Upgrade to Swift AMS", client: "Swift AMS", len: "00:50", category: "corporate", tag: "Feature Promo" },
-  { id: "y3Y0jligfkg", title: "Integrated Payment System Launch", client: "Swift AMS", len: "00:40", category: "corporate", tag: "Product Launch" },
-  { id: "aCC87nVbR8E", title: "Unveiling Swift AMS", client: "Swift AMS", len: "00:29", category: "corporate", tag: "Brand Teaser" },
-  { id: "raFlTw1bRhM", title: "Razorpay Integration Reveal", client: "Swift AMS", len: "01:12", category: "corporate", tag: "Fintech Integration" },
-  { id: "Q5BDjeACCQ0", title: "Customizable QR Forms", client: "Swift AMS", len: "00:47", category: "corporate", tag: "Product Demo" },
+const CORPORATE_REELS: VideoItem[] = [
+  // Edu Finn Vertical Reels (Official Channel: https://www.youtube.com/@EduFinn)
+  { id: "DfVjmdD8Oo0", title: "PG Diploma to Master’s Degree — Student Success", client: "Edu Finn", len: "00:54", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+  { id: "TZAoX5OAuX8", title: "Study in Dubai — Pathway to France / USA Review", client: "Edu Finn", len: "00:46", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+  { id: "LZLGyPVfCqk", title: "Unfiltered Feedback from a Happy Student in Finland", client: "Edu Finn", len: "00:59", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+  { id: "1PXkS0YIn4g", title: "Finland Spouse Visa Success Story at Edu Finn", client: "Edu Finn", len: "00:38", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+  { id: "Tx5YEJAMjyM", title: "Congratulations to Ramanpreet Kaur for Finland Spouse Visa", client: "Edu Finn", len: "00:43", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+  { id: "QpoX4eBGDx4", title: "Left No Stone Unturned — Finland Spouse Visa Success", client: "Edu Finn", len: "00:48", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+
+  // Swift AMS Vertical Reels (Official Channel: https://www.youtube.com/@SwiftAMS)
+  { id: "_-IVA13JMLA", title: "Master Your Notifications: Tailored Alerts Your Way", client: "Swift AMS", len: "00:41", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  { id: "QI_LnzCfEKA", title: "Collaborate Seamlessly: Multiple Sub-Agent Logins Now Live", client: "Swift AMS", len: "00:35", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  { id: "phqR0kyMaSE", title: "Customise Your Notifications with SwiftAMS CRM", client: "Swift AMS", len: "00:33", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  { id: "4K-9YQNYxqk", title: "Track Every Login Session Securely in Real-Time", client: "Swift AMS", len: "00:38", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  { id: "2fcoBEoggls", title: "Lead Migrations Across Branches with SwiftAMS", client: "Swift AMS", len: "00:30", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  { id: "4C_FVNRcFFo", title: "Team Announcements: Direct, Timely & Effective", client: "Swift AMS", len: "00:32", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
 ];
+
+const CORPORATE_FILMS: VideoItem[] = [
+  { id: "qsdorOJX_KQ", title: "Pathway to France — Neeraj Marwaha", client: "Edu Finn", len: "08:23", category: "corporate", tag: "Corporate · Interview", aspect: "horizontal" },
+  { id: "E_2gBwOA_LI", title: "Finland Spouse Visa — Ramanpreet Kaur", client: "Edu Finn", len: "05:15", category: "corporate", tag: "Client Story", aspect: "horizontal" },
+  { id: "CMWVLkfhDV8", title: "Finland Spouse Success Stories 2024", client: "Edu Finn", len: "01:40", category: "corporate", tag: "Success Stories", aspect: "horizontal" },
+  { id: "h7jDP07g5Wg", title: "From Studio Sets to Finnish Classrooms", client: "Edu Finn", len: "05:51", category: "corporate", tag: "Documentary", aspect: "horizontal" },
+  { id: "eMOspLnw3C8", title: "Student Feedback — Study in Finland", client: "Edu Finn", len: "08:12", category: "corporate", tag: "Testimonial", aspect: "horizontal" },
+  { id: "ZtpR21zK6FM", title: "Lead Migration Across Branches", client: "Swift AMS", len: "00:44", category: "corporate", tag: "Product Demo", aspect: "horizontal" },
+  { id: "UNKwLmpR6vk", title: "Infopedia Documents Storage", client: "Swift AMS", len: "01:01", category: "corporate", tag: "Feature Reveal", aspect: "horizontal" },
+  { id: "iglrTBTykjE", title: "Swift AMS — Partner of ICEF 2025", client: "Swift AMS", len: "00:28", category: "corporate", tag: "Event Promo", aspect: "horizontal" },
+  { id: "B4_u3bJF1jo", title: "Upgrade to Swift AMS", client: "Swift AMS", len: "00:50", category: "corporate", tag: "Feature Promo", aspect: "horizontal" },
+  { id: "y3Y0jligfkg", title: "Integrated Payment System Launch", client: "Swift AMS", len: "00:40", category: "corporate", tag: "Product Launch", aspect: "horizontal" },
+  { id: "aCC87nVbR8E", title: "Unveiling Swift AMS", client: "Swift AMS", len: "00:29", category: "corporate", tag: "Brand Teaser", aspect: "horizontal" },
+  { id: "raFlTw1bRhM", title: "Razorpay Integration Reveal", client: "Swift AMS", len: "01:12", category: "corporate", tag: "Fintech Integration", aspect: "horizontal" },
+  { id: "Q5BDjeACCQ0", title: "Customizable QR Forms", client: "Swift AMS", len: "00:47", category: "corporate", tag: "Product Demo", aspect: "horizontal" },
+];
+
+const CORPORATE_VIDEOS: VideoItem[] = [...CORPORATE_REELS, ...CORPORATE_FILMS];
 
 const VIDEOS: VideoItem[] = [...AI_VIDEOS, ...CORPORATE_VIDEOS];
 
@@ -2078,8 +2097,31 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
 
 /* ---------- Corporate & Client Reels ---------- */
 
+/* ---------- Corporate & Client Reels & Shorts ---------- */
+
 function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
+  const [activeFilter, setActiveFilter] = useState<"all" | "reels" | "films" | "edufinn" | "swiftams">("all");
   const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
+
+  const displayedReels =
+    activeFilter === "swiftams"
+      ? CORPORATE_REELS.filter((r) => r.client === "Swift AMS")
+      : activeFilter === "edufinn"
+      ? CORPORATE_REELS.filter((r) => r.client === "Edu Finn")
+      : activeFilter === "films"
+      ? []
+      : CORPORATE_REELS;
+
+  const displayedFilms =
+    activeFilter === "swiftams"
+      ? CORPORATE_FILMS.filter((f) => f.client === "Swift AMS")
+      : activeFilter === "edufinn"
+      ? CORPORATE_FILMS.filter((f) => f.client === "Edu Finn")
+      : activeFilter === "reels"
+      ? []
+      : CORPORATE_FILMS;
+
+  const totalCount = displayedReels.length + displayedFilms.length;
 
   return (
     <section id="videos" className="py-28 md:py-40">
@@ -2098,161 +2140,407 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           Corporate <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Reels</span>
         </h3>
         <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
-          Corporate Storytelling · Founder Interviews · Product Walkthroughs
+          Vertical Reels (9:16) · Founder Stories · SaaS Feature Walkthroughs
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-          High-conversion video storytelling, student testimonial documentaries, and SaaS feature reveals produced for Edu Finn and Swift AMS.
+          High-conversion vertical social reels, student testimonial documentaries, and SaaS platform reveals produced for Edu Finn and Swift AMS.
         </p>
+
+        {/* Official Channel Links */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="https://www.youtube.com/@EduFinn"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card-white inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 text-xs font-medium text-foreground transition-all hover:bg-foreground/5 hover:border-foreground/40"
+          >
+            <Youtube size={15} className="text-red-600" />
+            <span>@EduFinn on YouTube</span>
+            <ExternalLink size={12} className="text-muted-foreground" />
+          </a>
+          <a
+            href="https://www.youtube.com/@SwiftAMS"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card-white inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 text-xs font-medium text-foreground transition-all hover:bg-foreground/5 hover:border-foreground/40"
+          >
+            <Youtube size={15} className="text-red-600" />
+            <span>@SwiftAMS on YouTube</span>
+            <ExternalLink size={12} className="text-muted-foreground" />
+          </a>
+        </div>
+
+        {/* Filter Navigation Tabs */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveFilter("all");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              activeFilter === "all"
+                ? "bg-foreground text-background shadow-md"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <span>All Work ({CORPORATE_VIDEOS.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveFilter("reels");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              activeFilter === "reels"
+                ? "bg-foreground text-background shadow-md"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <Smartphone size={13} />
+            <span>Vertical Reels · 9:16 ({CORPORATE_REELS.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveFilter("films");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              activeFilter === "films"
+                ? "bg-foreground text-background shadow-md"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <Film size={13} />
+            <span>Landscape Films · 16:9 ({CORPORATE_FILMS.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveFilter("edufinn");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              activeFilter === "edufinn"
+                ? "bg-foreground text-background shadow-md"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <span>Edu Finn</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveFilter("swiftams");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+              activeFilter === "swiftams"
+                ? "bg-foreground text-background shadow-md"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <span>Swift AMS</span>
+          </button>
+        </div>
       </motion.div>
 
-      <div className="mb-10 flex items-center justify-center gap-4">
-        <span className="h-px w-10 bg-border" />
-        <p className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-          Client <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Reels</span>
-        </p>
-        <span className="h-px w-10 bg-border" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-          {String(CORPORATE_VIDEOS.length).padStart(2, "0")} videos
-        </span>
-      </div>
-
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {CORPORATE_VIDEOS.map((v, i) => {
-          const isPlayingInline = inlinePlayingId === v.id;
-
-          return (
-            <motion.div
-              key={v.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all duration-300 hover:border-border hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]"
-            >
-              {/* Media container */}
-              <div className="relative aspect-video w-full overflow-hidden bg-black">
-                {isPlayingInline ? (
-                  <div className="relative h-full w-full">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0`}
-                      title={v.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="absolute inset-0 h-full w-full border-0"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setInlinePlayingId(null)}
-                      className="absolute top-3 right-3 z-20 inline-flex items-center gap-1 rounded-full bg-black/80 px-2.5 py-1 text-[10px] font-mono text-white backdrop-blur hover:bg-black"
-                      title="Stop inline playback"
-                    >
-                      <X size={12} />
-                      <span>Stop</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => setInlinePlayingId(v.id)}
-                    className="group/thumb relative h-full w-full cursor-pointer"
-                  >
-                    <img
-                      src={videoThumbnail(v.id)}
-                      alt={v.title}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover grayscale-[15%] transition-all duration-700 group-hover/thumb:scale-105 group-hover/thumb:grayscale-0"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-
-                    {/* Centered Play Pill */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="relative inline-flex h-13 w-13 items-center justify-center rounded-full bg-white/95 text-black shadow-lg transition-transform duration-300 group-hover/thumb:scale-110">
-                        <Play size={20} className="translate-x-0.5 fill-black" />
-                        <span className="pulse-ring absolute inset-0 rounded-full" />
-                      </span>
-                    </div>
-
-                    {/* Overlay Badges */}
-                    <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3.5 text-white">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur">
-                        <span>{v.client}</span>
-                      </span>
-                      <span className="rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] tabular-nums backdrop-blur">
-                        {v.len}
-                      </span>
-                    </div>
-                  </div>
-                )}
+      {/* Part 1: Vertical Reels & Shorts (9:16) */}
+      {displayedReels.length > 0 && (
+        <div className="mb-16">
+          <div className="mb-8 flex items-center justify-between border-b border-border/50 pb-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-foreground/5 text-foreground">
+                <Smartphone size={14} />
+              </span>
+              <div>
+                <h4 className="font-display text-lg font-bold text-foreground sm:text-xl">
+                  Vertical Reels & Shorts
+                </h4>
+                <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                  Format 9:16 · Mobile Social Content
+                </p>
               </div>
+            </div>
+            <span className="rounded-full border border-border bg-card px-2.5 py-1 font-mono text-[10px] text-muted-foreground">
+              {displayedReels.length} Reels
+            </span>
+          </div>
 
-              {/* Card Meta & Action Bar */}
-              <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
-                <div>
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="rounded-md border border-border bg-foreground/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-                      Client Reel
-                    </span>
-                    {v.tag && (
-                      <span className="truncate font-mono text-[10px] text-muted-foreground">
-                        {v.tag}
-                      </span>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            {displayedReels.map((v, i) => {
+              const isPlayingInline = inlinePlayingId === v.id;
+
+              return (
+                <motion.div
+                  key={v.id}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.4, delay: (i % 6) * 0.04 }}
+                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all duration-300 hover:border-border hover:shadow-xl"
+                >
+                  {/* Vertical 9:16 Media Viewport */}
+                  <div className="relative aspect-[9/16] w-full overflow-hidden bg-black">
+                    {isPlayingInline ? (
+                      <div className="relative h-full w-full">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0`}
+                          title={v.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 h-full w-full border-0"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setInlinePlayingId(null)}
+                          className="absolute top-2.5 right-2.5 z-20 inline-flex items-center gap-1 rounded-full bg-black/80 px-2 py-0.5 text-[9px] font-mono text-white backdrop-blur hover:bg-black"
+                          title="Stop inline playback"
+                        >
+                          <X size={11} />
+                          <span>Stop</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => setInlinePlayingId(v.id)}
+                        className="group/thumb relative h-full w-full cursor-pointer"
+                      >
+                        <img
+                          src={videoThumbnail(v.id)}
+                          alt={v.title}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover grayscale-[10%] transition-transform duration-500 group-hover/thumb:scale-105 group-hover/thumb:grayscale-0"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/40" />
+
+                        {/* Centered Play Button */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-black shadow-lg transition-transform duration-300 group-hover/thumb:scale-110">
+                            <Play size={16} className="translate-x-0.5 fill-black" />
+                          </span>
+                        </div>
+
+                        {/* Top Badges */}
+                        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2.5 text-white">
+                          <span className="rounded bg-black/70 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider backdrop-blur">
+                            {v.client}
+                          </span>
+                          <span className="rounded bg-black/70 px-1.5 py-0.5 font-mono text-[9px] tabular-nums backdrop-blur">
+                            {v.len}
+                          </span>
+                        </div>
+
+                        {/* Bottom Info inside the Reel viewport */}
+                        <div className="absolute inset-x-0 bottom-0 p-3 text-white">
+                          <span className="mb-1 inline-block rounded bg-foreground/20 px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-wider text-zinc-300 backdrop-blur">
+                            Short / Reel
+                          </span>
+                          <p className="font-display text-xs font-semibold leading-snug line-clamp-2 drop-shadow">
+                            {v.title}
+                          </p>
+                        </div>
+                      </div>
                     )}
                   </div>
-                  <h4 className="font-display text-[15px] font-semibold leading-snug text-foreground line-clamp-2">
-                    {v.title}
-                  </h4>
-                </div>
 
-                {/* Card Action Controls */}
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/50 pt-3 text-xs">
-                  <div className="flex items-center gap-1.5">
-                    {isPlayingInline ? (
-                      <button
-                        type="button"
-                        onClick={() => setInlinePlayingId(null)}
-                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
-                      >
-                        <X size={12} />
-                        <span>Stop</span>
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setInlinePlayingId(v.id)}
-                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
-                        title="Play directly on page"
-                      >
-                        <Play size={11} className="fill-current" />
-                        <span>Play</span>
-                      </button>
-                    )}
-
+                  {/* Reel Action Buttons */}
+                  <div className="flex items-center justify-between gap-1 border-t border-border/50 p-2.5 text-xs bg-surface/50">
                     <button
                       type="button"
                       onClick={() => onOpen(v)}
-                      className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
-                      title="Open full cinema view"
+                      className="inline-flex items-center gap-1 rounded-md border border-border bg-card px-2 py-1 text-[10px] font-medium text-foreground hover:bg-foreground/5"
+                      title="Open full theater view"
                     >
-                      <Maximize2 size={11} />
-                      <span>Full View</span>
+                      <Maximize2 size={10} />
+                      <span>Full</span>
                     </button>
+
+                    <a
+                      href={`https://www.youtube.com/shorts/${v.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
+                      title="Watch Short on YouTube"
+                    >
+                      <span>Short</span>
+                      <ExternalLink size={10} />
+                    </a>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Part 2: Horizontal Films & Demos (16:9) */}
+      {displayedFilms.length > 0 && (
+        <div>
+          <div className="mb-8 flex items-center justify-between border-b border-border/50 pb-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-foreground/5 text-foreground">
+                <Film size={14} />
+              </span>
+              <div>
+                <h4 className="font-display text-lg font-bold text-foreground sm:text-xl">
+                  Documentaries & Product Spotlights
+                </h4>
+                <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                  Format 16:9 · Client Stories & SaaS Reveals
+                </p>
+              </div>
+            </div>
+            <span className="rounded-full border border-border bg-card px-2.5 py-1 font-mono text-[10px] text-muted-foreground">
+              {displayedFilms.length} Films
+            </span>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {displayedFilms.map((v, i) => {
+              const isPlayingInline = inlinePlayingId === v.id;
+
+              return (
+                <motion.div
+                  key={v.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all duration-300 hover:border-border hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]"
+                >
+                  {/* 16:9 Media container */}
+                  <div className="relative aspect-video w-full overflow-hidden bg-black">
+                    {isPlayingInline ? (
+                      <div className="relative h-full w-full">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0`}
+                          title={v.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="absolute inset-0 h-full w-full border-0"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setInlinePlayingId(null)}
+                          className="absolute top-3 right-3 z-20 inline-flex items-center gap-1 rounded-full bg-black/80 px-2.5 py-1 text-[10px] font-mono text-white backdrop-blur hover:bg-black"
+                          title="Stop inline playback"
+                        >
+                          <X size={12} />
+                          <span>Stop</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => setInlinePlayingId(v.id)}
+                        className="group/thumb relative h-full w-full cursor-pointer"
+                      >
+                        <img
+                          src={videoThumbnail(v.id)}
+                          alt={v.title}
+                          loading="lazy"
+                          className="absolute inset-0 h-full w-full object-cover grayscale-[15%] transition-all duration-700 group-hover/thumb:scale-105 group-hover/thumb:grayscale-0"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+                        {/* Centered Play Pill */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="relative inline-flex h-13 w-13 items-center justify-center rounded-full bg-white/95 text-black shadow-lg transition-transform duration-300 group-hover/thumb:scale-110">
+                            <Play size={20} className="translate-x-0.5 fill-black" />
+                            <span className="pulse-ring absolute inset-0 rounded-full" />
+                          </span>
+                        </div>
+
+                        {/* Overlay Badges */}
+                        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3.5 text-white">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur">
+                            <span>{v.client}</span>
+                          </span>
+                          <span className="rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] tabular-nums backdrop-blur">
+                            {v.len}
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  <a
-                    href={`https://www.youtube.com/watch?v=${v.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
-                    title="Download / Watch HD on YouTube"
-                  >
-                    <Download size={11} />
-                    <span>Download / HD</span>
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
+                  {/* Card Meta & Action Bar */}
+                  <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
+                    <div>
+                      <div className="mb-2 flex items-center gap-2">
+                        <span className="rounded-md border border-border bg-foreground/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                          Client Film
+                        </span>
+                        {v.tag && (
+                          <span className="truncate font-mono text-[10px] text-muted-foreground">
+                            {v.tag}
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="font-display text-[15px] font-semibold leading-snug text-foreground line-clamp-2">
+                        {v.title}
+                      </h4>
+                    </div>
+
+                    {/* Card Action Controls */}
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/50 pt-3 text-xs">
+                      <div className="flex items-center gap-1.5">
+                        {isPlayingInline ? (
+                          <button
+                            type="button"
+                            onClick={() => setInlinePlayingId(null)}
+                            className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
+                          >
+                            <X size={12} />
+                            <span>Stop</span>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setInlinePlayingId(v.id)}
+                            className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
+                            title="Play directly on page"
+                          >
+                            <Play size={11} className="fill-current" />
+                            <span>Play</span>
+                          </button>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => onOpen(v)}
+                          className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
+                          title="Open full cinema view"
+                        >
+                          <Maximize2 size={11} />
+                          <span>Full View</span>
+                        </button>
+                      </div>
+
+                      <a
+                        href={`https://www.youtube.com/watch?v=${v.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground transition hover:text-foreground"
+                        title="Download / Watch HD on YouTube"
+                      >
+                        <Download size={11} />
+                        <span>Download / HD</span>
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -2360,7 +2648,7 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
               )}
             </div>
           ) : (
-            <div className="relative aspect-video w-[min(80vw,1000px)]">
+            <div className={state.item.aspect === "vertical" ? "relative aspect-[9/16] h-[min(82vh,680px)] w-auto max-w-[90vw] overflow-hidden bg-black" : "relative aspect-video w-[min(80vw,1000px)] bg-black"}>
               <iframe
                 src={`https://www.youtube.com/embed/${state.item.id}?autoplay=1&rel=0`}
                 title={state.item.title}
@@ -2382,6 +2670,11 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
                 {state.kind === "video" && state.item.category === "ai" && (
                   <span className="rounded-md border border-border bg-foreground/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-highlight">
                     AI Film
+                  </span>
+                )}
+                {state.kind === "video" && state.item.aspect === "vertical" && (
+                  <span className="rounded-md border border-border bg-foreground/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-highlight">
+                    Reel (9:16)
                   </span>
                 )}
                 {state.kind === "video" && (
@@ -2426,16 +2719,16 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
             ) : (
               <div className="flex flex-wrap items-center gap-2">
                 <a
-                  href={`https://www.youtube.com/watch?v=${state.item.id}`}
+                  href={state.item.aspect === "vertical" ? `https://www.youtube.com/shorts/${state.item.id}` : `https://www.youtube.com/watch?v=${state.item.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-md transition-all hover:bg-foreground/85"
                 >
-                  <Download size={13} /> Download / Watch HD ↗
+                  <Download size={13} /> {state.item.aspect === "vertical" ? "Watch Reel on YouTube ↗" : "Download / Watch HD ↗"}
                 </a>
                 <button
                   type="button"
-                  onClick={() => navigator.clipboard?.writeText(`https://www.youtube.com/watch?v=${state.item.id}`)}
+                  onClick={() => navigator.clipboard?.writeText(state.item.aspect === "vertical" ? `https://www.youtube.com/shorts/${state.item.id}` : `https://www.youtube.com/watch?v=${state.item.id}`)}
                   className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
                 >
                   <Share2 size={12} /> Share Link
