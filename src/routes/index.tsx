@@ -6,11 +6,14 @@ import {
   Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
   Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
   Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
-  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark
+  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark,
+  Maximize2, ExternalLink
 } from "lucide-react";
 import { Magnetic } from "@/components/reactbits/Magnetic";
 import { Reveal } from "@/components/reactbits/Reveal";
 import { CountUp } from "@/components/reactbits/CountUp";
+import { AiSplashModal } from "@/components/AiSplashModal";
+import { AiPromoBanner } from "@/components/AiPromoBanner";
 
 
 
@@ -32,6 +35,7 @@ const NAV = [
   { id: "experience", label: "Experience" },
   { id: "work", label: "Work" },
   { id: "gallery", label: "Gallery" },
+  { id: "videos", label: "Videos" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -149,7 +153,7 @@ const portfolioAsset = (file: string): string => {
 
 const videoThumbnail = (id: string): string => {
   const entry = Object.entries(videoThumbnails).find(([k]) => k.endsWith(`/${id}.jpg`));
-  if (!entry) { if (typeof window !== 'undefined') console.warn('[video thumbnail] miss', id, Object.keys(videoThumbnails).length); return ""; }
+  if (!entry) return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   return entry[1];
 };
 
@@ -204,27 +208,54 @@ const GALLERY: GalleryItem[] = [
   { id: "m8", label: "Mobile · Screen 08",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png") },
 ];
 
-const VIDEOS = [
-  { id: "qsdorOJX_KQ", title: "Pathway to France — Neeraj Marwaha", client: "Edu Finn", len: "08:23" },
-  { id: "E_2gBwOA_LI", title: "Finland Spouse Visa — Ramanpreet Kaur", client: "Edu Finn", len: "05:15" },
-  { id: "CMWVLkfhDV8", title: "Finland Spouse Success Stories 2024", client: "Edu Finn", len: "01:40" },
-  { id: "F-n6Uk9clg0", title: "Pathway to France", client: "Edu Finn", len: "00:58" },
-  { id: "h7jDP07g5Wg", title: "From Studio Sets to Finnish Classrooms", client: "Edu Finn", len: "05:51" },
-  { id: "eMOspLnw3C8", title: "Student Feedback — Study in Finland", client: "Edu Finn", len: "08:12" },
-  { id: "zRSnRssgh4s", title: "Learn, Grow, Lead — Study in Dubai", client: "Edu Finn", len: "00:59" },
-  { id: "ZtpR21zK6FM", title: "Lead Migration Across Branches", client: "Swift AMS", len: "00:44" },
-  { id: "UNKwLmpR6vk", title: "Infopedia Documents Storage", client: "Swift AMS", len: "01:01" },
-  { id: "iglrTBTykjE", title: "Swift AMS — Partner of ICEF 2025", client: "Swift AMS", len: "00:28" },
-  { id: "B4_u3bJF1jo", title: "Upgrade to Swift AMS", client: "Swift AMS", len: "00:50" },
-  { id: "y3Y0jligfkg", title: "Integrated Payment System Launch", client: "Swift AMS", len: "00:40" },
-  { id: "aCC87nVbR8E", title: "Unveiling Swift AMS", client: "Swift AMS", len: "00:29" },
-  { id: "raFlTw1bRhM", title: "Razorpay Integration Reveal", client: "Swift AMS", len: "01:12" },
-  { id: "Q5BDjeACCQ0", title: "Customizable QR Forms", client: "Swift AMS", len: "00:47" },
+export type VideoItem = {
+  id: string;
+  title: string;
+  client: string;
+  len: string;
+  category: "ai" | "corporate";
+  tag?: string;
+};
+
+const AI_VIDEOS: VideoItem[] = [
+  { id: "qfGP0Z3y-Jk", title: "Why AI Won’t Replace Creators | A Director's Perspective", client: "AI Director", len: "01:13", category: "ai", tag: "AI Film · Perspective" },
+  { id: "T1iAlRKG9XY", title: "Baaz Energy Drink Spec Ad — \"Fuel Your Flow\"", client: "Baaz Energy", len: "00:40", category: "ai", tag: "Spec Commercial · 3D" },
+  { id: "DrzgzKZU05A", title: "Baaz Citrus 3D Product Reel | Visual Showcase", client: "Baaz Energy", len: "00:29", category: "ai", tag: "Product Reel · Visual FX" },
+  { id: "QG5pQqOiwF4", title: "Baaz Mango Energy Drink — 3D Commercial Showcase", client: "Baaz Energy", len: "00:30", category: "ai", tag: "Commercial · 3D Design" },
+  { id: "7piN3PMeKvM", title: "Bisleri Spec Ad — 50°C in the Sahara Desert", client: "Bisleri Spec", len: "01:22", category: "ai", tag: "Cinematic Spec · Story" },
+  { id: "InYll8W0doQ", title: "Kawasaki Ninja H2 Cinematic — Breaking Realities", client: "Kawasaki Spec", len: "00:42", category: "ai", tag: "Automotive · Hyper-Real" },
+  { id: "ednqs-KqGHQ", title: "Every Ride Has A Reason | Kawasaki Ninja H2 Night Run", client: "Kawasaki Spec", len: "00:24", category: "ai", tag: "Automotive · Speed Reel" },
+  { id: "ZgwUmBFYUCg", title: "Sparco 07 Mustang GT — Night Circuit Battle", client: "Sparco Spec", len: "00:49", category: "ai", tag: "Circuit Battle · VFX" },
+  { id: "Qbw0E0ksRH8", title: "Nexora — The Future of Creative Production & Marketing", client: "Nexora", len: "01:33", category: "ai", tag: "Brand Vision · GenAI" },
+  { id: "G5B-9PgWWO4", title: "Nexora Brand Film — \"Building What Moves Business\"", client: "Nexora", len: "00:54", category: "ai", tag: "Brand Film · Production" },
+  { id: "pt1-OdMbbu0", title: "How ChatGPT Actually Thinks | Tokenization & AI Explained (Hindi)", client: "Tech Explainer", len: "01:10", category: "ai", tag: "AI Explainer · Hindi" },
+  { id: "zn0mtYPp5vM", title: "Are Paper Notes Getting Banned in India? The Truth About Polymer Currency", client: "FinTech Explainer", len: "01:09", category: "ai", tag: "Explainer · Motion" },
+  { id: "KpeI_mdP-iU", title: "What Happens Inside an LED TV in 1 Second? (3D Animation)", client: "3D Animation", len: "01:09", category: "ai", tag: "3D Visuals · Tech" },
 ];
+
+const CORPORATE_VIDEOS: VideoItem[] = [
+  { id: "qsdorOJX_KQ", title: "Pathway to France — Neeraj Marwaha", client: "Edu Finn", len: "08:23", category: "corporate", tag: "Corporate · Interview" },
+  { id: "E_2gBwOA_LI", title: "Finland Spouse Visa — Ramanpreet Kaur", client: "Edu Finn", len: "05:15", category: "corporate", tag: "Client Story" },
+  { id: "CMWVLkfhDV8", title: "Finland Spouse Success Stories 2024", client: "Edu Finn", len: "01:40", category: "corporate", tag: "Success Stories" },
+  { id: "F-n6Uk9clg0", title: "Pathway to France", client: "Edu Finn", len: "00:58", category: "corporate", tag: "Promo Short" },
+  { id: "h7jDP07g5Wg", title: "From Studio Sets to Finnish Classrooms", client: "Edu Finn", len: "05:51", category: "corporate", tag: "Documentary" },
+  { id: "eMOspLnw3C8", title: "Student Feedback — Study in Finland", client: "Edu Finn", len: "08:12", category: "corporate", tag: "Testimonial" },
+  { id: "zRSnRssgh4s", title: "Learn, Grow, Lead — Study in Dubai", client: "Edu Finn", len: "00:59", category: "corporate", tag: "Brand Promo" },
+  { id: "ZtpR21zK6FM", title: "Lead Migration Across Branches", client: "Swift AMS", len: "00:44", category: "corporate", tag: "Product Demo" },
+  { id: "UNKwLmpR6vk", title: "Infopedia Documents Storage", client: "Swift AMS", len: "01:01", category: "corporate", tag: "Feature Reveal" },
+  { id: "iglrTBTykjE", title: "Swift AMS — Partner of ICEF 2025", client: "Swift AMS", len: "00:28", category: "corporate", tag: "Event Promo" },
+  { id: "B4_u3bJF1jo", title: "Upgrade to Swift AMS", client: "Swift AMS", len: "00:50", category: "corporate", tag: "Feature Promo" },
+  { id: "y3Y0jligfkg", title: "Integrated Payment System Launch", client: "Swift AMS", len: "00:40", category: "corporate", tag: "Product Launch" },
+  { id: "aCC87nVbR8E", title: "Unveiling Swift AMS", client: "Swift AMS", len: "00:29", category: "corporate", tag: "Brand Teaser" },
+  { id: "raFlTw1bRhM", title: "Razorpay Integration Reveal", client: "Swift AMS", len: "01:12", category: "corporate", tag: "Fintech Integration" },
+  { id: "Q5BDjeACCQ0", title: "Customizable QR Forms", client: "Swift AMS", len: "00:47", category: "corporate", tag: "Product Demo" },
+];
+
+const VIDEOS: VideoItem[] = [...AI_VIDEOS, ...CORPORATE_VIDEOS];
 
 type LightboxState =
   | { kind: "image"; item: GalleryItem; list?: GalleryItem[]; index?: number }
-  | { kind: "video"; item: (typeof VIDEOS)[number] }
+  | { kind: "video"; item: VideoItem; list?: VideoItem[]; index?: number }
   | null;
 
 function Portfolio() {
@@ -272,6 +303,15 @@ function Portfolio() {
         <Experience />
         <Work />
         <Gallery onOpen={(item, list, index) => setLightbox({ kind: "image", item, list, index })} />
+        <AiPromoBanner
+          onExplore={() => {
+            const el = document.getElementById("videos");
+            el?.scrollIntoView({ behavior: "smooth" });
+          }}
+          onPlayFeatured={() => {
+            setLightbox({ kind: "video", item: AI_VIDEOS[0] });
+          }}
+        />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
         <BigTextBanner text="Available for work — 2026" />
         <Contact />
@@ -279,6 +319,12 @@ function Portfolio() {
         <Footer />
       </main>
       <QuickChatFab />
+      <AiSplashModal
+        onWatchAiVideos={() => {
+          const el = document.getElementById("videos");
+          el?.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
 
       <AnimatePresence>
         {lightbox && (
@@ -1852,7 +1898,19 @@ function Gallery({ onOpen }: { onOpen: (item: GalleryItem, list?: GalleryItem[],
 
 /* ---------- Videos (clickable → modal player) ---------- */
 
-function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
+/* ---------- Videos (clickable → inline player OR modal player) ---------- */
+
+function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
+  const [activeTab, setActiveTab] = useState<"ai" | "corporate" | "all">("ai");
+  const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
+
+  const displayedVideos =
+    activeTab === "ai"
+      ? AI_VIDEOS
+      : activeTab === "corporate"
+      ? CORPORATE_VIDEOS
+      : VIDEOS;
+
   return (
     <section id="videos" className="py-28 md:py-40">
       <motion.div
@@ -1862,67 +1920,228 @@ function Videos({ onOpen }: { onOpen: (v: (typeof VIDEOS)[number]) => void }) {
         transition={{ duration: 0.6 }}
         className="mx-auto mb-12 max-w-3xl text-center"
       >
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3.5 py-1 text-[11px] font-mono uppercase tracking-[0.25em] text-cyan-400">
+          <Sparkles size={12} />
+          <span>Generative AI & Motion Direction</span>
+        </div>
         <h3 className="font-display font-bold leading-[0.95] tracking-tight text-highlight text-[clamp(2.5rem,8vw,5.5rem)]">
-          Video Editing
+          Video Production
         </h3>
         <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.3em] text-highlight">
-          Corporate Motion Graphics & Production
+          AI Films · Spec Commercials · Client Storytelling
         </p>
         <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-          Transforming static messaging into dynamic visual narratives. I provide end-to-end post-production services, specialising in corporate storytelling, client testimonials, and product demonstrations. My collaborations with Edu Finn and Swift AMS highlight my proficiency in narrative pacing, sound design, and technical editing.
+          Bridging cinematic visual storytelling and generative AI workflows. Featuring 13 brand-new AI speculative commercials, 3D product reels, and automotive cinematics alongside proven corporate client productions for Edu Finn and Swift AMS.
         </p>
+
+        {/* Tab Filters */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("ai");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold transition-all ${
+              activeTab === "ai"
+                ? "bg-cyan-400 text-black shadow-lg shadow-cyan-500/25"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <Sparkles size={13} />
+            <span>AI Video Lab ({AI_VIDEOS.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("corporate");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold transition-all ${
+              activeTab === "corporate"
+                ? "bg-foreground text-background shadow-lg"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <Film size={13} />
+            <span>Corporate & Client ({CORPORATE_VIDEOS.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("all");
+              setInlinePlayingId(null);
+            }}
+            className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold transition-all ${
+              activeTab === "all"
+                ? "bg-foreground text-background shadow-lg"
+                : "border border-border/70 bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+            }`}
+          >
+            <span>All Reels ({VIDEOS.length})</span>
+          </button>
+        </div>
       </motion.div>
 
       <div className="mb-10 flex items-center justify-center gap-4">
         <span className="h-px w-10 bg-border" />
         <p className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-          Video
+          {activeTab === "ai" ? "AI" : activeTab === "corporate" ? "Client" : "Featured"}
           <span className="ml-2 text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>
-            Editing
+            {activeTab === "ai" ? "Showcase" : "Reels"}
           </span>
         </p>
         <span className="h-px w-10 bg-border" />
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{String(VIDEOS.length).padStart(2, "0")} reels</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          {String(displayedVideos.length).padStart(2, "0")} videos
+        </span>
       </div>
 
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {displayedVideos.map((v, i) => {
+          const isPlayingInline = inlinePlayingId === v.id;
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {VIDEOS.map((v, i) => (
-          <motion.button
-            key={v.id}
-            onClick={() => onOpen(v)}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, delay: (i % 6) * 0.06 }}
-            className="group block cursor-pointer text-left"
-          >
-            <Tilt strength={10}>
-              <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/60 bg-surface transition-shadow duration-500 group-hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]">
-                <img
-                  src={videoThumbnail(v.id)}
-                  alt={v.title}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover grayscale-[20%] transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="relative inline-flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-black transition-transform group-hover:scale-110">
-                    <span className="translate-x-px">▶</span>
-                    <span className="pulse-ring absolute inset-0 rounded-full" />
-                  </span>
+          return (
+            <motion.div
+              key={v.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: (i % 6) * 0.05 }}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card transition-all duration-300 hover:border-border hover:shadow-[0_20px_60px_-24px_rgba(0,0,0,0.35)]"
+            >
+              {/* Media container */}
+              <div className="relative aspect-video w-full overflow-hidden bg-black">
+                {isPlayingInline ? (
+                  <div className="relative h-full w-full">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="absolute inset-0 h-full w-full border-0"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setInlinePlayingId(null)}
+                      className="absolute top-3 right-3 z-20 inline-flex items-center gap-1 rounded-full bg-black/80 px-2.5 py-1 text-[10px] font-mono text-white backdrop-blur hover:bg-black"
+                      title="Stop inline playback"
+                    >
+                      <X size={12} />
+                      <span>Stop</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => setInlinePlayingId(v.id)}
+                    className="group/thumb relative h-full w-full cursor-pointer"
+                  >
+                    <img
+                      src={videoThumbnail(v.id)}
+                      alt={v.title}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover grayscale-[15%] transition-all duration-700 group-hover/thumb:scale-105 group-hover/thumb:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+
+                    {/* Centered Play Pill */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="relative inline-flex h-13 w-13 items-center justify-center rounded-full bg-white/95 text-black shadow-lg transition-transform duration-300 group-hover/thumb:scale-110">
+                        <Play size={20} className="translate-x-0.5 fill-black" />
+                        <span className="pulse-ring absolute inset-0 rounded-full" />
+                      </span>
+                    </div>
+
+                    {/* Overlay Badges */}
+                    <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3.5 text-white">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur">
+                        {v.category === "ai" && <Sparkles size={10} className="text-cyan-300" />}
+                        <span>{v.client}</span>
+                      </span>
+                      <span className="rounded-full bg-black/60 px-2.5 py-1 font-mono text-[10px] tabular-nums backdrop-blur">
+                        {v.len}
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Card Meta & Action Bar */}
+              <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
+                <div>
+                  <div className="mb-2 flex items-center gap-2">
+                    {v.category === "ai" ? (
+                      <span className="rounded-md bg-cyan-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-cyan-400 border border-cyan-500/20">
+                        AI Film
+                      </span>
+                    ) : (
+                      <span className="rounded-md bg-foreground/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground border border-border">
+                        Client Reel
+                      </span>
+                    )}
+                    {v.tag && (
+                      <span className="font-mono text-[10px] text-muted-foreground truncate">
+                        {v.tag}
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="font-display text-[15px] font-semibold leading-snug text-foreground line-clamp-2">
+                    {v.title}
+                  </h4>
                 </div>
-                <div className="absolute inset-x-0 top-0 flex items-start justify-between p-4 text-white">
-                  <span className="rounded-full bg-black/55 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.2em] backdrop-blur">{v.client}</span>
-                  <span className="rounded-full bg-black/55 px-2.5 py-1 font-mono text-[10px] tabular-nums backdrop-blur">{v.len}</span>
-                </div>
-                <div className="absolute inset-x-0 bottom-0 p-4 text-white">
-                  <h3 className="font-display text-base leading-tight line-clamp-2">{v.title}</h3>
+
+                {/* Card Action Controls: Play Inline, Full View, Download / HD */}
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/50 pt-3 text-xs">
+                  <div className="flex items-center gap-1.5">
+                    {isPlayingInline ? (
+                      <button
+                        type="button"
+                        onClick={() => setInlinePlayingId(null)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
+                      >
+                        <X size={12} />
+                        <span>Stop</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setInlinePlayingId(v.id)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
+                        title="Play directly on page"
+                      >
+                        <Play size={11} className="fill-current" />
+                        <span>Play</span>
+                      </button>
+                    )}
+
+                    <button
+                      type="button"
+                      onClick={() => onOpen(v)}
+                      className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-foreground/5"
+                      title="Open full cinema view"
+                    >
+                      <Maximize2 size={11} />
+                      <span>Full View</span>
+                    </button>
+                  </div>
+
+                  <a
+                    href={`https://www.youtube.com/watch?v=${v.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground transition hover:text-cyan-400"
+                    title="Download / Watch HD on YouTube"
+                  >
+                    <Download size={11} />
+                    <span>Download / HD</span>
+                  </a>
                 </div>
               </div>
-            </Tilt>
-          </motion.button>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
@@ -2048,8 +2267,18 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
         <div className="flex w-full shrink-0 flex-col gap-5 overflow-y-auto p-6 md:w-[340px] md:p-8">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-eyebrow mb-2">
-                {state.kind === "image" ? state.item.category : state.item.client}
+              <p className="text-eyebrow mb-2 flex items-center gap-2">
+                <span>{state.kind === "image" ? state.item.category : state.item.client}</span>
+                {state.kind === "video" && state.item.category === "ai" && (
+                  <span className="rounded-md border border-cyan-500/30 bg-cyan-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-cyan-400">
+                    AI Film
+                  </span>
+                )}
+                {state.kind === "video" && (
+                  <span className="rounded-md border border-border bg-foreground/5 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                    {state.item.len}
+                  </span>
+                )}
               </p>
               <h3 className="text-display text-2xl leading-tight md:text-3xl">
                 {state.kind === "image" ? state.item.label : state.item.title}
@@ -2085,14 +2314,23 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
               </>
 
             ) : (
-              <a
-                href={`https://www.youtube.com/watch?v=${state.item.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-border/70 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/10"
-              >
-                Open on YouTube ↗
-              </a>
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={`https://www.youtube.com/watch?v=${state.item.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-cyan-400 px-4 py-2 text-xs font-semibold text-black shadow-md hover:bg-cyan-300"
+                >
+                  <Download size={13} /> Download / Watch HD ↗
+                </a>
+                <button
+                  type="button"
+                  onClick={() => navigator.clipboard?.writeText(`https://www.youtube.com/watch?v=${state.item.id}`)}
+                  className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
+                >
+                  <Share2 size={12} /> Share Link
+                </button>
+              </div>
             )}
           </div>
 
