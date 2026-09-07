@@ -67,7 +67,7 @@ const staticRefs = [
   ...html.matchAll(/(?:src|href)=["'](\/(?:assets|favicon|apple-touch-icon|android-chrome)[^"']+)["']/g),
 ].map((match) => match[1]);
 
-const missing = staticRefs.filter((ref) => !existsSync(join(distDir, ref.slice(1))));
+const missing = staticRefs.filter((ref) => !existsSync(join(distDir, ref.slice(1).split(/[?#]/)[0])));
 
 if (missing.length) {
   throw new Error(`Static files referenced by dist/index.html are missing:\n${missing.join("\n")}`);
