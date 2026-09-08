@@ -1,19 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import { useRef, useState, type MouseEvent } from "react";
-import {
-  ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer,
-} from "lucide-react";
-import resumePdf from "../assets/resume.pdf";
+import { ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer } from "lucide-react";
 import resumePreview from "../assets/resume-preview.jpg";
+
+export const RESUME_FILENAME = "Arbaaz-Resume.pdf";
+export const RESUME_URL = "/Arbaaz-Resume.pdf?v=2";
+export const RESUME_SIZE_KB = 2037;
 
 export const Route = createFileRoute("/resume")({
   head: () => ({
     meta: [
-      { title: "Resume — Arbaaz · UI/UX Designer, Graphic Artist & AI Video Creator" },
-      { name: "description", content: "Download or preview the resume of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." },
-      { property: "og:title", content: "Resume — Arbaaz · UI/UX Designer, Graphic Artist & AI Video Creator" },
-      { property: "og:description", content: "One-page resume of Arbaaz — UI/UX Designer, Graphic Artist & AI Video Creator." },
+      { title: "Resume — Arbaaz · Graphic Designer & Visual Designer" },
+      {
+        name: "description",
+        content:
+          "Download or preview the resume of Arbaaz — Graphic Designer & Visual Designer with 3.5+ years of experience crafting high-impact brand identities, digital marketing creatives, print collateral, and motion graphics.",
+      },
+      { property: "og:title", content: "Resume — Arbaaz · Graphic Designer & Visual Designer" },
+      {
+        property: "og:description",
+        content: "One-page resume of Arbaaz — Graphic Designer & Visual Designer.",
+      },
       { property: "og:image", content: resumePreview },
     ],
   }),
@@ -21,13 +29,11 @@ export const Route = createFileRoute("/resume")({
 });
 
 const HIGHLIGHTS = [
-  "4.5+ years across UI/UX, Graphic Design & AI Video Creation",
-  "Figma prototypes, conversion ad creatives & dynamic video motion",
-  "Selected client work, software stack & visual portfolio",
+  "3.5+ years in Graphic Design, Visual Design & Motion Graphics",
+  "Brand identities, marketing creatives, print collateral & social campaigns",
+  "Adobe Creative Suite (Ps, Ai, Id, Pr, Ae), Figma & Gen-AI workflows",
   "Open in browser, download or print directly",
 ];
-
-const RESUME_SIZE_KB = 1756;
 
 function ResumePage() {
   const reduce = useReducedMotion();
@@ -47,14 +53,20 @@ function ResumePage() {
     ry.set(px * 10);
     rx.set(-py * 10);
   };
-  const onLeave = () => { rx.set(0); ry.set(0); };
+  const onLeave = () => {
+    rx.set(0);
+    ry.set(0);
+  };
 
   return (
     <div className="grain relative min-h-screen overflow-hidden bg-background text-foreground">
       {/* Ambient orbs */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -top-32 left-1/4 h-[420px] w-[420px] rounded-full bg-foreground/[0.06] blur-3xl animate-orb" />
-        <div className="absolute -bottom-40 right-1/5 h-[480px] w-[480px] rounded-full bg-[var(--highlight)]/10 blur-3xl animate-orb" style={{ animationDelay: "-6s" }} />
+        <div
+          className="absolute -bottom-40 right-1/5 h-[480px] w-[480px] rounded-full bg-[var(--highlight)]/10 blur-3xl animate-orb"
+          style={{ animationDelay: "-6s" }}
+        />
       </div>
 
       {/* Top bar */}
@@ -68,11 +80,13 @@ function ResumePage() {
             Back
           </Link>
           <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            arbaaz/resume.pdf
+            arbaaz/{RESUME_FILENAME}
           </span>
           <a
-            href={resumePdf}
-            download="Arbaaz-K-Resume.pdf"
+            href={RESUME_URL}
+            download={RESUME_FILENAME}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-background transition-transform hover:-translate-y-0.5"
           >
             <Download className="h-3 w-3" /> Download
@@ -96,8 +110,8 @@ function ResumePage() {
             </h1>
           </div>
           <p className="md:col-span-5 max-w-md text-base leading-relaxed text-muted-foreground">
-            A clean, no-nonsense overview — experience, disciplines, tools and
-            selected clients. Preview it here or grab the PDF.
+            A clean, no-nonsense overview — experience, disciplines, tools and selected clients.
+            Preview it here or grab the PDF.
           </p>
         </motion.div>
 
@@ -119,10 +133,19 @@ function ResumePage() {
               className="relative"
             >
               {/* Glow */}
-              <div className="pointer-events-none absolute -inset-x-10 -bottom-14 h-32 rounded-full bg-foreground/15 blur-3xl" aria-hidden />
+              <div
+                className="pointer-events-none absolute -inset-x-10 -bottom-14 h-32 rounded-full bg-foreground/15 blur-3xl"
+                aria-hidden
+              />
               {/* Back sheets */}
-              <div className="pointer-events-none absolute inset-0 translate-x-3 translate-y-3 rotate-[2deg] rounded-2xl card-white opacity-50" aria-hidden />
-              <div className="pointer-events-none absolute inset-0 translate-x-1.5 translate-y-1.5 rotate-[1deg] rounded-2xl card-white opacity-75" aria-hidden />
+              <div
+                className="pointer-events-none absolute inset-0 translate-x-3 translate-y-3 rotate-[2deg] rounded-2xl card-white opacity-50"
+                aria-hidden
+              />
+              <div
+                className="pointer-events-none absolute inset-0 translate-x-1.5 translate-y-1.5 rotate-[1deg] rounded-2xl card-white opacity-75"
+                aria-hidden
+              />
 
               <div className="relative overflow-hidden rounded-2xl card-white">
                 {/* Chrome */}
@@ -132,7 +155,7 @@ function ResumePage() {
                     <span className="h-2.5 w-2.5 rounded-full bg-foreground/15" />
                     <span className="h-2.5 w-2.5 rounded-full bg-foreground/10" />
                     <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                      Arbaaz-K-Resume.pdf
+                      {RESUME_FILENAME}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -143,7 +166,7 @@ function ResumePage() {
                       <Maximize2 className="h-3 w-3" /> Full
                     </button>
                     <a
-                      href={resumePdf}
+                      href={RESUME_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground hover:bg-foreground/5"
@@ -159,13 +182,13 @@ function ResumePage() {
                   style={{ aspectRatio: "1 / 1.414" }}
                 >
                   <object
-                    data={`${resumePdf}#toolbar=0&navpanes=0&view=FitH`}
+                    data={`${RESUME_URL}#toolbar=0&navpanes=0&view=FitH`}
                     type="application/pdf"
                     className="h-full w-full"
                   >
                     <iframe
-                      src={resumePdf}
-                      title="Resume preview — Arbaaz K."
+                      src={RESUME_URL}
+                      title="Resume preview — Arbaaz"
                       className="h-full w-full"
                     />
                   </object>
@@ -183,13 +206,17 @@ function ResumePage() {
               </div>
 
               {/* Floating chips */}
-              <motion.div
+              <motion.a
+                href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open A4 PDF in new tab"
                 animate={reduce ? {} : { y: [0, -8, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-                className="absolute -left-5 top-16 hidden rounded-full card-white px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] md:block"
+                className="absolute -left-5 top-16 hidden rounded-full card-white px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-foreground/80 hover:text-foreground hover:shadow-md transition-all md:block"
               >
                 A4 · PDF
-              </motion.div>
+              </motion.a>
               <motion.div
                 animate={reduce ? {} : { y: [0, 8, 0] }}
                 transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
@@ -213,9 +240,9 @@ function ResumePage() {
                   <FileText className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="font-medium">Arbaaz-K-Resume.pdf</p>
+                  <p className="font-medium">{RESUME_FILENAME}</p>
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                    A4 · ~{RESUME_SIZE_KB} KB · 1 page
+                    A4 · ~{RESUME_SIZE_KB} KB · 1 PAGE
                   </p>
                 </div>
               </div>
@@ -237,20 +264,24 @@ function ResumePage() {
 
               <div className="mt-7 flex flex-col gap-3">
                 <a
-                  href={resumePdf}
-                  download="Arbaaz-K-Resume.pdf"
+                  href={RESUME_URL}
+                  download={RESUME_FILENAME}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
                 >
                   <Download className="h-4 w-4" /> Download PDF
                 </a>
-                <button
-                  onClick={() => setViewer(true)}
+                <a
+                  href={RESUME_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
                 >
                   <Eye className="h-4 w-4" /> Full preview
-                </button>
+                </a>
                 <a
-                  href={resumePdf}
+                  href={RESUME_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
@@ -277,16 +308,20 @@ function ResumePage() {
           className="fixed inset-0 z-[60] flex flex-col bg-background/95 backdrop-blur"
           role="dialog"
           aria-modal="true"
-          onClick={(e) => { if (e.target === e.currentTarget) setViewer(false); }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setViewer(false);
+          }}
         >
           <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3 md:px-6">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Arbaaz-K-Resume.pdf
+              {RESUME_FILENAME}
             </span>
             <div className="flex items-center gap-2">
               <a
-                href={resumePdf}
-                download="Arbaaz-K-Resume.pdf"
+                href={RESUME_URL}
+                download={RESUME_FILENAME}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.22em] text-background hover:-translate-y-0.5 transition-transform"
               >
                 <Download className="h-3 w-3" /> Download
@@ -306,15 +341,11 @@ function ResumePage() {
             className="flex-1 overflow-hidden p-3 md:p-6"
           >
             <object
-              data={`${resumePdf}#toolbar=1&view=FitH`}
+              data={`${RESUME_URL}#toolbar=1&view=FitH`}
               type="application/pdf"
               className="h-full w-full rounded-xl border border-border bg-background"
             >
-              <iframe
-                src={resumePdf}
-                title="Resume PDF"
-                className="h-full w-full rounded-xl"
-              />
+              <iframe src={RESUME_URL} title="Resume PDF" className="h-full w-full rounded-xl" />
             </object>
           </motion.div>
         </motion.div>
