@@ -112,28 +112,6 @@
     overflow-x: hidden;
   }
 
-  /* 1. Make 3D Canvas / Spline completely transparent */
-  spline-viewer {
-    background: transparent !important;
-    background-color: transparent !important;
-  }
-  spline-viewer::part(canvas) {
-    background: transparent !important;
-    background-color: transparent !important;
-  }
-
-  /* 2. Fix Z-Index & Layer Stacking */
-  .spline-container,
-  spline-viewer {
-    position: absolute !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0 !important;
-    pointer-events: none !important;
-  }
-
   .hero-content,
   .profile-card,
   nav,
