@@ -113,13 +113,12 @@ const NAV = [
 ];
 
 /* ==========================================================================
-   CONTACT FORM & WHATSAPP CONFIGURATION
+   CONTACT FORM, TELEGRAM & WHATSAPP CONFIGURATION
    ========================================================================== */
-// Web3Forms Access Key — replace with your key from https://web3forms.com
-export const FORM_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
-
-// Direct WhatsApp phone number with country code (placeholder: "91XXXXXXXXXX")
-export const WHATSAPP_PHONE = "918527766839"; // Country code + 10-digit number without '+'
+export const FORM_ACCESS_KEY = "ec588a71-4563-47b7-ab5e-514614d5a440";
+export const TELEGRAM_BOT_TOKEN = "8627626560:AAF8jPech1c2YXhtugoqX7Emt-0QjgnubuY";
+export const TELEGRAM_CHAT_ID = "6515017255";
+export const WHATSAPP_PHONE = "918527766839";
 
 const SOCIALS = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/arbaaz-designer" },
@@ -4103,41 +4102,82 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
 
     setStatus("sending");
 
-    const subject =
-      tab === "project"
-        ? `New Project Inquiry from ${name.trim()} - Portfolio`
-        : `New Quick Query from ${name.trim()} - Portfolio`;
+    const isProjectTab = tab === "project";
+    const formName = name.trim();
+    const formEmail = email.trim();
+    const formService = isProjectTab
+      ? selectedServices.join(", ") || "General Inquiry"
+      : "General Inquiry";
+    const formMessage = details.trim();
 
-    const payload = {
-      access_key: FORM_ACCESS_KEY,
-      subject,
-      from_name: name.trim(),
-      name: name.trim(),
-      email: email.trim(),
-      intent: tab === "project" ? "Start a Project" : "Ask a Question",
-      ...(tab === "project" && {
-        services_needed: selectedServices.join(", ") || "General",
-      }),
-      message:
-        tab === "project"
-          ? `Intent: Start a Project\nName: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ") || "General"}\n\nProject Details:\n${details.trim()}`
-          : `Intent: Ask a Question\nName: ${name.trim()}\nEmail: ${email.trim()}\n\nQuestion / Topic:\n${details.trim()}`,
-      botcheck: "",
+    // A. Telegram Push Notification
+    const sendTelegram = async () => {
+      const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const telegramText = `🔔 *New Portfolio Inquiry!*\n\n• *Type:* ${isProjectTab ? "Project Inquiry" : "Quick Query"}\n• *Name:* ${formName}\n• *Email:* ${formEmail}\n• *Service:* ${formService}\n• *Message:* ${formMessage}`;
+
+      const res = await fetch(telegramUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          parse_mode: "Markdown",
+          text: telegramText,
+        }),
+      });
+
+      const data = await res.json();
+      if (!data.ok) {
+        // Fallback: If Markdown parse error occurs (e.g. unescaped _ or * in user text), retry plain text
+        const plainText = `🔔 New Portfolio Inquiry!\n\n• Type: ${isProjectTab ? "Project Inquiry" : "Quick Query"}\n• Name: ${formName}\n• Email: ${formEmail}\n• Service: ${formService}\n• Message: ${formMessage}`;
+        const retryRes = await fetch(telegramUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: plainText,
+          }),
+        });
+        return await retryRes.json();
+      }
+      return data;
     };
 
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+    // B. Web3Forms Email Backup
+    const sendWeb3Forms = async () => {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          access_key: FORM_ACCESS_KEY,
+          name: formName,
+          email: formEmail,
+          subject: `New Inquiry from ${formName} - Portfolio`,
+          service: formService,
+          message: formMessage,
+          from_name: formName,
+          botcheck: "",
+        }),
       });
+      return await res.json();
+    };
 
-      const data = await response.json();
+    try {
+      const [telegramResult, web3Result] = await Promise.allSettled([
+        sendTelegram(),
+        sendWeb3Forms(),
+      ]);
 
-      if (response.ok && data.success) {
+      const isTelegramSuccess =
+        telegramResult.status === "fulfilled" && Boolean(telegramResult.value?.ok);
+
+      const isWeb3FormsSuccess =
+        web3Result.status === "fulfilled" &&
+        Boolean(web3Result.value?.success || web3Result.value?.ok);
+
+      if (isTelegramSuccess || isWeb3FormsSuccess) {
         setStatus("success");
         setName("");
         setEmail("");
