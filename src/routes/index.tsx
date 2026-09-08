@@ -1,13 +1,75 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode, type MouseEvent, type ComponentType } from "react";
 import {
-  Sparkles, PenTool, Share2, Printer, Layout, Smartphone, Film,
-  Briefcase, Layers, Clapperboard, Wrench, Building2, MapPin,
-  Download, MessageCircle, X, Play, Plus, ArrowUpRight, Mail,
-  Linkedin, Instagram, Sun, Moon, ArrowRight, FileText, Menu,
-  ChevronLeft, ChevronRight, Hexagon, MessageSquare, Network, Coffee, Atom, Heart, Send, Bookmark,
-  Maximize2, ExternalLink, Youtube, Compass, Palette, Video, Cpu, Bot, Wand2, MousePointer, Workflow, Monitor
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+  useMotionValue,
+  useSpring,
+} from "motion/react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+  type MouseEvent,
+  type ComponentType,
+} from "react";
+import {
+  Sparkles,
+  PenTool,
+  Share2,
+  Printer,
+  Layout,
+  Smartphone,
+  Film,
+  Briefcase,
+  Layers,
+  Clapperboard,
+  Wrench,
+  Building2,
+  MapPin,
+  Download,
+  MessageCircle,
+  X,
+  Play,
+  Plus,
+  ArrowUpRight,
+  Mail,
+  Linkedin,
+  Instagram,
+  Sun,
+  Moon,
+  ArrowRight,
+  FileText,
+  Menu,
+  ChevronLeft,
+  ChevronRight,
+  Hexagon,
+  MessageSquare,
+  Network,
+  Coffee,
+  Atom,
+  Heart,
+  Send,
+  Bookmark,
+  Maximize2,
+  ExternalLink,
+  Youtube,
+  Compass,
+  Palette,
+  Video,
+  Cpu,
+  Bot,
+  Wand2,
+  MousePointer,
+  Workflow,
+  Monitor,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  Phone,
 } from "lucide-react";
 import { Magnetic } from "@/components/reactbits/Magnetic";
 import { Reveal } from "@/components/reactbits/Reveal";
@@ -15,16 +77,24 @@ import { CountUp } from "@/components/reactbits/CountUp";
 import { AiSplashModal } from "@/components/AiSplashModal";
 import { AiPromoBanner } from "@/components/AiPromoBanner";
 
-
-
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator" },
-      { name: "description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." },
-      { property: "og:title", content: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator" },
-      { property: "og:description", content: "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." },
+      {
+        name: "description",
+        content:
+          "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation.",
+      },
+      {
+        property: "og:title",
+        content: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator",
+      },
+      {
+        property: "og:description",
+        content:
+          "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation.",
+      },
     ],
   }),
   component: Portfolio,
@@ -42,7 +112,14 @@ const NAV = [
   { id: "contact", label: "Contact" },
 ];
 
+/* ==========================================================================
+   CONTACT FORM & WHATSAPP CONFIGURATION
+   ========================================================================== */
+// Web3Forms Access Key — replace with your key from https://web3forms.com
+export const FORM_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
 
+// Direct WhatsApp phone number with country code (placeholder: "91XXXXXXXXXX")
+export const WHATSAPP_PHONE = "918527766839"; // Country code + 10-digit number without '+'
 
 const SOCIALS = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/arbaaz-designer" },
@@ -54,34 +131,53 @@ const SOCIALS = [
 import arbaazHero from "@/assets/arbaaz-hero.jpg";
 
 // Real brochure PDFs → rasterized page images
-const brochurePages = import.meta.glob<string>(
-  "../assets/brochures/*.{jpg,jpeg,png,webp}",
-  { eager: true, import: "default" }
-);
-
+const brochurePages = import.meta.glob<string>("../assets/brochures/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+  import: "default",
+});
 
 const brochurePageUrl = (file: string): string => {
   const entry = Object.entries(brochurePages).find(([k]) => k.endsWith(`/${file}`));
-  if (!entry) { if (typeof window !== 'undefined') console.warn('[brochure] miss', file, Object.keys(brochurePages).length); return ""; }
+  if (!entry) {
+    if (typeof window !== "undefined")
+      console.warn("[brochure] miss", file, Object.keys(brochurePages).length);
+    return "";
+  }
   return entry[1];
 };
 type Brochure = { id: string; name: string; tagline: string; cover: string; pages: string[] };
 const BROCHURES: Brochure[] = [
-  { id: "metro", name: "Metropolia", tagline: "Study in Finland · University Brochure",
+  {
+    id: "metro",
+    name: "Metropolia",
+    tagline: "Study in Finland · University Brochure",
     cover: brochurePageUrl("drive_metropolia_1.png"),
-    pages: [brochurePageUrl("drive_metropolia_2.png")] },
+    pages: [brochurePageUrl("drive_metropolia_2.png")],
+  },
 
-  { id: "tutku", name: "Turku", tagline: "Tampere University · PG Diploma Brochure",
+  {
+    id: "tutku",
+    name: "Turku",
+    tagline: "Tampere University · PG Diploma Brochure",
     cover: brochurePageUrl("drive_turku_1.png"),
-    pages: [brochurePageUrl("drive_turku_2.png")] },
+    pages: [brochurePageUrl("drive_turku_2.png")],
+  },
 
-  { id: "edufinn", name: "Edu Finn", tagline: "Study in Finland · Program Brochure",
+  {
+    id: "edufinn",
+    name: "Edu Finn",
+    tagline: "Study in Finland · Program Brochure",
     cover: brochurePageUrl("drive_edufinn_1.png"),
-    pages: [2,3,4].map((n)=>brochurePageUrl(`drive_edufinn_${n}.png`)) },
+    pages: [2, 3, 4].map((n) => brochurePageUrl(`drive_edufinn_${n}.png`)),
+  },
 
-  { id: "swiftams", name: "Swift AMS", tagline: "Product & CRM · Brochure",
+  {
+    id: "swiftams",
+    name: "Swift AMS",
+    tagline: "Product & CRM · Brochure",
     cover: brochurePageUrl("drive_swiftams_1.jpg"),
-    pages: [2,3,4,5,6,7,8].map((n)=>brochurePageUrl(`drive_swiftams_${n}.jpg`)) },
+    pages: [2, 3, 4, 5, 6, 7, 8].map((n) => brochurePageUrl(`drive_swiftams_${n}.jpg`)),
+  },
 ];
 
 type CreativeService = {
@@ -141,22 +237,32 @@ const SERVICES: CreativeService[] = [
   },
 ];
 
+type GalleryItem = {
+  id: string;
+  label: string;
+  category: string;
+  ratio: string;
+  variant: 1 | 2 | 3;
+  src?: string;
+};
 
-type GalleryItem = { id: string; label: string; category: string; ratio: string; variant: 1 | 2 | 3; src?: string };
-
-const portfolioAssets = import.meta.glob<string>(
-  "../assets/portfolio/*.{jpg,jpeg,png,webp}",
-  { eager: true, import: "default" }
-);
+const portfolioAssets = import.meta.glob<string>("../assets/portfolio/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+  import: "default",
+});
 
 const videoThumbnails = import.meta.glob<string>(
   "../assets/video-thumbnails/*.{jpg,jpeg,png,webp}",
-  { eager: true, import: "default" }
+  { eager: true, import: "default" },
 );
 
 const portfolioAsset = (file: string): string => {
   const entry = Object.entries(portfolioAssets).find(([k]) => k.endsWith(`/${file}`));
-  if (!entry) { if (typeof window !== 'undefined') console.warn('[portfolio] miss', file, Object.keys(portfolioAssets).length); return ""; }
+  if (!entry) {
+    if (typeof window !== "undefined")
+      console.warn("[portfolio] miss", file, Object.keys(portfolioAssets).length);
+    return "";
+  }
   return entry[1];
 };
 
@@ -168,53 +274,311 @@ const videoThumbnail = (id: string): string => {
 
 const GALLERY: GalleryItem[] = [
   // Brand & Logos — real client identities from the old portfolio
-  
-  { id: "b2", label: "SwiftAMS · Identity",    category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: portfolioAsset("89f4f8_ca3694966e014708a64fce392f994256~mv2.png") },
-  { id: "b3", label: "Wavox WMS · Logo",       category: "Brand",  ratio: "aspect-[16/9]",  variant: 3, src: portfolioAsset("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png") },
-  { id: "b4", label: "Swift AI · Mark",        category: "Brand",  ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_067511567620442384156a15b1a92717~mv2.png") },
-  { id: "b5", label: "Iksha Lab · Identity",   category: "Brand",  ratio: "aspect-[16/9]",  variant: 2, src: portfolioAsset("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png") },
+
+  {
+    id: "b2",
+    label: "SwiftAMS · Identity",
+    category: "Brand",
+    ratio: "aspect-[16/9]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_ca3694966e014708a64fce392f994256~mv2.png"),
+  },
+  {
+    id: "b3",
+    label: "Wavox WMS · Logo",
+    category: "Brand",
+    ratio: "aspect-[16/9]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png"),
+  },
+  {
+    id: "b4",
+    label: "Swift AI · Mark",
+    category: "Brand",
+    ratio: "aspect-[4/5]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_067511567620442384156a15b1a92717~mv2.png"),
+  },
+  {
+    id: "b5",
+    label: "Iksha Lab · Identity",
+    category: "Brand",
+    ratio: "aspect-[16/9]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png"),
+  },
 
   // Social Media — posters & campaign creatives (numbered, S-series, E-series)
-  { id: "s1",  label: "Social Poster · 01",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png") },
-  { id: "s2",  label: "Social Poster · 02",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png") },
-  { id: "s4",  label: "Social Poster · 04",    category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png") },
-  { id: "s5",  label: "Social Poster · 05",    category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png") },
-  { id: "s6",  label: "Social Poster · 06",    category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png") },
-  { id: "ss1", label: "Campaign · S1",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png") },
-  { id: "ss2", label: "Campaign · S2",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png") },
-  { id: "ss3", label: "Campaign · S3",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png") },
-  { id: "ss4", label: "Campaign · S4",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png") },
-  { id: "ss5", label: "Campaign · S5",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png") },
-  { id: "se1", label: "Edu Finn · E1",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png") },
-  { id: "se2", label: "Edu Finn · E2",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png") },
-  { id: "se3", label: "Edu Finn · E3",         category: "Social", ratio: "aspect-[4/5]",   variant: 1, src: portfolioAsset("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png") },
-  { id: "se4", label: "Edu Finn · E4",         category: "Social", ratio: "aspect-[4/5]",   variant: 2, src: portfolioAsset("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png") },
-  { id: "se5", label: "Edu Finn · E5",         category: "Social", ratio: "aspect-[4/5]",   variant: 3, src: portfolioAsset("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png") },
+  {
+    id: "s1",
+    label: "Social Poster · 01",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png"),
+  },
+  {
+    id: "s2",
+    label: "Social Poster · 02",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png"),
+  },
+  {
+    id: "s4",
+    label: "Social Poster · 04",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png"),
+  },
+  {
+    id: "s5",
+    label: "Social Poster · 05",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png"),
+  },
+  {
+    id: "s6",
+    label: "Social Poster · 06",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png"),
+  },
+  {
+    id: "ss1",
+    label: "Campaign · S1",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png"),
+  },
+  {
+    id: "ss2",
+    label: "Campaign · S2",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png"),
+  },
+  {
+    id: "ss3",
+    label: "Campaign · S3",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png"),
+  },
+  {
+    id: "ss4",
+    label: "Campaign · S4",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png"),
+  },
+  {
+    id: "ss5",
+    label: "Campaign · S5",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png"),
+  },
+  {
+    id: "se1",
+    label: "Edu Finn · E1",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png"),
+  },
+  {
+    id: "se2",
+    label: "Edu Finn · E2",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png"),
+  },
+  {
+    id: "se3",
+    label: "Edu Finn · E3",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png"),
+  },
+  {
+    id: "se4",
+    label: "Edu Finn · E4",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png"),
+  },
+  {
+    id: "se5",
+    label: "Edu Finn · E5",
+    category: "Social",
+    ratio: "aspect-[4/5]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png"),
+  },
 
   // Print Media — brochures, covers & standees (print materials)
-  { id: "p1", label: "Brochure · Spread 01",   category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: portfolioAsset("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png") },
-  { id: "p2", label: "Brochure · Spread 03",   category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: portfolioAsset("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png") },
-  { id: "p3", label: "Brochure · Spread 05",   category: "Print",  ratio: "aspect-[3/2]",   variant: 3, src: portfolioAsset("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png") },
-  { id: "p4", label: "Brochure · Cover",       category: "Print",  ratio: "aspect-[3/2]",   variant: 1, src: portfolioAsset("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png") },
-  { id: "p5", label: "Brochure · Mini",        category: "Print",  ratio: "aspect-[3/2]",   variant: 2, src: portfolioAsset("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png") },
-  { id: "p6", label: "Standee · 01",           category: "Print",  ratio: "aspect-[3/4]",   variant: 3, src: portfolioAsset("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png") },
-  { id: "p7", label: "Standee · 02",           category: "Print",  ratio: "aspect-[3/4]",   variant: 1, src: portfolioAsset("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png") },
-  { id: "p8", label: "Standee · 03",           category: "Print",  ratio: "aspect-[3/4]",   variant: 2, src: portfolioAsset("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png") },
+  {
+    id: "p1",
+    label: "Brochure · Spread 01",
+    category: "Print",
+    ratio: "aspect-[3/2]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png"),
+  },
+  {
+    id: "p2",
+    label: "Brochure · Spread 03",
+    category: "Print",
+    ratio: "aspect-[3/2]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png"),
+  },
+  {
+    id: "p3",
+    label: "Brochure · Spread 05",
+    category: "Print",
+    ratio: "aspect-[3/2]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png"),
+  },
+  {
+    id: "p4",
+    label: "Brochure · Cover",
+    category: "Print",
+    ratio: "aspect-[3/2]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png"),
+  },
+  {
+    id: "p5",
+    label: "Brochure · Mini",
+    category: "Print",
+    ratio: "aspect-[3/2]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png"),
+  },
+  {
+    id: "p6",
+    label: "Standee · 01",
+    category: "Print",
+    ratio: "aspect-[3/4]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png"),
+  },
+  {
+    id: "p7",
+    label: "Standee · 02",
+    category: "Print",
+    ratio: "aspect-[3/4]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png"),
+  },
+  {
+    id: "p8",
+    label: "Standee · 03",
+    category: "Print",
+    ratio: "aspect-[3/4]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png"),
+  },
 
   // UI / UX — web platforms & dashboards
-  { id: "u1", label: "Marketing Landing",      category: "UI/UX",  ratio: "aspect-[16/10]", variant: 1, src: portfolioAsset("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png") },
-  { id: "u2", label: "MacBook · Showcase",     category: "UI/UX",  ratio: "aspect-[16/10]", variant: 2, src: portfolioAsset("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png") },
-  
+  {
+    id: "u1",
+    label: "Marketing Landing",
+    category: "UI/UX",
+    ratio: "aspect-[16/10]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png"),
+  },
+  {
+    id: "u2",
+    label: "MacBook · Showcase",
+    category: "UI/UX",
+    ratio: "aspect-[16/10]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png"),
+  },
 
   // Mobile App — full app screens
-  { id: "m1", label: "Mobile App · Hero",      category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png") },
-  { id: "m2", label: "Mobile · Screen 02",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png") },
-  { id: "m3", label: "Mobile · Screen 03",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: portfolioAsset("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png") },
-  { id: "m4", label: "Mobile · Screen 04",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png") },
-  { id: "m5", label: "Mobile · Screen 05",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png") },
-  { id: "m6", label: "Mobile · Screen 06",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 3, src: portfolioAsset("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png") },
-  { id: "m7", label: "Mobile · Screen 07",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 1, src: portfolioAsset("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png") },
-  { id: "m8", label: "Mobile · Screen 08",     category: "Mobile", ratio: "aspect-[9/16]",  variant: 2, src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png") },
+  {
+    id: "m1",
+    label: "Mobile App · Hero",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png"),
+  },
+  {
+    id: "m2",
+    label: "Mobile · Screen 02",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png"),
+  },
+  {
+    id: "m3",
+    label: "Mobile · Screen 03",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png"),
+  },
+  {
+    id: "m4",
+    label: "Mobile · Screen 04",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png"),
+  },
+  {
+    id: "m5",
+    label: "Mobile · Screen 05",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png"),
+  },
+  {
+    id: "m6",
+    label: "Mobile · Screen 06",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 3,
+    src: portfolioAsset("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png"),
+  },
+  {
+    id: "m7",
+    label: "Mobile · Screen 07",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 1,
+    src: portfolioAsset("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png"),
+  },
+  {
+    id: "m8",
+    label: "Mobile · Screen 08",
+    category: "Mobile",
+    ratio: "aspect-[9/16]",
+    variant: 2,
+    src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png"),
+  },
 ];
 
 export type VideoItem = {
@@ -228,53 +592,357 @@ export type VideoItem = {
 };
 
 const AI_VIDEOS: VideoItem[] = [
-  { id: "qfGP0Z3y-Jk", title: "Why AI Won’t Replace Creators | A Director's Perspective", client: "AI Director", len: "01:13", category: "ai", tag: "AI Film · Perspective", aspect: "horizontal" },
-  { id: "T1iAlRKG9XY", title: "Baaz Energy Drink Spec Ad — \"Fuel Your Flow\"", client: "Baaz Energy", len: "00:40", category: "ai", tag: "Spec Commercial · 3D", aspect: "horizontal" },
-  { id: "DrzgzKZU05A", title: "Baaz Citrus 3D Product Reel | Visual Showcase", client: "Baaz Energy", len: "00:29", category: "ai", tag: "Product Reel · Visual FX", aspect: "horizontal" },
-  { id: "QG5pQqOiwF4", title: "Baaz Mango Energy Drink — 3D Commercial Showcase", client: "Baaz Energy", len: "00:30", category: "ai", tag: "Commercial · 3D Design", aspect: "horizontal" },
-  { id: "7piN3PMeKvM", title: "Bisleri Spec Ad — 50°C in the Sahara Desert", client: "Bisleri Spec", len: "01:22", category: "ai", tag: "Cinematic Spec · Story", aspect: "horizontal" },
-  { id: "InYll8W0doQ", title: "Kawasaki Ninja H2 Cinematic — Breaking Realities", client: "Kawasaki Spec", len: "00:42", category: "ai", tag: "Automotive · Hyper-Real", aspect: "horizontal" },
-  { id: "ednqs-KqGHQ", title: "Every Ride Has A Reason | Kawasaki Ninja H2 Night Run", client: "Kawasaki Spec", len: "00:24", category: "ai", tag: "Automotive · Speed Reel", aspect: "horizontal" },
-  { id: "ZgwUmBFYUCg", title: "Sparco 07 Mustang GT — Night Circuit Battle", client: "Sparco Spec", len: "00:49", category: "ai", tag: "Circuit Battle · VFX", aspect: "horizontal" },
-  { id: "Qbw0E0ksRH8", title: "Nexora — The Future of Creative Production & Marketing", client: "Nexora", len: "01:33", category: "ai", tag: "Brand Vision · GenAI", aspect: "horizontal" },
-  { id: "G5B-9PgWWO4", title: "Nexora Brand Film — \"Building What Moves Business\"", client: "Nexora", len: "00:54", category: "ai", tag: "Brand Film · Production", aspect: "horizontal" },
-  { id: "pt1-OdMbbu0", title: "How ChatGPT Actually Thinks | Tokenization & AI Explained (Hindi)", client: "Tech Explainer", len: "01:10", category: "ai", tag: "AI Explainer · Hindi", aspect: "horizontal" },
-  { id: "zn0mtYPp5vM", title: "Are Paper Notes Getting Banned in India? The Truth About Polymer Currency", client: "FinTech Explainer", len: "01:09", category: "ai", tag: "Explainer · Motion", aspect: "horizontal" },
-  { id: "KpeI_mdP-iU", title: "What Happens Inside an LED TV in 1 Second? (3D Animation)", client: "3D Animation", len: "01:09", category: "ai", tag: "3D Visuals · Tech", aspect: "horizontal" },
+  {
+    id: "qfGP0Z3y-Jk",
+    title: "Why AI Won’t Replace Creators | A Director's Perspective",
+    client: "AI Director",
+    len: "01:13",
+    category: "ai",
+    tag: "AI Film · Perspective",
+    aspect: "horizontal",
+  },
+  {
+    id: "T1iAlRKG9XY",
+    title: 'Baaz Energy Drink Spec Ad — "Fuel Your Flow"',
+    client: "Baaz Energy",
+    len: "00:40",
+    category: "ai",
+    tag: "Spec Commercial · 3D",
+    aspect: "horizontal",
+  },
+  {
+    id: "DrzgzKZU05A",
+    title: "Baaz Citrus 3D Product Reel | Visual Showcase",
+    client: "Baaz Energy",
+    len: "00:29",
+    category: "ai",
+    tag: "Product Reel · Visual FX",
+    aspect: "horizontal",
+  },
+  {
+    id: "QG5pQqOiwF4",
+    title: "Baaz Mango Energy Drink — 3D Commercial Showcase",
+    client: "Baaz Energy",
+    len: "00:30",
+    category: "ai",
+    tag: "Commercial · 3D Design",
+    aspect: "horizontal",
+  },
+  {
+    id: "7piN3PMeKvM",
+    title: "Bisleri Spec Ad — 50°C in the Sahara Desert",
+    client: "Bisleri Spec",
+    len: "01:22",
+    category: "ai",
+    tag: "Cinematic Spec · Story",
+    aspect: "horizontal",
+  },
+  {
+    id: "InYll8W0doQ",
+    title: "Kawasaki Ninja H2 Cinematic — Breaking Realities",
+    client: "Kawasaki Spec",
+    len: "00:42",
+    category: "ai",
+    tag: "Automotive · Hyper-Real",
+    aspect: "horizontal",
+  },
+  {
+    id: "ednqs-KqGHQ",
+    title: "Every Ride Has A Reason | Kawasaki Ninja H2 Night Run",
+    client: "Kawasaki Spec",
+    len: "00:24",
+    category: "ai",
+    tag: "Automotive · Speed Reel",
+    aspect: "horizontal",
+  },
+  {
+    id: "ZgwUmBFYUCg",
+    title: "Sparco 07 Mustang GT — Night Circuit Battle",
+    client: "Sparco Spec",
+    len: "00:49",
+    category: "ai",
+    tag: "Circuit Battle · VFX",
+    aspect: "horizontal",
+  },
+  {
+    id: "Qbw0E0ksRH8",
+    title: "Nexora — The Future of Creative Production & Marketing",
+    client: "Nexora",
+    len: "01:33",
+    category: "ai",
+    tag: "Brand Vision · GenAI",
+    aspect: "horizontal",
+  },
+  {
+    id: "G5B-9PgWWO4",
+    title: 'Nexora Brand Film — "Building What Moves Business"',
+    client: "Nexora",
+    len: "00:54",
+    category: "ai",
+    tag: "Brand Film · Production",
+    aspect: "horizontal",
+  },
+  {
+    id: "pt1-OdMbbu0",
+    title: "How ChatGPT Actually Thinks | Tokenization & AI Explained (Hindi)",
+    client: "Tech Explainer",
+    len: "01:10",
+    category: "ai",
+    tag: "AI Explainer · Hindi",
+    aspect: "horizontal",
+  },
+  {
+    id: "zn0mtYPp5vM",
+    title: "Are Paper Notes Getting Banned in India? The Truth About Polymer Currency",
+    client: "FinTech Explainer",
+    len: "01:09",
+    category: "ai",
+    tag: "Explainer · Motion",
+    aspect: "horizontal",
+  },
+  {
+    id: "KpeI_mdP-iU",
+    title: "What Happens Inside an LED TV in 1 Second? (3D Animation)",
+    client: "3D Animation",
+    len: "01:09",
+    category: "ai",
+    tag: "3D Visuals · Tech",
+    aspect: "horizontal",
+  },
 ];
 
 const CORPORATE_REELS: VideoItem[] = [
   // Edu Finn Vertical Reels (Official Channel: https://www.youtube.com/@EduFinn)
-  { id: "DfVjmdD8Oo0", title: "PG Diploma to Master’s Degree — Student Success", client: "Edu Finn", len: "00:54", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
-  { id: "TZAoX5OAuX8", title: "Study in Dubai — Pathway to France / USA Review", client: "Edu Finn", len: "00:46", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
-  { id: "LZLGyPVfCqk", title: "Unfiltered Feedback from a Happy Student in Finland", client: "Edu Finn", len: "00:59", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
-  { id: "1PXkS0YIn4g", title: "Finland Spouse Visa Success Story at Edu Finn", client: "Edu Finn", len: "00:38", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
-  { id: "Tx5YEJAMjyM", title: "Congratulations to Ramanpreet Kaur for Finland Spouse Visa", client: "Edu Finn", len: "00:43", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
-  { id: "QpoX4eBGDx4", title: "Left No Stone Unturned — Finland Spouse Visa Success", client: "Edu Finn", len: "00:48", category: "corporate", tag: "Edu Finn Reel", aspect: "vertical" },
+  {
+    id: "DfVjmdD8Oo0",
+    title: "PG Diploma to Master’s Degree — Student Success",
+    client: "Edu Finn",
+    len: "00:54",
+    category: "corporate",
+    tag: "Edu Finn Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "TZAoX5OAuX8",
+    title: "Study in Dubai — Pathway to France / USA Review",
+    client: "Edu Finn",
+    len: "00:46",
+    category: "corporate",
+    tag: "Edu Finn Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "LZLGyPVfCqk",
+    title: "Unfiltered Feedback from a Happy Student in Finland",
+    client: "Edu Finn",
+    len: "00:59",
+    category: "corporate",
+    tag: "Edu Finn Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "1PXkS0YIn4g",
+    title: "Finland Spouse Visa Success Story at Edu Finn",
+    client: "Edu Finn",
+    len: "00:38",
+    category: "corporate",
+    tag: "Edu Finn Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "Tx5YEJAMjyM",
+    title: "Congratulations to Ramanpreet Kaur for Finland Spouse Visa",
+    client: "Edu Finn",
+    len: "00:43",
+    category: "corporate",
+    tag: "Edu Finn Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "QpoX4eBGDx4",
+    title: "Left No Stone Unturned — Finland Spouse Visa Success",
+    client: "Edu Finn",
+    len: "00:48",
+    category: "corporate",
+    tag: "Edu Finn Reel",
+    aspect: "vertical",
+  },
 
   // Swift AMS Vertical Reels (Official Channel: https://www.youtube.com/@SwiftAMS)
-  { id: "_-IVA13JMLA", title: "Master Your Notifications: Tailored Alerts Your Way", client: "Swift AMS", len: "00:41", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
-  { id: "QI_LnzCfEKA", title: "Collaborate Seamlessly: Multiple Sub-Agent Logins Now Live", client: "Swift AMS", len: "00:35", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
-  { id: "phqR0kyMaSE", title: "Customize Your Notifications with SwiftAMS CRM", client: "Swift AMS", len: "00:33", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
-  { id: "4K-9YQNYxqk", title: "Track Every Login Session Securely in Real-Time", client: "Swift AMS", len: "00:38", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
-  { id: "2fcoBEoggls", title: "Lead Migrations Across Branches with SwiftAMS", client: "Swift AMS", len: "00:30", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
-  { id: "4C_FVNRcFFo", title: "Team Announcements: Direct, Timely & Effective", client: "Swift AMS", len: "00:32", category: "corporate", tag: "Swift AMS Reel", aspect: "vertical" },
+  {
+    id: "_-IVA13JMLA",
+    title: "Master Your Notifications: Tailored Alerts Your Way",
+    client: "Swift AMS",
+    len: "00:41",
+    category: "corporate",
+    tag: "Swift AMS Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "QI_LnzCfEKA",
+    title: "Collaborate Seamlessly: Multiple Sub-Agent Logins Now Live",
+    client: "Swift AMS",
+    len: "00:35",
+    category: "corporate",
+    tag: "Swift AMS Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "phqR0kyMaSE",
+    title: "Customize Your Notifications with SwiftAMS CRM",
+    client: "Swift AMS",
+    len: "00:33",
+    category: "corporate",
+    tag: "Swift AMS Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "4K-9YQNYxqk",
+    title: "Track Every Login Session Securely in Real-Time",
+    client: "Swift AMS",
+    len: "00:38",
+    category: "corporate",
+    tag: "Swift AMS Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "2fcoBEoggls",
+    title: "Lead Migrations Across Branches with SwiftAMS",
+    client: "Swift AMS",
+    len: "00:30",
+    category: "corporate",
+    tag: "Swift AMS Reel",
+    aspect: "vertical",
+  },
+  {
+    id: "4C_FVNRcFFo",
+    title: "Team Announcements: Direct, Timely & Effective",
+    client: "Swift AMS",
+    len: "00:32",
+    category: "corporate",
+    tag: "Swift AMS Reel",
+    aspect: "vertical",
+  },
 ];
 
 const CORPORATE_FILMS: VideoItem[] = [
-  { id: "qsdorOJX_KQ", title: "Pathway to France — Neeraj Marwaha", client: "Edu Finn", len: "08:23", category: "corporate", tag: "Corporate · Interview", aspect: "horizontal" },
-  { id: "E_2gBwOA_LI", title: "Finland Spouse Visa — Ramanpreet Kaur", client: "Edu Finn", len: "05:15", category: "corporate", tag: "Client Story", aspect: "horizontal" },
-  { id: "CMWVLkfhDV8", title: "Finland Spouse Success Stories 2024", client: "Edu Finn", len: "01:40", category: "corporate", tag: "Success Stories", aspect: "horizontal" },
-  { id: "h7jDP07g5Wg", title: "From Studio Sets to Finnish Classrooms", client: "Edu Finn", len: "05:51", category: "corporate", tag: "Documentary", aspect: "horizontal" },
-  { id: "eMOspLnw3C8", title: "Student Feedback — Study in Finland", client: "Edu Finn", len: "08:12", category: "corporate", tag: "Testimonial", aspect: "horizontal" },
-  { id: "ZtpR21zK6FM", title: "Lead Migration Across Branches", client: "Swift AMS", len: "00:44", category: "corporate", tag: "Product Demo", aspect: "horizontal" },
-  { id: "UNKwLmpR6vk", title: "Infopedia Documents Storage", client: "Swift AMS", len: "01:01", category: "corporate", tag: "Feature Reveal", aspect: "horizontal" },
-  { id: "iglrTBTykjE", title: "Swift AMS — Partner of ICEF 2025", client: "Swift AMS", len: "00:28", category: "corporate", tag: "Event Promo", aspect: "horizontal" },
-  { id: "B4_u3bJF1jo", title: "Upgrade to Swift AMS", client: "Swift AMS", len: "00:50", category: "corporate", tag: "Feature Promo", aspect: "horizontal" },
-  { id: "y3Y0jligfkg", title: "Integrated Payment System Launch", client: "Swift AMS", len: "00:40", category: "corporate", tag: "Product Launch", aspect: "horizontal" },
-  { id: "aCC87nVbR8E", title: "Unveiling Swift AMS", client: "Swift AMS", len: "00:29", category: "corporate", tag: "Brand Teaser", aspect: "horizontal" },
-  { id: "raFlTw1bRhM", title: "Razorpay Integration Reveal", client: "Swift AMS", len: "01:12", category: "corporate", tag: "Fintech Integration", aspect: "horizontal" },
-  { id: "Q5BDjeACCQ0", title: "Customizable QR Forms", client: "Swift AMS", len: "00:47", category: "corporate", tag: "Product Demo", aspect: "horizontal" },
+  {
+    id: "qsdorOJX_KQ",
+    title: "Pathway to France — Neeraj Marwaha",
+    client: "Edu Finn",
+    len: "08:23",
+    category: "corporate",
+    tag: "Corporate · Interview",
+    aspect: "horizontal",
+  },
+  {
+    id: "E_2gBwOA_LI",
+    title: "Finland Spouse Visa — Ramanpreet Kaur",
+    client: "Edu Finn",
+    len: "05:15",
+    category: "corporate",
+    tag: "Client Story",
+    aspect: "horizontal",
+  },
+  {
+    id: "CMWVLkfhDV8",
+    title: "Finland Spouse Success Stories 2024",
+    client: "Edu Finn",
+    len: "01:40",
+    category: "corporate",
+    tag: "Success Stories",
+    aspect: "horizontal",
+  },
+  {
+    id: "h7jDP07g5Wg",
+    title: "From Studio Sets to Finnish Classrooms",
+    client: "Edu Finn",
+    len: "05:51",
+    category: "corporate",
+    tag: "Documentary",
+    aspect: "horizontal",
+  },
+  {
+    id: "eMOspLnw3C8",
+    title: "Student Feedback — Study in Finland",
+    client: "Edu Finn",
+    len: "08:12",
+    category: "corporate",
+    tag: "Testimonial",
+    aspect: "horizontal",
+  },
+  {
+    id: "ZtpR21zK6FM",
+    title: "Lead Migration Across Branches",
+    client: "Swift AMS",
+    len: "00:44",
+    category: "corporate",
+    tag: "Product Demo",
+    aspect: "horizontal",
+  },
+  {
+    id: "UNKwLmpR6vk",
+    title: "Infopedia Documents Storage",
+    client: "Swift AMS",
+    len: "01:01",
+    category: "corporate",
+    tag: "Feature Reveal",
+    aspect: "horizontal",
+  },
+  {
+    id: "iglrTBTykjE",
+    title: "Swift AMS — Partner of ICEF 2025",
+    client: "Swift AMS",
+    len: "00:28",
+    category: "corporate",
+    tag: "Event Promo",
+    aspect: "horizontal",
+  },
+  {
+    id: "B4_u3bJF1jo",
+    title: "Upgrade to Swift AMS",
+    client: "Swift AMS",
+    len: "00:50",
+    category: "corporate",
+    tag: "Feature Promo",
+    aspect: "horizontal",
+  },
+  {
+    id: "y3Y0jligfkg",
+    title: "Integrated Payment System Launch",
+    client: "Swift AMS",
+    len: "00:40",
+    category: "corporate",
+    tag: "Product Launch",
+    aspect: "horizontal",
+  },
+  {
+    id: "aCC87nVbR8E",
+    title: "Unveiling Swift AMS",
+    client: "Swift AMS",
+    len: "00:29",
+    category: "corporate",
+    tag: "Brand Teaser",
+    aspect: "horizontal",
+  },
+  {
+    id: "raFlTw1bRhM",
+    title: "Razorpay Integration Reveal",
+    client: "Swift AMS",
+    len: "01:12",
+    category: "corporate",
+    tag: "Fintech Integration",
+    aspect: "horizontal",
+  },
+  {
+    id: "Q5BDjeACCQ0",
+    title: "Customizable QR Forms",
+    client: "Swift AMS",
+    len: "00:47",
+    category: "corporate",
+    tag: "Product Demo",
+    aspect: "horizontal",
+  },
 ];
 
 const CORPORATE_VIDEOS: VideoItem[] = [...CORPORATE_REELS, ...CORPORATE_FILMS];
@@ -297,7 +965,10 @@ function Portfolio() {
 
   useEffect(() => {
     const ob = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); }),
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        }),
       { rootMargin: "-45% 0px -50% 0px" },
     );
     NAV.forEach((n) => {
@@ -309,7 +980,9 @@ function Portfolio() {
 
   useEffect(() => {
     document.body.style.overflow = lightbox ? "hidden" : "";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(null); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lightbox]);
@@ -393,8 +1066,15 @@ function BigTextBanner({ text }: { text: string }) {
   const x = useTransform(scrollYProgress, [0, 1], ["8%", "-18%"]);
   const loop = Array.from({ length: 4 });
   return (
-    <section ref={ref} aria-hidden className="relative -mx-6 my-8 sm:my-10 md:my-12 overflow-hidden py-4 md:-mx-12 lg:-mx-20">
-      <motion.div style={{ x }} className="flex whitespace-nowrap gap-14 text-display text-[clamp(3rem,10vw,9rem)] leading-[0.95] text-foreground/[0.08]">
+    <section
+      ref={ref}
+      aria-hidden
+      className="relative -mx-6 my-8 sm:my-10 md:my-12 overflow-hidden py-4 md:-mx-12 lg:-mx-20"
+    >
+      <motion.div
+        style={{ x }}
+        className="flex whitespace-nowrap gap-14 text-display text-[clamp(3rem,10vw,9rem)] leading-[0.95] text-foreground/[0.08]"
+      >
         {loop.map((_, i) => (
           <span key={i} className="inline-flex items-center gap-14">
             {text}
@@ -412,12 +1092,17 @@ function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" />
-      <div className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb" style={{ animationDelay: "-7s" }} />
-      <div className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb" style={{ animationDelay: "-14s" }} />
+      <div
+        className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb"
+        style={{ animationDelay: "-7s" }}
+      />
+      <div
+        className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb"
+        style={{ animationDelay: "-14s" }}
+      />
     </div>
   );
 }
-
 
 function Cursor() {
   const x = useMotionValue(-100);
@@ -425,7 +1110,10 @@ function Cursor() {
   const sx = useSpring(x, { stiffness: 300, damping: 30, mass: 0.5 });
   const sy = useSpring(y, { stiffness: 300, damping: 30, mass: 0.5 });
   useEffect(() => {
-    const onMove = (e: PointerEvent) => { x.set(e.clientX); y.set(e.clientY); };
+    const onMove = (e: PointerEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+    };
     window.addEventListener("pointermove", onMove);
     return () => window.removeEventListener("pointermove", onMove);
   }, [x, y]);
@@ -442,7 +1130,15 @@ function Cursor() {
 
 /* ---------- Nav ---------- */
 
-function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark: (v: boolean) => void }) {
+function Nav({
+  active,
+  dark,
+  setDark,
+}: {
+  active: string;
+  dark: boolean;
+  setDark: (v: boolean) => void;
+}) {
   const [open, setOpen] = useState(false);
   const [deskOpen, setDeskOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -450,7 +1146,9 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
   const lastY = useRef(0);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
   useEffect(() => {
     const onScroll = () => {
@@ -472,13 +1170,17 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
       transition={{ type: "spring", stiffness: 260, damping: 30 }}
       className="fixed inset-x-0 top-4 z-50 px-4 md:top-6"
     >
-      <div className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 transition-shadow duration-500 ${scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""}`}>
+      <div
+        className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 transition-shadow duration-500 ${scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""}`}
+      >
         <a href="#intro" className="flex items-center gap-2 pl-3 pr-2">
           <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background">
             <span className="font-display text-sm font-semibold">a</span>
             <span className="pulse-ring absolute inset-0 rounded-full" />
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">arbaaz/2026</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            arbaaz/2026
+          </span>
         </a>
         <div className="flex items-center gap-2">
           <div className="relative hidden md:block">
@@ -514,7 +1216,9 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
                         role="menuitem"
                         onClick={() => setDeskOpen(false)}
                         className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
-                          active === n.id ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+                          active === n.id
+                            ? "bg-foreground/10 text-foreground"
+                            : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                         }`}
                       >
                         <span>{n.label}</span>
@@ -574,7 +1278,9 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
               className="absolute inset-x-4 top-20 rounded-3xl card-white p-6 shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between pb-4 border-b border-border/60">
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Menu</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  Menu
+                </span>
                 <button
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
@@ -593,7 +1299,9 @@ function Nav({ active, dark, setDark }: { active: string; dark: boolean; setDark
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 + i * 0.04 }}
                     className={`flex items-center justify-between rounded-2xl px-4 py-3 font-display text-xl sm:text-2xl transition-colors ${
-                      active === n.id ? "bg-foreground/5 text-foreground font-semibold" : "text-foreground/80 hover:bg-foreground/5"
+                      active === n.id
+                        ? "bg-foreground/5 text-foreground font-semibold"
+                        : "text-foreground/80 hover:bg-foreground/5"
                     }`}
                   >
                     <span>{n.label}</span>
@@ -638,7 +1346,15 @@ function SideRail() {
 
 /* ---------- 3D Tilt wrapper ---------- */
 
-function Tilt({ children, className = "", strength = 12 }: { children: ReactNode; className?: string; strength?: number }) {
+function Tilt({
+  children,
+  className = "",
+  strength = 12,
+}: {
+  children: ReactNode;
+  className?: string;
+  strength?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const rx = useSpring(0, { stiffness: 200, damping: 18 });
@@ -652,14 +1368,22 @@ function Tilt({ children, className = "", strength = 12 }: { children: ReactNode
     ry.set(px * strength);
     rx.set(-py * strength);
   };
-  const onLeave = () => { rx.set(0); ry.set(0); };
+  const onLeave = () => {
+    rx.set(0);
+    ry.set(0);
+  };
 
   return (
     <motion.div
       ref={ref}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
-      style={{ rotateX: rx, rotateY: ry, transformPerspective: 1200, transformStyle: "preserve-3d" }}
+      style={{
+        rotateX: rx,
+        rotateY: ry,
+        transformPerspective: 1200,
+        transformStyle: "preserve-3d",
+      }}
       className={className}
     >
       {children}
@@ -669,8 +1393,27 @@ function Tilt({ children, className = "", strength = 12 }: { children: ReactNode
 
 /* ---------- Placeholder media tile ---------- */
 
-function Placeholder({ label, ratio = "aspect-video", variant = 1, badge, src, fit = "cover" }: { label: string; ratio?: string; variant?: 1 | 2 | 3; badge?: string; src?: string; fit?: "cover" | "contain" }) {
-  const grad = variant === 1 ? "placeholder-grad" : variant === 2 ? "placeholder-grad-2" : "placeholder-grad-3";
+function Placeholder({
+  label,
+  ratio = "aspect-video",
+  variant = 1,
+  badge,
+  src,
+  fit = "cover",
+}: {
+  label: string;
+  ratio?: string;
+  variant?: 1 | 2 | 3;
+  badge?: string;
+  src?: string;
+  fit?: "cover" | "contain";
+}) {
+  const grad =
+    variant === 1
+      ? "placeholder-grad"
+      : variant === 2
+        ? "placeholder-grad-2"
+        : "placeholder-grad-3";
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   useEffect(() => {
@@ -678,7 +1421,9 @@ function Placeholder({ label, ratio = "aspect-video", variant = 1, badge, src, f
     if (imgRef.current && imgRef.current.complete) setLoaded(true);
   }, [src]);
   return (
-    <div className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.04]" : grad}`}>
+    <div
+      className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.04]" : grad}`}
+    >
       {src ? (
         <>
           {!loaded && <div className="absolute inset-0 skeleton-shimmer" aria-hidden="true" />}
@@ -695,9 +1440,13 @@ function Placeholder({ label, ratio = "aspect-video", variant = 1, badge, src, f
         </>
       ) : (
         <>
-          <div className="absolute inset-0 opacity-50" style={{
-            backgroundImage: "radial-gradient(circle at 50% 50%, transparent 40%, oklch(1 0 0 / 0.05) 41%, transparent 42%), radial-gradient(circle at 50% 50%, transparent 60%, oklch(1 0 0 / 0.04) 61%, transparent 62%)",
-          }} />
+          <div
+            className="absolute inset-0 opacity-50"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 50% 50%, transparent 40%, oklch(1 0 0 / 0.05) 41%, transparent 42%), radial-gradient(circle at 50% 50%, transparent 60%, oklch(1 0 0 / 0.04) 61%, transparent 62%)",
+            }}
+          />
           <div className="absolute inset-0 animate-shine" />
         </>
       )}
@@ -720,11 +1469,27 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
   const op = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
 
-  const words = ["Designing", "Seamless", "Digital", "Experiences", "&", "AI-Powered", "Visual", "Media."];
+  const words = [
+    "Designing",
+    "Seamless",
+    "Digital",
+    "Experiences",
+    "&",
+    "AI-Powered",
+    "Visual",
+    "Media.",
+  ];
 
   return (
-    <section id="intro" ref={ref} className="relative pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-24">
-      <motion.div style={{ y, opacity: op }} className="relative grid gap-10 md:grid-cols-12 md:gap-14 md:items-center">
+    <section
+      id="intro"
+      ref={ref}
+      className="relative pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-24"
+    >
+      <motion.div
+        style={{ y, opacity: op }}
+        className="relative grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
+      >
         <div className="md:col-span-7 flex flex-col items-start">
           {/* 1. Status Badge */}
           <motion.div
@@ -753,7 +1518,11 @@ function Hero() {
                 className="mr-[0.18em] inline-block"
                 style={{ transformOrigin: "50% 100%" }}
               >
-                {w === "AI-Powered" || w === "Visual" || w === "Media." ? <em className="text-highlight italic">{w}</em> : w}
+                {w === "AI-Powered" || w === "Visual" || w === "Media." ? (
+                  <em className="text-highlight italic">{w}</em>
+                ) : (
+                  w
+                )}
               </motion.span>
             ))}
           </h1>
@@ -765,7 +1534,8 @@ function Hero() {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground"
           >
-            I combine modern UI/UX design with high-converting marketing visuals — from intuitive Figma prototypes and ad posters to dynamic video editing and generative AI videos.
+            I combine modern UI/UX design with high-converting marketing visuals — from intuitive
+            Figma prototypes and ad posters to dynamic video editing and generative AI videos.
           </motion.p>
 
           {/* 4. CTA Buttons Row */}
@@ -781,7 +1551,9 @@ function Hero() {
                 className="group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02] shadow-md shadow-foreground/10"
               >
                 <span className="relative z-10">Explore My Work</span>
-                <span className="relative z-10 transition-transform group-hover:translate-x-1">↗</span>
+                <span className="relative z-10 transition-transform group-hover:translate-x-1">
+                  ↗
+                </span>
               </a>
             </Magnetic>
             <Magnetic strength={10} padding={14}>
@@ -811,7 +1583,10 @@ function Hero() {
           transition={{ delay: 0.4, duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
           className="md:col-span-5"
         >
-          <Tilt strength={18} className="relative mx-auto aspect-[4/5] w-full max-w-[420px] max-h-[520px]">
+          <Tilt
+            strength={18}
+            className="relative mx-auto aspect-[4/5] w-full max-w-[420px] max-h-[520px]"
+          >
             <div className="absolute inset-0 rounded-3xl bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
               <img
                 src={arbaazHero}
@@ -819,19 +1594,35 @@ function Hero() {
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent p-5 text-white">
-                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">UI/UX · Graphic Design · AI Video</p>
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
+                  UI/UX · Graphic Design · AI Video
+                </p>
                 <p className="font-display text-2xl">Arbaaz K.</p>
               </div>
             </div>
 
-            <motion.div animate={{ y: [0, -12, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -left-5 top-10 glass rounded-2xl p-3" style={{ transform: "translateZ(60px)" }}>
-              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">Specialist</p>
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -left-5 top-10 glass rounded-2xl p-3"
+              style={{ transform: "translateZ(60px)" }}
+            >
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                Specialist
+              </p>
               <p className="font-display text-sm">UI/UX & AI Video</p>
             </motion.div>
-            <motion.div animate={{ y: [0, 14, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} className="absolute -right-5 bottom-16 glass rounded-2xl px-3 py-2" style={{ transform: "translateZ(80px)" }}>
+            <motion.div
+              animate={{ y: [0, 14, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -right-5 bottom-16 glass rounded-2xl px-3 py-2"
+              style={{ transform: "translateZ(80px)" }}
+            >
               <div className="flex items-center gap-2">
                 <span className="h-2 w-2 rounded-full bg-foreground" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em]">4.5+ yrs · creative</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
+                  4.5+ yrs · creative
+                </span>
               </div>
             </motion.div>
             <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
@@ -839,15 +1630,20 @@ function Hero() {
         </motion.div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4, duration: 0.6 }} className="mt-16 sm:mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-        <span className="flex items-center gap-2"><span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" /></span>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
+        className="mt-16 sm:mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+      >
+        <span className="flex items-center gap-2">
+          <span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" />
+        </span>
         <span className="hidden md:inline">Gurugram, Haryana · Remote worldwide</span>
       </motion.div>
     </section>
   );
 }
-
-
 
 const ABOUT_CARDS = [
   { key: "UI/UX Design", val: "Wireframes · Figma · App UI", Icon: Layout },
@@ -871,7 +1667,9 @@ function About() {
               className="absolute inset-0 h-full w-full object-cover object-top"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent p-5 text-white">
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">About</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
+                About
+              </p>
               <p className="font-display text-xl sm:text-2xl font-semibold">Arbaaz K.</p>
             </div>
             <motion.div
@@ -880,7 +1678,9 @@ function About() {
               className="absolute -right-4 -top-4 h-20 w-20 pointer-events-none hidden sm:block"
             >
               <svg viewBox="0 0 100 100" className="h-full w-full fill-foreground">
-                <defs><path id="cabout" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" /></defs>
+                <defs>
+                  <path id="cabout" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+                </defs>
                 <text fontSize="9" letterSpacing="2" className="font-mono">
                   <textPath href="#cabout">DESIGN · CRAFT · MOTION · </textPath>
                 </text>
@@ -891,11 +1691,23 @@ function About() {
 
         <div className="md:col-span-7 lg:col-span-8 flex flex-col justify-between space-y-6 sm:space-y-8">
           <div className="space-y-4 sm:space-y-6">
-            <Reveal as="h2" className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-              Frictionless UI/UX meets <em className="text-highlight italic">high-impact visual media</em> — from concept to final cut.
+            <Reveal
+              as="h2"
+              className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]"
+            >
+              Frictionless UI/UX meets{" "}
+              <em className="text-highlight italic">high-impact visual media</em> — from concept to
+              final cut.
             </Reveal>
-            <Reveal as="p" delay={0.08} className="max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-              From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I blend user-centered design, bold visual storytelling, and modern creative workflows to craft memorable digital experiences.
+            <Reveal
+              as="p"
+              delay={0.08}
+              className="max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground"
+            >
+              From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad
+              banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I
+              blend user-centered design, bold visual storytelling, and modern creative workflows to
+              craft memorable digital experiences.
             </Reveal>
           </div>
 
@@ -943,18 +1755,28 @@ function Stats() {
       >
         <div className="grid items-center gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[color:var(--highlight)]" style={{ background: "color-mix(in oklab, var(--highlight) 14%, transparent)" }}>
+            <div
+              className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[color:var(--highlight)]"
+              style={{ background: "color-mix(in oklab, var(--highlight) 14%, transparent)" }}
+            >
               <Sparkles size={14} />
               <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Experience</span>
             </div>
             <p className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9]">
-              <CountUp end={4.5} decimals={1} /><span className="text-highlight">+</span>
+              <CountUp end={4.5} decimals={1} />
+              <span className="text-highlight">+</span>
             </p>
             <p className="text-eyebrow mt-3">Years designing digital products & visual media</p>
           </div>
           <div className="md:col-span-7">
             <p className="text-base sm:text-lg md:text-xl leading-relaxed text-foreground/85">
-              4.5+ years crafting <em className="text-highlight not-italic font-medium">intuitive UI/UX designs, high-impact graphic collateral, dynamic video edits, and AI-powered visual media</em> — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and cinematic reels.
+              4.5+ years crafting{" "}
+              <em className="text-highlight not-italic font-medium">
+                intuitive UI/UX designs, high-impact graphic collateral, dynamic video edits, and
+                AI-powered visual media
+              </em>{" "}
+              — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and
+              cinematic reels.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
               {highlights.map((h, i) => (
@@ -992,7 +1814,8 @@ function Services() {
         </div>
         <div className="md:col-span-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Three focused creative pillars — from frictionless Figma prototypes to high-converting ad banners and dynamic video edits.
+            Three focused creative pillars — from frictionless Figma prototypes to high-converting
+            ad banners and dynamic video edits.
           </p>
         </div>
       </div>
@@ -1009,13 +1832,19 @@ function Services() {
           >
             <div>
               <div className="mb-6 flex items-center justify-between">
-                <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">{s.no}</span>
+                <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                  {s.no}
+                </span>
                 <span className="card-white inline-flex h-12 w-12 items-center justify-center rounded-2xl text-foreground group-hover:text-highlight transition-colors">
                   <s.Icon size={22} />
                 </span>
               </div>
-              <h3 className="text-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">{s.title}</h3>
-              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-highlight">{s.subtitle}</p>
+              <h3 className="text-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
+                {s.title}
+              </h3>
+              <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-highlight">
+                {s.subtitle}
+              </p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
 
               <div className="my-6 h-px w-full bg-border/60" />
@@ -1034,7 +1863,10 @@ function Services() {
 
             <div className="mt-8 flex flex-wrap gap-1.5 pt-4 border-t border-border/40">
               {s.tags.map((t) => (
-                <span key={t} className="rounded-full bg-foreground/[0.05] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
+                <span
+                  key={t}
+                  className="rounded-full bg-foreground/[0.05] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground"
+                >
                   {t}
                 </span>
               ))}
@@ -1082,12 +1914,32 @@ const SKILL_TRACKS: SkillTrackData[] = [
     label: "Design & Motion Tools",
     items: [
       { name: "Figma", logo: figmaLogo, link: "https://www.figma.com/" },
-      { name: "Adobe Photoshop", logo: photoshopLogo, link: "https://www.adobe.com/products/photoshop.html" },
-      { name: "Adobe Illustrator", logo: illustratorLogo, link: "https://www.adobe.com/products/illustrator.html" },
-      { name: "Adobe InDesign", logo: indesignLogo, link: "https://www.adobe.com/products/indesign.html" },
+      {
+        name: "Adobe Photoshop",
+        logo: photoshopLogo,
+        link: "https://www.adobe.com/products/photoshop.html",
+      },
+      {
+        name: "Adobe Illustrator",
+        logo: illustratorLogo,
+        link: "https://www.adobe.com/products/illustrator.html",
+      },
+      {
+        name: "Adobe InDesign",
+        logo: indesignLogo,
+        link: "https://www.adobe.com/products/indesign.html",
+      },
       { name: "Adobe XD", logo: xdLogo, link: "https://www.adobe.com/products/xd.html" },
-      { name: "Adobe Premiere Pro", logo: premiereproLogo, link: "https://www.adobe.com/products/premiere.html" },
-      { name: "Adobe After Effects", logo: aftereffectsLogo, link: "https://www.adobe.com/products/aftereffects.html" },
+      {
+        name: "Adobe Premiere Pro",
+        logo: premiereproLogo,
+        link: "https://www.adobe.com/products/premiere.html",
+      },
+      {
+        name: "Adobe After Effects",
+        logo: aftereffectsLogo,
+        link: "https://www.adobe.com/products/aftereffects.html",
+      },
       { name: "Canva", logo: canvaLogo, link: "https://www.canva.com/" },
       { name: "CapCut", icon: Film, link: "https://www.capcut.com/" },
     ],
@@ -1099,7 +1951,11 @@ const SKILL_TRACKS: SkillTrackData[] = [
       { name: "ChatGPT", logo: chatgptLogo, link: "https://chatgpt.com/" },
       { name: "Claude", logo: claudeLogo, link: "https://claude.ai/" },
       { name: "Gemini", logo: geminiLogo, link: "https://gemini.google.com/" },
-      { name: "Adobe Firefly", logo: photoshopLogo, link: "https://www.adobe.com/products/firefly.html" },
+      {
+        name: "Adobe Firefly",
+        logo: photoshopLogo,
+        link: "https://www.adobe.com/products/firefly.html",
+      },
       { name: "Figma AI", logo: figmaLogo, link: "https://www.figma.com/ai/" },
       { name: "Canva AI", logo: canvaLogo, link: "https://www.canva.com/ai/" },
       { name: "Cursor", logo: cursorLogo, link: "https://cursor.com/" },
@@ -1220,7 +2076,9 @@ function SkillTrack({
                     aria-hidden
                     loading="lazy"
                     className="h-4 w-4 shrink-0 rounded-sm object-contain"
-                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = "none";
+                    }}
                   />
                 ) : item.icon ? (
                   <item.icon size={15} className="shrink-0 text-foreground/70" />
@@ -1267,7 +2125,8 @@ function Skills() {
           </h2>
         </div>
         <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
-          A landscape view of my creative toolkit across design software, generative AI models, core UI/UX methodologies, and motion pipelines.
+          A landscape view of my creative toolkit across design software, generative AI models, core
+          UI/UX methodologies, and motion pipelines.
         </p>
       </div>
 
@@ -1289,24 +2148,44 @@ function Skills() {
 /* ---------- Experience ---------- */
 
 type JobLink = { label: string; href: string };
-type Job = { company: string; role: string; period: string; summary: string; Icon: ComponentType<{ className?: string; size?: number }>; links?: JobLink[] };
+type Job = {
+  company: string;
+  role: string;
+  period: string;
+  summary: string;
+  Icon: ComponentType<{ className?: string; size?: number }>;
+  links?: JobLink[];
+};
 
 const EXPERIENCE: Job[] = [
   {
     company: "SwiftAMS (Study Abroad CRM)",
     role: "UI/UX Designer & Creative Lead",
     period: "Jun 2022 — Present",
-    summary: "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design.",
+    summary:
+      "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design.",
     Icon: Briefcase,
     links: [
       { label: "Website", href: "https://www.swiftams.com/" },
       { label: "CRM", href: "https://app.swiftams.com/login" },
       { label: "Instagram", href: "https://www.instagram.com/swiftams/" },
-      { label: "Agency App · Android", href: "https://play.google.com/store/apps/details?id=com.codexplabs.swiftcounsellorapp&pli=1" },
-      { label: "Agency App · iOS", href: "https://apps.apple.com/in/app/swiftams-business/id6451433255" },
-      { label: "Student App · Android", href: "https://play.google.com/store/apps/details?id=com.swiftams.swiftmobileapp" },
+      {
+        label: "Agency App · Android",
+        href: "https://play.google.com/store/apps/details?id=com.codexplabs.swiftcounsellorapp&pli=1",
+      },
+      {
+        label: "Agency App · iOS",
+        href: "https://apps.apple.com/in/app/swiftams-business/id6451433255",
+      },
+      {
+        label: "Student App · Android",
+        href: "https://play.google.com/store/apps/details?id=com.swiftams.swiftmobileapp",
+      },
       { label: "Student App · iOS", href: "https://apps.apple.com/in/app/swiftams/id6469041818" },
-      { label: "B2B Hub · Android", href: "https://play.google.com/store/apps/details?id=com.swiftams.swifthubapp" },
+      {
+        label: "B2B Hub · Android",
+        href: "https://play.google.com/store/apps/details?id=com.swiftams.swifthubapp",
+      },
       { label: "B2B Hub · iOS", href: "https://apps.apple.com/us/app/swiftams-hub/id6474495227" },
     ],
   },
@@ -1314,7 +2193,8 @@ const EXPERIENCE: Job[] = [
     company: "Edu Finn",
     role: "Graphic Designer & Video Editor",
     period: "2024 — 2025",
-    summary: "Designed multi-page brochures, event standees, promotional posters, and social media ad creatives. Produced, edited, and sound-designed high-retention vertical reels, student testimonial films, and marketing video campaigns for European university programs.",
+    summary:
+      "Designed multi-page brochures, event standees, promotional posters, and social media ad creatives. Produced, edited, and sound-designed high-retention vertical reels, student testimonial films, and marketing video campaigns for European university programs.",
     Icon: Layers,
     links: [
       { label: "Instagram", href: "https://www.instagram.com/edu_finn/" },
@@ -1325,17 +2205,17 @@ const EXPERIENCE: Job[] = [
     company: "Digital Cappuccino",
     role: "Graphic Designer & Visual Artist",
     period: "2022 — 2023",
-    summary: "Designed high-converting ad banners, social media campaigns, promotional graphics, and brand assets. Managed creative direction and content calendars across multi-channel client accounts.",
+    summary:
+      "Designed high-converting ad banners, social media campaigns, promotional graphics, and brand assets. Managed creative direction and content calendars across multi-channel client accounts.",
     Icon: Coffee,
-    links: [
-      { label: "Website", href: "https://www.digitalcappuccino.com/" },
-    ],
+    links: [{ label: "Website", href: "https://www.digitalcappuccino.com/" }],
   },
   {
     company: "Independent Projects",
     role: "UI/UX Designer & Video Editor",
     period: "2021",
-    summary: "Designed web and mobile app interfaces, wireframes, and interactive prototypes. Produced promotional video edits, motion graphics, and distinctive brand identities for startups and creators.",
+    summary:
+      "Designed web and mobile app interfaces, wireframes, and interactive prototypes. Produced promotional video edits, motion graphics, and distinctive brand identities for startups and creators.",
     Icon: Layers,
   },
 ];
@@ -1347,12 +2227,14 @@ function Experience() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4 sm:mb-6">/ 05 — Experience</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            4.5+ years shaping <em className="text-highlight italic">UI/UX, visual media</em> & dynamic video.
+            4.5+ years shaping <em className="text-highlight italic">UI/UX, visual media</em> &
+            dynamic video.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Creative design roles and client collaborations — crafting frictionless digital products, high-impact ad campaigns, and engaging video content.
+            Creative design roles and client collaborations — crafting frictionless digital
+            products, high-impact ad campaigns, and engaging video content.
           </p>
         </div>
       </div>
@@ -1374,7 +2256,9 @@ function Experience() {
             <div className="card-white rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-18px_rgba(0,0,0,0.22)] md:p-8">
               <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-display text-2xl md:text-3xl">{job.company}</h3>
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{job.period}</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  {job.period}
+                </span>
               </div>
               <p className="text-sm uppercase tracking-[0.15em] text-highlight">{job.role}</p>
               <p className="mt-3 max-w-2xl leading-relaxed text-foreground/80">{job.summary}</p>
@@ -1401,12 +2285,6 @@ function Experience() {
     </section>
   );
 }
-
-
-
-
-
-
 
 /* ---------- Gallery (grouped by category, aligned & always-visible) ---------- */
 
@@ -1507,7 +2385,10 @@ function BrochureCard({
   useEffect(() => {
     const preload = (i: number) => {
       const it = items[i];
-      if (it?.src) { const img = new Image(); img.src = it.src; }
+      if (it?.src) {
+        const img = new Image();
+        img.src = it.src;
+      }
     };
     preload(safeIndex + 1);
     preload(safeIndex - 1);
@@ -1557,7 +2438,9 @@ function BrochureCard({
 
       <div className="flex items-baseline justify-between gap-2 px-1">
         <p className="truncate text-sm font-medium text-foreground">{brochure.name}</p>
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{brochure.tagline}</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          {brochure.tagline}
+        </span>
       </div>
 
       {/* Thumbnail strip — only rendered for existing pages, no popup on click */}
@@ -1593,7 +2476,6 @@ function BrochureCard({
   );
 }
 
-
 type WorkTab = "All" | "UI/UX Designs" | "Posters & Banners" | "Video & AI Video";
 const WORK_TABS: WorkTab[] = ["All", "UI/UX Designs", "Posters & Banners", "Video & AI Video"];
 
@@ -1613,7 +2495,9 @@ function Work({
   const uiAllItems = [...uiWebItems, ...uiMobileItems];
 
   const posterItems = GALLERY.filter((g) => g.category === "Social");
-  const standeeItems = GALLERY.filter((g) => g.category === "Print" && g.id.startsWith("p") && Number(g.id.slice(1)) >= 6);
+  const standeeItems = GALLERY.filter(
+    (g) => g.category === "Print" && g.id.startsWith("p") && Number(g.id.slice(1)) >= 6,
+  );
   const brandItems = GALLERY.filter((g) => g.category === "Brand");
 
   const reelVideos = CORPORATE_REELS;
@@ -1633,7 +2517,8 @@ function Work({
             Selected Works & <em className="text-highlight italic">Creative Showcase</em>
           </h2>
           <p className="mt-3 max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Explore curated projects across UI/UX design, marketing posters & brand collateral, and dynamic video edits. Tap any item to inspect details or launch playback.
+            Explore curated projects across UI/UX design, marketing posters & brand collateral, and
+            dynamic video edits. Tap any item to inspect details or launch playback.
           </p>
         </div>
 
@@ -1686,8 +2571,17 @@ function Work({
             {/* Web Platforms & Dashboards */}
             <div>
               <div className="mb-6 flex items-baseline gap-3">
-                <h4 className="font-display text-2xl font-bold text-foreground">Web Platforms & Dashboards</h4>
-                <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                <h4 className="font-display text-2xl font-bold text-foreground">
+                  Web Platforms & Dashboards
+                </h4>
+                <span
+                  className="text-highlight"
+                  style={{
+                    fontFamily: "'Instrument Serif', serif",
+                    fontStyle: "italic",
+                    fontSize: "1.25rem",
+                  }}
+                >
                   Figma Systems
                 </span>
               </div>
@@ -1714,8 +2608,12 @@ function Work({
                     </div>
                     <div className="p-3 flex items-center justify-between">
                       <div>
-                        <p className="font-display text-lg font-semibold text-foreground">{item.label}</p>
-                        <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Figma High-Fidelity Design</p>
+                        <p className="font-display text-lg font-semibold text-foreground">
+                          {item.label}
+                        </p>
+                        <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                          Figma High-Fidelity Design
+                        </p>
                       </div>
                       <span className="font-mono text-[10px] uppercase tracking-wider text-highlight group-hover:underline">
                         View UI →
@@ -1729,8 +2627,17 @@ function Work({
             {/* Mobile App UI */}
             <div>
               <div className="mb-6 flex items-baseline gap-3">
-                <h4 className="font-display text-2xl font-bold text-foreground">Mobile Application UI</h4>
-                <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                <h4 className="font-display text-2xl font-bold text-foreground">
+                  Mobile Application UI
+                </h4>
+                <span
+                  className="text-highlight"
+                  style={{
+                    fontFamily: "'Instrument Serif', serif",
+                    fontStyle: "italic",
+                    fontSize: "1.25rem",
+                  }}
+                >
                   iOS & Android
                 </span>
               </div>
@@ -1757,7 +2664,9 @@ function Work({
                     </div>
                     <div className="mt-2.5 px-1 flex items-center justify-between">
                       <p className="truncate text-xs font-medium text-foreground">{item.label}</p>
-                      <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">Preview →</span>
+                      <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                        Preview →
+                      </span>
                     </div>
                   </motion.button>
                 ))}
@@ -1791,7 +2700,9 @@ function Work({
             {/* Multi-page Brochures */}
             <div>
               <div className="mb-6 flex items-baseline gap-3">
-                <h4 className="font-display text-2xl font-bold text-foreground">Multi-Page Brochures</h4>
+                <h4 className="font-display text-2xl font-bold text-foreground">
+                  Multi-Page Brochures
+                </h4>
                 <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-highlight">
                   Print-Ready · CMYK
                 </span>
@@ -1806,8 +2717,17 @@ function Work({
             {/* Promotional Posters & Social Media Ad Creatives */}
             <div>
               <div className="mb-6 flex items-baseline gap-3">
-                <h4 className="font-display text-2xl font-bold text-foreground">Promotional & Event Posters</h4>
-                <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontSize: "1.25rem" }}>
+                <h4 className="font-display text-2xl font-bold text-foreground">
+                  Promotional & Event Posters
+                </h4>
+                <span
+                  className="text-highlight"
+                  style={{
+                    fontFamily: "'Instrument Serif', serif",
+                    fontStyle: "italic",
+                    fontSize: "1.25rem",
+                  }}
+                >
                   Ad Campaigns
                 </span>
               </div>
@@ -1834,7 +2754,9 @@ function Work({
                     </div>
                     <div className="mt-2 px-1 flex items-center justify-between">
                       <p className="truncate text-xs font-medium text-foreground">{item.label}</p>
-                      <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">View →</span>
+                      <span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
+                        View →
+                      </span>
                     </div>
                   </motion.button>
                 ))}
@@ -1854,8 +2776,12 @@ function Work({
             <div className="grid gap-12 md:grid-cols-2">
               <div>
                 <div className="mb-6 flex items-baseline gap-3">
-                  <h4 className="font-display text-2xl font-bold text-foreground">Event Standees</h4>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Trade-Show Displays</span>
+                  <h4 className="font-display text-2xl font-bold text-foreground">
+                    Event Standees
+                  </h4>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    Trade-Show Displays
+                  </span>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   {standeeItems.slice(0, 3).map((s, idx) => (
@@ -1865,9 +2791,17 @@ function Work({
                       className="group block cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card p-1.5 transition-all hover:border-highlight"
                     >
                       <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
-                        <Placeholder label={s.label} ratio="aspect-[3/4]" variant={s.variant} src={s.src} fit="contain" />
+                        <Placeholder
+                          label={s.label}
+                          ratio="aspect-[3/4]"
+                          variant={s.variant}
+                          src={s.src}
+                          fit="contain"
+                        />
                       </div>
-                      <p className="mt-1 truncate text-center font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{s.label}</p>
+                      <p className="mt-1 truncate text-center font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                        {s.label}
+                      </p>
                     </motion.button>
                   ))}
                 </div>
@@ -1875,8 +2809,12 @@ function Work({
 
               <div>
                 <div className="mb-6 flex items-baseline gap-3">
-                  <h4 className="font-display text-2xl font-bold text-foreground">Brand Marks & Logos</h4>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Identity Systems</span>
+                  <h4 className="font-display text-2xl font-bold text-foreground">
+                    Brand Marks & Logos
+                  </h4>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    Identity Systems
+                  </span>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {brandItems.map((b, idx) => (
@@ -1886,9 +2824,17 @@ function Work({
                       className="group block cursor-pointer overflow-hidden rounded-2xl border border-border/60 bg-card p-2.5 transition-all hover:border-highlight"
                     >
                       <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-black/5">
-                        <Placeholder label={b.label} ratio="aspect-[16/9]" variant={b.variant} src={b.src} fit="contain" />
+                        <Placeholder
+                          label={b.label}
+                          ratio="aspect-[16/9]"
+                          variant={b.variant}
+                          src={b.src}
+                          fit="contain"
+                        />
                       </div>
-                      <p className="mt-1.5 truncate text-center text-xs font-medium text-foreground">{b.label}</p>
+                      <p className="mt-1.5 truncate text-center text-xs font-medium text-foreground">
+                        {b.label}
+                      </p>
                     </motion.button>
                   ))}
                 </div>
@@ -1922,8 +2868,12 @@ function Work({
             {/* Vertical Reels (9:16) */}
             <div>
               <div className="mb-6 flex items-baseline gap-3">
-                <h4 className="font-display text-2xl font-bold text-foreground">Short-Form Content (Reels & Shorts)</h4>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-highlight">Format 9:16 · Mobile First</span>
+                <h4 className="font-display text-2xl font-bold text-foreground">
+                  Short-Form Content (Reels & Shorts)
+                </h4>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-highlight">
+                  Format 9:16 · Mobile First
+                </span>
               </div>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                 {reelVideos.map((v) => (
@@ -1959,7 +2909,9 @@ function Work({
                       </div>
                     </div>
                     <div className="p-2.5">
-                      <p className="line-clamp-2 text-xs font-semibold text-foreground leading-snug">{v.title}</p>
+                      <p className="line-clamp-2 text-xs font-semibold text-foreground leading-snug">
+                        {v.title}
+                      </p>
                       <button
                         type="button"
                         onClick={() => onOpenVideo(v)}
@@ -1976,8 +2928,12 @@ function Work({
             {/* Corporate & Commercial Films (16:9) */}
             <div>
               <div className="mb-6 flex items-baseline gap-3">
-                <h4 className="font-display text-2xl font-bold text-foreground">Long-Form YouTube & Commercial Ads</h4>
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Format 16:9 · 4K Mastered</span>
+                <h4 className="font-display text-2xl font-bold text-foreground">
+                  Long-Form YouTube & Commercial Ads
+                </h4>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  Format 16:9 · 4K Mastered
+                </span>
               </div>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {[...filmVideos.slice(0, 3), ...aiVideos.slice(0, 3)].map((v) => (
@@ -2013,7 +2969,9 @@ function Work({
                       </div>
                     </div>
                     <div className="flex flex-1 flex-col justify-between p-4">
-                      <p className="line-clamp-2 text-sm font-semibold text-foreground leading-snug">{v.title}</p>
+                      <p className="line-clamp-2 text-sm font-semibold text-foreground leading-snug">
+                        {v.title}
+                      </p>
                       <div className="mt-3 flex items-center justify-between border-t border-border/50 pt-3">
                         <button
                           type="button"
@@ -2080,7 +3038,8 @@ function Work({
                 Follow the full feed
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Live social work and dynamic marketing creatives continue on Instagram & channels — tap a handle to open the profile.
+                Live social work and dynamic marketing creatives continue on Instagram & channels —
+                tap a handle to open the profile.
               </p>
               <div className="mt-6 space-y-3">
                 <a
@@ -2095,7 +3054,9 @@ function Work({
                     </span>
                     <div>
                       <p className="text-sm font-semibold text-foreground">SwiftAMS</p>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">@swiftams</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        @swiftams
+                      </p>
                     </div>
                   </div>
                   <ArrowUpRight className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-highlight" />
@@ -2112,7 +3073,9 @@ function Work({
                     </span>
                     <div>
                       <p className="text-sm font-semibold text-foreground">Edu Finn</p>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">@edu_finn</p>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        @edu_finn
+                      </p>
                     </div>
                   </div>
                   <ArrowUpRight className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-highlight" />
@@ -2145,20 +3108,42 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           <span>Generative AI & Motion Direction</span>
         </div>
         <h2 className="font-display font-bold leading-[1.05] tracking-tight text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-          AI Video <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Lab</span>
+          AI Video{" "}
+          <span
+            className="text-highlight"
+            style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontStyle: "italic",
+              fontWeight: 400,
+            }}
+          >
+            Lab
+          </span>
         </h2>
         <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
           13 Speculative Commercials · 3D Product Reels · Automotive Cinematics
         </p>
         <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground">
-          Bridging cinematic visual storytelling and generative AI workflows. Featuring 13 brand-new AI speculative commercials, 3D product reels, and automotive cinematics created with Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
+          Bridging cinematic visual storytelling and generative AI workflows. Featuring 13 brand-new
+          AI speculative commercials, 3D product reels, and automotive cinematics created with
+          Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
         </p>
       </motion.div>
 
       <div className="mb-10 flex items-center justify-center gap-4">
         <span className="h-px w-10 bg-border" />
         <h3 className="font-display text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-          Curated <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>AI Films</span>
+          Curated{" "}
+          <span
+            className="text-highlight"
+            style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontStyle: "italic",
+              fontWeight: 400,
+            }}
+          >
+            AI Films
+          </span>
         </h3>
         <span className="h-px w-10 bg-border" />
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
@@ -2313,26 +3298,28 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
 /* ---------- Corporate & Client Reels & Shorts ---------- */
 
 function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
-  const [activeFilter, setActiveFilter] = useState<"all" | "reels" | "films" | "edufinn" | "swiftams">("all");
+  const [activeFilter, setActiveFilter] = useState<
+    "all" | "reels" | "films" | "edufinn" | "swiftams"
+  >("all");
   const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
 
   const displayedReels =
     activeFilter === "swiftams"
       ? CORPORATE_REELS.filter((r) => r.client === "Swift AMS")
       : activeFilter === "edufinn"
-      ? CORPORATE_REELS.filter((r) => r.client === "Edu Finn")
-      : activeFilter === "films"
-      ? []
-      : CORPORATE_REELS;
+        ? CORPORATE_REELS.filter((r) => r.client === "Edu Finn")
+        : activeFilter === "films"
+          ? []
+          : CORPORATE_REELS;
 
   const displayedFilms =
     activeFilter === "swiftams"
       ? CORPORATE_FILMS.filter((f) => f.client === "Swift AMS")
       : activeFilter === "edufinn"
-      ? CORPORATE_FILMS.filter((f) => f.client === "Edu Finn")
-      : activeFilter === "reels"
-      ? []
-      : CORPORATE_FILMS;
+        ? CORPORATE_FILMS.filter((f) => f.client === "Edu Finn")
+        : activeFilter === "reels"
+          ? []
+          : CORPORATE_FILMS;
 
   const totalCount = displayedReels.length + displayedFilms.length;
 
@@ -2350,13 +3337,24 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           <span>Motion Direction & Production</span>
         </div>
         <h2 className="font-display font-bold leading-[1.05] tracking-tight text-foreground text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-          Corporate <span className="text-highlight" style={{ fontFamily: "'Instrument Serif', serif", fontStyle: "italic", fontWeight: 400 }}>Reels</span>
+          Corporate{" "}
+          <span
+            className="text-highlight"
+            style={{
+              fontFamily: "'Instrument Serif', serif",
+              fontStyle: "italic",
+              fontWeight: 400,
+            }}
+          >
+            Reels
+          </span>
         </h2>
         <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
           Vertical Reels (9:16) · Founder Stories · Product Video Promos
         </p>
         <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground">
-          High-conversion vertical social reels, student testimonial documentaries, and product video promos produced for Edu Finn and Swift AMS.
+          High-conversion vertical social reels, student testimonial documentaries, and product
+          video promos produced for Edu Finn and Swift AMS.
         </p>
 
         {/* Official Channel Links */}
@@ -2760,21 +3758,37 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
 
 /* ---------- Lightbox: image (download + comment) OR video (inline) ---------- */
 
-function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxState>; onClose: () => void; onNavigate?: (dir: -1 | 1) => void }) {
+function Lightbox({
+  state,
+  onClose,
+  onNavigate,
+}: {
+  state: NonNullable<LightboxState>;
+  onClose: () => void;
+  onNavigate?: (dir: -1 | 1) => void;
+}) {
   const [comments, setComments] = useState<string[]>([]);
   const [draft, setDraft] = useState("");
   const touchStartX = useRef<number | null>(null);
 
   const activeItemId = state.kind === "image" ? state.item.id : state.item.id;
   // reset comments when item changes
-  useEffect(() => { setComments([]); setDraft(""); }, [activeItemId]);
+  useEffect(() => {
+    setComments([]);
+    setDraft("");
+  }, [activeItemId]);
 
   // Keyboard arrows for prev/next
   useEffect(() => {
     if (!onNavigate || state.kind !== "image" || !state.list) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") { e.preventDefault(); onNavigate(-1); }
-      else if (e.key === "ArrowRight") { e.preventDefault(); onNavigate(1); }
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        onNavigate(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        onNavigate(1);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -2785,7 +3799,10 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
     if (state.kind !== "image" || !state.list || state.index == null) return;
     const preload = (i: number) => {
       const it = state.list?.[i];
-      if (it?.src) { const img = new Image(); img.src = it.src; }
+      if (it?.src) {
+        const img = new Image();
+        img.src = it.src;
+      }
     };
     preload(state.index + 1);
     preload(state.index - 1);
@@ -2801,7 +3818,9 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
       transition={{ duration: 0.25 }}
       className="fixed inset-0 z-[80] flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
-      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+      onTouchStart={(e) => {
+        touchStartX.current = e.touches[0].clientX;
+      }}
       onTouchEnd={(e) => {
         if (touchStartX.current == null || !hasNav || !onNavigate) return;
         const dx = e.changedTouches[0].clientX - touchStartX.current;
@@ -2815,14 +3834,20 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
         <>
           <button
             aria-label="Previous"
-            onClick={(e) => { e.stopPropagation(); onNavigate?.(-1); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onNavigate?.(-1);
+            }}
             className="absolute left-3 top-1/2 z-20 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 backdrop-blur hover:bg-foreground hover:text-background md:left-6"
           >
             <ChevronLeft size={18} />
           </button>
           <button
             aria-label="Next"
-            onClick={(e) => { e.stopPropagation(); onNavigate?.(1); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onNavigate?.(1);
+            }}
             className="absolute right-3 top-1/2 z-20 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 bg-background/80 backdrop-blur hover:bg-foreground hover:text-background md:right-6"
           >
             <ChevronRight size={18} />
@@ -2856,12 +3881,19 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
               </AnimatePresence>
               {hasNav && state.index != null && state.list && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur">
-                  {String(state.index + 1).padStart(2, "0")} / {String(state.list.length).padStart(2, "0")}
+                  {String(state.index + 1).padStart(2, "0")} /{" "}
+                  {String(state.list.length).padStart(2, "0")}
                 </div>
               )}
             </div>
           ) : (
-            <div className={state.item.aspect === "vertical" ? "relative aspect-[9/16] h-[min(82vh,680px)] w-auto max-w-[90vw] overflow-hidden bg-black" : "relative aspect-video w-[min(80vw,1000px)] bg-black"}>
+            <div
+              className={
+                state.item.aspect === "vertical"
+                  ? "relative aspect-[9/16] h-[min(82vh,680px)] w-auto max-w-[90vw] overflow-hidden bg-black"
+                  : "relative aspect-video w-[min(80vw,1000px)] bg-black"
+              }
+            >
               <iframe
                 src={`https://www.youtube.com/embed/${state.item.id}?autoplay=1&rel=0`}
                 title={state.item.title}
@@ -2872,7 +3904,6 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
             </div>
           )}
         </div>
-
 
         {/* Detail side */}
         <div className="flex w-full shrink-0 flex-col gap-5 overflow-y-auto p-6 md:w-[340px] md:p-8">
@@ -2928,20 +3959,32 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
                   <MessageCircle size={12} /> Copy title
                 </button>
               </>
-
             ) : (
               <div className="flex flex-wrap items-center gap-2">
                 <a
-                  href={state.item.aspect === "vertical" ? `https://www.youtube.com/shorts/${state.item.id}` : `https://www.youtube.com/watch?v=${state.item.id}`}
+                  href={
+                    state.item.aspect === "vertical"
+                      ? `https://www.youtube.com/shorts/${state.item.id}`
+                      : `https://www.youtube.com/watch?v=${state.item.id}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-xs font-semibold text-background shadow-md transition-all hover:bg-foreground/85"
                 >
-                  <Download size={13} /> {state.item.aspect === "vertical" ? "Watch Reel on YouTube ↗" : "Download / Watch HD ↗"}
+                  <Download size={13} />{" "}
+                  {state.item.aspect === "vertical"
+                    ? "Watch Reel on YouTube ↗"
+                    : "Download / Watch HD ↗"}
                 </a>
                 <button
                   type="button"
-                  onClick={() => navigator.clipboard?.writeText(state.item.aspect === "vertical" ? `https://www.youtube.com/shorts/${state.item.id}` : `https://www.youtube.com/watch?v=${state.item.id}`)}
+                  onClick={() =>
+                    navigator.clipboard?.writeText(
+                      state.item.aspect === "vertical"
+                        ? `https://www.youtube.com/shorts/${state.item.id}`
+                        : `https://www.youtube.com/watch?v=${state.item.id}`,
+                    )
+                  }
                   className="card-white inline-flex items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] hover:bg-foreground/5"
                 >
                   <Share2 size={12} /> Share Link
@@ -2955,10 +3998,17 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
             <p className="text-eyebrow">Comments · {comments.length}</p>
             <div className="flex-1 space-y-2 overflow-y-auto pr-1 text-sm">
               {comments.length === 0 && (
-                <p className="text-muted-foreground">No comments yet. Be the first to leave a note.</p>
+                <p className="text-muted-foreground">
+                  No comments yet. Be the first to leave a note.
+                </p>
               )}
               {comments.map((c, i) => (
-                <div key={i} className="rounded-xl border border-border/60 bg-foreground/[0.04] px-3 py-2">{c}</div>
+                <div
+                  key={i}
+                  className="rounded-xl border border-border/60 bg-foreground/[0.04] px-3 py-2"
+                >
+                  {c}
+                </div>
               ))}
             </div>
             <form
@@ -2991,228 +4041,688 @@ function Lightbox({ state, onClose, onNavigate }: { state: NonNullable<LightboxS
   );
 }
 
-
 /* ---------- Contact + Footer ---------- */
 
+const SERVICE_OPTIONS = ["UI/UX Design", "Graphic & Banner Design", "Video Editing", "AI Video"];
+
+const BUDGET_OPTIONS = [
+  { label: "Budget Range (Optional)", value: "" },
+  { label: "< $500 (Small sprint / single asset)", value: "< $500" },
+  { label: "$500 – $1,500 (Standard project)", value: "$500 - $1,500" },
+  { label: "$1,500 – $3,000 (Comprehensive package)", value: "$1,500 - $3,000" },
+  { label: "$3,000+ (Full product / retainer)", value: "$3,000+" },
+  { label: "Flexible / Let's discuss", value: "Flexible" },
+];
+
+const TIMELINE_OPTIONS = [
+  { label: "Target Timeline (Optional)", value: "" },
+  { label: "Urgent (< 1 week)", value: "< 1 week" },
+  { label: "1 – 2 weeks", value: "1 - 2 weeks" },
+  { label: "2 – 4 weeks", value: "2 - 4 weeks" },
+  { label: "1 – 2 months", value: "1 - 2 months" },
+  { label: "Flexible", value: "Flexible" },
+];
+
+const WHATSAPP_DEFAULT_MESSAGE =
+  "Hi Arbaaz, I saw your portfolio and wanted to discuss a project/query.";
+
+interface ContactCardProps {
+  isModal?: boolean;
+  onSuccessClose?: () => void;
+}
+
+function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
+  const [tab, setTab] = useState<"project" | "query">("project");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [selectedServices, setSelectedServices] = useState<string[]>(["UI/UX Design"]);
+  const [budget, setBudget] = useState("");
+  const [timeline, setTimeline] = useState("");
+  const [details, setDetails] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const toggleService = (srv: string) => {
+    setSelectedServices((prev) =>
+      prev.includes(srv) ? prev.filter((s) => s !== srv) : [...prev, srv],
+    );
+  };
+
+  const validate = () => {
+    const errs: Record<string, string> = {};
+    if (!name.trim()) {
+      errs.name = "Please enter your full name";
+    } else if (name.trim().length > 100) {
+      errs.name = "Name must be under 100 characters";
+    }
+
+    if (!email.trim()) {
+      errs.email = "Please enter your email address";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      errs.email = "Please enter a valid email address";
+    } else if (email.trim().length > 255) {
+      errs.email = "Email must be under 255 characters";
+    }
+
+    if (!details.trim()) {
+      errs.details =
+        tab === "project" ? "Please provide project details" : "Please enter your question";
+    } else if (details.trim().length < 5) {
+      errs.details = "Message must be at least 5 characters";
+    } else if (details.trim().length > 3000) {
+      errs.details = "Message must be under 3000 characters";
+    }
+
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setStatus("sending");
+
+    const subject =
+      tab === "project"
+        ? `New Project Inquiry from ${name.trim()} - Portfolio`
+        : `New Quick Query from ${name.trim()} - Portfolio`;
+
+    const payload = {
+      access_key: FORM_ACCESS_KEY,
+      subject,
+      from_name: name.trim(),
+      name: name.trim(),
+      email: email.trim(),
+      intent: tab === "project" ? "Start a Project" : "Ask a Question",
+      ...(tab === "project" && {
+        services_needed: selectedServices.join(", ") || "General",
+        budget: budget || "Not specified",
+        timeline: timeline || "Not specified",
+      }),
+      message:
+        tab === "project"
+          ? `Intent: Start a Project\nName: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ") || "General"}\nBudget: ${budget || "Not specified"}\nTimeline: ${timeline || "Not specified"}\n\nProject Details:\n${details.trim()}`
+          : `Intent: Ask a Question\nName: ${name.trim()}\nEmail: ${email.trim()}\n\nQuestion / Topic:\n${details.trim()}`,
+      botcheck: "",
+    };
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setStatus("success");
+        setName("");
+        setEmail("");
+        setSelectedServices(["UI/UX Design"]);
+        setBudget("");
+        setTimeline("");
+        setDetails("");
+        setErrors({});
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const resetForm = () => {
+    setStatus("idle");
+    setErrors({});
+  };
+
+  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE)}`;
+  const mailtoFallbackUrl = `mailto:arbaazsince2002@gmail.com?subject=${encodeURIComponent(
+    tab === "project"
+      ? `Project Inquiry from ${name.trim() || "Client"}`
+      : `Question from ${name.trim() || "Client"}`,
+  )}&body=${encodeURIComponent(
+    tab === "project"
+      ? `Name: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ")}\nBudget: ${budget}\nTimeline: ${timeline}\n\nProject Details:\n${details.trim()}`
+      : `Name: ${name.trim()}\nEmail: ${email.trim()}\n\nQuestion:\n${details.trim()}`,
+  )}`;
+
+  return (
+    <div
+      className={`rounded-3xl border border-border/70 card-white p-6 sm:p-8 md:p-10 shadow-xl ${isModal ? "" : "backdrop-blur-md"}`}
+    >
+      {/* Dual-Mode Segmented Tab Switcher */}
+      <div
+        role="tablist"
+        aria-label="Contact intent mode"
+        className="flex rounded-2xl bg-foreground/[0.05] p-1.5 border border-border/60 mb-8"
+      >
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === "project"}
+          onClick={() => {
+            setTab("project");
+            setStatus("idle");
+          }}
+          className={`relative flex-1 rounded-xl py-2.5 px-3 sm:px-4 text-[11px] sm:text-xs font-mono uppercase tracking-[0.16em] font-medium transition-all ${
+            tab === "project"
+              ? "bg-foreground text-background shadow-md"
+              : "text-muted-foreground hover:text-foreground hover:bg-foreground/[0.04]"
+          }`}
+        >
+          🚀 Start a Project
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === "query"}
+          onClick={() => {
+            setTab("query");
+            setStatus("idle");
+          }}
+          className={`relative flex-1 rounded-xl py-2.5 px-3 sm:px-4 text-[11px] sm:text-xs font-mono uppercase tracking-[0.16em] font-medium transition-all ${
+            tab === "query"
+              ? "bg-foreground text-background shadow-md"
+              : "text-muted-foreground hover:text-foreground hover:bg-foreground/[0.04]"
+          }`}
+        >
+          💬 Ask a Question
+        </button>
+      </div>
+
+      {status === "success" ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-col items-center justify-center text-center py-10 px-4 rounded-2xl bg-foreground/[0.02] border border-border/70"
+        >
+          <div className="h-14 w-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500 mb-4">
+            <CheckCircle2 size={30} />
+          </div>
+          <h4 className="font-display text-2xl font-bold text-foreground">Message Delivered!</h4>
+          <p className="mt-2 max-w-md text-sm text-muted-foreground leading-relaxed">
+            Thank you! Your message has been sent. I will respond to your email within 24 hours.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="rounded-full bg-foreground px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] text-background transition-transform hover:-translate-y-0.5"
+            >
+              Send Another Message
+            </button>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-xs font-mono uppercase tracking-[0.16em] text-foreground transition-transform hover:-translate-y-0.5 hover:bg-foreground/5"
+            >
+              💬 Chat on WhatsApp
+            </a>
+            {isModal && onSuccessClose && (
+              <button
+                type="button"
+                onClick={onSuccessClose}
+                className="rounded-full border border-border px-4 py-2.5 text-xs font-mono uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground"
+              >
+                Close
+              </button>
+            )}
+          </div>
+        </motion.div>
+      ) : (
+        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+          {status === "error" && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-left text-sm"
+            >
+              <div className="flex items-start gap-3">
+                <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
+                <div className="flex-1 space-y-2">
+                  <p className="font-medium text-red-500">
+                    Oops! Something went wrong. Please try again or reach out via WhatsApp/email
+                    directly.
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Don't worry — your inquiry can be sent straight to my phone or email below:
+                  </p>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.15em] text-white hover:bg-emerald-500 transition-colors shadow-sm"
+                    >
+                      💬 Open WhatsApp
+                    </a>
+                    <a
+                      href={mailtoFallbackUrl}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.15em] text-foreground hover:bg-foreground/5 transition-colors"
+                    >
+                      <Mail size={12} /> Send via Email
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Name & Email */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor={`contact-name-${isModal ? "modal" : "section"}`}
+                className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+              >
+                Full Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                id={`contact-name-${isModal ? "modal" : "section"}`}
+                name="name"
+                type="text"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
+                }}
+                maxLength={100}
+                placeholder="Alex Morgan"
+                className={`w-full rounded-xl border bg-background/80 px-3.5 py-3 min-h-[46px] text-sm text-foreground outline-none transition-colors ${
+                  errors.name
+                    ? "border-red-500/80 focus:border-red-500 focus:ring-1 focus:ring-red-500/20"
+                    : "border-border/80 focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+                }`}
+              />
+              {errors.name && (
+                <p className="mt-1 text-xs text-red-500 font-mono flex items-center gap-1">
+                  <AlertCircle size={12} /> {errors.name}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label
+                htmlFor={`contact-email-${isModal ? "modal" : "section"}`}
+                className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+              >
+                Email Address <span className="text-red-500">*</span>
+              </label>
+              <input
+                id={`contact-email-${isModal ? "modal" : "section"}`}
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+                }}
+                maxLength={255}
+                placeholder="alex@company.com"
+                className={`w-full rounded-xl border bg-background/80 px-3.5 py-3 min-h-[46px] text-sm text-foreground outline-none transition-colors ${
+                  errors.email
+                    ? "border-red-500/80 focus:border-red-500 focus:ring-1 focus:ring-red-500/20"
+                    : "border-border/80 focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+                }`}
+              />
+              {errors.email && (
+                <p className="mt-1 text-xs text-red-500 font-mono flex items-center gap-1">
+                  <AlertCircle size={12} /> {errors.email}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Tab 1 Extra Fields: Services Needed Chips & Budget/Timeline */}
+          {tab === "project" && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              className="space-y-4"
+            >
+              {/* Service Needed Chips */}
+              <div>
+                <label className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                  Service Needed
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {SERVICE_OPTIONS.map((srv) => {
+                    const isSelected = selectedServices.includes(srv);
+                    return (
+                      <button
+                        key={srv}
+                        type="button"
+                        onClick={() => toggleService(srv)}
+                        className={`rounded-full px-3.5 py-1.5 min-h-[36px] text-xs font-mono tracking-wide transition-all border ${
+                          isSelected
+                            ? "bg-foreground text-background border-foreground font-medium shadow-sm"
+                            : "bg-background/60 text-muted-foreground border-border/80 hover:border-foreground/40 hover:text-foreground"
+                        }`}
+                      >
+                        {isSelected ? "✓ " : "+ "}
+                        {srv}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Budget & Timeline Dropdowns */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor={`contact-budget-${isModal ? "modal" : "section"}`}
+                    className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+                  >
+                    Approx. Budget{" "}
+                    <span className="text-muted-foreground/60 text-[10px]">(Optional)</span>
+                  </label>
+                  <select
+                    id={`contact-budget-${isModal ? "modal" : "section"}`}
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    className="w-full rounded-xl border border-border/80 bg-background/80 px-3 py-2.5 min-h-[44px] text-sm text-foreground outline-none transition-colors focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+                  >
+                    {BUDGET_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor={`contact-timeline-${isModal ? "modal" : "section"}`}
+                    className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+                  >
+                    Target Timeline{" "}
+                    <span className="text-muted-foreground/60 text-[10px]">(Optional)</span>
+                  </label>
+                  <select
+                    id={`contact-timeline-${isModal ? "modal" : "section"}`}
+                    value={timeline}
+                    onChange={(e) => setTimeline(e.target.value)}
+                    className="w-full rounded-xl border border-border/80 bg-background/80 px-3 py-2.5 min-h-[44px] text-sm text-foreground outline-none transition-colors focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+                  >
+                    {TIMELINE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Details / Question Textarea */}
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <label
+                htmlFor={`contact-details-${isModal ? "modal" : "section"}`}
+                className="block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+              >
+                {tab === "project" ? "Project Details" : "Your Question / Topic"}{" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <span className="font-mono text-[10px] text-muted-foreground">
+                {details.length}/3000
+              </span>
+            </div>
+            <textarea
+              id={`contact-details-${isModal ? "modal" : "section"}`}
+              name="details"
+              value={details}
+              onChange={(e) => {
+                setDetails(e.target.value);
+                if (errors.details) setErrors((prev) => ({ ...prev, details: "" }));
+              }}
+              rows={tab === "project" ? 5 : 4}
+              maxLength={3000}
+              placeholder={
+                tab === "project"
+                  ? "Describe your product goals, audience, deliverables, or inspiration..."
+                  : "Ask about availability, design toolstack, workflow, or anything you'd like to discuss..."
+              }
+              className={`w-full resize-none rounded-xl border bg-background/80 px-3.5 py-3 text-sm text-foreground outline-none transition-colors ${
+                errors.details
+                  ? "border-red-500/80 focus:border-red-500 focus:ring-1 focus:ring-red-500/20"
+                  : "border-border/80 focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+              }`}
+            />
+            {errors.details && (
+              <p className="mt-1 text-xs text-red-500 font-mono flex items-center gap-1">
+                <AlertCircle size={12} /> {errors.details}
+              </p>
+            )}
+          </div>
+
+          {/* CTA Submit Button */}
+          <button
+            type="submit"
+            disabled={status === "sending"}
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3.5 min-h-[48px] text-xs font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-foreground/85 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {status === "sending" ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                Sending...
+              </>
+            ) : tab === "project" ? (
+              <>
+                Send Project Brief{" "}
+                <ArrowUpRight
+                  size={15}
+                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </>
+            ) : (
+              <>
+                Submit Query{" "}
+                <ArrowUpRight
+                  size={15}
+                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </>
+            )}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
 
 function Contact() {
   const ref = useRef<HTMLElement>(null);
   const words = ["Have", "a", "project", "in", "mind?"];
   const [open, setOpen] = useState(false);
+  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE)}`;
+
   return (
-    <section ref={ref} id="contact" className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 sm:my-24 p-6 sm:p-10 md:p-14 lg:p-16">
-      <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb" aria-hidden />
-      <div className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-highlight/20 blur-3xl animate-orb" style={{ animationDelay: "-8s" }} aria-hidden />
+    <section
+      ref={ref}
+      id="contact"
+      className="relative overflow-hidden rounded-[2.5rem] border border-border/60 glass my-16 sm:my-24 p-6 sm:p-10 md:p-14 lg:p-16"
+    >
+      <div
+        className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-foreground/[0.07] blur-3xl animate-orb"
+        aria-hidden
+      />
+      <div
+        className="absolute -bottom-32 -right-20 h-72 w-72 rounded-full bg-highlight/20 blur-3xl animate-orb"
+        style={{ animationDelay: "-8s" }}
+        aria-hidden
+      />
 
-      <div className="relative grid gap-12 md:grid-cols-12">
-        <div className="md:col-span-5">
-          <p className="text-eyebrow mb-6">/ Say hello</p>
-          <p className="font-mono text-xs leading-relaxed text-muted-foreground">
-            Currently accepting <br /> select projects in <br /> UI/UX, visual design & video editing.
-          </p>
-          <div className="mt-8 flex items-center gap-3">
-            <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-foreground opacity-60" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-foreground" /></span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em]">Open · Q1 2026</span>
+      <div className="relative grid gap-10 lg:grid-cols-12 lg:items-start">
+        {/* Left Column: Direct Info & WhatsApp Action Card */}
+        <div className="lg:col-span-5 space-y-8">
+          <div>
+            <p className="text-eyebrow mb-3">/ Say hello</p>
+            <h2 className="text-display text-[clamp(2.25rem,6vw,4.5rem)] leading-[1.05]">
+              {words.map((w, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ delay: i * 0.05, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="mr-[0.2em] inline-block"
+                >
+                  {w}
+                </motion.span>
+              ))}
+              <br />
+              <span className="italic text-highlight font-display">Let's make it.</span>
+            </h2>
+            <p className="mt-4 font-mono text-xs leading-relaxed text-muted-foreground">
+              Currently accepting select projects in UI/UX design, marketing graphics & high-impact
+              AI videos.
+            </p>
+            <div className="mt-6 flex items-center gap-3">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-emerald-400 opacity-60" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/80">
+                Available · Q1 2026
+              </span>
+            </div>
           </div>
-          <Magnetic strength={14} padding={20}>
-            <button
-              onClick={() => setOpen(true)}
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 min-h-[44px] text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:text-background hover:shadow-[0_12px_36px_-14px_rgba(0,0,0,0.35)]"
-            >
-              <Mail size={14} /> Contact me
-            </button>
-          </Magnetic>
-        </div>
-        <div className="md:col-span-7">
-          <h2 className="text-display text-[clamp(2.25rem,7vw,5.5rem)] leading-[1.02]">
-            {words.map((w, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.5 }}
-                transition={{ delay: i * 0.06, duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-                className="mr-[0.2em] inline-block"
-              >
-                {w}
-              </motion.span>
-            ))}
-            <br />
-            <motion.button
-              type="button"
-              onClick={() => setOpen(true)}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ delay: words.length * 0.06 + 0.1, duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-              className="link-underline italic text-highlight"
-            >
-              Let's make it.
-            </motion.button>
-          </h2>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2">
+          {/* Direct WhatsApp Action Card */}
+          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/[0.05] p-5 sm:p-6 backdrop-blur-sm shadow-sm">
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-emerald-500 font-semibold flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Direct WhatsApp
+              </span>
+              <span className="font-mono text-[10px] text-muted-foreground">Instant Reply</span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+              Prefer direct messaging? Connect with me directly on WhatsApp for real-time project
+              discussions, quick scopes, or questions.
+            </p>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 px-5 py-3 min-h-[44px] text-xs font-mono uppercase tracking-[0.16em] text-white shadow-md transition-all hover:-translate-y-0.5"
+            >
+              💬 Chat Directly on WhatsApp
+            </a>
+          </div>
+
+          {/* Contact Details */}
+          <div className="grid gap-6 sm:grid-cols-2 pt-2">
             <div>
-              <p className="text-eyebrow mb-2">Email</p>
-              <a href="mailto:arbaazsince2002@gmail.com" className="text-lg link-underline break-all">
+              <p className="text-eyebrow mb-1.5">Email</p>
+              <a
+                href="mailto:arbaazsince2002@gmail.com"
+                className="text-base link-underline break-all"
+              >
                 arbaazsince2002@gmail.com
               </a>
-              <p className="text-eyebrow mb-2 mt-6">Phone</p>
-              <a href="tel:+918527766839" className="text-lg link-underline">
+              <p className="text-eyebrow mb-1.5 mt-5">Phone</p>
+              <a href="tel:+918527766839" className="text-base link-underline">
                 +91 85277 66839
               </a>
-              <p className="text-eyebrow mb-2 mt-6">Based in</p>
-              <p className="text-lg">Gurugram, Haryana · India</p>
             </div>
             <div>
-              <p className="text-eyebrow mb-2">Elsewhere</p>
-              <div className="flex flex-wrap gap-4">
+              <p className="text-eyebrow mb-1.5">Location</p>
+              <p className="text-base text-foreground/85">Gurugram, Haryana · India</p>
+              <p className="text-eyebrow mb-1.5 mt-5">Elsewhere</p>
+              <div className="flex flex-wrap gap-3">
                 {SOCIALS.map((s) => (
-                  <a key={s.label} href={s.href} target={s.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="link-underline text-sm">{s.label}</a>
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target={s.href.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className="link-underline text-xs"
+                  >
+                    {s.label}
+                  </a>
                 ))}
               </div>
             </div>
           </div>
         </div>
+
+        {/* Right Column: The Dual-Mode Form Card */}
+        <div className="lg:col-span-7">
+          <ContactCard />
+        </div>
       </div>
+
       <ContactFormDialog open={open} onOpenChange={setOpen} />
     </section>
   );
 }
 
-function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [sent, setSent] = useState(false);
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const errs: Record<string, string> = {};
-    if (!name.trim() || name.length > 100) errs.name = "Please enter your name (max 100)";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) || email.length > 255) errs.email = "Enter a valid email";
-    if (!message.trim() || message.length > 2000) errs.message = "Message required (max 2000)";
-    if (subject.length > 150) errs.subject = "Subject too long";
-    setErrors(errs);
-    if (Object.keys(errs).length) return;
-
-    const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
-    const href = `mailto:arbaazsince2002@gmail.com?subject=${encodeURIComponent(
-      subject || `New project inquiry from ${name}`
-    )}&body=${encodeURIComponent(body)}`;
-    window.location.href = href;
-    setSent(true);
-    setTimeout(() => {
-      onOpenChange(false);
-      setSent(false);
-      setName(""); setEmail(""); setSubject(""); setMessage("");
-    }, 1200);
-  };
-
+function ContactFormDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+}) {
   return (
     <AnimatePresence>
       {open && (
         <motion.div
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/70 p-4 backdrop-blur-md"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/80 p-4 backdrop-blur-md overflow-y-auto"
           onClick={() => onOpenChange(false)}
         >
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            transition={{ duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}
+            transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg rounded-3xl border border-border/60 bg-card p-8 shadow-2xl md:p-10"
+            className="relative my-8 w-full max-w-xl rounded-3xl border border-border/80 card-white p-6 sm:p-8 shadow-2xl"
           >
             <button
               onClick={() => onOpenChange(false)}
               className="absolute right-5 top-5 rounded-full p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
-              aria-label="Close"
+              aria-label="Close dialog"
             >
               <X size={18} />
             </button>
-            <p className="text-eyebrow mb-2">/ Get in touch</p>
-            <h3 className="font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Let's start a <span className="text-highlight italic" style={{ fontFamily: "'Instrument Serif', serif" }}>conversation</span>
-            </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Tell me a bit about your project. I'll get back within 24 hours.
-            </p>
-
-            {sent ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                className="mt-8 flex flex-col items-center gap-3 rounded-2xl border border-highlight/40 bg-highlight/10 p-8 text-center"
-              >
-                <motion.div
-                  initial={{ scale: 0, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.08, type: "spring", stiffness: 320, damping: 18 }}
-                  className="rounded-full bg-highlight/20 p-3"
+            <div className="mb-6 pr-8">
+              <p className="text-eyebrow mb-1">/ Get in touch</p>
+              <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                Let's start a{" "}
+                <span
+                  className="text-highlight italic"
+                  style={{ fontFamily: "'Instrument Serif', serif" }}
                 >
-                  <Send size={20} className="text-highlight" />
-                </motion.div>
-                <p className="font-medium text-foreground">Opening your email app…</p>
-                <p className="text-xs text-muted-foreground">Thanks for reaching out.</p>
-              </motion.div>
-            ) : (
-              <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Name</label>
-                    <input
-                      value={name} onChange={(e) => setName(e.target.value)} maxLength={100}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 min-h-[44px] text-sm outline-none transition-colors focus:border-foreground"
-                      placeholder="Your full name"
-                    />
-                    {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Email</label>
-                    <input
-                      type="email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 min-h-[44px] text-sm outline-none transition-colors focus:border-foreground"
-                      placeholder="you@company.com"
-                    />
-                    {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
-                  </div>
-                </div>
-                <div>
-                  <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Subject</label>
-                  <input
-                    value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={150}
-                    className="w-full rounded-lg border border-border bg-background px-3 py-2.5 min-h-[44px] text-sm outline-none transition-colors focus:border-foreground"
-                    placeholder="Project inquiry, collaboration…"
-                  />
-                  {errors.subject && <p className="mt-1 text-xs text-red-500">{errors.subject}</p>}
-                </div>
-                <div>
-                  <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Message</label>
-                  <textarea
-                    value={message} onChange={(e) => setMessage(e.target.value)} maxLength={2000} rows={5}
-                    className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
-                    placeholder="Tell me about your idea, timeline, and budget…"
-                  />
-                  <div className="mt-1 flex items-center justify-between">
-                    {errors.message ? <p className="text-xs text-red-500">{errors.message}</p> : <span />}
-                    <p className="font-mono text-[10px] text-muted-foreground">{message.length}/2000</p>
-                  </div>
-                </div>
-                <Magnetic strength={12} padding={18}>
-                  <button
-                    type="submit"
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 min-h-[44px] text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-all hover:bg-highlight hover:shadow-[0_14px_40px_-16px_rgba(0,0,0,0.4)]"
-                  >
-                    Send message <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                  </button>
-                </Magnetic>
-              </form>
-            )}
+                  conversation
+                </span>
+              </h3>
+              <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
+                Choose an inquiry type below or connect via WhatsApp for an immediate response.
+              </p>
+            </div>
+            <ContactCard isModal onSuccessClose={() => onOpenChange(false)} />
           </motion.div>
         </motion.div>
       )}
@@ -3220,12 +4730,15 @@ function ContactFormDialog({ open, onOpenChange }: { open: boolean; onOpenChange
   );
 }
 
-
 function Footer() {
   return (
     <footer className="flex flex-col gap-4 border-t border-border/60 py-8 md:flex-row md:items-center md:justify-between">
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">© 2026 Arbaaz — UI/UX Designer · Graphic Artist · AI Video Creator</p>
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Gurugram, India · Available worldwide</p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+        © 2026 Arbaaz — UI/UX Designer · Graphic Artist · AI Video Creator
+      </p>
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+        Gurugram, India · Available worldwide
+      </p>
     </footer>
   );
 }
@@ -3233,6 +4746,10 @@ function Footer() {
 function QuickChatFab() {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
+  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
+    msg.trim() || WHATSAPP_DEFAULT_MESSAGE,
+  )}`;
+
   const send = (e: React.FormEvent) => {
     e.preventDefault();
     const text = msg.trim();
@@ -3255,11 +4772,23 @@ function QuickChatFab() {
       >
         <AnimatePresence mode="wait" initial={false}>
           {open ? (
-            <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <motion.span
+              key="x"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
               <X size={20} />
             </motion.span>
           ) : (
-            <motion.span key="c" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
+            <motion.span
+              key="c"
+              initial={{ rotate: 90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -90, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
               <MessageCircle size={20} />
             </motion.span>
           )}
@@ -3276,24 +4805,45 @@ function QuickChatFab() {
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="fixed bottom-24 right-5 z-[89] w-[calc(100vw-2.5rem)] max-w-[340px] overflow-hidden rounded-3xl border border-border/60 bg-popover shadow-2xl backdrop-blur-md md:bottom-28 md:right-8"
           >
-            <div className="flex items-center gap-3 border-b border-border/60 bg-foreground/[0.03] px-4 py-3">
-              <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
-                <span className="font-display text-sm font-semibold">a</span>
-                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-popover" />
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-foreground">Chat with Arbaaz</p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Usually replies in a few hours</p>
+            <div className="flex items-center justify-between border-b border-border/60 bg-foreground/[0.03] px-4 py-3">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
+                  <span className="font-display text-sm font-semibold">a</span>
+                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-popover" />
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-foreground">Chat with Arbaaz</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    Usually replies fast
+                  </p>
+                </div>
               </div>
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Chat directly on WhatsApp"
+                className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-emerald-500/15 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-colors text-sm"
+              >
+                💬
+              </a>
             </div>
             <form onSubmit={send} className="p-3">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mb-2.5 flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 py-2 px-3 text-xs font-mono uppercase tracking-[0.14em] transition-colors border border-emerald-500/20"
+              >
+                💬 Open Direct WhatsApp
+              </a>
               <textarea
                 value={msg}
                 onChange={(e) => setMsg(e.target.value)}
                 rows={3}
                 maxLength={1000}
                 autoFocus
-                placeholder="Hi Arbaaz, I'd love to talk about…"
+                placeholder="Or send an email query here…"
                 className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
               />
               <div className="mt-2 flex items-center justify-between gap-2">
@@ -3303,7 +4853,7 @@ function QuickChatFab() {
                   disabled={!msg.trim()}
                   className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-opacity hover:bg-foreground/85 disabled:opacity-40"
                 >
-                  Send <Send size={12} />
+                  Send Email <Send size={12} />
                 </button>
               </div>
             </form>
