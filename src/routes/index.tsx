@@ -4058,6 +4058,8 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
   const [tab, setTab] = useState<"project" | "query">("project");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
   const [selectedServices, setSelectedServices] = useState<string[]>(["UI/UX Design"]);
   const [details, setDetails] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -4107,6 +4109,8 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
     const isProjectTab = tab === "project";
     const formName = name.trim();
     const formEmail = email.trim();
+    const formPhone = phone.trim();
+    const formCompany = company.trim();
     const formService = isProjectTab
       ? selectedServices.join(", ") || "General Inquiry"
       : "General Inquiry";
@@ -4115,33 +4119,18 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
     // A. Telegram Push Notification
     const sendTelegram = async () => {
       const telegramUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-      const telegramText = `🔔 *New Portfolio Inquiry!*\n\n• *Type:* ${isProjectTab ? "Project Inquiry" : "Quick Query"}\n• *Name:* ${formName}\n• *Email:* ${formEmail}\n• *Service:* ${formService}\n• *Message:* ${formMessage}`;
+      const telegramMessage = `🔔 New Portfolio Inquiry!\n\nType: ${isProjectTab ? "Project Inquiry" : "Quick Query"}\nName: ${formName}\nEmail: ${formEmail}\nPhone: ${formPhone || "Not provided"}\nCompany/URL: ${formCompany || "Not provided"}\nService: ${formService}\n\nMessage:\n${formMessage}`;
 
       const res = await fetch(telegramUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: TELEGRAM_CHAT_ID,
-          parse_mode: "Markdown",
-          text: telegramText,
+          text: telegramMessage,
         }),
       });
 
-      const data = await res.json();
-      if (!data.ok) {
-        // Fallback: If Markdown parse error occurs (e.g. unescaped _ or * in user text), retry plain text
-        const plainText = `🔔 New Portfolio Inquiry!\n\n• Type: ${isProjectTab ? "Project Inquiry" : "Quick Query"}\n• Name: ${formName}\n• Email: ${formEmail}\n• Service: ${formService}\n• Message: ${formMessage}`;
-        const retryRes = await fetch(telegramUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: plainText,
-          }),
-        });
-        return await retryRes.json();
-      }
-      return data;
+      return await res.json();
     };
 
     // B. Web3Forms Email Backup
@@ -4156,9 +4145,13 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
           access_key: FORM_ACCESS_KEY,
           name: formName,
           email: formEmail,
+          phone: formPhone || "Not provided",
+          company: formCompany || "Not provided",
           subject: `New Inquiry from ${formName} - Portfolio`,
           service: formService,
-          message: formMessage,
+          message: isProjectTab
+            ? `Intent: Start a Project\nName: ${formName}\nEmail: ${formEmail}\nPhone: ${formPhone || "Not provided"}\nCompany/URL: ${formCompany || "Not provided"}\nServices: ${formService}\n\nProject Details:\n${formMessage}`
+            : `Intent: Ask a Question\nName: ${formName}\nEmail: ${formEmail}\n\nQuestion / Topic:\n${formMessage}`,
           from_name: formName,
           botcheck: "",
         }),
@@ -4183,6 +4176,8 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
         setStatus("success");
         setName("");
         setEmail("");
+        setPhone("");
+        setCompany("");
         setSelectedServices(["UI/UX Design"]);
         setDetails("");
         setErrors({});
@@ -4206,7 +4201,7 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
       : `Question from ${name.trim() || "Client"}`,
   )}&body=${encodeURIComponent(
     tab === "project"
-      ? `Name: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ")}\n\nProject Details:\n${details.trim()}`
+      ? `Name: ${name.trim()}\nEmail: ${email.trim()}\nPhone: ${phone.trim() || "Not provided"}\nCompany/URL: ${company.trim() || "Not provided"}\nServices: ${selectedServices.join(", ")}\n\nProject Details:\n${details.trim()}`
       : `Name: ${name.trim()}\nEmail: ${email.trim()}\n\nQuestion:\n${details.trim()}`,
   )}`;
 
@@ -4393,35 +4388,84 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
             </div>
           </div>
 
-          {/* Tab 1 Extra Fields: Services Needed Chips */}
+          {/* Tab 1 Extra Fields: Phone, Company & Services Needed Chips */}
           {tab === "project" && (
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
+              className="space-y-4"
             >
-              <label className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                Service Needed
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {SERVICE_OPTIONS.map((srv) => {
-                  const isSelected = selectedServices.includes(srv);
-                  return (
-                    <button
-                      key={srv}
-                      type="button"
-                      onClick={() => toggleService(srv)}
-                      className={`rounded-full px-3.5 py-1.5 min-h-[36px] text-xs font-mono tracking-wide transition-all border ${
-                        isSelected
-                          ? "bg-foreground text-background border-foreground font-medium shadow-sm"
-                          : "bg-background/60 text-muted-foreground border-border/80 hover:border-foreground/40 hover:text-foreground"
-                      }`}
-                    >
-                      {isSelected ? "✓ " : "+ "}
-                      {srv}
-                    </button>
-                  );
-                })}
+              {/* Phone & Company / Website (Optional) */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor={`contact-phone-${isModal ? "modal" : "section"}`}
+                    className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+                  >
+                    Phone Number{" "}
+                    <span className="text-muted-foreground/60 text-[10px]">(Optional)</span>
+                  </label>
+                  <input
+                    id={`contact-phone-${isModal ? "modal" : "section"}`}
+                    name="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    maxLength={30}
+                    placeholder="+1 (555) 000-0000 or +91..."
+                    className="w-full rounded-xl border border-border/80 bg-background/80 px-3.5 py-3 min-h-[46px] text-sm text-foreground outline-none transition-colors focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor={`contact-company-${isModal ? "modal" : "section"}`}
+                    className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
+                  >
+                    Company / Website{" "}
+                    <span className="text-muted-foreground/60 text-[10px]">(Optional)</span>
+                  </label>
+                  <input
+                    id={`contact-company-${isModal ? "modal" : "section"}`}
+                    name="company"
+                    type="text"
+                    autoComplete="organization"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    maxLength={100}
+                    placeholder="Company name or https://..."
+                    className="w-full rounded-xl border border-border/80 bg-background/80 px-3.5 py-3 min-h-[46px] text-sm text-foreground outline-none transition-colors focus:border-foreground focus:ring-1 focus:ring-foreground/20"
+                  />
+                </div>
+              </div>
+
+              {/* Service Needed */}
+              <div>
+                <label className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                  Service Needed
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {SERVICE_OPTIONS.map((srv) => {
+                    const isSelected = selectedServices.includes(srv);
+                    return (
+                      <button
+                        key={srv}
+                        type="button"
+                        onClick={() => toggleService(srv)}
+                        className={`rounded-full px-3.5 py-1.5 min-h-[36px] text-xs font-mono tracking-wide transition-all border ${
+                          isSelected
+                            ? "bg-foreground text-background border-foreground font-medium shadow-sm"
+                            : "bg-background/60 text-muted-foreground border-border/80 hover:border-foreground/40 hover:text-foreground"
+                        }`}
+                      >
+                        {isSelected ? "✓ " : "+ "}
+                        {srv}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </motion.div>
           )}
