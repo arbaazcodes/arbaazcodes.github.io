@@ -1169,7 +1169,7 @@ function Nav({
       initial={{ y: -24, opacity: 0 }}
       animate={{ y: hidden ? -80 : 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 260, damping: 30 }}
-      className="fixed inset-x-0 top-4 z-50 px-4 md:top-6"
+      className="navbar fixed inset-x-0 top-4 z-50 px-4 md:top-6"
     >
       <div
         className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 transition-shadow duration-500 ${scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""}`}
@@ -1503,65 +1503,109 @@ function SplineHeroBackground() {
       }
     };
 
-    const onLoad = () => {
-      // Set transparent styling in shadow root & disable pointer events on canvas
-      if (viewer.shadowRoot) {
+    const applyTransparency = () => {
+      // 1. Inject shadowRoot transparent styling
+      if (viewer.shadowRoot && !viewer.shadowRoot.querySelector("#transparency-override")) {
         const canvas = viewer.shadowRoot.querySelector("canvas");
         if (canvas) {
           canvas.style.background = "transparent";
+          canvas.style.backgroundColor = "transparent";
           canvas.style.pointerEvents = "none";
         }
+        const container = viewer.shadowRoot.querySelector("#container");
+        if (container) {
+          (container as HTMLElement).style.background = "transparent";
+          (container as HTMLElement).style.backgroundColor = "transparent";
+        }
+        const logo = viewer.shadowRoot.querySelector("#logo");
+        if (logo) {
+          (logo as HTMLElement).style.display = "none";
+        }
         const style = document.createElement("style");
+        style.id = "transparency-override";
         style.textContent = `
-          :host { background: transparent !important; pointer-events: none !important; }
-          canvas { background: transparent !important; pointer-events: none !important; }
+          :host { background: transparent !important; background-color: transparent !important; pointer-events: none !important; }
+          #container, #preloader, #spline, canvas { background: transparent !important; background-color: transparent !important; pointer-events: none !important; }
           #logo { display: none !important; }
         `;
         viewer.shadowRoot.appendChild(style);
       }
 
-      // Cap DPR at Math.min(window.devicePixelRatio, 1.5) to avoid GPU throttling
+      // 2. Clear Spline 3D background color & alpha
       const maxDpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const app =
         (
           viewer as unknown as {
             _app?: {
+              scene?: { background?: unknown; fog?: unknown; bgColor?: { a: number } };
               renderer?: {
-                setClearColor: (c: number, a: number) => void;
+                setClearColor: (c: number, a?: number) => void;
                 setPixelRatio: (r: number) => void;
               };
+              setBackgroundColor?: (color: unknown) => void;
             };
             _spline?: {
+              scene?: { background?: unknown; fog?: unknown; bgColor?: { a: number } };
               renderer?: {
-                setClearColor: (c: number, a: number) => void;
+                setClearColor: (c: number, a?: number) => void;
                 setPixelRatio: (r: number) => void;
               };
+              setBackgroundColor?: (color: unknown) => void;
             };
           }
         )._app ||
         (
           viewer as unknown as {
             _spline?: {
+              scene?: { background?: unknown; fog?: unknown; bgColor?: { a: number } };
               renderer?: {
-                setClearColor: (c: number, a: number) => void;
+                setClearColor: (c: number, a?: number) => void;
                 setPixelRatio: (r: number) => void;
               };
+              setBackgroundColor?: (color: unknown) => void;
             };
           }
         )._spline;
 
-      if (app?.renderer) {
-        app.renderer.setClearColor(0x000000, 0);
-        app.renderer.setPixelRatio(maxDpr);
+      if (app) {
+        if (typeof app.setBackgroundColor === "function") {
+          app.setBackgroundColor({ r: 0, g: 0, b: 0, a: 0 });
+        }
+        if (app.scene) {
+          app.scene.background = null;
+          app.scene.fog = null;
+          if (app.scene.bgColor) {
+            app.scene.bgColor.a = 0;
+          }
+        }
+        if (app.renderer) {
+          const origSetClearColor = app.renderer.setClearColor.bind(app.renderer);
+          app.renderer.setClearColor = (_c: number, _a?: number) => {
+            origSetClearColor(0x000000, 0);
+          };
+          app.renderer.setClearColor(0x000000, 0);
+          if (typeof app.renderer.setPixelRatio === "function") {
+            app.renderer.setPixelRatio(maxDpr);
+          }
+        }
       }
     };
 
-    viewer.addEventListener("load", onLoad);
+    viewer.addEventListener("load", applyTransparency);
+    viewer.addEventListener("load-complete", applyTransparency);
     window.addEventListener("resize", handleResize, { passive: true });
 
+    // Try immediately in case it loaded synchronously or shadowRoot is ready
+    applyTransparency();
+    const interval = setInterval(applyTransparency, 100);
+    const timeout = setTimeout(() => clearInterval(interval), 4000);
+
     return () => {
-      viewer.removeEventListener("load", onLoad);
+      viewer.removeEventListener("load", applyTransparency);
+      viewer.removeEventListener("load-complete", applyTransparency);
       window.removeEventListener("resize", handleResize);
+      clearInterval(interval);
+      clearTimeout(timeout);
     };
   }, [isInView]);
 
@@ -1571,8 +1615,14 @@ function SplineHeroBackground() {
     <div
       ref={containerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none"
+      className="spline-container pointer-events-none absolute inset-0 z-0 overflow-hidden select-none"
       style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 0,
         pointerEvents: "none",
         background: "transparent",
         backgroundColor: "transparent",
@@ -1585,10 +1635,17 @@ function SplineHeroBackground() {
           url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
           loading="lazy"
           loading-anim-type="none"
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-60 dark:opacity-80 transition-opacity duration-1000"
+          className="pointer-events-none absolute inset-0 h-full w-full"
           style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 0,
             pointerEvents: "none",
             background: "transparent",
+            backgroundColor: "transparent",
             contain: "layout paint",
             willChange: "transform",
           }}
@@ -1627,7 +1684,7 @@ function Hero() {
       <SplineHeroBackground />
       <motion.div
         style={{ y, opacity: op }}
-        className="relative z-10 grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
+        className="hero-content relative z-10 grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
       >
         <div className="md:col-span-7 flex flex-col items-start">
           {/* 1. Status Badge */}
@@ -1720,7 +1777,7 @@ function Hero() {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
-          className="md:col-span-5"
+          className="profile-card md:col-span-5 relative z-10"
         >
           <Tilt
             strength={18}
