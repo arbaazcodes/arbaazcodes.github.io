@@ -993,7 +993,7 @@ function Portfolio() {
       <ScrollProgress />
       <AmbientOrbs />
       <Cursor />
-      <Nav active={active} dark={dark} setDark={setDark} />
+      <Nav active={active} setActive={setActive} dark={dark} setDark={setDark} />
       <SideRail />
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-12">
         <Hero />
@@ -1133,48 +1133,81 @@ function Cursor() {
 
 function Nav({
   active,
+  setActive,
   dark,
   setDark,
 }: {
   active: string;
+  setActive?: (v: string) => void;
   dark: boolean;
   setDark: (v: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
   const [deskOpen, setDeskOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const lastY = useRef(0);
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
   }, [open]);
+
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 12);
-      // Hide on scroll down (past 120px), reveal on scroll up. Never hide while menus open.
-      const delta = y - lastY.current;
-      if (!open && !deskOpen && y > 120 && delta > 6) setHidden(true);
-      else if (delta < -4 || y < 60) setHidden(false);
-      lastY.current = y;
+      setScrolled(window.scrollY > 12);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [open, deskOpen]);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    document.body.style.overflow = "";
+    setOpen(false);
+    setDeskOpen(false);
+    setActive?.(id);
+
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const lenis = (
+      window as unknown as {
+        lenis?: { scrollTo: (target: HTMLElement, opts?: unknown) => void };
+      }
+    ).lenis;
+
+    if (lenis && typeof lenis.scrollTo === "function") {
+      lenis.scrollTo(el, { offset: -90, duration: 1.0 });
+    } else {
+      const top = el.getBoundingClientRect().top + window.scrollY - 90;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+
+    if (window.history?.replaceState) {
+      window.history.replaceState(null, "", `#${id}`);
+    }
+  };
+
   return (
     <motion.header
       initial={{ y: -24, opacity: 0 }}
-      animate={{ y: hidden ? -80 : 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 260, damping: 30 }}
-      className="navbar fixed inset-x-0 top-4 z-50 px-4 md:top-6"
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="navbar fixed inset-x-0 top-4 z-[100] px-4 md:top-6 pointer-events-none"
     >
       <div
-        className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 transition-shadow duration-500 ${scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""}`}
+        className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 pointer-events-auto transition-shadow duration-500 ${
+          scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""
+        }`}
       >
-        <a href="#intro" className="flex items-center gap-2 pl-3 pr-2">
+        <a
+          href="#intro"
+          onClick={(e) => {
+            e.preventDefault();
+            scrollToSection("intro");
+          }}
+          className="flex items-center gap-2 pl-3 pr-2 shrink-0"
+        >
           <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background">
             <span className="font-display text-sm font-semibold">a</span>
             <span className="pulse-ring absolute inset-0 rounded-full" />
@@ -1183,8 +1216,38 @@ function Nav({
             arbaaz/2026
           </span>
         </a>
-        <div className="flex items-center gap-2">
-          <div className="relative hidden md:block">
+
+        {/* Desktop Nav Links (Visible on lg+) */}
+        <nav className="hidden items-center gap-0.5 lg:flex">
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(n.id);
+              }}
+              className={`relative rounded-full px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] transition-colors ${
+                active === n.id
+                  ? "text-foreground font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+              }`}
+            >
+              {active === n.id && (
+                <motion.span
+                  layoutId="nav-pill"
+                  className="absolute inset-0 rounded-full bg-foreground/10"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{n.label}</span>
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Tablet Dropdown (md to lg) */}
+          <div className="relative hidden md:block lg:hidden">
             <button
               onClick={() => setDeskOpen((v) => !v)}
               aria-haspopup="menu"
@@ -1200,7 +1263,7 @@ function Nav({
                   <button
                     aria-label="Close menu"
                     onClick={() => setDeskOpen(false)}
-                    className="fixed inset-0 z-[54] cursor-default"
+                    className="fixed inset-0 z-[54] cursor-default bg-black/20 backdrop-blur-[2px]"
                   />
                   <motion.div
                     initial={{ opacity: 0, y: -6, scale: 0.98 }}
@@ -1215,10 +1278,13 @@ function Nav({
                         key={n.id}
                         href={`#${n.id}`}
                         role="menuitem"
-                        onClick={() => setDeskOpen(false)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          scrollToSection(n.id);
+                        }}
                         className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
                           active === n.id
-                            ? "bg-foreground/10 text-foreground"
+                            ? "bg-foreground/10 text-foreground font-semibold"
                             : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                         }`}
                       >
@@ -1231,6 +1297,7 @@ function Nav({
               )}
             </AnimatePresence>
           </div>
+
           <button
             onClick={() => setDark(!dark)}
             aria-label="Toggle theme"
@@ -1262,13 +1329,16 @@ function Nav({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[55] md:hidden"
+            className="fixed inset-0 z-[110] md:hidden pointer-events-auto"
             role="dialog"
             aria-modal="true"
           >
             <button
               aria-label="Close menu"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                document.body.style.overflow = "";
+                setOpen(false);
+              }}
               className="absolute inset-0 bg-background/80 backdrop-blur-md"
             />
             <motion.div
@@ -1283,7 +1353,10 @@ function Nav({
                   Menu
                 </span>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    document.body.style.overflow = "";
+                    setOpen(false);
+                  }}
                   aria-label="Close menu"
                   className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10"
                 >
@@ -1295,7 +1368,10 @@ function Nav({
                   <motion.a
                     key={n.id}
                     href={`#${n.id}`}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollToSection(n.id);
+                    }}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 + i * 0.04 }}
@@ -1312,7 +1388,10 @@ function Nav({
               </nav>
               <Link
                 to="/resume"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  document.body.style.overflow = "";
+                  setOpen(false);
+                }}
                 className="mt-6 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-xs font-medium uppercase tracking-[0.2em] text-background transition-colors hover:bg-foreground/85"
               >
                 <FileText size={14} /> Resume (PDF)

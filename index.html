@@ -98,10 +98,19 @@
             if (!link) return;
             const targetId = link.getAttribute("href");
             if (!targetId || targetId === "#") return;
-            const targetEl = document.querySelector(targetId);
-            if (targetEl && window.lenis) {
-              e.preventDefault();
-              window.lenis.scrollTo(targetEl, { offset: -24, duration: 1.2 });
+            try {
+              const targetEl = document.querySelector(targetId);
+              if (targetEl) {
+                e.preventDefault();
+                if (window.lenis && typeof window.lenis.scrollTo === "function") {
+                  window.lenis.scrollTo(targetEl, { offset: -90, duration: 1.0 });
+                } else {
+                  const top = targetEl.getBoundingClientRect().top + window.scrollY - 90;
+                  window.scrollTo({ top: top, behavior: "smooth" });
+                }
+              }
+            } catch (err) {
+              // Ignore invalid selector
             }
           });
         }
