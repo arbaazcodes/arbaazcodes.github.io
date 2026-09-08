@@ -118,6 +118,8 @@ const NAV = [
 export const FORM_ACCESS_KEY = "ec588a71-4563-47b7-ab5e-514614d5a440";
 export const TELEGRAM_BOT_TOKEN = "8627626560:AAF8jPech1c2YXhtugoqX7Emt-0QjgnubuY";
 export const TELEGRAM_CHAT_ID = "6515017255";
+export const TELEGRAM_USERNAME = "Arru00098";
+export const TELEGRAM_DIRECT_URL = "https://t.me/Arru00098";
 export const WHATSAPP_PHONE = "918527766839";
 
 const SOCIALS = [
@@ -4700,59 +4702,109 @@ function Footer() {
   );
 }
 
+function TelegramPlaneIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <path d="M21.92 3.12a1.36 1.36 0 0 0-1.42-.25L2.83 10.3a1.35 1.35 0 0 0-.1 2.53l5.06 1.95 1.95 6.07a1.35 1.35 0 0 0 2.3.48l2.85-2.85 4.54 3.33a1.36 1.36 0 0 0 2.19-.82l3.05-16.14a1.36 1.36 0 0 0-.75-1.73zM9.36 13.97l8.2-6.23-6.49 7.45-.28 3.46-1.43-4.68zm9.18 5.63-4.4-3.23 7.07-8.12-2.67 11.35z" />
+    </svg>
+  );
+}
+
 function QuickChatFab() {
   const [open, setOpen] = useState(false);
   const [msg, setMsg] = useState("");
-  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-    msg.trim() || WHATSAPP_DEFAULT_MESSAGE,
-  )}`;
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
-  const send = (e: React.FormEvent) => {
+  const send = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = msg.trim();
-    if (!text) return;
-    window.location.href = `mailto:arbaazsince2002@gmail.com?subject=${encodeURIComponent("Quick chat from portfolio")}&body=${encodeURIComponent(text)}`;
-    setMsg("");
-    setOpen(false);
+    if (!text || status === "sending") return;
+
+    setStatus("sending");
+    try {
+      const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: `💬 Quick Chat Ping from Portfolio Visitor:\n\n${text}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setStatus("sent");
+        setMsg("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
+
   return (
     <>
-      <motion.button
-        onClick={() => setOpen((v) => !v)}
-        aria-label={open ? "Close quick chat" : "Open quick chat"}
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.6, type: "spring", stiffness: 260, damping: 20 }}
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
-        className="fixed bottom-5 right-5 z-[90] flex h-14 w-14 items-center justify-center rounded-full bg-foreground text-background shadow-2xl ring-1 ring-foreground/10 hover:bg-foreground/90 md:bottom-8 md:right-8"
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {open ? (
-            <motion.span
-              key="x"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <X size={20} />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="c"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
-              <MessageCircle size={20} />
-            </motion.span>
-          )}
-        </AnimatePresence>
-        {!open && <span className="pulse-ring absolute inset-0 rounded-full" />}
-      </motion.button>
+      {/* Floating Trigger Button (Bottom-Right FAB) */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group">
+        {/* Sleek Tooltip on hover (desktop only, hidden when open) */}
+        {!open && (
+          <span className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-foreground px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-background opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:-translate-x-1 shadow-lg hidden sm:block">
+            Chat on Telegram
+          </span>
+        )}
 
+        <motion.button
+          onClick={() => {
+            setOpen((v) => !v);
+            if (status === "sent") setStatus("idle");
+          }}
+          aria-label={open ? "Close Telegram chat" : "Chat on Telegram"}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6, type: "spring", stiffness: 260, damping: 20 }}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-2xl transition-all duration-300 hover:bg-[#1E88E5] hover:shadow-[0_0_28px_rgba(34,158,217,0.55)]"
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {open ? (
+              <motion.span
+                key="x"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                <X size={22} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="telegram"
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center justify-center -translate-x-0.5 translate-y-0.5"
+              >
+                <TelegramPlaneIcon className="h-6 w-6" />
+              </motion.span>
+            )}
+          </AnimatePresence>
+
+          {/* Online green indicator dot */}
+          {!open && (
+            <span className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-emerald-500 ring-2 ring-background" />
+            </span>
+          )}
+          {!open && (
+            <span className="pulse-ring absolute inset-0 rounded-full border border-[#229ED9]/50" />
+          )}
+        </motion.button>
+      </div>
+
+      {/* Mini Chat Drawer / Popover (Hybrid Experience) */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -4760,60 +4812,132 @@ function QuickChatFab() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-24 right-5 z-[89] w-[calc(100vw-2.5rem)] max-w-[340px] overflow-hidden rounded-3xl border border-border/60 bg-popover shadow-2xl backdrop-blur-md md:bottom-28 md:right-8"
+            className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-50 w-[calc(100vw-2rem)] max-w-[330px] overflow-hidden rounded-3xl border border-border/70 bg-popover/95 shadow-2xl backdrop-blur-xl"
           >
+            {/* Header */}
             <div className="flex items-center justify-between border-b border-border/60 bg-foreground/[0.03] px-4 py-3">
               <div className="flex items-center gap-3">
-                <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
-                  <span className="font-display text-sm font-semibold">a</span>
+                <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-sm">
+                  <TelegramPlaneIcon className="h-4 w-4 -translate-x-0.5 translate-y-0.5" />
                   <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-popover" />
                 </span>
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">Chat with Arbaaz</p>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                    Usually replies fast
+                  <p className="truncate text-sm font-semibold text-foreground">Let's Chat</p>
+                  <p className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-emerald-500 font-medium">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Online on Telegram
                   </p>
                 </div>
               </div>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Chat directly on WhatsApp"
-                className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-emerald-500/15 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-colors text-sm"
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close chat"
+                className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
               >
-                💬
-              </a>
+                <X size={16} />
+              </button>
             </div>
-            <form onSubmit={send} className="p-3">
+
+            <div className="p-3.5 space-y-3">
+              {/* Option A (Instant Direct Launch) */}
               <a
-                href={whatsappUrl}
+                href={TELEGRAM_DIRECT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mb-2.5 flex items-center justify-center gap-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 py-2 px-3 text-xs font-mono uppercase tracking-[0.14em] transition-colors border border-emerald-500/20"
+                className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-[#229ED9] hover:bg-[#1E88E5] px-4 py-3 text-xs font-mono uppercase tracking-[0.14em] font-semibold text-white shadow-md transition-all hover:-translate-y-0.5"
               >
-                💬 Open Direct WhatsApp
+                <TelegramPlaneIcon className="h-4 w-4 -translate-x-0.5 translate-y-0.5 transition-transform group-hover:scale-110" />
+                <span>Open Telegram App (@{TELEGRAM_USERNAME})</span>
+                <ArrowUpRight
+                  size={14}
+                  className="opacity-80 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </a>
-              <textarea
-                value={msg}
-                onChange={(e) => setMsg(e.target.value)}
-                rows={3}
-                maxLength={1000}
-                autoFocus
-                placeholder="Or send an email query here…"
-                className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm outline-none transition-colors focus:border-foreground"
-              />
-              <div className="mt-2 flex items-center justify-between gap-2">
-                <p className="font-mono text-[10px] text-muted-foreground">{msg.length}/1000</p>
-                <button
-                  type="submit"
-                  disabled={!msg.trim()}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-opacity hover:bg-foreground/85 disabled:opacity-40"
-                >
-                  Send Email <Send size={12} />
-                </button>
+
+              {/* Divider */}
+              <div className="relative text-center">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border/60" />
+                </div>
+                <span className="relative bg-popover px-2 font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
+                  or send a quick ping
+                </span>
               </div>
-            </form>
+
+              {/* Option B (Quick In-Page Message) */}
+              {status === "sent" ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-center space-y-2"
+                >
+                  <p className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1.5">
+                    <CheckCircle2 size={14} /> Sent to Arbaaz's Telegram! ✓
+                  </p>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    Message received on phone. Continue chatting directly:
+                  </p>
+                  <div className="pt-1 flex items-center justify-center gap-2">
+                    <a
+                      href={TELEGRAM_DIRECT_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-[#229ED9] hover:bg-[#1E88E5] text-white px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] font-medium transition-colors shadow-sm"
+                    >
+                      Open Chat (@{TELEGRAM_USERNAME}) <ArrowUpRight size={12} />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setStatus("idle")}
+                      className="rounded-full border border-border px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
+                    >
+                      New Ping
+                    </button>
+                  </div>
+                </motion.div>
+              ) : (
+                <form onSubmit={send} className="space-y-2">
+                  <textarea
+                    value={msg}
+                    onChange={(e) => {
+                      setMsg(e.target.value);
+                      if (status === "error") setStatus("idle");
+                    }}
+                    rows={3}
+                    maxLength={1000}
+                    autoFocus
+                    placeholder="Type a quick message..."
+                    className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-[#229ED9] focus:ring-1 focus:ring-[#229ED9]/20"
+                  />
+                  {status === "error" && (
+                    <p className="text-[11px] text-red-500 font-mono flex items-center gap-1">
+                      <AlertCircle size={12} /> Failed to ping. Please use the button above.
+                    </p>
+                  )}
+                  <div className="flex items-center justify-between gap-2 pt-0.5">
+                    <p className="font-mono text-[10px] text-muted-foreground">{msg.length}/1000</p>
+                    <button
+                      type="submit"
+                      disabled={!msg.trim() || status === "sending"}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 min-h-[38px] text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 disabled:opacity-40 shadow-sm"
+                    >
+                      {status === "sending" ? (
+                        <>
+                          <Loader2 size={12} className="animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Send</span>
+                          <Send size={12} />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
