@@ -1491,18 +1491,78 @@ function SplineHeroBackground() {
 
   useEffect(() => {
     if (!isInView) return;
+    const viewer = containerRef.current?.querySelector("spline-viewer");
+    if (!viewer) return;
+
     const handleResize = () => {
-      const viewer = containerRef.current?.querySelector("spline-viewer");
       if (
-        viewer &&
         "requestUpdate" in viewer &&
         typeof (viewer as { requestUpdate?: () => void }).requestUpdate === "function"
       ) {
         (viewer as { requestUpdate: () => void }).requestUpdate();
       }
     };
+
+    const onLoad = () => {
+      // Set transparent styling in shadow root & disable pointer events on canvas
+      if (viewer.shadowRoot) {
+        const canvas = viewer.shadowRoot.querySelector("canvas");
+        if (canvas) {
+          canvas.style.background = "transparent";
+          canvas.style.pointerEvents = "none";
+        }
+        const style = document.createElement("style");
+        style.textContent = `
+          :host { background: transparent !important; pointer-events: none !important; }
+          canvas { background: transparent !important; pointer-events: none !important; }
+          #logo { display: none !important; }
+        `;
+        viewer.shadowRoot.appendChild(style);
+      }
+
+      // Cap DPR at Math.min(window.devicePixelRatio, 1.5) to avoid GPU throttling
+      const maxDpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const app =
+        (
+          viewer as unknown as {
+            _app?: {
+              renderer?: {
+                setClearColor: (c: number, a: number) => void;
+                setPixelRatio: (r: number) => void;
+              };
+            };
+            _spline?: {
+              renderer?: {
+                setClearColor: (c: number, a: number) => void;
+                setPixelRatio: (r: number) => void;
+              };
+            };
+          }
+        )._app ||
+        (
+          viewer as unknown as {
+            _spline?: {
+              renderer?: {
+                setClearColor: (c: number, a: number) => void;
+                setPixelRatio: (r: number) => void;
+              };
+            };
+          }
+        )._spline;
+
+      if (app?.renderer) {
+        app.renderer.setClearColor(0x000000, 0);
+        app.renderer.setPixelRatio(maxDpr);
+      }
+    };
+
+    viewer.addEventListener("load", onLoad);
     window.addEventListener("resize", handleResize, { passive: true });
-    return () => window.removeEventListener("resize", handleResize);
+
+    return () => {
+      viewer.removeEventListener("load", onLoad);
+      window.removeEventListener("resize", handleResize);
+    };
   }, [isInView]);
 
   if (reduce) return null;
@@ -1513,19 +1573,27 @@ function SplineHeroBackground() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none"
       style={{
+        pointerEvents: "none",
+        background: "transparent",
+        backgroundColor: "transparent",
         contain: "layout paint",
-        willChange: "opacity",
+        willChange: "transform",
       }}
     >
       {isInView && (
         <spline-viewer
           url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
+          loading="lazy"
           loading-anim-type="none"
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-35 dark:opacity-60 transition-opacity duration-1000"
-          style={{ pointerEvents: "none" }}
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-60 dark:opacity-80 transition-opacity duration-1000"
+          style={{
+            pointerEvents: "none",
+            background: "transparent",
+            contain: "layout paint",
+            willChange: "transform",
+          }}
         />
       )}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
     </div>
   );
 }
