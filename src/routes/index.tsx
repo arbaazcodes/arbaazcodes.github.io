@@ -4045,24 +4045,6 @@ function Lightbox({
 
 const SERVICE_OPTIONS = ["UI/UX Design", "Graphic & Banner Design", "Video Editing", "AI Video"];
 
-const BUDGET_OPTIONS = [
-  { label: "Budget Range (Optional)", value: "" },
-  { label: "< $500 (Small sprint / single asset)", value: "< $500" },
-  { label: "$500 – $1,500 (Standard project)", value: "$500 - $1,500" },
-  { label: "$1,500 – $3,000 (Comprehensive package)", value: "$1,500 - $3,000" },
-  { label: "$3,000+ (Full product / retainer)", value: "$3,000+" },
-  { label: "Flexible / Let's discuss", value: "Flexible" },
-];
-
-const TIMELINE_OPTIONS = [
-  { label: "Target Timeline (Optional)", value: "" },
-  { label: "Urgent (< 1 week)", value: "< 1 week" },
-  { label: "1 – 2 weeks", value: "1 - 2 weeks" },
-  { label: "2 – 4 weeks", value: "2 - 4 weeks" },
-  { label: "1 – 2 months", value: "1 - 2 months" },
-  { label: "Flexible", value: "Flexible" },
-];
-
 const WHATSAPP_DEFAULT_MESSAGE =
   "Hi Arbaaz, I saw your portfolio and wanted to discuss a project/query.";
 
@@ -4076,8 +4058,6 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedServices, setSelectedServices] = useState<string[]>(["UI/UX Design"]);
-  const [budget, setBudget] = useState("");
-  const [timeline, setTimeline] = useState("");
   const [details, setDetails] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -4137,12 +4117,10 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
       intent: tab === "project" ? "Start a Project" : "Ask a Question",
       ...(tab === "project" && {
         services_needed: selectedServices.join(", ") || "General",
-        budget: budget || "Not specified",
-        timeline: timeline || "Not specified",
       }),
       message:
         tab === "project"
-          ? `Intent: Start a Project\nName: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ") || "General"}\nBudget: ${budget || "Not specified"}\nTimeline: ${timeline || "Not specified"}\n\nProject Details:\n${details.trim()}`
+          ? `Intent: Start a Project\nName: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ") || "General"}\n\nProject Details:\n${details.trim()}`
           : `Intent: Ask a Question\nName: ${name.trim()}\nEmail: ${email.trim()}\n\nQuestion / Topic:\n${details.trim()}`,
       botcheck: "",
     };
@@ -4164,8 +4142,6 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
         setName("");
         setEmail("");
         setSelectedServices(["UI/UX Design"]);
-        setBudget("");
-        setTimeline("");
         setDetails("");
         setErrors({});
       } else {
@@ -4188,7 +4164,7 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
       : `Question from ${name.trim() || "Client"}`,
   )}&body=${encodeURIComponent(
     tab === "project"
-      ? `Name: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ")}\nBudget: ${budget}\nTimeline: ${timeline}\n\nProject Details:\n${details.trim()}`
+      ? `Name: ${name.trim()}\nEmail: ${email.trim()}\nServices: ${selectedServices.join(", ")}\n\nProject Details:\n${details.trim()}`
       : `Name: ${name.trim()}\nEmail: ${email.trim()}\n\nQuestion:\n${details.trim()}`,
   )}`;
 
@@ -4254,23 +4230,15 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-full bg-foreground px-5 py-2.5 text-xs font-mono uppercase tracking-[0.2em] text-background transition-transform hover:-translate-y-0.5"
+              className="rounded-full bg-foreground px-6 py-2.5 min-h-[44px] text-xs font-mono uppercase tracking-[0.2em] text-background transition-all hover:bg-foreground/85 hover:shadow-md hover:-translate-y-0.5"
             >
               Send Another Message
             </button>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-xs font-mono uppercase tracking-[0.16em] text-foreground transition-transform hover:-translate-y-0.5 hover:bg-foreground/5"
-            >
-              💬 Chat on WhatsApp
-            </a>
             {isModal && onSuccessClose && (
               <button
                 type="button"
                 onClick={onSuccessClose}
-                className="rounded-full border border-border px-4 py-2.5 text-xs font-mono uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground"
+                className="rounded-full border border-border px-5 py-2.5 min-h-[44px] text-xs font-mono uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground hover:bg-foreground/5 transition-colors"
               >
                 Close
               </button>
@@ -4383,86 +4351,35 @@ function ContactCard({ isModal = false, onSuccessClose }: ContactCardProps) {
             </div>
           </div>
 
-          {/* Tab 1 Extra Fields: Services Needed Chips & Budget/Timeline */}
+          {/* Tab 1 Extra Fields: Services Needed Chips */}
           {tab === "project" && (
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2 }}
-              className="space-y-4"
             >
-              {/* Service Needed Chips */}
-              <div>
-                <label className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                  Service Needed
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {SERVICE_OPTIONS.map((srv) => {
-                    const isSelected = selectedServices.includes(srv);
-                    return (
-                      <button
-                        key={srv}
-                        type="button"
-                        onClick={() => toggleService(srv)}
-                        className={`rounded-full px-3.5 py-1.5 min-h-[36px] text-xs font-mono tracking-wide transition-all border ${
-                          isSelected
-                            ? "bg-foreground text-background border-foreground font-medium shadow-sm"
-                            : "bg-background/60 text-muted-foreground border-border/80 hover:border-foreground/40 hover:text-foreground"
-                        }`}
-                      >
-                        {isSelected ? "✓ " : "+ "}
-                        {srv}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Budget & Timeline Dropdowns */}
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor={`contact-budget-${isModal ? "modal" : "section"}`}
-                    className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
-                  >
-                    Approx. Budget{" "}
-                    <span className="text-muted-foreground/60 text-[10px]">(Optional)</span>
-                  </label>
-                  <select
-                    id={`contact-budget-${isModal ? "modal" : "section"}`}
-                    value={budget}
-                    onChange={(e) => setBudget(e.target.value)}
-                    className="w-full rounded-xl border border-border/80 bg-background/80 px-3 py-2.5 min-h-[44px] text-sm text-foreground outline-none transition-colors focus:border-foreground focus:ring-1 focus:ring-foreground/20"
-                  >
-                    {BUDGET_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor={`contact-timeline-${isModal ? "modal" : "section"}`}
-                    className="mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium"
-                  >
-                    Target Timeline{" "}
-                    <span className="text-muted-foreground/60 text-[10px]">(Optional)</span>
-                  </label>
-                  <select
-                    id={`contact-timeline-${isModal ? "modal" : "section"}`}
-                    value={timeline}
-                    onChange={(e) => setTimeline(e.target.value)}
-                    className="w-full rounded-xl border border-border/80 bg-background/80 px-3 py-2.5 min-h-[44px] text-sm text-foreground outline-none transition-colors focus:border-foreground focus:ring-1 focus:ring-foreground/20"
-                  >
-                    {TIMELINE_OPTIONS.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <label className="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                Service Needed
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {SERVICE_OPTIONS.map((srv) => {
+                  const isSelected = selectedServices.includes(srv);
+                  return (
+                    <button
+                      key={srv}
+                      type="button"
+                      onClick={() => toggleService(srv)}
+                      className={`rounded-full px-3.5 py-1.5 min-h-[36px] text-xs font-mono tracking-wide transition-all border ${
+                        isSelected
+                          ? "bg-foreground text-background border-foreground font-medium shadow-sm"
+                          : "bg-background/60 text-muted-foreground border-border/80 hover:border-foreground/40 hover:text-foreground"
+                      }`}
+                    >
+                      {isSelected ? "✓ " : "+ "}
+                      {srv}
+                    </button>
+                  );
+                })}
               </div>
             </motion.div>
           )}
