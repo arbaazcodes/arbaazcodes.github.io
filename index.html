@@ -11,28 +11,274 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png?v=2" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+    />
     <title>Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator</title>
-    <meta name="description" content="Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." />
-    <meta name="keywords" content="UI/UX Designer, Graphic Designer, Video Editor, AI Video, Generative AI, Poster Design, Banner Design, Figma, Motion Creatives" />
-    <meta property="og:title" content="Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator" />
-    <meta property="og:description" content="Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation." />
+    <meta
+      name="description"
+      content="Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation."
+    />
+    <meta
+      name="keywords"
+      content="UI/UX Designer, Graphic Designer, Video Editor, AI Video, Generative AI, Poster Design, Banner Design, Figma, Motion Creatives"
+    />
+    <meta
+      property="og:title"
+      content="Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator"
+    />
+    <meta
+      property="og:description"
+      content="Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation."
+    />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Smooth Scrolling Core -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <!-- GSAP Core & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Spline 3D Runtime -->
+    <script
+      type="module"
+      src="https://unpkg.com/@splinetool/viewer@1.9.75/build/spline-viewer.js"
+    ></script>
+
+    <!-- Vector Motion Graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+
     <!-- GitHub Pages SPA redirect (paired with public/404.html) -->
     <script>
-      (function(l){
-        if (l.search[1] === '/') {
-          var decoded = l.search.slice(1).split('&').map(function(s){
-            return s.replace(/~and~/g, '&');
-          }).join('?');
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
           window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
         }
-      }(window.location));
+      })(window.location);
     </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Award-Winning Motion Engine: Lenis + GSAP ScrollTrigger + 3D Tilt + Micro-interactions -->
+    <script>
+      (function () {
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // 1. Lenis Smooth Scrolling & GSAP ScrollTrigger Integration
+        let lenis = null;
+        if (!prefersReducedMotion && typeof Lenis !== "undefined") {
+          lenis = new Lenis({
+            lerp: 0.08,
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            touchMultiplier: 1.5,
+          });
+          window.lenis = lenis;
+
+          if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+            gsap.registerPlugin(ScrollTrigger);
+            lenis.on("scroll", ScrollTrigger.update);
+            gsap.ticker.add((time) => {
+              lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+          } else {
+            function raf(time) {
+              lenis.raf(time);
+              requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+          }
+
+          // Smooth internal anchor link navigation
+          document.addEventListener("click", function (e) {
+            const link = e.target.closest('a[href^="#"]');
+            if (!link) return;
+            const targetId = link.getAttribute("href");
+            if (!targetId || targetId === "#") return;
+            const targetEl = document.querySelector(targetId);
+            if (targetEl && window.lenis) {
+              e.preventDefault();
+              window.lenis.scrollTo(targetEl, { offset: -24, duration: 1.2 });
+            }
+          });
+        }
+
+        // 2. Click Feedback & UX Polish (scale down to 0.96 on mousedown, snap back on release)
+        if (!prefersReducedMotion) {
+          let activeTarget = null;
+          document.addEventListener("pointerdown", function (e) {
+            const clickable = e.target.closest("button, a, [role='button'], .cursor-pointer");
+            if (!clickable) return;
+            activeTarget = clickable;
+            clickable.style.willChange = "transform";
+            if (window.gsap) {
+              gsap.to(clickable, {
+                scale: 0.96,
+                duration: 0.12,
+                ease: "power2.out",
+                overwrite: "auto",
+              });
+            } else {
+              clickable.style.transform = "scale(0.96)";
+            }
+          });
+
+          const resetClickFeedback = function () {
+            if (!activeTarget) return;
+            if (window.gsap) {
+              gsap.to(activeTarget, {
+                scale: 1,
+                duration: 0.22,
+                ease: "back.out(2)",
+                overwrite: "auto",
+                onComplete: function () {
+                  if (activeTarget) {
+                    activeTarget.style.willChange = "";
+                  }
+                },
+              });
+            } else {
+              activeTarget.style.transform = "";
+              activeTarget.style.willChange = "";
+            }
+            activeTarget = null;
+          };
+
+          document.addEventListener("pointerup", resetClickFeedback);
+          document.addEventListener("pointercancel", resetClickFeedback);
+        }
+
+        // 3. Project Showcase Cards: Lightweight 3D Tilt on mousemove (rotateX, rotateY max 8deg) + dynamic shadow
+        function bindProjectCard3DTilt() {
+          if (prefersReducedMotion) return;
+          const cards = document.querySelectorAll(
+            "#work button.group, #work .rounded-3xl, #graphic-design .rounded-3xl, #ai-videos .rounded-3xl, [data-project-card]",
+          );
+
+          cards.forEach(function (card) {
+            if (card.__tiltInitialized) return;
+            card.__tiltInitialized = true;
+
+            card.style.transformStyle = "preserve-3d";
+            card.style.backfaceVisibility = "hidden";
+
+            let rotXTo = null;
+            let rotYTo = null;
+            if (window.gsap) {
+              rotXTo = gsap.quickTo(card, "rotationX", { duration: 0.35, ease: "power2.out" });
+              rotYTo = gsap.quickTo(card, "rotationY", { duration: 0.35, ease: "power2.out" });
+            }
+
+            const onMove = function (e) {
+              const rect = card.getBoundingClientRect();
+              const px = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+              const py = (e.clientY - rect.top) / rect.height - 0.5; // -0.5 to 0.5
+
+              // Max 8deg rotation
+              const rotY = px * 16;
+              const rotX = -py * 16;
+
+              if (rotXTo && rotYTo) {
+                rotXTo(rotX);
+                rotYTo(rotY);
+              } else {
+                card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+              }
+
+              // Subtle dynamic drop shadow elevation
+              const shadowX = -px * 14;
+              const shadowY = Math.abs(py) * 16 + 10;
+              card.style.boxShadow = `${shadowX}px ${shadowY}px 32px rgba(0, 0, 0, 0.22)`;
+            };
+
+            const onLeave = function () {
+              if (rotXTo && rotYTo) {
+                rotXTo(0);
+                rotYTo(0);
+              } else {
+                card.style.transform = "";
+              }
+              card.style.boxShadow = "";
+            };
+
+            card.addEventListener("mousemove", onMove);
+            card.addEventListener("mouseleave", onLeave);
+          });
+        }
+
+        // 4. ScrollTrigger Entrance Animations: Stagger reveal existing elements section-by-section
+        function initSectionScrollReveals() {
+          if (
+            prefersReducedMotion ||
+            typeof gsap === "undefined" ||
+            typeof ScrollTrigger === "undefined"
+          )
+            return;
+
+          const sections = document.querySelectorAll("section:not(#intro)");
+          sections.forEach(function (section) {
+            if (section.__scrollRevealBound) return;
+            section.__scrollRevealBound = true;
+
+            const targets = section.querySelectorAll(
+              ":scope > div, :scope > .grid, .section-reveal-item",
+            );
+            if (!targets.length) return;
+
+            gsap.from(targets, {
+              scrollTrigger: {
+                trigger: section,
+                start: "top 85%",
+                toggleActions: "play none none none",
+                once: true,
+              },
+              y: 35,
+              opacity: 0,
+              ease: "power3.out",
+              duration: 0.9,
+              stagger: 0.08,
+              clearProps: "transform,opacity",
+            });
+          });
+        }
+
+        // 5. Lifecycle initialization and React SPA DOM observer
+        function runMotionEngine() {
+          bindProjectCard3DTilt();
+          initSectionScrollReveals();
+          if (window.ScrollTrigger) {
+            ScrollTrigger.refresh();
+          }
+        }
+
+        window.addEventListener("DOMContentLoaded", runMotionEngine);
+        window.addEventListener("load", runMotionEngine);
+
+        // React re-render / tab switch observer
+        let debounceTimer;
+        const observer = new MutationObserver(function () {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(runMotionEngine, 120);
+        });
+
+        const rootEl = document.getElementById("root");
+        if (rootEl) {
+          observer.observe(rootEl, { childList: true, subtree: true });
+        }
+      })();
+    </script>
   </body>
 </html>

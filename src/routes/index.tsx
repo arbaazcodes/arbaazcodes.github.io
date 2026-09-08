@@ -1461,6 +1461,75 @@ function Placeholder({
   );
 }
 
+/* ---------- Spline 3D Hero Background ---------- */
+
+function SplineHeroBackground() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    if (reduce) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "250px" },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [reduce]);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const handleResize = () => {
+      const viewer = containerRef.current?.querySelector("spline-viewer");
+      if (
+        viewer &&
+        "requestUpdate" in viewer &&
+        typeof (viewer as { requestUpdate?: () => void }).requestUpdate === "function"
+      ) {
+        (viewer as { requestUpdate: () => void }).requestUpdate();
+      }
+    };
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isInView]);
+
+  if (reduce) return null;
+
+  return (
+    <div
+      ref={containerRef}
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden select-none"
+      style={{
+        contain: "layout paint",
+        willChange: "opacity",
+      }}
+    >
+      {isInView && (
+        <spline-viewer
+          url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode"
+          loading-anim-type="none"
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-35 dark:opacity-60 transition-opacity duration-1000"
+          style={{ pointerEvents: "none" }}
+        />
+      )}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background" />
+    </div>
+  );
+}
+
 /* ---------- Hero ---------- */
 
 function Hero() {
@@ -1485,11 +1554,12 @@ function Hero() {
     <section
       id="intro"
       ref={ref}
-      className="relative pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-24"
+      className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-24"
     >
+      <SplineHeroBackground />
       <motion.div
         style={{ y, opacity: op }}
-        className="relative grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
+        className="relative z-10 grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
       >
         <div className="md:col-span-7 flex flex-col items-start">
           {/* 1. Status Badge */}
