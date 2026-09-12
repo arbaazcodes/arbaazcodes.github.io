@@ -74,26 +74,23 @@ import {
 import { Magnetic } from "@/components/reactbits/Magnetic";
 import { Reveal } from "@/components/reactbits/Reveal";
 import { CountUp } from "@/components/reactbits/CountUp";
-import { AiSplashModal } from "@/components/AiSplashModal";
-import { AiPromoBanner } from "@/components/AiPromoBanner";
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator" },
+      { title: "Arbaaz | Creative Specialist & Operations Coordinator" },
       {
         name: "description",
         content:
-          "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation.",
+          "Portfolio of Arbaaz — Dual-track specialist: UI/UX design, visual graphics & AI video creation (4+ yrs), alongside school & office administration / operations (2.5 yrs at Shiv Nadar School).",
       },
       {
         property: "og:title",
-        content: "Arbaaz | UI/UX Designer, Graphic Artist & AI Video Creator",
+        content: "Arbaaz | Creative Specialist & Operations Coordinator",
       },
       {
         property: "og:description",
         content:
-          "Portfolio of Arbaaz — Specializing in UI/UX design, promotional banners, posters, dynamic video editing, and AI-powered video creation.",
+          "Portfolio of Arbaaz — Dual-track specialist: UI/UX design, visual graphics & AI video creation (4+ yrs), alongside school & office administration / operations (2.5 yrs at Shiv Nadar School).",
       },
     ],
   }),
@@ -235,6 +232,22 @@ const SERVICES: CreativeService[] = [
     ],
     tags: ["Premiere Pro", "After Effects", "CapCut", "GenAI Video", "Reels & Shorts"],
     Icon: Film,
+  },
+  {
+    no: "04",
+    title: "Administration & Operations",
+    subtitle: "School & Office Operations",
+    desc: "School and office administration for teams that need a dependable coordinator for smooth day-to-day operations.",
+    offerings: [
+      "Scheduling and calendar management",
+      "Documentation and records handling",
+      "Stakeholder & family liaison",
+      "Event / campus logistics",
+      "Vendor follow-ups & coordination",
+      "Confidential file & compliance management",
+    ],
+    tags: ["Administration", "Documentation", "Coordination", "Logistics", "Operations"],
+    Icon: Building2,
   },
 ];
 
@@ -994,7 +1007,6 @@ function Portfolio() {
       <AmbientOrbs />
       <Cursor />
       <Nav active={active} setActive={setActive} dark={dark} setDark={setDark} />
-      <SideRail />
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-12">
         <Hero />
         <AiVideosSection onOpen={(item) => setLightbox({ kind: "video", item })} />
@@ -1014,18 +1026,6 @@ function Portfolio() {
 
         <Footer />
       </main>
-      <QuickChatFab />
-      <AiSplashModal
-        videos={AI_VIDEOS}
-        videoThumbnail={videoThumbnail}
-        onWatchAiVideos={() => {
-          const el = document.getElementById("ai-videos");
-          el?.scrollIntoView({ behavior: "smooth" });
-        }}
-        onSelectVideo={(item) => {
-          setLightbox({ kind: "video", item });
-        }}
-      />
 
       <AnimatePresence>
         {lightbox && (
@@ -1129,7 +1129,7 @@ function Cursor() {
   );
 }
 
-/* ---------- Nav ---------- */
+/* ---------- Studio Sticky Header & Accessible Drawer Nav ---------- */
 
 function Nav({
   active,
@@ -1142,16 +1142,25 @@ function Nav({
   dark: boolean;
   setDark: (v: boolean) => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const [deskOpen, setDeskOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = drawerOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [drawerOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setDrawerOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -1163,264 +1172,252 @@ function Nav({
 
   const scrollToSection = (id: string) => {
     document.body.style.overflow = "";
-    setOpen(false);
-    setDeskOpen(false);
+    setDrawerOpen(false);
     setActive?.(id);
 
     const el = document.getElementById(id);
     if (!el) return;
 
-    const lenis = (
-      window as unknown as {
-        lenis?: { scrollTo: (target: HTMLElement, opts?: unknown) => void };
-      }
-    ).lenis;
-
-    if (lenis && typeof lenis.scrollTo === "function") {
-      lenis.scrollTo(el, { offset: -90, duration: 1.0 });
-    } else {
-      const top = el.getBoundingClientRect().top + window.scrollY - 90;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
+    const top = el.getBoundingClientRect().top + window.scrollY - 84;
+    window.scrollTo({ top, behavior: "smooth" });
 
     if (window.history?.replaceState) {
       window.history.replaceState(null, "", `#${id}`);
     }
   };
 
+  const navGroups = [
+    {
+      label: "Work",
+      items: [
+        { id: "ai-videos", label: "AI Films & B-Roll", tag: "13 Films" },
+        { id: "work", label: "Creative Portfolio", tag: "Design & Identity" },
+        { id: "videos", label: "Client Reels", tag: "Motion & Social" },
+      ],
+    },
+    {
+      label: "Profile",
+      items: [
+        { id: "about", label: "Dual-Track Background", tag: "About" },
+        { id: "services", label: "Services & Pillars", tag: "What I Do" },
+        { id: "skills", label: "Skills & Toolkit", tag: "Creative & Ops" },
+        { id: "experience", label: "Experience", tag: "2021 — Present" },
+      ],
+    },
+    {
+      label: "Contact & Links",
+      items: [
+        { id: "contact", label: "Start a Conversation", tag: "Project Inquiry" },
+      ],
+    },
+  ];
+
   return (
-    <motion.header
-      initial={{ y: -24, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
-      className="navbar fixed inset-x-0 top-4 z-[100] px-4 md:top-6 pointer-events-none"
-    >
-      <div
-        className={`mx-auto flex max-w-[1100px] items-center justify-between gap-4 rounded-full glass px-3 py-2 md:px-4 pointer-events-auto transition-shadow duration-500 ${
-          scrolled ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] ring-1 ring-black/5" : ""
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-[100] h-[68px] transition-all duration-300 ${
+          scrolled
+            ? "glass border-b border-border/60 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)]"
+            : "bg-background/70 backdrop-blur-md border-b border-border/30"
         }`}
       >
-        <a
-          href="#intro"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("intro");
-          }}
-          className="flex items-center gap-2 pl-3 pr-2 shrink-0"
-        >
-          <span className="relative flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background">
-            <span className="font-display text-sm font-semibold">a</span>
-            <span className="pulse-ring absolute inset-0 rounded-full" />
-          </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            arbaaz/2026
-          </span>
-        </a>
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 md:px-10 lg:px-12">
+          {/* Brand Left */}
+          <a
+            href="#intro"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("intro");
+            }}
+            className="flex items-center gap-3 group focus:outline-none"
+          >
+            <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-background shadow-sm transition-transform duration-300 group-hover:scale-105">
+              <span className="font-display text-sm font-semibold">a</span>
+              <span className="pulse-ring absolute inset-0 rounded-full" />
+            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-display text-base font-bold tracking-tight text-foreground">
+                Arbaaz
+              </span>
+              <span className="hidden sm:inline-flex items-center rounded-full border border-border/70 bg-card px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                Design · Motion · Admin
+              </span>
+            </div>
+          </a>
 
-        {/* Desktop Nav Links (Visible on lg+) */}
-        <nav className="hidden items-center gap-0.5 lg:flex">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(n.id);
-              }}
-              className={`relative rounded-full px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.16em] transition-colors ${
-                active === n.id
-                  ? "text-foreground font-semibold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-              }`}
-            >
-              {active === n.id && (
-                <motion.span
-                  layoutId="nav-pill"
-                  className="absolute inset-0 rounded-full bg-foreground/10"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{n.label}</span>
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Tablet Dropdown (md to lg) */}
-          <div className="relative hidden md:block lg:hidden">
+          {/* Actions Right */}
+          <div className="flex items-center gap-2.5">
             <button
-              onClick={() => setDeskOpen((v) => !v)}
-              aria-haspopup="menu"
-              aria-expanded={deskOpen}
-              className="inline-flex items-center gap-2 rounded-full border border-border/60 px-3.5 py-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-foreground hover:bg-foreground/10 transition-colors"
+              onClick={() => setDark(!dark)}
+              aria-label="Toggle theme"
+              className="flex h-10 w-10 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border/70 bg-card/60 text-foreground transition-all duration-200 hover:bg-foreground/10 hover:border-foreground/40 active:scale-95"
             >
-              <Menu size={13} />
-              <span>{NAV.find((n) => n.id === active)?.label ?? "Menu"}</span>
+              {dark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
-            <AnimatePresence>
-              {deskOpen && (
-                <>
-                  <button
-                    aria-label="Close menu"
-                    onClick={() => setDeskOpen(false)}
-                    className="fixed inset-0 z-[54] cursor-default bg-black/20 backdrop-blur-[2px]"
-                  />
-                  <motion.div
-                    initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                    role="menu"
-                    className="absolute right-0 top-[calc(100%+8px)] z-[56] min-w-[220px] rounded-2xl border border-border/60 bg-popover p-1.5 shadow-2xl backdrop-blur-md"
-                  >
-                    {NAV.map((n) => (
-                      <a
-                        key={n.id}
-                        href={`#${n.id}`}
-                        role="menuitem"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          scrollToSection(n.id);
-                        }}
-                        className={`flex items-center justify-between rounded-xl px-3.5 py-2.5 font-mono text-[10.5px] uppercase tracking-[0.2em] transition-colors ${
-                          active === n.id
-                            ? "bg-foreground/10 text-foreground font-semibold"
-                            : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
-                        }`}
-                      >
-                        <span>{n.label}</span>
-                        <ArrowUpRight size={13} className="opacity-40" />
-                      </a>
-                    ))}
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </div>
 
-          <button
-            onClick={() => setDark(!dark)}
-            aria-label="Toggle theme"
-            className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
-          >
-            {dark ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
-          <Link
-            to="/resume"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-foreground px-4 py-2.5 text-[11px] min-h-[40px] font-medium uppercase tracking-[0.2em] text-background hover:bg-foreground/85 transition-colors"
-          >
-            <FileText size={13} /> Resume
-          </Link>
-          <button
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            aria-expanded={open}
-            className="md:hidden h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10 transition-colors"
-          >
-            <Menu size={18} />
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[110] md:hidden pointer-events-auto"
-            role="dialog"
-            aria-modal="true"
-          >
-            <button
-              aria-label="Close menu"
-              onClick={() => {
-                document.body.style.overflow = "";
-                setOpen(false);
-              }}
-              className="absolute inset-0 bg-background/80 backdrop-blur-md"
-            />
-            <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute inset-x-4 top-20 rounded-3xl card-white p-6 shadow-2xl max-h-[85vh] overflow-y-auto"
+            <Link
+              to="/resume"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-foreground px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-background transition-all duration-200 hover:bg-foreground/85 active:scale-95 shadow-sm"
             >
-              <div className="flex items-center justify-between pb-4 border-b border-border/60">
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                  Menu
-                </span>
+              <FileText size={13} />
+              <span>Resume</span>
+            </Link>
+
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={drawerOpen}
+              className="flex h-10 w-10 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border/70 bg-card/60 text-foreground transition-all duration-200 hover:bg-foreground/10 hover:border-foreground/40 active:scale-95"
+            >
+              <Menu size={18} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Right Drawer */}
+      <AnimatePresence>
+        {drawerOpen && (
+          <div className="fixed inset-0 z-[120]" role="dialog" aria-modal="true">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setDrawerOpen(false)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+            />
+
+            {/* Slide-over panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 280 }}
+              className="fixed inset-y-0 right-0 flex w-full max-w-md flex-col bg-popover border-l border-border/70 shadow-2xl overflow-y-auto"
+            >
+              {/* Drawer Top Header */}
+              <div className="flex items-center justify-between border-b border-border/60 px-6 py-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background font-display text-xs font-bold">
+                    a
+                  </span>
+                  <div>
+                    <span className="font-display font-bold text-base text-foreground">
+                      Arbaaz K.
+                    </span>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
+                      Creative & Operations
+                    </p>
+                  </div>
+                </div>
                 <button
-                  onClick={() => {
-                    document.body.style.overflow = "";
-                    setOpen(false);
-                  }}
+                  onClick={() => setDrawerOpen(false)}
                   aria-label="Close menu"
-                  className="h-10 w-10 min-h-[44px] min-w-[44px] rounded-full border border-border/60 flex items-center justify-center hover:bg-foreground/10"
+                  className="flex h-10 w-10 min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-border/60 text-foreground hover:bg-foreground/10 transition-colors"
                 >
                   <X size={16} />
                 </button>
               </div>
-              <nav className="mt-4 flex flex-col">
-                {NAV.map((n, i) => (
-                  <motion.a
-                    key={n.id}
-                    href={`#${n.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(n.id);
-                    }}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + i * 0.04 }}
-                    className={`flex items-center justify-between rounded-2xl px-4 py-3 font-display text-xl sm:text-2xl transition-colors ${
-                      active === n.id
-                        ? "bg-foreground/5 text-foreground font-semibold"
-                        : "text-foreground/80 hover:bg-foreground/5"
-                    }`}
-                  >
-                    <span>{n.label}</span>
-                    <ArrowUpRight size={18} className="opacity-50" />
-                  </motion.a>
+
+              {/* Navigation Links by Groups */}
+              <div className="flex-1 px-6 py-6 space-y-6">
+                {navGroups.map((group) => (
+                  <div key={group.label} className="space-y-1.5">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight font-semibold px-2 mb-2">
+                      {group.label}
+                    </p>
+                    {group.items.map((item) => (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          scrollToSection(item.id);
+                        }}
+                        className={`group flex items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
+                          active === item.id
+                            ? "bg-foreground/10 text-foreground font-medium"
+                            : "text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                        }`}
+                      >
+                        <span className="font-display text-lg">{item.label}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
+                            {item.tag}
+                          </span>
+                          <ArrowUpRight size={14} className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                        </div>
+                      </a>
+                    ))}
+                  </div>
                 ))}
-              </nav>
-              <Link
-                to="/resume"
-                onClick={() => {
-                  document.body.style.overflow = "";
-                  setOpen(false);
-                }}
-                className="mt-6 inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-full bg-foreground px-4 py-3 text-xs font-medium uppercase tracking-[0.2em] text-background transition-colors hover:bg-foreground/85"
-              >
-                <FileText size={14} /> Resume (PDF)
-              </Link>
+
+                {/* Direct Links */}
+                <div className="pt-2 border-t border-border/60 space-y-2">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground font-semibold px-2 mb-2">
+                    Direct Contact
+                  </p>
+                  <a
+                    href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Hi Arbaaz, I saw your portfolio and would like to connect.")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                      WhatsApp (+91 8527766839)
+                    </span>
+                    <ArrowUpRight size={13} className="opacity-40" />
+                  </a>
+                  <a
+                    href="mailto:arbaazsince2002@gmail.com"
+                    className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                  >
+                    <span>arbaazsince2002@gmail.com</span>
+                    <ArrowUpRight size={13} className="opacity-40" />
+                  </a>
+                  <a
+                    href="tel:+918527766839"
+                    className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                  >
+                    <span>Call: +91 8527766839</span>
+                    <ArrowUpRight size={13} className="opacity-40" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/arbaaz-designer"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                  >
+                    <span>LinkedIn Profile</span>
+                    <ArrowUpRight size={13} className="opacity-40" />
+                  </a>
+                </div>
+
+                <div className="pt-2">
+                  <Link
+                    to="/resume"
+                    onClick={() => setDrawerOpen(false)}
+                    className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-foreground px-4 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-background transition-colors hover:bg-foreground/85"
+                  >
+                    <FileText size={14} /> Open Resume (PDF)
+                  </Link>
+                </div>
+              </div>
+
+              {/* Drawer Footer */}
+              <div className="border-t border-border/60 px-6 py-4 text-center">
+                <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                  Gurugram, Haryana · Available Q1 2026
+                </p>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </motion.header>
-  );
-}
-
-function SideRail() {
-  return (
-    <div className="pointer-events-none fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 lg:block">
-      <div className="flex flex-col items-center gap-6">
-        {SOCIALS.map((s) => (
-          <a
-            key={s.label}
-            href={s.href}
-            className="pointer-events-auto font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-foreground transition-colors"
-            style={{ writingMode: "vertical-rl" }}
-          >
-            {s.label}
-          </a>
-        ))}
-        <div className="h-16 w-px bg-border" />
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -1549,17 +1546,6 @@ function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
   const op = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
 
-  const words = [
-    "Designing",
-    "Seamless",
-    "Digital",
-    "Experiences",
-    "&",
-    "AI-Powered",
-    "Visual",
-    "Media.",
-  ];
-
   return (
     <section
       id="intro"
@@ -1571,7 +1557,7 @@ function Hero() {
         className="hero-content relative z-10 grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
       >
         <div className="md:col-span-7 flex flex-col items-start">
-          {/* 1. Status Badge */}
+          {/* 1. Status Eyebrow Badge */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1579,59 +1565,59 @@ function Hero() {
             className="mb-6 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5"
           >
             <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-foreground opacity-60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-foreground" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Available for Freelance & Creative Roles • UI/UX & AI Video Specialist
+              Gurugram, India · Available for full-time &amp; high-impact contracts
             </span>
           </motion.div>
 
-          {/* 2. Headline (H1) */}
+          {/* 2. Dual-Lane Headline (H1) */}
           <h1 className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] font-bold tracking-tight leading-[1.05]">
-            {words.map((w, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 40, rotateX: 60, filter: "blur(10px)" }}
-                animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
-                transition={{ delay: 0.1 + i * 0.07, duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-                className="mr-[0.18em] inline-block"
-                style={{ transformOrigin: "50% 100%" }}
-              >
-                {w === "AI-Powered" || w === "Visual" || w === "Media." ? (
-                  <em className="text-highlight italic">{w}</em>
-                ) : (
-                  w
-                )}
-              </motion.span>
-            ))}
+            <motion.span
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+              className="block text-foreground"
+            >
+              Creative Specialist
+            </motion.span>
+            <motion.span
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
+              className="block mt-1"
+            >
+              <span className="font-serif font-normal italic text-muted-foreground">&amp;</span>{" "}
+              <em className="text-highlight italic font-medium">Operations Coordinator</em>
+            </motion.span>
           </h1>
 
-          {/* 3. Subheading (Paragraph) */}
+          {/* 3. Balanced Dual-Track Subheading */}
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
             className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground"
           >
-            I combine modern UI/UX design with high-converting marketing visuals — from intuitive
-            Figma prototypes and ad posters to dynamic video editing and generative AI videos.
+            UI/UX designer, graphic artist, and AI video creator with 4+ years crafting high-converting digital products, brand identities, and visual content — paired with 2.5 years of K-12 school office and institutional operations experience at Shiv Nadar School.
           </motion.p>
 
           {/* 4. CTA Buttons Row */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.6 }}
-            className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4"
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5"
           >
             <Magnetic strength={14} padding={20}>
               <a
                 href="#work"
-                className="group relative inline-flex min-h-[44px] items-center gap-3 overflow-hidden rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-[1.02] shadow-md shadow-foreground/10"
+                className="group relative inline-flex min-h-[44px] items-center gap-2.5 overflow-hidden rounded-full bg-foreground px-5 py-3 text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] text-background transition-transform hover:scale-[1.02] shadow-md shadow-foreground/10"
               >
-                <span className="relative z-10">Explore My Work</span>
-                <span className="relative z-10 transition-transform group-hover:translate-x-1">
+                <span className="relative z-10">View Creative Work</span>
+                <span className="relative z-10 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   ↗
                 </span>
               </a>
@@ -1639,20 +1625,47 @@ function Hero() {
             <Magnetic strength={10} padding={14}>
               <a
                 href="#ai-videos"
-                className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border/80 bg-card px-5 py-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5"
+                className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border/80 bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5"
               >
                 <Play size={12} className="fill-current text-highlight" />
-                <span>Watch Video Reel</span>
+                <span>Watch AI Films</span>
               </a>
             </Magnetic>
             <Magnetic strength={8} padding={12}>
               <a
-                href="#contact"
-                className="link-underline inline-flex min-h-[44px] items-center px-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground"
+                href="#experience"
+                className="group inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-border/80 bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-all hover:text-foreground hover:border-foreground/60 hover:bg-foreground/5"
               >
-                Contact
+                <span>Operations &amp; Experience</span>
+                <ArrowRight size={12} className="opacity-60 group-hover:translate-x-0.5 transition-transform" />
               </a>
             </Magnetic>
+          </motion.div>
+
+          {/* 5. Quick Connect Badges */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9, duration: 0.6 }}
+            className="mt-6 flex flex-wrap items-center gap-3 pt-4 border-t border-border/40 text-xs text-muted-foreground"
+          >
+            <a
+              href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Hi Arbaaz, let's connect regarding an opportunity.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono text-[10.5px] uppercase tracking-wider hover:bg-emerald-500/20 transition-colors"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              WhatsApp Direct
+            </a>
+            <a
+              href="mailto:arbaazsince2002@gmail.com"
+              className="font-mono text-[10.5px] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              arbaazsince2002@gmail.com
+            </a>
+            <span className="text-border">•</span>
+            <span className="font-mono text-[10.5px] text-muted-foreground">Gurugram, Haryana</span>
           </motion.div>
         </div>
 
@@ -1670,40 +1683,45 @@ function Hero() {
             <div className="absolute inset-0 rounded-3xl bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
               <img
                 src={arbaazHero}
-                alt="Arbaaz — UI/UX Designer, Graphic Artist & AI Video Creator"
+                alt="Arbaaz K. — Creative Specialist & Operations Coordinator"
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent p-5 text-white">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent p-5 text-white">
                 <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
-                  UI/UX · Graphic Design · AI Video
+                  Design · Motion · Operations
                 </p>
-                <p className="font-display text-2xl">Arbaaz K.</p>
+                <p className="font-display text-2xl font-bold">Arbaaz K.</p>
+                <p className="text-xs text-white/75 mt-0.5">
+                  Creative Specialist · Operations Coordinator
+                </p>
               </div>
             </div>
 
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-5 top-10 glass rounded-2xl p-3"
+              className="absolute -left-5 top-10 glass rounded-2xl p-3 shadow-lg"
               style={{ transform: "translateZ(60px)" }}
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                Specialist
+                Lane A — Creative
               </p>
-              <p className="font-display text-sm">UI/UX & AI Video</p>
+              <p className="font-display text-xs sm:text-sm font-semibold text-foreground">
+                UI/UX · Graphic · AI Video (4+ yrs)
+              </p>
             </motion.div>
             <motion.div
               animate={{ y: [0, 14, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-5 bottom-16 glass rounded-2xl px-3 py-2"
+              className="absolute -right-5 bottom-16 glass rounded-2xl px-3.5 py-2.5 shadow-lg"
               style={{ transform: "translateZ(80px)" }}
             >
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-foreground" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em]">
-                  4.5+ yrs · creative
-                </span>
-              </div>
+              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                Lane B — Operations
+              </p>
+              <p className="font-display text-xs sm:text-sm font-semibold text-foreground">
+                School &amp; Office Operations (2.5 yrs)
+              </p>
             </motion.div>
             <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
           </Tilt>
@@ -1719,7 +1737,7 @@ function Hero() {
         <span className="flex items-center gap-2">
           <span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" />
         </span>
-        <span className="hidden md:inline">Gurugram, Haryana · Remote worldwide</span>
+        <span className="hidden md:inline">Shiv Nadar School Alum · Gurugram, Haryana</span>
       </motion.div>
     </section>
   );
@@ -1728,10 +1746,10 @@ function Hero() {
 const ABOUT_CARDS = [
   { key: "UI/UX Design", val: "Wireframes · Figma · App UI", Icon: Layout },
   { key: "Graphic Design", val: "Posters · Banners · Creatives", Icon: PenTool },
-  { key: "Video Editing", val: "Reels · Promos · Sound FX", Icon: Film },
-  { key: "Collateral", val: "Brochures · Standees · Print", Icon: Printer },
+  { key: "Video & AI Media", val: "Reels · Promos · GenAI", Icon: Film },
+  { key: "School Admin", val: "Shiv Nadar School · 2.5 yrs", Icon: Building2 },
   { key: "Creative Tools", val: "Figma · Photoshop · Premiere", Icon: Wrench },
-  { key: "Based In", val: "Gurugram, IN · Remote", Icon: MapPin },
+  { key: "Based In", val: "Gurugram, IN · Available Q1 2026", Icon: MapPin },
 ];
 
 function About() {
@@ -1751,6 +1769,7 @@ function About() {
                 About
               </p>
               <p className="font-display text-xl sm:text-2xl font-semibold">Arbaaz K.</p>
+              <p className="text-xs text-white/80 font-mono">Creative &amp; Operations</p>
             </div>
             <motion.div
               animate={{ rotate: 360 }}
@@ -1762,7 +1781,7 @@ function About() {
                   <path id="cabout" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
                 </defs>
                 <text fontSize="9" letterSpacing="2" className="font-mono">
-                  <textPath href="#cabout">DESIGN · CRAFT · MOTION · </textPath>
+                  <textPath href="#cabout">DESIGN · CRAFT · OPERATIONS · </textPath>
                 </text>
               </svg>
             </motion.div>
@@ -1775,19 +1794,38 @@ function About() {
               as="h2"
               className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]"
             >
-              Frictionless UI/UX meets{" "}
-              <em className="text-highlight italic">high-impact visual media</em> — from concept to
-              final cut.
+              High-impact visual design meets{" "}
+              <em className="text-highlight italic">institutional operational rigor</em>.
             </Reveal>
+
+            {/* Paragraph 1: Creative */}
             <Reveal
-              as="p"
-              delay={0.08}
-              className="max-w-2xl text-base sm:text-lg leading-relaxed text-muted-foreground"
+              as="div"
+              delay={0.06}
+              className="rounded-2xl border border-border/60 bg-card/60 p-4 sm:p-5"
             >
-              From intuitive web & mobile interfaces in Figma for SwiftAMS to thumb-stopping ad
-              banners, event posters, and dynamic video edits for Edu Finn and Digital Cappuccino, I
-              blend user-centered design, bold visual storytelling, and modern creative workflows to
-              craft memorable digital experiences.
+              <div className="flex items-center gap-2 mb-2 font-mono text-[10.5px] uppercase tracking-wider text-highlight font-semibold">
+                <Sparkles size={13} />
+                <span>Lane A — UI/UX, Graphic Design &amp; AI Video</span>
+              </div>
+              <p className="text-sm sm:text-base leading-relaxed text-foreground/85">
+                4+ years designing intuitive web &amp; mobile interfaces in Figma for SwiftAMS, alongside 200+ campaign posters, ad banners, and dynamic video edits for Edu Finn and Digital Cappuccino. I merge user-centered design systems with bold visual storytelling and AI-assisted workflows to craft conversion-focused digital experiences.
+              </p>
+            </Reveal>
+
+            {/* Paragraph 2: Operations */}
+            <Reveal
+              as="div"
+              delay={0.12}
+              className="rounded-2xl border border-border/60 bg-card/60 p-4 sm:p-5"
+            >
+              <div className="flex items-center gap-2 mb-2 font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
+                <Building2 size={13} />
+                <span>Lane B — School &amp; Office Administration</span>
+              </div>
+              <p className="text-sm sm:text-base leading-relaxed text-foreground/85">
+                2.5 years of hands-on institutional operations and school administration at Shiv Nadar School, Gurgaon. Handled student and parent lifecycle coordination, confidential records, inter-departmental scheduling, vendor follow-ups, and large-scale event logistics with dependable cross-functional communication.
+              </p>
             </Reveal>
           </div>
 
@@ -1820,9 +1858,10 @@ function About() {
 
 function Stats() {
   const highlights = [
-    "Designed intuitive web & mobile UI/UX platforms in Figma",
-    "200+ high-impact posters, ad banners & brand collateral",
-    "50+ dynamic video edits, vertical reels & AI video creations",
+    "4+ years designing intuitive UI/UX platforms, web & mobile in Figma",
+    "2.5 years K-12 school administration & operational coordination (Shiv Nadar School)",
+    "200+ high-impact marketing posters, ad banners & print collateral",
+    "50+ dynamic video edits, vertical reels & generative AI video creations",
   ];
   return (
     <section className="py-10 sm:py-12 md:py-14">
@@ -1840,23 +1879,26 @@ function Stats() {
               style={{ background: "color-mix(in oklab, var(--highlight) 14%, transparent)" }}
             >
               <Sparkles size={14} />
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Experience</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Track Record</span>
             </div>
             <p className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9]">
-              <CountUp end={4.5} decimals={1} />
+              <CountUp end={4} decimals={0} />
               <span className="text-highlight">+</span>
+              <span className="text-2xl sm:text-3xl text-muted-foreground font-normal ml-2">yrs</span>
             </p>
-            <p className="text-eyebrow mt-3">Years designing digital products & visual media</p>
+            <p className="text-eyebrow mt-3">Creative Practice (4+ yrs) · Campus Operations (2.5 yrs) · Active since 2021</p>
           </div>
           <div className="md:col-span-7">
             <p className="text-base sm:text-lg md:text-xl leading-relaxed text-foreground/85">
-              4.5+ years crafting{" "}
+              Over 4 years of hands-on{" "}
               <em className="text-highlight not-italic font-medium">
-                intuitive UI/UX designs, high-impact graphic collateral, dynamic video edits, and
-                AI-powered visual media
-              </em>{" "}
-              — from interactive prototypes in Figma to thumb-stopping posters, ad banners, and
-              cinematic reels.
+                UI/UX product design, graphic collateral, dynamic video editing, and generative AI media
+              </em>
+              , alongside 2.5 years of rigorous{" "}
+              <em className="text-highlight not-italic font-medium">
+                school and office administration at Shiv Nadar School
+              </em>
+              . Two disciplined tracks built on clarity, accountability, and execution.
             </p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
               {highlights.map((h, i) => (
@@ -1889,18 +1931,17 @@ function Services() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4">/ 03 — What I Do</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            Creative services built for <em className="text-highlight italic">maximum impact</em>.
+            Specialized services across <em className="text-highlight italic">design &amp; operations</em>.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Three focused creative pillars — from frictionless Figma prototypes to high-converting
-            ad banners and dynamic video edits.
+            Four focused pillars — UI/UX design, marketing collateral, AI-powered video, and school &amp; office administration.
           </p>
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
         {SERVICES.map((s, i) => (
           <motion.div
             key={s.no}
@@ -1985,6 +2026,7 @@ interface SkillItem {
 interface SkillTrackData {
   id: string;
   label: string;
+  caption?: string;
   items: SkillItem[];
 }
 
@@ -2077,118 +2119,95 @@ const SKILL_TRACKS: SkillTrackData[] = [
       { name: "Brand Identity", icon: Heart },
     ],
   },
+  {
+    id: "operations",
+    label: "Operations & Coordination",
+    caption: "Practiced in a K-12 campus office — supporting context, not the design toolkit.",
+    items: [
+      { name: "School Administration", icon: Building2 },
+      { name: "Office Coordination", icon: Layout },
+      { name: "Stakeholder Communication", icon: MessageSquare },
+      { name: "Documentation & Records", icon: FileText },
+      { name: "Scheduling & Calendars", icon: Workflow },
+      { name: "Event Logistics", icon: Compass },
+      { name: "Vendor Coordination", icon: Network },
+      { name: "Confidential Handling", icon: CheckCircle2 },
+    ],
+  },
 ];
 
 function SkillTrack({
   label,
   index,
+  caption,
   items,
-  reverse = false,
 }: {
   label: string;
   index: string;
+  caption?: string;
   items: SkillItem[];
-  reverse?: boolean;
 }) {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const loop = [...items, ...items, ...items];
-
-  useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    let raf = 0;
-    const tick = () => {
-      if (!isPaused && el) {
-        const step = reverse ? -0.45 : 0.45;
-        el.scrollLeft += step;
-        const oneThird = el.scrollWidth / 3;
-        if (!reverse && el.scrollLeft >= oneThird * 2) {
-          el.scrollLeft -= oneThird;
-        } else if (reverse && el.scrollLeft <= 0) {
-          el.scrollLeft += oneThird;
-        }
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    if (reverse && el.scrollLeft === 0) {
-      el.scrollLeft = el.scrollWidth / 3;
-    }
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [isPaused, reverse]);
-
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 py-2 border-b border-border/40 last:border-b-0">
-      {/* Row Label */}
-      <div className="flex items-center gap-2.5 shrink-0 md:w-56 lg:w-60">
-        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-highlight font-semibold">
-          {index}
-        </span>
-        <span className="font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-muted-foreground truncate">
-          {label}
-        </span>
+    <div className="py-4 border-b border-border/40 last:border-b-0 space-y-2.5">
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+        <div className="flex items-center gap-2.5">
+          <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-highlight font-semibold">
+            {index}
+          </span>
+          <span className="font-mono text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-foreground">
+            {label}
+          </span>
+        </div>
+        {caption && (
+          <p className="font-mono text-[10px] text-muted-foreground italic">
+            {caption}
+          </p>
+        )}
       </div>
 
-      {/* Horizontal Track with fading masks */}
-      <div
-        className="relative flex-1 overflow-hidden"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)}
-        onTouchEnd={() => setIsPaused(false)}
-      >
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 sm:w-16 bg-gradient-to-r from-card to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 sm:w-16 bg-gradient-to-l from-card to-transparent" />
+      <div className="flex flex-wrap gap-2 pt-1">
+        {items.map((item, i) => {
+          const pillContent = (
+            <>
+              {item.logo ? (
+                <img
+                  src={item.logo}
+                  alt=""
+                  aria-hidden
+                  loading="lazy"
+                  className="h-4 w-4 shrink-0 rounded-sm object-contain"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
+                />
+              ) : item.icon ? (
+                <item.icon size={14} className="shrink-0 text-foreground/70" />
+              ) : (
+                <Sparkles size={13} className="shrink-0 text-highlight" />
+              )}
+              <span className="text-foreground">{item.name}</span>
+            </>
+          );
 
-        <div
-          ref={scrollerRef}
-          className="flex gap-2.5 sm:gap-3 overflow-x-auto no-scrollbar py-1.5 scroll-smooth select-none"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {loop.map((item, i) => {
-            const pillContent = (
-              <>
-                {item.logo ? (
-                  <img
-                    src={item.logo}
-                    alt=""
-                    aria-hidden
-                    loading="lazy"
-                    className="h-4 w-4 shrink-0 rounded-sm object-contain"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                ) : item.icon ? (
-                  <item.icon size={15} className="shrink-0 text-foreground/70" />
-                ) : (
-                  <Sparkles size={14} className="shrink-0 text-highlight" />
-                )}
-                <span className="text-foreground">{item.name}</span>
-              </>
-            );
+          const pillClasses =
+            "inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/70 text-xs font-medium transition-all duration-200 hover:border-neutral-400 hover:scale-[1.02] shadow-sm cursor-default";
 
-            const pillClasses =
-              "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white/60 dark:bg-neutral-900/60 text-xs sm:text-sm whitespace-nowrap font-medium transition-all duration-200 hover:border-neutral-400 hover:scale-[1.02] shadow-sm backdrop-blur-sm cursor-default";
-
-            return item.link ? (
-              <a
-                key={`${item.name}-${i}`}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={pillClasses}
-              >
-                {pillContent}
-              </a>
-            ) : (
-              <span key={`${item.name}-${i}`} className={pillClasses}>
-                {pillContent}
-              </span>
-            );
-          })}
-        </div>
+          return item.link ? (
+            <a
+              key={`${item.name}-${i}`}
+              href={item.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={pillClasses}
+            >
+              {pillContent}
+            </a>
+          ) : (
+            <span key={`${item.name}-${i}`} className={pillClasses}>
+              {pillContent}
+            </span>
+          );
+        })}
       </div>
     </div>
   );
@@ -2199,25 +2218,24 @@ function Skills() {
     <section id="skills" className="py-16 sm:py-24">
       <div className="mb-8 sm:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <p className="text-eyebrow mb-2 sm:mb-3">/ 04 — Skills & Tools</p>
+          <p className="text-eyebrow mb-2 sm:mb-3">/ 04 — Skills &amp; Tools</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            Product craft, <em className="text-highlight italic">AI workflows</em> & tools.
+            Product craft, <em className="text-highlight italic">AI workflows</em> &amp; operations.
           </h2>
         </div>
         <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
-          A landscape view of my creative toolkit across design software, generative AI models, core
-          UI/UX methodologies, and motion pipelines.
+          A structured landscape of my toolkit across design software, generative AI models, core UI/UX methodologies, motion pipelines, and campus operational coordination.
         </p>
       </div>
 
-      <div className="card-white rounded-3xl p-4 sm:p-6 md:p-8 space-y-1 sm:space-y-2 max-h-[540px] overflow-hidden border border-border/60 shadow-lg">
+      <div className="card-white rounded-3xl p-5 sm:p-7 md:p-8 space-y-1 border border-border/60 shadow-lg">
         {SKILL_TRACKS.map((track, i) => (
           <SkillTrack
             key={track.id}
             label={track.label}
             index={String(i + 1).padStart(2, "0")}
+            caption={track.caption}
             items={track.items}
-            reverse={i % 2 === 1}
           />
         ))}
       </div>
@@ -2243,7 +2261,7 @@ const EXPERIENCE: Job[] = [
     role: "UI/UX Designer & Creative Lead",
     period: "Jun 2022 — Present",
     summary:
-      "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design.",
+      "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design. (Concurrently supported Shiv Nadar School Jul 2022 – Jun 2023, then transitioned to full-time design lead).",
     Icon: Briefcase,
     links: [
       { label: "Website", href: "https://www.swiftams.com/" },
@@ -2284,16 +2302,24 @@ const EXPERIENCE: Job[] = [
   {
     company: "Digital Cappuccino",
     role: "Graphic Designer & Visual Artist",
-    period: "2022 — 2023",
+    period: "Jul 2023 — Dec 2023 · 6 mos",
     summary:
       "Designed high-converting ad banners, social media campaigns, promotional graphics, and brand assets. Managed creative direction and content calendars across multi-channel client accounts.",
     Icon: Coffee,
     links: [{ label: "Website", href: "https://www.digitalcappuccino.com/" }],
   },
   {
+    company: "Shiv Nadar School, Gurgaon",
+    role: "Administrative Coordinator",
+    period: "Jan 2021 — Jun 2023 · 2 yrs 6 mos",
+    summary:
+      "K-12 campus office administration and student/parent lifecycle support. Managed confidential student records, documentation, and compliance files. Coordinated inter-departmental schedules, meetings, and major school events. Handled vendor follow-ups, inventory, and administrative logistics with daily cross-functional communication between leadership, faculty, and families.",
+    Icon: Building2,
+  },
+  {
     company: "Independent Projects",
-    role: "UI/UX Designer & Video Editor",
-    period: "2021",
+    role: "UI/UX Designer, Graphic Artist & AI Video Creator",
+    period: "2021 — Present",
     summary:
       "Designed web and mobile app interfaces, wireframes, and interactive prototypes. Produced promotional video edits, motion graphics, and distinctive brand identities for startups and creators.",
     Icon: Layers,
@@ -2307,14 +2333,12 @@ function Experience() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4 sm:mb-6">/ 05 — Experience</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            4.5+ years shaping <em className="text-highlight italic">UI/UX, visual media</em> &
-            dynamic video.
+            Experience across <em className="text-highlight italic">creative practice &amp; operations</em>.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Creative design roles and client collaborations — crafting frictionless digital
-            products, high-impact ad campaigns, and engaging video content.
+            Professional journey spanning UI/UX design leadership, marketing graphics, video production, and institutional campus administration.
           </p>
         </div>
       </div>
@@ -3173,6 +3197,9 @@ function Work({
 
 function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
   const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleVideos = showAll ? AI_VIDEOS : AI_VIDEOS.slice(0, 6);
 
   return (
     <section id="ai-videos" className="py-16 sm:py-24">
@@ -3232,7 +3259,7 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {AI_VIDEOS.map((v, i) => {
+        {visibleVideos.map((v, i) => {
           const isPlayingInline = inlinePlayingId === v.id;
 
           return (
@@ -3369,6 +3396,18 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           );
         })}
       </div>
+
+      {AI_VIDEOS.length > 6 && (
+        <div className="mt-10 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border/80 bg-card px-6 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-foreground transition-all hover:bg-foreground/10 hover:border-foreground/40 shadow-sm"
+          >
+            {showAll ? "Show fewer AI films" : `Show all ${AI_VIDEOS.length} AI films`}
+          </button>
+        </div>
+      )}
     </section>
   );
 }
@@ -3382,6 +3421,7 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
     "all" | "reels" | "films" | "edufinn" | "swiftams"
   >("all");
   const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
+  const [showAllReels, setShowAllReels] = useState(false);
 
   const displayedReels =
     activeFilter === "swiftams"
@@ -3391,6 +3431,8 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
         : activeFilter === "films"
           ? []
           : CORPORATE_REELS;
+
+  const visibleReels = showAllReels ? displayedReels : displayedReels.slice(0, 6);
 
   const displayedFilms =
     activeFilter === "swiftams"
@@ -3565,7 +3607,7 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           </div>
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            {displayedReels.map((v, i) => {
+            {visibleReels.map((v, i) => {
               const isPlayingInline = inlinePlayingId === v.id;
 
               return (
@@ -3668,6 +3710,18 @@ function Videos({ onOpen }: { onOpen: (v: VideoItem) => void }) {
               );
             })}
           </div>
+
+          {displayedReels.length > 6 && (
+            <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setShowAllReels(!showAllReels)}
+                className="inline-flex min-h-[40px] items-center gap-2 rounded-full border border-border/80 bg-card px-5 py-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-foreground transition-all hover:bg-foreground/10 hover:border-foreground/40 shadow-sm"
+              >
+                {showAllReels ? "Show fewer reels" : `Show all ${displayedReels.length} reels`}
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -4123,7 +4177,13 @@ function Lightbox({
 
 /* ---------- Contact + Footer ---------- */
 
-const SERVICE_OPTIONS = ["UI/UX Design", "Graphic & Banner Design", "Video Editing", "AI Video"];
+const SERVICE_OPTIONS = [
+  "UI/UX Design",
+  "Graphic & Banner Design",
+  "Video Editing",
+  "AI Video",
+  "Administration & Operations",
+];
 
 const WHATSAPP_DEFAULT_MESSAGE =
   "Hi Arbaaz, I saw your portfolio and wanted to discuss a project/query.";
@@ -4670,8 +4730,7 @@ function Contact() {
               <span className="italic text-highlight font-display">Let's make it.</span>
             </h2>
             <p className="mt-4 font-mono text-xs leading-relaxed text-muted-foreground">
-              Currently accepting select projects in UI/UX design, marketing graphics & high-impact
-              AI videos.
+              Whether you need high-impact creative direction (UI/UX, visual design, AI video) or reliable school &amp; office administration / operations coordination — let's connect.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">
@@ -4822,248 +4881,5 @@ function Footer() {
         Gurugram, India · Available worldwide
       </p>
     </footer>
-  );
-}
-
-function TelegramPlaneIcon({ className = "h-5 w-5" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M21.92 3.12a1.36 1.36 0 0 0-1.42-.25L2.83 10.3a1.35 1.35 0 0 0-.1 2.53l5.06 1.95 1.95 6.07a1.35 1.35 0 0 0 2.3.48l2.85-2.85 4.54 3.33a1.36 1.36 0 0 0 2.19-.82l3.05-16.14a1.36 1.36 0 0 0-.75-1.73zM9.36 13.97l8.2-6.23-6.49 7.45-.28 3.46-1.43-4.68zm9.18 5.63-4.4-3.23 7.07-8.12-2.67 11.35z" />
-    </svg>
-  );
-}
-
-function QuickChatFab() {
-  const [open, setOpen] = useState(false);
-  const [msg, setMsg] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-
-  const send = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const text = msg.trim();
-    if (!text || status === "sending") return;
-
-    setStatus("sending");
-    try {
-      const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: `💬 Quick Chat Ping from Portfolio Visitor:\n\n${text}`,
-        }),
-      });
-      const data = await res.json();
-      if (data.ok) {
-        setStatus("sent");
-        setMsg("");
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  return (
-    <>
-      {/* Floating Trigger Button (Bottom-Right FAB) */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group">
-        {/* Sleek Tooltip on hover (desktop only, hidden when open) */}
-        {!open && (
-          <span className="pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-full bg-foreground px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-background opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:-translate-x-1 shadow-lg hidden sm:block">
-            Chat on Telegram
-          </span>
-        )}
-
-        <motion.button
-          onClick={() => {
-            setOpen((v) => !v);
-            if (status === "sent") setStatus("idle");
-          }}
-          aria-label={open ? "Close Telegram chat" : "Chat on Telegram"}
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.6, type: "spring", stiffness: 260, damping: 20 }}
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.94 }}
-          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-2xl transition-all duration-300 hover:bg-[#1E88E5] hover:shadow-[0_0_28px_rgba(34,158,217,0.55)]"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {open ? (
-              <motion.span
-                key="x"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                <X size={22} />
-              </motion.span>
-            ) : (
-              <motion.span
-                key="telegram"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="flex items-center justify-center -translate-x-0.5 translate-y-0.5"
-              >
-                <TelegramPlaneIcon className="h-6 w-6" />
-              </motion.span>
-            )}
-          </AnimatePresence>
-
-          {/* Online green indicator dot */}
-          {!open && (
-            <span className="absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-emerald-500 ring-2 ring-background" />
-            </span>
-          )}
-          {!open && (
-            <span className="pulse-ring absolute inset-0 rounded-full border border-[#229ED9]/50" />
-          )}
-        </motion.button>
-      </div>
-
-      {/* Mini Chat Drawer / Popover (Hybrid Experience) */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.96 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-50 w-[calc(100vw-2rem)] max-w-[330px] overflow-hidden rounded-3xl border border-border/70 bg-popover/95 shadow-2xl backdrop-blur-xl"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between border-b border-border/60 bg-foreground/[0.03] px-4 py-3">
-              <div className="flex items-center gap-3">
-                <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#229ED9] text-white shadow-sm">
-                  <TelegramPlaneIcon className="h-4 w-4 -translate-x-0.5 translate-y-0.5" />
-                  <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-popover" />
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-foreground">Let's Chat</p>
-                  <p className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-emerald-500 font-medium">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Online on Telegram
-                  </p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close chat"
-                className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:bg-foreground/5 hover:text-foreground transition-colors"
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            <div className="p-3.5 space-y-3">
-              {/* Option A (Instant Direct Launch) */}
-              <a
-                href={TELEGRAM_DIRECT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-[#229ED9] hover:bg-[#1E88E5] px-4 py-3 text-xs font-mono uppercase tracking-[0.14em] font-semibold text-white shadow-md transition-all hover:-translate-y-0.5"
-              >
-                <TelegramPlaneIcon className="h-4 w-4 -translate-x-0.5 translate-y-0.5 transition-transform group-hover:scale-110" />
-                <span>Open Telegram App (@{TELEGRAM_USERNAME})</span>
-                <ArrowUpRight
-                  size={14}
-                  className="opacity-80 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </a>
-
-              {/* Divider */}
-              <div className="relative text-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border/60" />
-                </div>
-                <span className="relative bg-popover px-2 font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
-                  or send a quick ping
-                </span>
-              </div>
-
-              {/* Option B (Quick In-Page Message) */}
-              {status === "sent" ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-center space-y-2"
-                >
-                  <p className="text-xs font-mono font-medium text-emerald-600 dark:text-emerald-400 flex items-center justify-center gap-1.5">
-                    <CheckCircle2 size={14} /> Sent to Arbaaz's Telegram! ✓
-                  </p>
-                  <p className="text-[11px] text-muted-foreground leading-relaxed">
-                    Message received on phone. Continue chatting directly:
-                  </p>
-                  <div className="pt-1 flex items-center justify-center gap-2">
-                    <a
-                      href={TELEGRAM_DIRECT_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-[#229ED9] hover:bg-[#1E88E5] text-white px-3.5 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] font-medium transition-colors shadow-sm"
-                    >
-                      Open Chat (@{TELEGRAM_USERNAME}) <ArrowUpRight size={12} />
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => setStatus("idle")}
-                      className="rounded-full border border-border px-3 py-1.5 text-[11px] font-mono uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
-                    >
-                      New Ping
-                    </button>
-                  </div>
-                </motion.div>
-              ) : (
-                <form onSubmit={send} className="space-y-2">
-                  <textarea
-                    value={msg}
-                    onChange={(e) => {
-                      setMsg(e.target.value);
-                      if (status === "error") setStatus("idle");
-                    }}
-                    rows={3}
-                    maxLength={1000}
-                    autoFocus
-                    placeholder="Type a quick message..."
-                    className="w-full resize-none rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-[#229ED9] focus:ring-1 focus:ring-[#229ED9]/20"
-                  />
-                  {status === "error" && (
-                    <p className="text-[11px] text-red-500 font-mono flex items-center gap-1">
-                      <AlertCircle size={12} /> Failed to ping. Please use the button above.
-                    </p>
-                  )}
-                  <div className="flex items-center justify-between gap-2 pt-0.5">
-                    <p className="font-mono text-[10px] text-muted-foreground">{msg.length}/1000</p>
-                    <button
-                      type="submit"
-                      disabled={!msg.trim() || status === "sending"}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-4 py-2 min-h-[38px] text-[11px] font-medium uppercase tracking-[0.18em] text-background transition-all hover:bg-foreground/85 disabled:opacity-40 shadow-sm"
-                    >
-                      {status === "sending" ? (
-                        <>
-                          <Loader2 size={12} className="animate-spin" />
-                          <span>Sending...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Send</span>
-                          <Send size={12} />
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
   );
 }

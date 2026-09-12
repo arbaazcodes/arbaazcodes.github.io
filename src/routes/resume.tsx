@@ -11,16 +11,16 @@ export const RESUME_SIZE_KB = 2037;
 export const Route = createFileRoute("/resume")({
   head: () => ({
     meta: [
-      { title: "Resume — Arbaaz · Graphic Designer & Visual Designer" },
+      { title: "Resume — Arbaaz · Creative Specialist & Operations Coordinator" },
       {
         name: "description",
         content:
-          "Download or preview the resume of Arbaaz — Graphic Designer & Visual Designer with 3.5+ years of experience crafting high-impact brand identities, digital marketing creatives, print collateral, and motion graphics.",
+          "Download or preview the resume of Arbaaz — Creative Specialist & Operations Coordinator with 4+ years in UI/UX, graphic design & AI video, alongside 2.5 years of campus operations at Shiv Nadar School.",
       },
-      { property: "og:title", content: "Resume — Arbaaz · Graphic Designer & Visual Designer" },
+      { property: "og:title", content: "Resume — Arbaaz · Creative Specialist & Operations Coordinator" },
       {
         property: "og:description",
-        content: "One-page resume of Arbaaz — Graphic Designer & Visual Designer.",
+        content: "Resume of Arbaaz — Dual-track Creative Specialist & Operations Coordinator.",
       },
       { property: "og:image", content: resumePreview },
     ],
@@ -29,9 +29,10 @@ export const Route = createFileRoute("/resume")({
 });
 
 const HIGHLIGHTS = [
-  "3.5+ years in Graphic Design, Visual Design & Motion Graphics",
-  "Brand identities, marketing creatives, print collateral & social campaigns",
-  "Adobe Creative Suite (Ps, Ai, Id, Pr, Ae), Figma & Gen-AI workflows",
+  "4+ years in Graphic Design, UI/UX & AI Video Creation",
+  "2.5 years in School & Office Administration (Shiv Nadar School)",
+  "Brand identities, marketing creatives, Figma prototypes & dynamic video",
+  "Institutional coordination, documentation, scheduling & stakeholder liaison",
   "Open in browser, download or print directly",
 ];
 
@@ -110,8 +111,7 @@ function ResumePage() {
             </h1>
           </div>
           <p className="md:col-span-5 max-w-md text-base leading-relaxed text-muted-foreground">
-            A clean, no-nonsense overview — experience, disciplines, tools and selected clients.
-            Preview it here or grab the PDF.
+            A clean, no-nonsense overview — dual-track experience in creative design and campus operations, tools and verified credentials. Preview it here or grab the PDF.
           </p>
         </motion.div>
 
