@@ -1201,7 +1201,7 @@ function Nav({
         { id: "about", label: "Dual-Track Background", tag: "About" },
         { id: "services", label: "Services & Pillars", tag: "What I Do" },
         { id: "skills", label: "Skills & Toolkit", tag: "Creative & Ops" },
-        { id: "experience", label: "Experience", tag: "2021 — Present" },
+        { id: "experience", label: "Experience", tag: "2021 — 2026" },
       ],
     },
     {
@@ -2250,6 +2250,8 @@ type Job = {
   company: string;
   role: string;
   period: string;
+  chip?: string;
+  subtitle?: string;
   summary: string;
   Icon: ComponentType<{ className?: string; size?: number }>;
   links?: JobLink[];
@@ -2258,10 +2260,10 @@ type Job = {
 const EXPERIENCE: Job[] = [
   {
     company: "SwiftAMS (Study Abroad CRM)",
-    role: "UI/UX Designer & Creative Lead",
-    period: "Jun 2022 — Present",
+    role: "Visual & Graphic Designer",
+    period: "2023 – 2026",
     summary:
-      "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design. (Concurrently supported Shiv Nadar School Jul 2022 – Jun 2023, then transitioned to full-time design lead).",
+      "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design. (Overlapped with Shiv Nadar School until Jun 2023).",
     Icon: Briefcase,
     links: [
       { label: "Website", href: "https://www.swiftams.com/" },
@@ -2289,8 +2291,9 @@ const EXPERIENCE: Job[] = [
   },
   {
     company: "Edu Finn",
-    role: "Graphic Designer & Video Editor",
-    period: "2024 — 2025",
+    role: "Contract Graphic Designer",
+    period: "2025 – 2026",
+    chip: "Freelancing",
     summary:
       "Designed multi-page brochures, event standees, promotional posters, and social media ad creatives. Produced, edited, and sound-designed high-retention vertical reels, student testimonial films, and marketing video campaigns for European university programs.",
     Icon: Layers,
@@ -2301,8 +2304,9 @@ const EXPERIENCE: Job[] = [
   },
   {
     company: "Digital Cappuccino",
-    role: "Graphic Designer & Visual Artist",
-    period: "Jul 2023 — Dec 2023 · 6 mos",
+    role: "Creative Designer",
+    period: "Jul 2024 – Dec 2024",
+    chip: "Freelancing · 6 months",
     summary:
       "Designed high-converting ad banners, social media campaigns, promotional graphics, and brand assets. Managed creative direction and content calendars across multi-channel client accounts.",
     Icon: Coffee,
@@ -2311,7 +2315,9 @@ const EXPERIENCE: Job[] = [
   {
     company: "Shiv Nadar School, Gurgaon",
     role: "Administrative Coordinator",
-    period: "Jan 2021 — Jun 2023 · 2 yrs 6 mos",
+    subtitle: "Administration & Management Office",
+    period: "2021 – Jun 2023",
+    chip: "2.5 yrs",
     summary:
       "K-12 campus office administration and student/parent lifecycle support. Managed confidential student records, documentation, and compliance files. Coordinated inter-departmental schedules, meetings, and major school events. Handled vendor follow-ups, inventory, and administrative logistics with daily cross-functional communication between leadership, faculty, and families.",
     Icon: Building2,
@@ -2319,7 +2325,7 @@ const EXPERIENCE: Job[] = [
   {
     company: "Independent Projects",
     role: "UI/UX Designer, Graphic Artist & AI Video Creator",
-    period: "2021 — Present",
+    period: "2021",
     summary:
       "Designed web and mobile app interfaces, wireframes, and interactive prototypes. Produced promotional video edits, motion graphics, and distinctive brand identities for startups and creators.",
     Icon: Layers,
@@ -2360,11 +2366,25 @@ function Experience() {
             <div className="card-white rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_-18px_rgba(0,0,0,0.22)] md:p-8">
               <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-display text-2xl md:text-3xl">{job.company}</h3>
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                  {job.period}
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  {job.chip && (
+                    <span className="rounded-full bg-foreground/[0.06] border border-foreground/10 px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground">
+                      {job.chip}
+                    </span>
+                  )}
+                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                    {job.period}
+                  </span>
+                </div>
               </div>
-              <p className="text-sm uppercase tracking-[0.15em] text-highlight">{job.role}</p>
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                <p className="text-sm uppercase tracking-[0.15em] text-highlight">{job.role}</p>
+                {job.subtitle && (
+                  <span className="font-mono text-xs text-muted-foreground">
+                    · {job.subtitle}
+                  </span>
+                )}
+              </div>
               <p className="mt-3 max-w-2xl leading-relaxed text-foreground/80">{job.summary}</p>
               {job.links && job.links.length > 0 && (
                 <div className="mt-5 flex flex-wrap gap-2">
