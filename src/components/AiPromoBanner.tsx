@@ -37,7 +37,7 @@ export function AiPromoBanner({ onExplore, onPlayFeatured }: AiPromoBannerProps)
             {/* Tool pills matching portfolio design system */}
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                13 Films
+                15 Films
               </span>
               <span className="rounded-full border border-border/70 bg-card px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Runway Gen-3

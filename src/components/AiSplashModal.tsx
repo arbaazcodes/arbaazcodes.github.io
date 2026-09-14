@@ -159,7 +159,7 @@ export function AiSplashModal({
               </h2>
 
               <p className="mt-2.5 max-w-xl text-xs sm:text-sm leading-relaxed text-muted-foreground">
-                Explore 13 speculative commercial spots, 3D product reels, and automotive cinematics created with Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
+                Explore {videos.length} speculative commercial spots, 3D product reels, and automotive cinematics created with Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
               </p>
             </div>
 

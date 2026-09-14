@@ -5,22 +5,22 @@ import { ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer } 
 import resumePreview from "../assets/resume-preview.jpg";
 
 export const RESUME_FILENAME = "Arbaaz-Resume.pdf";
-export const RESUME_URL = "/Arbaaz-Resume.pdf?v=2";
-export const RESUME_SIZE_KB = 2037;
+export const RESUME_URL = "/Arbaaz-Resume.pdf?v=3";
+export const RESUME_SIZE_KB = 2212;
 
 export const Route = createFileRoute("/resume")({
   head: () => ({
     meta: [
-      { title: "Resume — Arbaaz · Creative Specialist & Operations Coordinator" },
+      { title: "Resume — Arbaaz · Graphic Designer & Administrative Coordinator" },
       {
         name: "description",
         content:
-          "Download or preview the resume of Arbaaz — Creative Specialist & Operations Coordinator with 4+ years in UI/UX, graphic design & AI video, alongside 2.5 years of campus operations at Shiv Nadar School.",
+          "Download or preview the resume of Arbaaz — Graphic Designer & Administrative Coordinator with 4+ years in visual design, brand collateral & AI video, alongside 2.5 years of campus operations at Shiv Nadar School.",
       },
-      { property: "og:title", content: "Resume — Arbaaz · Creative Specialist & Operations Coordinator" },
+      { property: "og:title", content: "Resume — Arbaaz · Graphic Designer & Administrative Coordinator" },
       {
         property: "og:description",
-        content: "Resume of Arbaaz — Dual-track Creative Specialist & Operations Coordinator.",
+        content: "Resume of Arbaaz — Graphic Designer & Administrative Coordinator.",
       },
       { property: "og:image", content: resumePreview },
     ],

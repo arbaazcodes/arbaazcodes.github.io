@@ -607,6 +607,24 @@ export type VideoItem = {
 
 const AI_VIDEOS: VideoItem[] = [
   {
+    id: "1876yL-KZn0",
+    title: "You Said “I’ll Do It Tomorrow” 💀 | Serious Mode: OFF @Advanture_Clips",
+    client: "AI Film",
+    len: "01:33",
+    category: "ai",
+    tag: "AI Film · Story",
+    aspect: "horizontal",
+  },
+  {
+    id: "LrMCGWSneo4",
+    title: "BAAZ Energy Drink — Cinematic Product Ad ⚡",
+    client: "Baaz Energy",
+    len: "00:20",
+    category: "ai",
+    tag: "Cinematic Spec · 3D",
+    aspect: "horizontal",
+  },
+  {
     id: "qfGP0Z3y-Jk",
     title: "Why AI Won’t Replace Creators | A Director's Perspective",
     client: "AI Director",
@@ -1190,7 +1208,7 @@ function Nav({
     {
       label: "Work",
       items: [
-        { id: "ai-videos", label: "AI Films & B-Roll", tag: "13 Films" },
+        { id: "ai-videos", label: "AI Films & B-Roll", tag: "15 Films" },
         { id: "work", label: "Creative Portfolio", tag: "Design & Identity" },
         { id: "videos", label: "Client Reels", tag: "Motion & Social" },
       ],
@@ -3248,10 +3266,10 @@ function AiVideosSection({ onOpen }: { onOpen: (v: VideoItem) => void }) {
           </span>
         </h2>
         <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
-          13 Speculative Commercials · 3D Product Reels · Automotive Cinematics
+          15 Speculative Commercials · 3D Product Reels · Automotive Cinematics
         </p>
         <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-muted-foreground">
-          Bridging cinematic visual storytelling and generative AI workflows. Featuring 13 brand-new
+          Bridging cinematic visual storytelling and generative AI workflows. Featuring 15 brand-new
           AI speculative commercials, 3D product reels, and automotive cinematics created with
           Midjourney, Runway Gen-3, Kling AI, and DaVinci Resolve.
         </p>
