@@ -48,7 +48,9 @@ if (invalidHtmlReferences.length) {
 const missingRootFiles = requiredRootFiles.filter((file) => !existsSync(join(distDir, file)));
 
 if (missingRootFiles.length) {
-  throw new Error(`GitHub Pages artifact is missing required root file(s):\n${missingRootFiles.join("\n")}`);
+  throw new Error(
+    `GitHub Pages artifact is missing required root file(s):\n${missingRootFiles.join("\n")}`,
+  );
 }
 
 if (!existsSync(join(distDir, ".nojekyll"))) {
@@ -60,14 +62,20 @@ if (!existsSync(join(distDir, "404.html"))) {
 }
 
 if (readFileSync(join(distDir, "404.html"), "utf8") !== html) {
-  throw new Error("dist/404.html must match dist/index.html so refreshed SPA routes boot correctly.");
+  throw new Error(
+    "dist/404.html must match dist/index.html so refreshed SPA routes boot correctly.",
+  );
 }
 
 const staticRefs = [
-  ...html.matchAll(/(?:src|href)=["'](\/(?:assets|favicon|apple-touch-icon|android-chrome)[^"']+)["']/g),
+  ...html.matchAll(
+    /(?:src|href)=["'](\/(?:assets|favicon|apple-touch-icon|android-chrome)[^"']+)["']/g,
+  ),
 ].map((match) => match[1]);
 
-const missing = staticRefs.filter((ref) => !existsSync(join(distDir, ref.slice(1).split(/[?#]/)[0])));
+const missing = staticRefs.filter(
+  (ref) => !existsSync(join(distDir, ref.slice(1).split(/[?#]/)[0])),
+);
 
 if (missing.length) {
   throw new Error(`Static files referenced by dist/index.html are missing:\n${missing.join("\n")}`);
@@ -120,14 +128,18 @@ if (!jsRefs.length) {
 }
 
 if (!entryJsRefs.length) {
-  throw new Error("dist/index.html must reference the compiled Vite entry bundle at /assets/index-*.js.");
+  throw new Error(
+    "dist/index.html must reference the compiled Vite entry bundle at /assets/index-*.js.",
+  );
 }
 
 if (!cssRefs.length) {
   throw new Error("dist/index.html does not reference a built stylesheet in /assets.");
 }
 
-const builtAssetFiles = walk(join(distDir, "assets")).filter((file) => /\.(png|jpe?g|webp|gif|svg|ico|pdf|js|css)$/i.test(file));
+const builtAssetFiles = walk(join(distDir, "assets")).filter((file) =>
+  /\.(png|jpe?g|webp|gif|svg|ico|pdf|js|css)$/i.test(file),
+);
 
 console.log(
   `GitHub Pages build verified: ${staticRefs.length} index asset reference(s), ${builtAssetFiles.length} built file(s) in dist/assets, no internal asset URLs.`,

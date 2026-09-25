@@ -28,6 +28,8 @@ export function Magnetic({ children, strength = 18, padding = 24, className }: M
   const xTo = useRef<((value: number) => void) | null>(null);
   const yTo = useRef<((value: number) => void) | null>(null);
 
+  const rectRef = useRef<DOMRect | null>(null);
+
   useEffect(() => {
     if (reduce || !innerRef.current) return;
     const win = window as unknown as {
@@ -39,11 +41,19 @@ export function Magnetic({ children, strength = 18, padding = 24, className }: M
     }
   }, [reduce]);
 
+  const onEnter = () => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+  };
+
   const onMove = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (reduce) return;
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
+    if (!rectRef.current && ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+    const r = rectRef.current;
+    if (!r) return;
     const cx = r.left + r.width / 2;
     const cy = r.top + r.height / 2;
     const distX = e.clientX - cx;
@@ -65,6 +75,7 @@ export function Magnetic({ children, strength = 18, padding = 24, className }: M
   };
 
   const onLeave = () => {
+    rectRef.current = null;
     if (xTo.current && yTo.current) {
       xTo.current(0);
       yTo.current(0);
@@ -73,9 +84,14 @@ export function Magnetic({ children, strength = 18, padding = 24, className }: M
     y.set(0);
   };
 
+  if (reduce || (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches)) {
+    return <span className={className}>{children}</span>;
+  }
+
   return (
     <span
       ref={ref}
+      onMouseEnter={onEnter}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       className={className}

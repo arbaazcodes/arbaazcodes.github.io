@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import { useRef, useState, type MouseEvent } from "react";
 import { ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer } from "lucide-react";
-import resumePreview from "../assets/resume-preview.jpg";
+import resumePreview from "../assets/resume-preview.webp";
 
 export const RESUME_FILENAME = "Arbaaz-Resume.pdf";
 export const RESUME_URL = "/Arbaaz-Resume.pdf?v=3";
@@ -17,7 +17,10 @@ export const Route = createFileRoute("/resume")({
         content:
           "Download or preview the resume of Arbaaz — Graphic Designer & Administrative Coordinator with 4+ years in visual design, brand collateral & AI video, alongside 2.5 years of campus operations at Shiv Nadar School.",
       },
-      { property: "og:title", content: "Resume — Arbaaz · Graphic Designer & Administrative Coordinator" },
+      {
+        property: "og:title",
+        content: "Resume — Arbaaz · Graphic Designer & Administrative Coordinator",
+      },
       {
         property: "og:description",
         content: "Resume of Arbaaz — Graphic Designer & Administrative Coordinator.",
@@ -39,15 +42,25 @@ const HIGHLIGHTS = [
 function ResumePage() {
   const reduce = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
+  const cardRectRef = useRef<DOMRect | null>(null);
   const rx = useMotionValue(0);
   const ry = useMotionValue(0);
   const sx = useSpring(rx, { stiffness: 120, damping: 14 });
   const sy = useSpring(ry, { stiffness: 120, damping: 14 });
   const [viewer, setViewer] = useState(false);
 
+  const onEnter = () => {
+    if (cardRef.current) {
+      cardRectRef.current = cardRef.current.getBoundingClientRect();
+    }
+  };
+
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
     if (reduce) return;
-    const r = cardRef.current?.getBoundingClientRect();
+    if (!cardRectRef.current && cardRef.current) {
+      cardRectRef.current = cardRef.current.getBoundingClientRect();
+    }
+    const r = cardRectRef.current;
     if (!r) return;
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
@@ -55,6 +68,7 @@ function ResumePage() {
     rx.set(-py * 10);
   };
   const onLeave = () => {
+    cardRectRef.current = null;
     rx.set(0);
     ry.set(0);
   };
@@ -111,7 +125,8 @@ function ResumePage() {
             </h1>
           </div>
           <p className="md:col-span-5 max-w-md text-base leading-relaxed text-muted-foreground">
-            A clean, no-nonsense overview — dual-track experience in creative design and campus operations, tools and verified credentials. Preview it here or grab the PDF.
+            A clean, no-nonsense overview — dual-track experience in creative design and campus
+            operations, tools and verified credentials. Preview it here or grab the PDF.
           </p>
         </motion.div>
 
@@ -125,6 +140,7 @@ function ResumePage() {
           >
             <motion.div
               ref={cardRef}
+              onMouseEnter={onEnter}
               onMouseMove={onMove}
               onMouseLeave={onLeave}
               style={{ rotateX: sx, rotateY: sy, transformPerspective: 1400 }}

@@ -35,7 +35,7 @@ export function Reveal({
   const reduce = useReducedMotion();
   const variants: Variants = {
     hidden: { opacity: 0, y: reduce ? 0 : y, filter: reduce ? "blur(0px)" : `blur(${blur}px)` },
-    show:   { opacity: 1, y: 0, filter: "blur(0px)" },
+    show: { opacity: 1, y: 0, filter: "blur(0px)" },
   };
   const MotionTag = motion[as] as typeof motion.div;
   return (

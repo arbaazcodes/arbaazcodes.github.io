@@ -43,17 +43,27 @@ function parseCssColor(str: string): [number, number, number, number] | null {
 }
 
 function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
-  r /= 255; g /= 255; b /= 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h = 0, s = 0;
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  let h = 0,
+    s = 0;
   const l = (max + min) / 2;
   if (max !== min) {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
     }
     h *= 60;
   }
@@ -68,7 +78,10 @@ function sampleBackground(x: number, y: number): [number, number, number] {
   while (node) {
     const c = getComputedStyle(node).backgroundColor;
     const parsed = parseCssColor(c);
-    if (parsed && parsed[3] > 0.05) { rgb = parsed; break; }
+    if (parsed && parsed[3] > 0.05) {
+      rgb = parsed;
+      break;
+    }
     node = node.parentElement;
   }
   if (!rgb) {
@@ -85,10 +98,10 @@ export function AdaptiveCursor() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const isTouch =
-      window.matchMedia("(hover: none), (pointer: coarse)").matches ||
-      "ontouchstart" in window;
+      window.matchMedia("(hover: none), (pointer: coarse)").matches || "ontouchstart" in window;
+    const isSmallScreen = window.innerWidth < 768;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!isTouch && !reduced) setEnabled(true);
+    if (!isTouch && !reduced && !isSmallScreen) setEnabled(true);
   }, []);
 
   useEffect(() => {
@@ -123,8 +136,12 @@ export function AdaptiveCursor() {
     let hovering = false; // over an interactive element (magnetic feel)
 
     // Adaptive color (HSL) — smoothed toward a target complementary hue
-    let hue = 260, sat = 70, light = 62;
-    let tHue = 260, tSat = 70, tLight = 62;
+    let hue = 260,
+      sat = 70,
+      light = 62;
+    let tHue = 260,
+      tSat = 70,
+      tLight = 62;
     let sampleTick = 0;
 
     const trail: TrailPoint[] = [];
@@ -136,14 +153,43 @@ export function AdaptiveCursor() {
       mouse.active = true;
       mouse.moving = true;
       lastMoveTs = performance.now();
+      if (!raf && document.visibilityState === "visible") {
+        prev = performance.now();
+        raf = requestAnimationFrame(step);
+      }
     };
-    const onLeave = () => { mouse.active = false; };
-    const onEnter = () => { mouse.active = true; };
+    const onLeave = () => {
+      mouse.active = false;
+    };
+    const onEnter = () => {
+      mouse.active = true;
+      if (!raf && document.visibilityState === "visible") {
+        prev = performance.now();
+        raf = requestAnimationFrame(step);
+      }
+    };
     const onDown = (e: PointerEvent) => {
       ripples.push({
-        x: e.clientX, y: e.clientY, life: 1,
-        hue, sat, light,
+        x: e.clientX,
+        y: e.clientY,
+        life: 1,
+        hue,
+        sat,
+        light,
       });
+      if (!raf && document.visibilityState === "visible") {
+        prev = performance.now();
+        raf = requestAnimationFrame(step);
+      }
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      }
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -152,6 +198,7 @@ export function AdaptiveCursor() {
     window.addEventListener("pointerenter", onEnter);
     document.addEventListener("mouseleave", onLeave);
     document.addEventListener("mouseenter", onEnter);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     let raf = 0;
     let prev = performance.now();
@@ -184,7 +231,9 @@ export function AdaptiveCursor() {
         tLight = bl > 55 ? 55 : 70;
         // Detect interactive element under cursor for a gentle magnetic feel
         const el = document.elementFromPoint(mouse.x, mouse.y);
-        hovering = !!(el && el.closest("a, button, [role='button'], input, textarea, select, label"));
+        hovering = !!(
+          el && el.closest("a, button, [role='button'], input, textarea, select, label")
+        );
       }
       hue += (tHue - hue) * 0.08 * dt;
       sat += (tSat - sat) * 0.08 * dt;
@@ -200,7 +249,9 @@ export function AdaptiveCursor() {
           vy: (Math.random() - 0.5) * 0.22 - 0.06,
           life: 1,
           size: 3 + Math.random() * 2 + Math.min(3, instSpeed * 0.08),
-          hue, sat, light,
+          hue,
+          sat,
+          light,
         });
       }
       // Shorter trail cap
@@ -217,7 +268,10 @@ export function AdaptiveCursor() {
         p.vx *= 0.95;
         p.vy *= 0.95;
         p.life -= 0.055 * dt;
-        if (p.life <= 0) { trail.splice(i, 1); continue; }
+        if (p.life <= 0) {
+          trail.splice(i, 1);
+          continue;
+        }
         const r = p.size * (0.5 + 0.5 * p.life);
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
         const alpha = 0.11 * p.life;
@@ -233,7 +287,10 @@ export function AdaptiveCursor() {
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
         rp.life -= 0.055 * dt;
-        if (rp.life <= 0) { ripples.splice(i, 1); continue; }
+        if (rp.life <= 0) {
+          ripples.splice(i, 1);
+          continue;
+        }
         const r = (1 - rp.life) * 34;
         ctx.strokeStyle = `hsla(${rp.hue}, ${rp.sat}%, ${rp.light + 10}%, ${rp.life * 0.32})`;
         ctx.lineWidth = 1;
@@ -243,7 +300,7 @@ export function AdaptiveCursor() {
       }
 
       // Main orb — smaller, softer. Gently scales up over interactive elements.
-      const breathe = mouse.moving ? 0 : (Math.sin(now / 720) * 0.5 + 0.5);
+      const breathe = mouse.moving ? 0 : Math.sin(now / 720) * 0.5 + 0.5;
       const hoverBoost = hovering ? 2.2 : 0;
       const baseR = 3.2 + Math.min(2, speed * 0.06) + breathe * 0.9 + hoverBoost;
 
@@ -268,10 +325,16 @@ export function AdaptiveCursor() {
 
       ctx.globalCompositeOperation = "source-over";
 
+      const isIdle =
+        !mouse.moving && Math.hypot(ex, ey) < 0.5 && trail.length === 0 && ripples.length === 0;
+      if (isIdle && now - lastMoveTs > 1200) {
+        raf = 0;
+        return;
+      }
+
       raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
-
 
     return () => {
       cancelAnimationFrame(raf);
@@ -282,17 +345,14 @@ export function AdaptiveCursor() {
       window.removeEventListener("pointerenter", onEnter);
       document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("mouseenter", onEnter);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [enabled]);
 
   if (!enabled) return null;
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden
-      className="pointer-events-none fixed inset-0 z-[9999]"
-    />
+    <canvas ref={canvasRef} aria-hidden className="pointer-events-none fixed inset-0 z-[9999]" />
   );
 }
 

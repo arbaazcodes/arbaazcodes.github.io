@@ -126,7 +126,7 @@ const SOCIALS = [
   { label: "Phone", href: "tel:+918527766839" },
 ];
 
-import arbaazHero from "@/assets/arbaaz-hero.jpg";
+import arbaazHero from "@/assets/arbaaz-hero.webp";
 
 // Real brochure PDFs → rasterized page images
 const brochurePages = import.meta.glob<string>("../assets/brochures/*.{jpg,jpeg,png,webp}", {
@@ -149,32 +149,32 @@ const BROCHURES: Brochure[] = [
     id: "metro",
     name: "Metropolia",
     tagline: "Study in Finland · University Brochure",
-    cover: brochurePageUrl("drive_metropolia_1.png"),
-    pages: [brochurePageUrl("drive_metropolia_2.png")],
+    cover: brochurePageUrl("drive_metropolia_1.webp"),
+    pages: [brochurePageUrl("drive_metropolia_2.webp")],
   },
 
   {
     id: "tutku",
     name: "Turku",
     tagline: "Tampere University · PG Diploma Brochure",
-    cover: brochurePageUrl("drive_turku_1.png"),
-    pages: [brochurePageUrl("drive_turku_2.png")],
+    cover: brochurePageUrl("drive_turku_1.webp"),
+    pages: [brochurePageUrl("drive_turku_2.webp")],
   },
 
   {
     id: "edufinn",
     name: "Edu Finn",
     tagline: "Study in Finland · Program Brochure",
-    cover: brochurePageUrl("drive_edufinn_1.png"),
-    pages: [2, 3, 4].map((n) => brochurePageUrl(`drive_edufinn_${n}.png`)),
+    cover: brochurePageUrl("drive_edufinn_1.webp"),
+    pages: [2, 3, 4].map((n) => brochurePageUrl(`drive_edufinn_${n}.webp`)),
   },
 
   {
     id: "swiftams",
     name: "Swift AMS",
     tagline: "Product & CRM · Brochure",
-    cover: brochurePageUrl("drive_swiftams_1.jpg"),
-    pages: [2, 3, 4, 5, 6, 7, 8].map((n) => brochurePageUrl(`drive_swiftams_${n}.jpg`)),
+    cover: brochurePageUrl("drive_swiftams_1.webp"),
+    pages: [2, 3, 4, 5, 6, 7, 8].map((n) => brochurePageUrl(`drive_swiftams_${n}.webp`)),
   },
 ];
 
@@ -295,7 +295,7 @@ const GALLERY: GalleryItem[] = [
     category: "Brand",
     ratio: "aspect-[16/9]",
     variant: 2,
-    src: portfolioAsset("89f4f8_ca3694966e014708a64fce392f994256~mv2.png"),
+    src: portfolioAsset("89f4f8_ca3694966e014708a64fce392f994256~mv2.webp"),
   },
   {
     id: "b3",
@@ -303,7 +303,7 @@ const GALLERY: GalleryItem[] = [
     category: "Brand",
     ratio: "aspect-[16/9]",
     variant: 3,
-    src: portfolioAsset("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.png"),
+    src: portfolioAsset("89f4f8_dc2e8c7415af480dbf0ff1b288782e41~mv2.webp"),
   },
   {
     id: "b4",
@@ -311,7 +311,7 @@ const GALLERY: GalleryItem[] = [
     category: "Brand",
     ratio: "aspect-[4/5]",
     variant: 1,
-    src: portfolioAsset("89f4f8_067511567620442384156a15b1a92717~mv2.png"),
+    src: portfolioAsset("89f4f8_067511567620442384156a15b1a92717~mv2.webp"),
   },
   {
     id: "b5",
@@ -319,7 +319,7 @@ const GALLERY: GalleryItem[] = [
     category: "Brand",
     ratio: "aspect-[16/9]",
     variant: 2,
-    src: portfolioAsset("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.png"),
+    src: portfolioAsset("89f4f8_c955de43569c4ea2a391790fae2dbc48~mv2.webp"),
   },
 
   // Social Media — posters & campaign creatives (numbered, S-series, E-series)
@@ -329,7 +329,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 1,
-    src: portfolioAsset("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.png"),
+    src: portfolioAsset("89f4f8_e74f93e691cc4b638f128272313101f0~mv2.webp"),
   },
   {
     id: "s2",
@@ -337,7 +337,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 2,
-    src: portfolioAsset("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.png"),
+    src: portfolioAsset("89f4f8_14e3bfee31d448f8a43affc2b3786518~mv2.webp"),
   },
   {
     id: "s4",
@@ -345,7 +345,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 3,
-    src: portfolioAsset("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.png"),
+    src: portfolioAsset("89f4f8_db1fdbbed02e49b484c2c40123b27f17~mv2.webp"),
   },
   {
     id: "s5",
@@ -353,7 +353,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 1,
-    src: portfolioAsset("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.png"),
+    src: portfolioAsset("89f4f8_00ff2189148e488ebc998521e3dfe317~mv2.webp"),
   },
   {
     id: "s6",
@@ -361,7 +361,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 2,
-    src: portfolioAsset("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.png"),
+    src: portfolioAsset("89f4f8_edceec8f9b084ae1af021b97dd94da59~mv2.webp"),
   },
   {
     id: "ss1",
@@ -369,7 +369,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 3,
-    src: portfolioAsset("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.png"),
+    src: portfolioAsset("89f4f8_49ab8aa5cf754e40bab22a91e10124ca~mv2.webp"),
   },
   {
     id: "ss2",
@@ -377,7 +377,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 1,
-    src: portfolioAsset("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.png"),
+    src: portfolioAsset("89f4f8_c2b6db8b191d4944a9edf3e2845ef76a~mv2.webp"),
   },
   {
     id: "ss3",
@@ -385,7 +385,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 2,
-    src: portfolioAsset("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.png"),
+    src: portfolioAsset("89f4f8_6c619e9ba1264f8080325cc5eeb2bd19~mv2.webp"),
   },
   {
     id: "ss4",
@@ -393,7 +393,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 3,
-    src: portfolioAsset("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.png"),
+    src: portfolioAsset("89f4f8_2f9473d012c34279a0e5a6e51b2037d5~mv2.webp"),
   },
   {
     id: "ss5",
@@ -401,7 +401,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 1,
-    src: portfolioAsset("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.png"),
+    src: portfolioAsset("89f4f8_24c8d158f87c476ba2bde790f4a960e4~mv2.webp"),
   },
   {
     id: "se1",
@@ -409,7 +409,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 2,
-    src: portfolioAsset("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.png"),
+    src: portfolioAsset("89f4f8_a4af0589cfd549f6a7ce2a3497d6149d~mv2.webp"),
   },
   {
     id: "se2",
@@ -417,7 +417,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 3,
-    src: portfolioAsset("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.png"),
+    src: portfolioAsset("89f4f8_4e58e1505f6744aa9e1f6d4a5df21430~mv2.webp"),
   },
   {
     id: "se3",
@@ -425,7 +425,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 1,
-    src: portfolioAsset("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.png"),
+    src: portfolioAsset("89f4f8_aa62a2ab35f84cb9951acde0109d01f4~mv2.webp"),
   },
   {
     id: "se4",
@@ -433,7 +433,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 2,
-    src: portfolioAsset("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.png"),
+    src: portfolioAsset("89f4f8_b629170411da4f8fba0ab07aa3be3463~mv2.webp"),
   },
   {
     id: "se5",
@@ -441,7 +441,7 @@ const GALLERY: GalleryItem[] = [
     category: "Social",
     ratio: "aspect-[4/5]",
     variant: 3,
-    src: portfolioAsset("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.png"),
+    src: portfolioAsset("89f4f8_73ada136934540669bb36f4242bba3fb~mv2.webp"),
   },
 
   // Print Media — brochures, covers & standees (print materials)
@@ -451,7 +451,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/2]",
     variant: 1,
-    src: portfolioAsset("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.png"),
+    src: portfolioAsset("89f4f8_58e960961a8c491cb7dcb544035fb8db~mv2.webp"),
   },
   {
     id: "p2",
@@ -459,7 +459,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/2]",
     variant: 2,
-    src: portfolioAsset("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.png"),
+    src: portfolioAsset("89f4f8_2479f252d6af47cfbc89002595ae0de6~mv2.webp"),
   },
   {
     id: "p3",
@@ -467,7 +467,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/2]",
     variant: 3,
-    src: portfolioAsset("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.png"),
+    src: portfolioAsset("89f4f8_147d767cfa9c4b4cab1f36c307483ef7~mv2.webp"),
   },
   {
     id: "p4",
@@ -475,7 +475,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/2]",
     variant: 1,
-    src: portfolioAsset("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.png"),
+    src: portfolioAsset("89f4f8_a12da84b6521462c82d14b55cf229c6b~mv2.webp"),
   },
   {
     id: "p5",
@@ -483,7 +483,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/2]",
     variant: 2,
-    src: portfolioAsset("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.png"),
+    src: portfolioAsset("89f4f8_6ceabb91279d41d991e2f6da03a793fa~mv2.webp"),
   },
   {
     id: "p6",
@@ -491,7 +491,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/4]",
     variant: 3,
-    src: portfolioAsset("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.png"),
+    src: portfolioAsset("89f4f8_753de6d611bf45dc8c4a90a34b4aa456~mv2.webp"),
   },
   {
     id: "p7",
@@ -499,7 +499,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/4]",
     variant: 1,
-    src: portfolioAsset("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.png"),
+    src: portfolioAsset("89f4f8_a9cdaad81e9c4ad9a0f505eb3829646b~mv2.webp"),
   },
   {
     id: "p8",
@@ -507,7 +507,7 @@ const GALLERY: GalleryItem[] = [
     category: "Print",
     ratio: "aspect-[3/4]",
     variant: 2,
-    src: portfolioAsset("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.png"),
+    src: portfolioAsset("89f4f8_fa830e7a072c432d92f66b2f0ef004a4~mv2.webp"),
   },
 
   // UI / UX — web platforms & dashboards
@@ -517,7 +517,7 @@ const GALLERY: GalleryItem[] = [
     category: "UI/UX",
     ratio: "aspect-[16/10]",
     variant: 1,
-    src: portfolioAsset("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.png"),
+    src: portfolioAsset("89f4f8_6a0b4184fb1e475fb76eeffc8953ce23~mv2.webp"),
   },
   {
     id: "u2",
@@ -525,7 +525,7 @@ const GALLERY: GalleryItem[] = [
     category: "UI/UX",
     ratio: "aspect-[16/10]",
     variant: 2,
-    src: portfolioAsset("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.png"),
+    src: portfolioAsset("89f4f8_ee57029d078240ca8c3c9e1ed40e7604~mv2.webp"),
   },
 
   // Mobile App — full app screens
@@ -535,7 +535,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 1,
-    src: portfolioAsset("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.png"),
+    src: portfolioAsset("89f4f8_e88c580aba884863b5b0a88aac1da855~mv2.webp"),
   },
   {
     id: "m2",
@@ -543,7 +543,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 2,
-    src: portfolioAsset("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.png"),
+    src: portfolioAsset("89f4f8_96b6d7c6da044e5e8020b3851cb9ed32~mv2.webp"),
   },
   {
     id: "m3",
@@ -551,7 +551,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 3,
-    src: portfolioAsset("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.png"),
+    src: portfolioAsset("89f4f8_e97d8c214ec346d799428ddb6e0a8ba8~mv2.webp"),
   },
   {
     id: "m4",
@@ -559,7 +559,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 1,
-    src: portfolioAsset("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.png"),
+    src: portfolioAsset("89f4f8_c067b70bc9d54813ba0f1483bd495c89~mv2.webp"),
   },
   {
     id: "m5",
@@ -567,7 +567,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 2,
-    src: portfolioAsset("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.png"),
+    src: portfolioAsset("89f4f8_85f6f09987fa469ab6e7728662f9eb41~mv2.webp"),
   },
   {
     id: "m6",
@@ -575,7 +575,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 3,
-    src: portfolioAsset("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.png"),
+    src: portfolioAsset("89f4f8_62c70309b2084d79b43f1bde5e0e7c34~mv2.webp"),
   },
   {
     id: "m7",
@@ -583,7 +583,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 1,
-    src: portfolioAsset("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.png"),
+    src: portfolioAsset("89f4f8_29cd3ceb2de540099ec98ff8669acbd3~mv2.webp"),
   },
   {
     id: "m8",
@@ -591,7 +591,7 @@ const GALLERY: GalleryItem[] = [
     category: "Mobile",
     ratio: "aspect-[9/16]",
     variant: 2,
-    src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.png"),
+    src: portfolioAsset("89f4f8_2a2a933d6cb146748289c3c7cfd0496c~mv2.webp"),
   },
 ];
 
@@ -987,28 +987,12 @@ type LightboxState =
   | null;
 
 function Portfolio() {
-  const [active, setActive] = useState("intro");
   const [dark, setDark] = useState(false);
   const [lightbox, setLightbox] = useState<LightboxState>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
-
-  useEffect(() => {
-    const ob = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
-        }),
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    NAV.forEach((n) => {
-      const el = document.getElementById(n.id);
-      if (el) ob.observe(el);
-    });
-    return () => ob.disconnect();
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = lightbox ? "hidden" : "";
@@ -1023,8 +1007,7 @@ function Portfolio() {
     <div className="grain relative min-h-screen text-foreground overflow-x-hidden">
       <ScrollProgress />
       <AmbientOrbs />
-      <Cursor />
-      <Nav active={active} setActive={setActive} dark={dark} setDark={setDark} />
+      <Nav dark={dark} setDark={setDark} />
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-12">
         <Hero />
         <AiVideosSection onOpen={(item) => setLightbox({ kind: "video", item })} />
@@ -1081,6 +1064,7 @@ function ScrollProgress() {
 
 function BigTextBanner({ text }: { text: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const x = useTransform(scrollYProgress, [0, 1], ["8%", "-18%"]);
   const loop = Array.from({ length: 4 });
@@ -1091,7 +1075,7 @@ function BigTextBanner({ text }: { text: string }) {
       className="relative -mx-6 my-8 sm:my-10 md:my-12 overflow-hidden py-4 md:-mx-12 lg:-mx-20"
     >
       <motion.div
-        style={{ x }}
+        style={reduce ? undefined : { x }}
         className="flex whitespace-nowrap gap-14 text-display text-[clamp(3rem,10vw,9rem)] leading-[0.95] text-foreground/[0.08]"
       >
         {loop.map((_, i) => (
@@ -1110,58 +1094,40 @@ function BigTextBanner({ text }: { text: string }) {
 function AmbientOrbs() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.04] blur-[120px] animate-orb" />
+      <div className="absolute -top-40 -left-32 h-[520px] w-[520px] rounded-full bg-foreground/[0.04] blur-[60px] animate-orb" />
       <div
-        className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb"
+        className="absolute top-1/3 -right-32 h-[480px] w-[480px] rounded-full bg-foreground/[0.03] blur-[60px] animate-orb"
         style={{ animationDelay: "-7s" }}
       />
       <div
-        className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.03] blur-[120px] animate-orb"
+        className="absolute bottom-0 left-1/3 h-[420px] w-[420px] rounded-full bg-foreground/[0.03] blur-[60px] animate-orb"
         style={{ animationDelay: "-14s" }}
       />
     </div>
   );
 }
 
-function Cursor() {
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 300, damping: 30, mass: 0.5 });
-  const sy = useSpring(y, { stiffness: 300, damping: 30, mass: 0.5 });
-  useEffect(() => {
-    const onMove = (e: PointerEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-    };
-    window.addEventListener("pointermove", onMove);
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [x, y]);
-  return (
-    <motion.div
-      aria-hidden
-      style={{ x: sx, y: sy }}
-      className="pointer-events-none fixed left-0 top-0 z-[60] hidden h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/70 mix-blend-difference md:block"
-    >
-      <span className="absolute inset-2 rounded-full bg-foreground/80" />
-    </motion.div>
-  );
-}
-
 /* ---------- Studio Sticky Header & Accessible Drawer Nav ---------- */
 
-function Nav({
-  active,
-  setActive,
-  dark,
-  setDark,
-}: {
-  active: string;
-  setActive?: (v: string) => void;
-  dark: boolean;
-  setDark: (v: boolean) => void;
-}) {
+function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }) {
+  const [active, setActive] = useState("intro");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const ob = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        }),
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    NAV.forEach((n) => {
+      const el = document.getElementById(n.id);
+      if (el) ob.observe(el);
+    });
+    return () => ob.disconnect();
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? "hidden" : "";
@@ -1191,7 +1157,7 @@ function Nav({
   const scrollToSection = (id: string) => {
     document.body.style.overflow = "";
     setDrawerOpen(false);
-    setActive?.(id);
+    setActive(id);
 
     const el = document.getElementById(id);
     if (!el) return;
@@ -1224,9 +1190,7 @@ function Nav({
     },
     {
       label: "Contact & Links",
-      items: [
-        { id: "contact", label: "Start a Conversation", tag: "Project Inquiry" },
-      ],
+      items: [{ id: "contact", label: "Start a Conversation", tag: "Project Inquiry" }],
     },
   ];
 
@@ -1365,7 +1329,10 @@ function Nav({
                           <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
                             {item.tag}
                           </span>
-                          <ArrowUpRight size={14} className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                          <ArrowUpRight
+                            size={14}
+                            className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                          />
                         </div>
                       </a>
                     ))}
@@ -1451,26 +1418,43 @@ function Tilt({
   strength?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<DOMRect | null>(null);
   const reduce = useReducedMotion();
   const rx = useSpring(0, { stiffness: 200, damping: 18 });
   const ry = useSpring(0, { stiffness: 200, damping: 18 });
 
+  const onEnter = () => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+  };
+
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
     if (reduce || !ref.current) return;
-    const r = ref.current.getBoundingClientRect();
+    if (!rectRef.current && ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+    const r = rectRef.current;
+    if (!r) return;
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
     ry.set(px * strength);
     rx.set(-py * strength);
   };
   const onLeave = () => {
+    rectRef.current = null;
     rx.set(0);
     ry.set(0);
   };
 
+  if (reduce || (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches)) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       ref={ref}
+      onMouseEnter={onEnter}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
       style={{
@@ -1509,30 +1493,19 @@ function Placeholder({
       : variant === 2
         ? "placeholder-grad-2"
         : "placeholder-grad-3";
-  const [loaded, setLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
-  useEffect(() => {
-    // Cached/eagerly-loaded images can complete before React attaches onLoad.
-    if (imgRef.current && imgRef.current.complete) setLoaded(true);
-  }, [src]);
+
   return (
     <div
       className={`group/ph relative ${ratio} w-full overflow-hidden rounded-2xl border border-border/60 ${src ? "bg-foreground/[0.04]" : grad}`}
     >
       {src ? (
-        <>
-          {!loaded && <div className="absolute inset-0 skeleton-shimmer" aria-hidden="true" />}
-          <img
-            ref={imgRef}
-            src={src}
-            alt={label}
-            loading="lazy"
-            decoding="async"
-            onLoad={() => setLoaded(true)}
-            onError={() => setLoaded(true)}
-            className={`absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain p-4" : "object-cover"} transition-opacity duration-500 group-hover/ph:scale-[1.04] ${loaded ? "opacity-100" : "opacity-0"}`}
-          />
-        </>
+        <img
+          src={src}
+          alt={label}
+          loading="lazy"
+          decoding="async"
+          className={`absolute inset-0 h-full w-full ${fit === "contain" ? "object-contain p-4" : "object-cover"} transition-transform duration-500 group-hover/ph:scale-[1.03]`}
+        />
       ) : (
         <>
           <div
@@ -1560,9 +1533,20 @@ function Placeholder({
 function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () =>
+      setIsMobile(
+        typeof window !== "undefined" &&
+          (window.innerWidth < 768 || window.matchMedia("(pointer: coarse)").matches),
+      );
+    check();
+  }, []);
+
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
-  const op = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, reduce || isMobile ? 0 : -120]);
+  const op = useTransform(scrollYProgress, [0, 0.9], [1, reduce || isMobile ? 1 : 0.2]);
 
   return (
     <section
@@ -1571,17 +1555,12 @@ function Hero() {
       className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-24"
     >
       <motion.div
-        style={{ y, opacity: op }}
+        style={isMobile || reduce ? undefined : { y, opacity: op }}
         className="hero-content relative z-10 grid gap-10 md:grid-cols-12 md:gap-14 md:items-center"
       >
         <div className="md:col-span-7 flex flex-col items-start">
           {/* 1. Status Eyebrow Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5"
-          >
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full glass px-3.5 py-1.5">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -1589,46 +1568,27 @@ function Hero() {
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
               Gurugram, India · Available for full-time &amp; high-impact contracts
             </span>
-          </motion.div>
+          </div>
 
           {/* 2. Dual-Lane Headline (H1) */}
           <h1 className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] font-bold tracking-tight leading-[1.05]">
-            <motion.span
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-              className="block text-foreground"
-            >
-              Creative Specialist
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-              className="block mt-1"
-            >
+            <span className="block text-foreground">Creative Specialist</span>
+            <span className="block mt-1">
               <span className="font-serif font-normal italic text-muted-foreground">&amp;</span>{" "}
               <em className="text-highlight italic font-medium">Operations Coordinator</em>
-            </motion.span>
+            </span>
           </h1>
 
           {/* 3. Balanced Dual-Track Subheading */}
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground"
-          >
-            UI/UX designer, graphic artist, and AI video creator with 4+ years crafting high-converting digital products, brand identities, and visual content — paired with 2.5 years of K-12 school office and institutional operations experience at Shiv Nadar School.
-          </motion.p>
+          <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+            UI/UX designer, graphic artist, and AI video creator with 4+ years crafting
+            high-converting digital products, brand identities, and visual content — paired with 2.5
+            years of K-12 school office and institutional operations experience at Shiv Nadar
+            School.
+          </p>
 
           {/* 4. CTA Buttons Row */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5"
-          >
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5">
             <Magnetic strength={14} padding={20}>
               <a
                 href="#work"
@@ -1655,18 +1615,16 @@ function Hero() {
                 className="group inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-border/80 bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-all hover:text-foreground hover:border-foreground/60 hover:bg-foreground/5"
               >
                 <span>Operations &amp; Experience</span>
-                <ArrowRight size={12} className="opacity-60 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight
+                  size={12}
+                  className="opacity-60 group-hover:translate-x-0.5 transition-transform"
+                />
               </a>
             </Magnetic>
-          </motion.div>
+          </div>
 
           {/* 5. Quick Connect Badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.6 }}
-            className="mt-6 flex flex-wrap items-center gap-3 pt-4 border-t border-border/40 text-xs text-muted-foreground"
-          >
+          <div className="mt-6 flex flex-wrap items-center gap-3 pt-4 border-t border-border/40 text-xs text-muted-foreground">
             <a
               href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Hi Arbaaz, let's connect regarding an opportunity.")}`}
               target="_blank"
@@ -1684,16 +1642,11 @@ function Hero() {
             </a>
             <span className="text-border">•</span>
             <span className="font-mono text-[10.5px] text-muted-foreground">Gurugram, Haryana</span>
-          </motion.div>
+          </div>
         </div>
 
         {/* Hero Image (Right Column) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4, duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
-          className="profile-card md:col-span-5 relative z-10"
-        >
+        <div className="profile-card md:col-span-5 relative z-10">
           <Tilt
             strength={18}
             className="relative mx-auto aspect-[4/5] w-full max-w-[420px] max-h-[520px]"
@@ -1702,6 +1655,11 @@ function Hero() {
               <img
                 src={arbaazHero}
                 alt="Arbaaz K. — Creative Specialist & Operations Coordinator"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width={420}
+                height={525}
                 className="absolute inset-0 h-full w-full object-cover object-top"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent p-5 text-white">
@@ -1715,10 +1673,8 @@ function Hero() {
               </div>
             </div>
 
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-5 top-10 glass rounded-2xl p-3 shadow-lg"
+            <div
+              className="absolute -left-5 top-10 glass rounded-2xl p-3 shadow-lg hidden sm:block animate-float-slow"
               style={{ transform: "translateZ(60px)" }}
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -1727,11 +1683,9 @@ function Hero() {
               <p className="font-display text-xs sm:text-sm font-semibold text-foreground">
                 UI/UX · Graphic · AI Video (4+ yrs)
               </p>
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, 14, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -right-5 bottom-16 glass rounded-2xl px-3.5 py-2.5 shadow-lg"
+            </div>
+            <div
+              className="absolute -right-5 bottom-16 glass rounded-2xl px-3.5 py-2.5 shadow-lg hidden sm:block animate-float-delay"
               style={{ transform: "translateZ(80px)" }}
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -1740,23 +1694,18 @@ function Hero() {
               <p className="font-display text-xs sm:text-sm font-semibold text-foreground">
                 School &amp; Office Operations (2.5 yrs)
               </p>
-            </motion.div>
+            </div>
             <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
           </Tilt>
-        </motion.div>
+        </div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 0.6 }}
-        className="mt-16 sm:mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
-      >
+      <div className="mt-16 sm:mt-20 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
         <span className="flex items-center gap-2">
           <span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" />
         </span>
         <span className="hidden md:inline">Shiv Nadar School Alum · Gurugram, Haryana</span>
-      </motion.div>
+      </div>
     </section>
   );
 }
@@ -1827,7 +1776,11 @@ function About() {
                 <span>Lane A — UI/UX, Graphic Design &amp; AI Video</span>
               </div>
               <p className="text-sm sm:text-base leading-relaxed text-foreground/85">
-                4+ years designing intuitive web &amp; mobile interfaces in Figma for SwiftAMS, alongside 200+ campaign posters, ad banners, and dynamic video edits for Edu Finn and Digital Cappuccino. I merge user-centered design systems with bold visual storytelling and AI-assisted workflows to craft conversion-focused digital experiences.
+                4+ years designing intuitive web &amp; mobile interfaces in Figma for SwiftAMS,
+                alongside 200+ campaign posters, ad banners, and dynamic video edits for Edu Finn
+                and Digital Cappuccino. I merge user-centered design systems with bold visual
+                storytelling and AI-assisted workflows to craft conversion-focused digital
+                experiences.
               </p>
             </Reveal>
 
@@ -1842,7 +1795,10 @@ function About() {
                 <span>Lane B — School &amp; Office Administration</span>
               </div>
               <p className="text-sm sm:text-base leading-relaxed text-foreground/85">
-                2.5 years of hands-on institutional operations and school administration at Shiv Nadar School, Gurgaon. Handled student and parent lifecycle coordination, confidential records, inter-departmental scheduling, vendor follow-ups, and large-scale event logistics with dependable cross-functional communication.
+                2.5 years of hands-on institutional operations and school administration at Shiv
+                Nadar School, Gurgaon. Handled student and parent lifecycle coordination,
+                confidential records, inter-departmental scheduling, vendor follow-ups, and
+                large-scale event logistics with dependable cross-functional communication.
               </p>
             </Reveal>
           </div>
@@ -1897,20 +1853,27 @@ function Stats() {
               style={{ background: "color-mix(in oklab, var(--highlight) 14%, transparent)" }}
             >
               <Sparkles size={14} />
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em]">Track Record</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
+                Track Record
+              </span>
             </div>
             <p className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.9]">
               <CountUp end={4} decimals={0} />
               <span className="text-highlight">+</span>
-              <span className="text-2xl sm:text-3xl text-muted-foreground font-normal ml-2">yrs</span>
+              <span className="text-2xl sm:text-3xl text-muted-foreground font-normal ml-2">
+                yrs
+              </span>
             </p>
-            <p className="text-eyebrow mt-3">Creative Practice (4+ yrs) · Campus Operations (2.5 yrs) · Active since 2021</p>
+            <p className="text-eyebrow mt-3">
+              Creative Practice (4+ yrs) · Campus Operations (2.5 yrs) · Active since 2021
+            </p>
           </div>
           <div className="md:col-span-7">
             <p className="text-base sm:text-lg md:text-xl leading-relaxed text-foreground/85">
               Over 4 years of hands-on{" "}
               <em className="text-highlight not-italic font-medium">
-                UI/UX product design, graphic collateral, dynamic video editing, and generative AI media
+                UI/UX product design, graphic collateral, dynamic video editing, and generative AI
+                media
               </em>
               , alongside 2.5 years of rigorous{" "}
               <em className="text-highlight not-italic font-medium">
@@ -1949,12 +1912,14 @@ function Services() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4">/ 03 — What I Do</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            Specialized services across <em className="text-highlight italic">design &amp; operations</em>.
+            Specialized services across{" "}
+            <em className="text-highlight italic">design &amp; operations</em>.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Four focused pillars — UI/UX design, marketing collateral, AI-powered video, and school &amp; office administration.
+            Four focused pillars — UI/UX design, marketing collateral, AI-powered video, and school
+            &amp; office administration.
           </p>
         </div>
       </div>
@@ -2176,11 +2141,7 @@ function SkillTrack({
             {label}
           </span>
         </div>
-        {caption && (
-          <p className="font-mono text-[10px] text-muted-foreground italic">
-            {caption}
-          </p>
-        )}
+        {caption && <p className="font-mono text-[10px] text-muted-foreground italic">{caption}</p>}
       </div>
 
       <div className="flex flex-wrap gap-2 pt-1">
@@ -2242,7 +2203,8 @@ function Skills() {
           </h2>
         </div>
         <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
-          A structured landscape of my toolkit across design software, generative AI models, core UI/UX methodologies, motion pipelines, and campus operational coordination.
+          A structured landscape of my toolkit across design software, generative AI models, core
+          UI/UX methodologies, motion pipelines, and campus operational coordination.
         </p>
       </div>
 
@@ -2357,12 +2319,14 @@ function Experience() {
         <div className="md:col-span-8">
           <p className="text-eyebrow mb-4 sm:mb-6">/ 05 — Experience</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            Experience across <em className="text-highlight italic">creative practice &amp; operations</em>.
+            Experience across{" "}
+            <em className="text-highlight italic">creative practice &amp; operations</em>.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Professional journey spanning UI/UX design leadership, marketing graphics, video production, and institutional campus administration.
+            Professional journey spanning UI/UX design leadership, marketing graphics, video
+            production, and institutional campus administration.
           </p>
         </div>
       </div>
@@ -2398,9 +2362,7 @@ function Experience() {
               <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <p className="text-sm uppercase tracking-[0.15em] text-highlight">{job.role}</p>
                 {job.subtitle && (
-                  <span className="font-mono text-xs text-muted-foreground">
-                    · {job.subtitle}
-                  </span>
+                  <span className="font-mono text-xs text-muted-foreground">· {job.subtitle}</span>
                 )}
               </div>
               <p className="mt-3 max-w-2xl leading-relaxed text-foreground/80">{job.summary}</p>
@@ -4768,7 +4730,8 @@ function Contact() {
               <span className="italic text-highlight font-display">Let's make it.</span>
             </h2>
             <p className="mt-4 font-mono text-xs leading-relaxed text-muted-foreground">
-              Whether you need high-impact creative direction (UI/UX, visual design, AI video) or reliable school &amp; office administration / operations coordination — let's connect.
+              Whether you need high-impact creative direction (UI/UX, visual design, AI video) or
+              reliable school &amp; office administration / operations coordination — let's connect.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">

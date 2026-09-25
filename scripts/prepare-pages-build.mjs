@@ -5,7 +5,9 @@ const distDir = "dist";
 const indexPath = join(distDir, "index.html");
 
 if (!existsSync(indexPath)) {
-  throw new Error("dist/index.html is missing. Run vite build before preparing GitHub Pages output.");
+  throw new Error(
+    "dist/index.html is missing. Run vite build before preparing GitHub Pages output.",
+  );
 }
 
 copyFileSync(indexPath, join(distDir, "404.html"));
