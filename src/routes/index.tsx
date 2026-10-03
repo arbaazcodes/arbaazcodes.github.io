@@ -77,20 +77,20 @@ import { CountUp } from "@/components/reactbits/CountUp";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Arbaaz | Creative Specialist & Operations Coordinator" },
+      { title: "Arbaaz Khan | UI/UX Designer & Graphic Designer" },
       {
         name: "description",
         content:
-          "Portfolio of Arbaaz — Dual-track specialist: UI/UX design, visual graphics & AI video creation (4+ yrs), alongside school & office administration / operations (2.5 yrs at Shiv Nadar School).",
+          "Portfolio of Arbaaz Khan — UI/UX Designer and Graphic Designer with 4+ years designing digital products, interfaces and visual experiences across SaaS, mobile, branding and campaigns.",
       },
       {
         property: "og:title",
-        content: "Arbaaz | Creative Specialist & Operations Coordinator",
+        content: "Arbaaz Khan | UI/UX Designer & Graphic Designer",
       },
       {
         property: "og:description",
         content:
-          "Portfolio of Arbaaz — Dual-track specialist: UI/UX design, visual graphics & AI video creation (4+ yrs), alongside school & office administration / operations (2.5 yrs at Shiv Nadar School).",
+          "Portfolio of Arbaaz Khan — UI/UX Designer and Graphic Designer with 4+ years designing digital products, interfaces and visual experiences across SaaS, mobile, branding and campaigns.",
       },
     ],
   }),
@@ -191,63 +191,48 @@ type CreativeService = {
 const SERVICES: CreativeService[] = [
   {
     no: "01",
-    title: "UI/UX & Product Design",
-    subtitle: "Web, Mobile & Design Systems",
-    desc: "Designing clean, conversion-focused mobile apps and responsive web interfaces.",
+    title: "UI/UX Design",
+    subtitle: "Product Interfaces · Web & Mobile",
+    desc: "Designing clear, structured digital product experiences for web apps, mobile apps and SaaS platforms.",
     offerings: [
-      "Wireframes",
-      "Figma Prototypes",
+      "User Flows & Information Architecture",
+      "Wireframes & Prototypes",
       "Mobile App UI",
-      "Landing Pages",
-      "User Flows & Design Systems",
+      "SaaS / CRM Interfaces",
+      "Responsive Web Design",
     ],
-    tags: ["Figma", "UI/UX", "Mobile App UI", "Landing Pages", "Design Systems"],
+    tags: ["Figma", "UI/UX", "SaaS / CRM", "Mobile UI", "Prototyping"],
     Icon: Layout,
   },
   {
     no: "02",
-    title: "Graphic Design & Brand Collateral",
-    subtitle: "Posters, Ad Banners & Print",
-    desc: "Crafting eye-catching promotional posters, social media banners, and advertising assets.",
+    title: "Graphic Design",
+    subtitle: "Branding · Campaigns · Print",
+    desc: "Building visual systems, brand identities, social campaigns and editorial collateral across digital and print.",
     offerings: [
-      "Event & Promo Posters",
-      "Google/Social Ad Banners",
+      "Branding & Visual Identity",
+      "Social Media Campaigns",
       "Marketing Creatives",
-      "Typography & Brand Assets",
+      "Editorial & Brochures",
+      "Print Collateral",
     ],
-    tags: ["Photoshop", "Illustrator", "Event Posters", "Ad Banners", "Marketing Assets"],
+    tags: ["Photoshop", "Illustrator", "Branding", "Campaigns", "Print"],
     Icon: PenTool,
   },
   {
     no: "03",
-    title: "Video Editing & AI Video Creation",
-    subtitle: "Reels, Commercials & GenAI",
-    desc: "Producing high-retention video content combining traditional timeline editing with cutting-edge AI video generation.",
+    title: "AI Video & Motion",
+    subtitle: "Video · Motion · AI Production",
+    desc: "AI-assisted video, motion graphics and creative production for brands, products and campaigns.",
     offerings: [
-      "Short-Form Content (Reels/Shorts/TikTok)",
-      "AI B-Roll & Text-to-Video",
-      "Commercial Ads",
-      "Dynamic Subtitles",
-      "Sound Design & Color Grading",
+      "Video Editing",
+      "Motion Graphics",
+      "AI-Assisted Video",
+      "Short-Form Content (Reels / Shorts)",
+      "Commercial & Brand Films",
     ],
-    tags: ["Premiere Pro", "After Effects", "CapCut", "GenAI Video", "Reels & Shorts"],
+    tags: ["Premiere Pro", "After Effects", "AI Video", "Motion", "Reels"],
     Icon: Film,
-  },
-  {
-    no: "04",
-    title: "Administration & Operations",
-    subtitle: "School & Office Operations",
-    desc: "School and office administration for teams that need a dependable coordinator for smooth day-to-day operations.",
-    offerings: [
-      "Scheduling and calendar management",
-      "Documentation and records handling",
-      "Stakeholder & family liaison",
-      "Event / campus logistics",
-      "Vendor follow-ups & coordination",
-      "Confidential file & compliance management",
-    ],
-    tags: ["Administration", "Documentation", "Coordination", "Logistics", "Operations"],
-    Icon: Building2,
   },
 ];
 
@@ -1010,19 +995,17 @@ function Portfolio() {
       <Nav dark={dark} setDark={setDark} />
       <main className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 md:px-10 lg:px-12">
         <Hero />
-        <AiVideosSection onOpen={(item) => setLightbox({ kind: "video", item })} />
-        <BigTextBanner text="Design · Direction · Detail" />
-        <About />
-        <Stats />
-        <Services />
-        <Skills />
-        <Experience />
         <Work
           onOpenImage={(item, list, index) => setLightbox({ kind: "image", item, list, index })}
           onOpenVideo={(item) => setLightbox({ kind: "video", item })}
         />
+        <BigTextBanner text="Design · Direction · Detail" />
+        <About />
+        <Services />
+        <Skills />
+        <Experience />
+        <AiVideosSection onOpen={(item) => setLightbox({ kind: "video", item })} />
         <Videos onOpen={(item) => setLightbox({ kind: "video", item })} />
-        <BigTextBanner text="Available for work — 2026" />
         <Contact />
 
         <Footer />
@@ -1174,23 +1157,23 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
     {
       label: "Work",
       items: [
-        { id: "ai-videos", label: "AI Films & B-Roll", tag: "15 Films" },
-        { id: "work", label: "Creative Portfolio", tag: "Design & Identity" },
+        { id: "work", label: "Selected Work", tag: "UI/UX & Design" },
+        { id: "ai-videos", label: "AI Video & Motion", tag: "Films & Motion" },
         { id: "videos", label: "Client Reels", tag: "Motion & Social" },
       ],
     },
     {
       label: "Profile",
       items: [
-        { id: "about", label: "Dual-Track Background", tag: "About" },
-        { id: "services", label: "Services & Pillars", tag: "What I Do" },
-        { id: "skills", label: "Skills & Toolkit", tag: "Creative & Ops" },
-        { id: "experience", label: "Experience", tag: "2021 — 2026" },
+        { id: "about", label: "About", tag: "Background" },
+        { id: "services", label: "Services", tag: "What I Do" },
+        { id: "skills", label: "Skills & Tools", tag: "UI/UX & Graphic" },
+        { id: "experience", label: "Experience", tag: "2021 — Present" },
       ],
     },
     {
       label: "Contact & Links",
-      items: [{ id: "contact", label: "Start a Conversation", tag: "Project Inquiry" }],
+      items: [{ id: "contact", label: "Let's Work Together", tag: "Hire / Inquire" }],
     },
   ];
 
@@ -1222,7 +1205,7 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
                 Arbaaz
               </span>
               <span className="hidden sm:inline-flex items-center rounded-full border border-border/70 bg-card px-2.5 py-0.5 font-mono text-[9.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                Design · Motion · Admin
+                UI/UX · Graphic · Motion
               </span>
             </div>
           </a>
@@ -1290,7 +1273,7 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
                       Arbaaz K.
                     </span>
                     <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
-                      Creative & Operations
+                      UI/UX & Graphic Designer
                     </p>
                   </div>
                 </div>
@@ -1395,7 +1378,7 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
               {/* Drawer Footer */}
               <div className="border-t border-border/60 px-6 py-4 text-center">
                 <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                  Gurugram, Haryana · Available Q1 2026
+                  Gurugram, Haryana · Available for UI/UX & Design roles
                 </p>
               </div>
             </motion.div>
@@ -1566,35 +1549,41 @@ function Hero() {
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              Gurugram, India · Available for full-time &amp; high-impact contracts
+              Gurugram, India · Available for full-time &amp; freelance
             </span>
           </div>
 
-          {/* 2. Dual-Lane Headline (H1) */}
+          {/* 2. Primary Headline (H1) */}
+          <div className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground mb-3">
+            ARBAAZ KHAN
+          </div>
           <h1 className="text-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] xl:text-[4.75rem] font-bold tracking-tight leading-[1.05]">
-            <span className="block text-foreground">Creative Specialist</span>
+            <span className="block text-foreground">UI/UX Designer</span>
             <span className="block mt-1">
               <span className="font-serif font-normal italic text-muted-foreground">&amp;</span>{" "}
-              <em className="text-highlight italic font-medium">Operations Coordinator</em>
+              <em className="text-highlight italic font-medium">Graphic Designer</em>
             </span>
           </h1>
 
-          {/* 3. Balanced Dual-Track Subheading */}
-          <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-            UI/UX designer, graphic artist, and AI video creator with 4+ years crafting
-            high-converting digital products, brand identities, and visual content — paired with 2.5
-            years of K-12 school office and institutional operations experience at Shiv Nadar
-            School.
+          {/* 3. Supporting Capability Line */}
+          <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+            AI Video &amp; Motion
           </p>
 
-          {/* 4. CTA Buttons Row */}
+          {/* 4. Concise Positioning Paragraph */}
+          <p className="mt-6 sm:mt-8 max-w-xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+            I design digital products, interfaces and visual experiences across SaaS, mobile,
+            branding and digital campaigns.
+          </p>
+
+          {/* 5. CTA Buttons Row */}
           <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5">
             <Magnetic strength={14} padding={20}>
               <a
                 href="#work"
                 className="group relative inline-flex min-h-[44px] items-center gap-2.5 overflow-hidden rounded-full bg-foreground px-5 py-3 text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] text-background transition-transform hover:scale-[1.02] shadow-md shadow-foreground/10"
               >
-                <span className="relative z-10">View Creative Work</span>
+                <span className="relative z-10">View My Work</span>
                 <span className="relative z-10 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                   ↗
                 </span>
@@ -1602,28 +1591,25 @@ function Hero() {
             </Magnetic>
             <Magnetic strength={10} padding={14}>
               <a
-                href="#ai-videos"
+                href="#work"
                 className="group inline-flex min-h-[44px] items-center gap-2 rounded-full border border-border/80 bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground transition-all hover:border-foreground/60 hover:bg-foreground/5"
               >
-                <Play size={12} className="fill-current text-highlight" />
-                <span>Watch AI Films</span>
+                <PenTool size={12} className="text-highlight" />
+                <span>View Design</span>
               </a>
             </Magnetic>
             <Magnetic strength={8} padding={12}>
               <a
-                href="#experience"
+                href="#ai-videos"
                 className="group inline-flex min-h-[44px] items-center gap-1.5 rounded-full border border-border/80 bg-card px-4 py-3 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-all hover:text-foreground hover:border-foreground/60 hover:bg-foreground/5"
               >
-                <span>Operations &amp; Experience</span>
-                <ArrowRight
-                  size={12}
-                  className="opacity-60 group-hover:translate-x-0.5 transition-transform"
-                />
+                <Play size={11} className="fill-current text-highlight" />
+                <span>AI Videos</span>
               </a>
             </Magnetic>
           </div>
 
-          {/* 5. Quick Connect Badges */}
+          {/* 6. Quick Connect + Metadata Row */}
           <div className="mt-6 flex flex-wrap items-center gap-3 pt-4 border-t border-border/40 text-xs text-muted-foreground">
             <a
               href={`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent("Hi Arbaaz, let's connect regarding an opportunity.")}`}
@@ -1654,7 +1640,7 @@ function Hero() {
             <div className="absolute inset-0 rounded-3xl bg-white glow-ring overflow-hidden border border-foreground/10 shadow-2xl">
               <img
                 src={arbaazHero}
-                alt="Arbaaz K. — Creative Specialist & Operations Coordinator"
+                alt="Arbaaz Khan — UI/UX Designer & Graphic Designer"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
@@ -1664,11 +1650,11 @@ function Hero() {
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent p-5 text-white">
                 <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
-                  Design · Motion · Operations
+                  UI/UX · Graphic · Motion
                 </p>
-                <p className="font-display text-2xl font-bold">Arbaaz K.</p>
+                <p className="font-display text-2xl font-bold">Arbaaz Khan</p>
                 <p className="text-xs text-white/75 mt-0.5">
-                  Creative Specialist · Operations Coordinator
+                  UI/UX Designer · Graphic Designer
                 </p>
               </div>
             </div>
@@ -1678,10 +1664,10 @@ function Hero() {
               style={{ transform: "translateZ(60px)" }}
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                Lane A — Creative
+                Primary
               </p>
               <p className="font-display text-xs sm:text-sm font-semibold text-foreground">
-                UI/UX · Graphic · AI Video (4+ yrs)
+                UI/UX · Product Design (4+ yrs)
               </p>
             </div>
             <div
@@ -1689,10 +1675,10 @@ function Hero() {
               style={{ transform: "translateZ(80px)" }}
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                Lane B — Operations
+                Also
               </p>
               <p className="font-display text-xs sm:text-sm font-semibold text-foreground">
-                School &amp; Office Operations (2.5 yrs)
+                Graphic Design &amp; AI Video
               </p>
             </div>
             <div className="absolute -inset-2 -z-10 rounded-[2rem] border border-foreground/10" />
@@ -1704,19 +1690,19 @@ function Hero() {
         <span className="flex items-center gap-2">
           <span>Scroll</span> <span className="inline-block h-px w-12 bg-muted-foreground" />
         </span>
-        <span className="hidden md:inline">Shiv Nadar School Alum · Gurugram, Haryana</span>
+        <span className="hidden md:inline">SaaS · Mobile · Branding · Campaigns · Gurugram</span>
       </div>
     </section>
   );
 }
 
 const ABOUT_CARDS = [
-  { key: "UI/UX Design", val: "Wireframes · Figma · App UI", Icon: Layout },
-  { key: "Graphic Design", val: "Posters · Banners · Creatives", Icon: PenTool },
-  { key: "Video & AI Media", val: "Reels · Promos · GenAI", Icon: Film },
-  { key: "School Admin", val: "Shiv Nadar School · 2.5 yrs", Icon: Building2 },
-  { key: "Creative Tools", val: "Figma · Photoshop · Premiere", Icon: Wrench },
-  { key: "Based In", val: "Gurugram, IN · Available Q1 2026", Icon: MapPin },
+  { key: "UI/UX Design", val: "Web · Mobile · SaaS / CRM", Icon: Layout },
+  { key: "Graphic Design", val: "Branding · Campaigns · Print", Icon: PenTool },
+  { key: "AI Video & Motion", val: "Reels · Promos · AI Production", Icon: Film },
+  { key: "Tools", val: "Figma · Photoshop · After Effects", Icon: Wrench },
+  { key: "Experience", val: "4+ Years · Design Practice", Icon: Briefcase },
+  { key: "Based In", val: "Gurugram, Haryana · India", Icon: MapPin },
 ];
 
 function About() {
@@ -1728,15 +1714,15 @@ function About() {
           <div className="relative flex-1 min-h-[380px] sm:min-h-[440px] md:min-h-0 w-full overflow-hidden rounded-3xl border border-foreground/10 bg-white glow-ring shadow-xl">
             <img
               src={arbaazHero}
-              alt="Arbaaz K. — about portrait"
+              alt="Arbaaz Khan — UI/UX & Graphic Designer"
               className="absolute inset-0 h-full w-full object-cover object-top"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent p-5 text-white">
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-white/80">
-                About
+                UI/UX · Graphic · Motion
               </p>
-              <p className="font-display text-xl sm:text-2xl font-semibold">Arbaaz K.</p>
-              <p className="text-xs text-white/80 font-mono">Creative &amp; Operations</p>
+              <p className="font-display text-xl sm:text-2xl font-semibold">Arbaaz Khan</p>
+              <p className="text-xs text-white/80 font-mono">UI/UX & Graphic Designer</p>
             </div>
             <motion.div
               animate={{ rotate: 360 }}
@@ -1748,7 +1734,7 @@ function About() {
                   <path id="cabout" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
                 </defs>
                 <text fontSize="9" letterSpacing="2" className="font-mono">
-                  <textPath href="#cabout">DESIGN · CRAFT · OPERATIONS · </textPath>
+                  <textPath href="#cabout">UI/UX · GRAPHIC · MOTION · </textPath>
                 </text>
               </svg>
             </motion.div>
@@ -1761,44 +1747,41 @@ function About() {
               as="h2"
               className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]"
             >
-              High-impact visual design meets{" "}
-              <em className="text-highlight italic">institutional operational rigor</em>.
+              I'm Arbaaz, a multidisciplinary designer focused on{" "}
+              <em className="text-highlight italic">UI/UX and graphic design</em>.
             </Reveal>
 
-            {/* Paragraph 1: Creative */}
+            {/* Paragraph 1: Primary — UI/UX */}
             <Reveal
               as="div"
               delay={0.06}
               className="rounded-2xl border border-border/60 bg-card/60 p-4 sm:p-5"
             >
               <div className="flex items-center gap-2 mb-2 font-mono text-[10.5px] uppercase tracking-wider text-highlight font-semibold">
-                <Sparkles size={13} />
-                <span>Lane A — UI/UX, Graphic Design &amp; AI Video</span>
+                <Layout size={13} />
+                <span>UI/UX Design · Product Interfaces</span>
               </div>
               <p className="text-sm sm:text-base leading-relaxed text-foreground/85">
-                4+ years designing intuitive web &amp; mobile interfaces in Figma for SwiftAMS,
-                alongside 200+ campaign posters, ad banners, and dynamic video edits for Edu Finn
-                and Digital Cappuccino. I merge user-centered design systems with bold visual
-                storytelling and AI-assisted workflows to craft conversion-focused digital
-                experiences.
+                My primary focus is UI/UX design, where I work on complex digital experiences and
+                product interfaces — CRM dashboards, user flows, wireframes and prototypes across
+                web and mobile for SwiftAMS and other digital products.
               </p>
             </Reveal>
 
-            {/* Paragraph 2: Operations */}
+            {/* Paragraph 2: Graphic Design */}
             <Reveal
               as="div"
               delay={0.12}
               className="rounded-2xl border border-border/60 bg-card/60 p-4 sm:p-5"
             >
               <div className="flex items-center gap-2 mb-2 font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground font-semibold">
-                <Building2 size={13} />
-                <span>Lane B — School &amp; Office Administration</span>
+                <PenTool size={13} />
+                <span>Graphic Design · Visual Communication</span>
               </div>
               <p className="text-sm sm:text-base leading-relaxed text-foreground/85">
-                2.5 years of hands-on institutional operations and school administration at Shiv
-                Nadar School, Gurgaon. Handled student and parent lifecycle coordination,
-                confidential records, inter-departmental scheduling, vendor follow-ups, and
-                large-scale event logistics with dependable cross-functional communication.
+                Alongside product design, I bring a strong graphic design background — creating
+                visual systems, brand identities, social campaigns, editorial materials and motion
+                content for clients including Edu Finn, SwiftAMS and Digital Cappuccino.
               </p>
             </Reveal>
           </div>
@@ -1910,21 +1893,20 @@ function Services() {
     <section id="services" className="py-16 sm:py-24">
       <div className="mb-12 sm:mb-16 grid gap-6 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
-          <p className="text-eyebrow mb-4">/ 03 — What I Do</p>
+          <p className="text-eyebrow mb-4">/ What I Do</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
             Specialized services across{" "}
-            <em className="text-highlight italic">design &amp; operations</em>.
+            <em className="text-highlight italic">design & motion</em>.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Four focused pillars — UI/UX design, marketing collateral, AI-powered video, and school
-            &amp; office administration.
+            Three focused pillars — UI/UX design, graphic design and AI video &amp; motion.
           </p>
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {SERVICES.map((s, i) => (
           <motion.div
             key={s.no}
@@ -2079,7 +2061,7 @@ const SKILL_TRACKS: SkillTrackData[] = [
       { name: "Product Design", icon: Layout },
       { name: "UI Design", icon: Smartphone },
       { name: "UX Design", icon: Layers },
-      { name: "UX Research", icon: Compass },
+      { name: "Design Thinking", icon: Compass },
       { name: "User Flows", icon: Workflow },
       { name: "Wireframing", icon: PenTool },
       { name: "Interactive Prototyping", icon: MousePointer },
@@ -2100,21 +2082,6 @@ const SKILL_TRACKS: SkillTrackData[] = [
       { name: "AI Video Creation", icon: Clapperboard },
       { name: "Motion Graphics", icon: Video },
       { name: "Brand Identity", icon: Heart },
-    ],
-  },
-  {
-    id: "operations",
-    label: "Operations & Coordination",
-    caption: "Practiced in a K-12 campus office — supporting context, not the design toolkit.",
-    items: [
-      { name: "School Administration", icon: Building2 },
-      { name: "Office Coordination", icon: Layout },
-      { name: "Stakeholder Communication", icon: MessageSquare },
-      { name: "Documentation & Records", icon: FileText },
-      { name: "Scheduling & Calendars", icon: Workflow },
-      { name: "Event Logistics", icon: Compass },
-      { name: "Vendor Coordination", icon: Network },
-      { name: "Confidential Handling", icon: CheckCircle2 },
     ],
   },
 ];
@@ -2197,14 +2164,14 @@ function Skills() {
     <section id="skills" className="py-16 sm:py-24">
       <div className="mb-8 sm:mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
-          <p className="text-eyebrow mb-2 sm:mb-3">/ 04 — Skills &amp; Tools</p>
+          <p className="text-eyebrow mb-2 sm:mb-3">/ Skills & Tools</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-            Product craft, <em className="text-highlight italic">AI workflows</em> &amp; operations.
+            Product craft, <em className="text-highlight italic">design tools</em> &amp; AI workflows.
           </h2>
         </div>
         <p className="max-w-md text-xs sm:text-sm leading-relaxed text-muted-foreground">
-          A structured landscape of my toolkit across design software, generative AI models, core
-          UI/UX methodologies, motion pipelines, and campus operational coordination.
+          A structured overview of my toolkit across design software, generative AI, core UI/UX
+          methodologies and motion production.
         </p>
       </div>
 
@@ -2241,9 +2208,10 @@ const EXPERIENCE: Job[] = [
   {
     company: "SwiftAMS (Study Abroad CRM)",
     role: "Visual & Graphic Designer",
-    period: "2023 – 2026",
+    period: "2023 – Present",
+    chip: "UI/UX · Product Design · Graphic Design",
     summary:
-      "Designed intuitive CRM interfaces, user flows, wireframes, and interactive prototypes in Figma for desktop and mobile apps. Created 150+ marketing creatives, promotional posters, event banners, and feature announcement videos while maintaining cohesive brand design. (Overlapped with Shiv Nadar School until Jun 2023).",
+      "Primary UI/UX designer on a SaaS study-abroad CRM platform — designing CRM interfaces, dashboards, user flows, wireframes and interactive Figma prototypes for web and mobile (iOS & Android). Also designed brand identity, 150+ marketing creatives, promotional posters, event banners and product video content.",
     Icon: Briefcase,
     links: [
       { label: "Website", href: "https://www.swiftams.com/" },
@@ -2272,7 +2240,7 @@ const EXPERIENCE: Job[] = [
   {
     company: "Edu Finn",
     role: "Contract Graphic Designer",
-    period: "2025 – 2026",
+    period: "2025 – Present",
     chip: "Freelancing",
     summary:
       "Designed multi-page brochures, event standees, promotional posters, and social media ad creatives. Produced, edited, and sound-designed high-retention vertical reels, student testimonial films, and marketing video campaigns for European university programs.",
@@ -2304,7 +2272,7 @@ const EXPERIENCE: Job[] = [
   },
   {
     company: "Independent Projects",
-    role: "UI/UX Designer, Graphic Artist & AI Video Creator",
+    role: "UI/UX Designer & Graphic Artist",
     period: "2021",
     summary:
       "Designed web and mobile app interfaces, wireframes, and interactive prototypes. Produced promotional video edits, motion graphics, and distinctive brand identities for startups and creators.",
@@ -2317,16 +2285,15 @@ function Experience() {
     <section id="experience" className="py-16 sm:py-24">
       <div className="mb-12 sm:mb-14 grid gap-6 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
-          <p className="text-eyebrow mb-4 sm:mb-6">/ 05 — Experience</p>
+          <p className="text-eyebrow mb-4 sm:mb-6">/ Experience</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
             Experience across{" "}
-            <em className="text-highlight italic">creative practice &amp; operations</em>.
+            <em className="text-highlight italic">product design & visual communication</em>.
           </h2>
         </div>
         <div className="md:col-span-4">
           <p className="text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Professional journey spanning UI/UX design leadership, marketing graphics, video
-            production, and institutional campus administration.
+            Professional journey spanning UI/UX product design, graphic design and video production.
           </p>
         </div>
       </div>
@@ -2616,13 +2583,13 @@ function Work({
 
       <div className="mb-12 sm:mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-eyebrow mb-4">/ 06 — Portfolio & Selected Work</p>
+          <p className="text-eyebrow mb-4">/ Selected Work</p>
           <h2 className="text-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1] max-w-[20ch]">
-            Selected Works & <em className="text-highlight italic">Creative Showcase</em>
+            Selected <em className="text-highlight italic">Work</em>
           </h2>
           <p className="mt-3 max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
-            Explore curated projects across UI/UX design, marketing posters & brand collateral, and
-            dynamic video edits. Tap any item to inspect details or launch playback.
+            A selection of digital products, interfaces and visual experiences I've designed across
+            SaaS, mobile and brand communication.
           </p>
         </div>
 
@@ -4182,7 +4149,6 @@ const SERVICE_OPTIONS = [
   "Graphic & Banner Design",
   "Video Editing",
   "AI Video",
-  "Administration & Operations",
 ];
 
 const WHATSAPP_DEFAULT_MESSAGE =
@@ -4730,8 +4696,8 @@ function Contact() {
               <span className="italic text-highlight font-display">Let's make it.</span>
             </h2>
             <p className="mt-4 font-mono text-xs leading-relaxed text-muted-foreground">
-              Whether you need high-impact creative direction (UI/UX, visual design, AI video) or
-              reliable school &amp; office administration / operations coordination — let's connect.
+              Looking for a UI/UX Designer or Graphic Designer? I'm open to full-time roles,
+              contract work and freelance projects. Let's connect.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">
@@ -4739,7 +4705,7 @@ function Contact() {
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </span>
               <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-foreground/80">
-                Available · Q1 2026
+                Available · UI/UX & Design roles
               </span>
             </div>
           </div>
@@ -4876,7 +4842,7 @@ function Footer() {
   return (
     <footer className="flex flex-col gap-4 border-t border-border/60 py-8 md:flex-row md:items-center md:justify-between">
       <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-        © 2026 Arbaaz — UI/UX Designer · Graphic Artist · AI Video Creator
+        © 2026 Arbaaz Khan — UI/UX Designer · Graphic Designer · AI Video & Motion
       </p>
       <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
         Gurugram, India · Available worldwide
