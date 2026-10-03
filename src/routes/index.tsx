@@ -1157,6 +1157,7 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
     {
       label: "Work",
       items: [
+        { id: "all-designs", label: "All Designs", tag: "Complete Archive", isRoute: true },
         { id: "work", label: "Selected Work", tag: "UI/UX & Design" },
         { id: "ai-videos", label: "AI Video & Motion", tag: "Films & Motion" },
         { id: "videos", label: "Client Reels", tag: "Motion & Social" },
@@ -1210,8 +1211,64 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
             </div>
           </a>
 
-          {/* Actions Right */}
-          <div className="flex items-center gap-2.5">
+          {/* Actions Right: ALL DESIGNS | AI VIDEOS | RESUME | LET'S TALK */}
+          <div className="flex items-center gap-2">
+            <nav className="hidden md:flex items-center gap-1.5 lg:gap-2">
+              {/* 1. ALL DESIGNS */}
+              <Link
+                to="/all-designs"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3.5 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/90 transition-all duration-200 hover:text-foreground hover:bg-foreground/5 active:scale-95"
+              >
+                <Palette size={13} className="text-highlight" />
+                <span>All Designs</span>
+              </Link>
+
+              {/* 2. AI VIDEOS */}
+              <a
+                href="#ai-videos"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("ai-videos");
+                }}
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3.5 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-foreground/5 active:scale-95"
+              >
+                <Play size={11} className="fill-current text-highlight" />
+                <span>AI Videos</span>
+              </a>
+
+              {/* 3. RESUME */}
+              <Link
+                to="/resume"
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3.5 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-all duration-200 hover:text-foreground hover:bg-foreground/5 active:scale-95"
+              >
+                <FileText size={13} />
+                <span>Resume</span>
+              </Link>
+
+              {/* 4. LET'S TALK */}
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("contact");
+                }}
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-foreground px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-background transition-all duration-200 hover:bg-foreground/85 active:scale-95 shadow-sm"
+              >
+                <MessageSquare size={12} />
+                <span>Let's Talk</span>
+              </a>
+            </nav>
+
+            {/* Mobile quick link to All Designs */}
+            <Link
+              to="/all-designs"
+              className="md:hidden inline-flex min-h-[40px] items-center gap-1 rounded-full border border-border/80 bg-card px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-foreground hover:bg-foreground/5"
+            >
+              <Palette size={12} className="text-highlight" />
+              <span>Designs</span>
+            </Link>
+
+            {/* Theme Toggle */}
             <button
               onClick={() => setDark(!dark)}
               aria-label="Toggle theme"
@@ -1220,14 +1277,7 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
               {dark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
-            <Link
-              to="/resume"
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-foreground px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-background transition-all duration-200 hover:bg-foreground/85 active:scale-95 shadow-sm"
-            >
-              <FileText size={13} />
-              <span>Resume</span>
-            </Link>
-
+            {/* Drawer menu button */}
             <button
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
@@ -1293,32 +1343,55 @@ function Nav({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }
                     <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-highlight font-semibold px-2 mb-2">
                       {group.label}
                     </p>
-                    {group.items.map((item) => (
-                      <a
-                        key={item.id}
-                        href={`#${item.id}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          scrollToSection(item.id);
-                        }}
-                        className={`group flex items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
-                          active === item.id
-                            ? "bg-foreground/10 text-foreground font-medium"
-                            : "text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
-                        }`}
-                      >
-                        <span className="font-display text-lg">{item.label}</span>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
-                            {item.tag}
+                    {group.items.map((item) =>
+                      item.isRoute ? (
+                        <Link
+                          key={item.id}
+                          to="/all-designs"
+                          onClick={() => setDrawerOpen(false)}
+                          className="group flex items-center justify-between rounded-xl px-3 py-2.5 transition-all text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                        >
+                          <span className="font-display text-lg flex items-center gap-2">
+                            <Palette size={16} className="text-highlight" />
+                            {item.label}
                           </span>
-                          <ArrowUpRight
-                            size={14}
-                            className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
-                          />
-                        </div>
-                      </a>
-                    ))}
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-[9.5px] uppercase tracking-wider text-highlight group-hover:underline">
+                              {item.tag}
+                            </span>
+                            <ArrowUpRight
+                              size={14}
+                              className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                            />
+                          </div>
+                        </Link>
+                      ) : (
+                        <a
+                          key={item.id}
+                          href={`#${item.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            scrollToSection(item.id);
+                          }}
+                          className={`group flex items-center justify-between rounded-xl px-3 py-2.5 transition-all ${
+                            active === item.id
+                              ? "bg-foreground/10 text-foreground font-medium"
+                              : "text-foreground/80 hover:bg-foreground/5 hover:text-foreground"
+                          }`}
+                        >
+                          <span className="font-display text-lg">{item.label}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">
+                              {item.tag}
+                            </span>
+                            <ArrowUpRight
+                              size={14}
+                              className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                            />
+                          </div>
+                        </a>
+                      ),
+                    )}
                   </div>
                 ))}
 

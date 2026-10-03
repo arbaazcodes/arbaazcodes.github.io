@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react";
 import { useRef, useState, type MouseEvent } from "react";
-import { ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer } from "lucide-react";
+import { ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer, Palette } from "lucide-react";
 import resumePreview from "../assets/resume-preview.webp";
 
 export const RESUME_FILENAME = "Arbaaz-Resume.pdf";
@@ -94,9 +94,19 @@ function ResumePage() {
             <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
             Back
           </Link>
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-            arbaaz/{RESUME_FILENAME}
-          </span>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/all-designs"
+              className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Palette className="h-3 w-3 text-highlight" />
+              <span>All Designs</span>
+            </Link>
+            <span className="text-border hidden sm:inline">·</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground hidden sm:inline">
+              arbaaz/{RESUME_FILENAME}
+            </span>
+          </div>
           <a
             href={RESUME_URL}
             download={RESUME_FILENAME}
