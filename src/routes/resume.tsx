@@ -5,25 +5,26 @@ import { ArrowLeft, Download, FileText, ExternalLink, Eye, Maximize2, Printer, P
 import resumePreview from "../assets/resume-preview.webp";
 
 export const RESUME_FILENAME = "Arbaaz-Resume.pdf";
-export const RESUME_URL = "/Arbaaz-Resume.pdf?v=3";
-export const RESUME_SIZE_KB = 2212;
+export const RESUME_URL = "/Arbaaz-Resume.pdf?v=4";
+export const RESUME_SIZE_KB = 2167;
 
 export const Route = createFileRoute("/resume")({
   head: () => ({
     meta: [
-      { title: "Resume — Arbaaz · Graphic Designer & Administrative Coordinator" },
+      { title: "Resume — Arbaaz Khan · UI/UX Designer & Graphic Designer" },
       {
         name: "description",
         content:
-          "Download or preview the resume of Arbaaz — Graphic Designer & Administrative Coordinator with 4+ years in visual design, brand collateral & AI video, alongside 2.5 years of campus operations at Shiv Nadar School.",
+          "Download or preview the resume of Arbaaz Khan — UI/UX Designer, Graphic Designer & Visual Designer with 4.5+ years designing SaaS products, CRM platforms, responsive interfaces and digital experiences.",
       },
       {
         property: "og:title",
-        content: "Resume — Arbaaz · Graphic Designer & Administrative Coordinator",
+        content: "Resume — Arbaaz Khan · UI/UX Designer & Graphic Designer",
       },
       {
         property: "og:description",
-        content: "Resume of Arbaaz — Graphic Designer & Administrative Coordinator.",
+        content:
+          "Resume of Arbaaz Khan — UI/UX Designer, Graphic Designer & Visual Designer.",
       },
       { property: "og:image", content: resumePreview },
     ],
@@ -32,10 +33,10 @@ export const Route = createFileRoute("/resume")({
 });
 
 const HIGHLIGHTS = [
-  "4+ years in Graphic Design, UI/UX & AI Video Creation",
-  "2.5 years in School & Office Administration (Shiv Nadar School)",
-  "Brand identities, marketing creatives, Figma prototypes & dynamic video",
-  "Institutional coordination, documentation, scheduling & stakeholder liaison",
+  "4.5+ years designing SaaS products, CRM platforms & digital experiences",
+  "UI/UX Design, wireframing, interactive prototyping & Figma design systems",
+  "Brand identities, marketing creatives, editorial print & digital campaigns",
+  "AI-powered design workflows, prompt engineering & rapid prototyping",
   "Open in browser, download or print directly",
 ];
 
@@ -135,8 +136,8 @@ function ResumePage() {
             </h1>
           </div>
           <p className="md:col-span-5 max-w-md text-base leading-relaxed text-muted-foreground">
-            A clean, no-nonsense overview — dual-track experience in creative design and campus
-            operations, tools and verified credentials. Preview it here or grab the PDF.
+            A clean, direct overview — 4.5+ years of experience across UI/UX product design,
+            graphic design, and AI-assisted workflows. Preview it here or download the PDF.
           </p>
         </motion.div>
 
